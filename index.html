@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galileo Research</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <h1>Galileo Research</h1>
+      <p>Investment research and analysis</p>
+    </header>
+    
+    <main class="report-list" id="reportList">
+      <!-- Reports will be loaded here dynamically -->
+    </main>
+    
+    <div class="empty-state" id="emptyState" style="display: none;">
+      <p>No research reports yet. Check back soon for investment insights.</p>
+    </div>
+  </div>
+
+  <script>
+    // Load reports index and render cards
+    async function loadReports() {
+      try {
+        const res = await fetch('reports/index.json');
+        if (!res.ok) throw new Error('No reports yet');
+        const reports = await res.json();
+        
+        if (reports.length === 0) {
+          document.getElementById('emptyState').style.display = 'block';
+          document.getElementById('reportList').style.display = 'none';
+          return;
+        }
+        
+        const list = document.getElementById('reportList');
+        list.innerHTML = reports.map(report => `
+          <a href="reports/${report.slug}.html" class="report-card">
+            <div class="report-meta">
+              <span class="type">Research</span>
+              <span class="date">${report.date}</span>
+            </div>
+            <h3 class="report-title">${report.title}</h3>
+            <p class="report-summary">${report.summary}</p>
+          </a>
+        `).join('');
+        
+      } catch (e) {
+        document.getElementById('emptyState').style.display = 'block';
+        document.getElementById('reportList').style.display = 'none';
+      }
+    }
+    
+    loadReports();
+  </script>
+</body>
+</html>
