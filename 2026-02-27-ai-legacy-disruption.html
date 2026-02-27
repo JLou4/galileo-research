@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Disruption of Legacy Industries — Galileo Research</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg-secondary: #f8f9fa;
+      --text: #1a1a1a;
+      --text-secondary: #6b7280;
+      --accent: #2563eb;
+      --border: #e5e7eb;
+      --shadow: 0 1px 3px rgba(0,0,0,0.1);
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    .container {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 32px 20px;
+    }
+
+    .back-link {
+      font-size: 13px;
+      color: var(--text-secondary);
+      text-decoration: none;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    .report-header {
+      margin-top: 16px;
+      margin-bottom: 36px;
+      border-bottom: 2px solid var(--text);
+      padding-bottom: 20px;
+    }
+
+    .report-header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .report-header .subtitle {
+      font-size: 17px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    .report-header .meta {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .report-header .meta span {
+      margin-right: 16px;
+    }
+
+    .section {
+      margin-bottom: 32px;
+    }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section p { margin-bottom: 14px; }
+    .section p:last-child { margin-bottom: 0; }
+    .section ul, .section ol { margin-bottom: 14px; padding-left: 24px; }
+    .section li { margin-bottom: 6px; }
+
+    .exec-summary {
+      background: var(--bg-secondary);
+      border-left: 3px solid var(--accent);
+      padding: 20px 24px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin-bottom: 32px;
+    }
+
+    .exec-summary h2 {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+
+    .exec-summary p { margin-bottom: 12px; }
+    .exec-summary ul { padding-left: 20px; margin-bottom: 12px; }
+    .exec-summary li { margin-bottom: 4px; }
+
+    .exec-summary .bottom-line {
+      font-weight: 600;
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+      margin-top: 12px;
+    }
+
+    .section h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      margin-top: 20px;
+    }
+
+    .section h3:first-child { margin-top: 0; }
+
+    .data-table {
+      width: 100%;
+      font-size: 14px;
+      border-collapse: collapse;
+      margin-bottom: 16px;
+    }
+
+    .data-table th,
+    .data-table td {
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .data-table th {
+      font-weight: 500;
+      color: var(--text-secondary);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: var(--bg-secondary);
+    }
+
+    .callout {
+      background: var(--bg-secondary);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin-bottom: 16px;
+      font-size: 14px;
+    }
+
+    .callout.warning { border-left: 3px solid #f59e0b; }
+    .callout.insight { border-left: 3px solid var(--accent); }
+
+    .cite {
+      font-size: 10px;
+      color: var(--accent);
+      vertical-align: super;
+      cursor: pointer;
+      text-decoration: none;
+      margin-left: 1px;
+    }
+
+    .cite:hover { text-decoration: underline; }
+
+    .sources {
+      background: var(--bg-secondary);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-top: 40px;
+    }
+
+    .sources h2 {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+    }
+
+    .sources ol {
+      font-size: 13px;
+      color: var(--text-secondary);
+      padding-left: 24px;
+    }
+
+    .sources li {
+      margin-bottom: 8px;
+      word-break: break-word;
+      line-height: 1.5;
+    }
+
+    .sources a { color: var(--accent); text-decoration: none; }
+    .sources a:hover { text-decoration: underline; }
+    .source-pub { font-style: italic; }
+
+    .generated {
+      font-size: 12px;
+      color: var(--text-secondary);
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .order-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 2px 6px;
+      border-radius: 3px;
+      margin-right: 4px;
+    }
+
+    .order-tag.first { background: #dbeafe; color: #1d4ed8; }
+    .order-tag.second { background: #fef3c7; color: #92400e; }
+    .order-tag.third { background: #fce7f3; color: #9d174d; }
+
+    .gap-high { color: #059669; font-weight: 600; }
+    .gap-med { color: #d97706; font-weight: 600; }
+    .gap-low { color: #dc2626; font-weight: 600; }
+
+    @media (max-width: 600px) {
+      .container { padding: 16px; }
+      .report-header h1 { font-size: 24px; }
+      .data-table { font-size: 13px; }
+      .data-table th, .data-table td { padding: 6px 8px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">← All Reports</a>
+
+    <header class="report-header">
+      <h1>AI Disruption of Legacy Industries: Where Founders Should Be Building</h1>
+      <p class="subtitle">$258.7 billion of AI venture capital is chasing disruption — but it's concentrated in the wrong places. The biggest opportunities are in the industries founders aren't yet targeting.</p>
+      <div class="meta">
+        <span>📅 February 27, 2026</span>
+        <span>🔭 Galileo Research</span>
+      </div>
+    </header>
+
+    <!-- EXECUTIVE SUMMARY -->
+    <div class="exec-summary">
+      <h2>Executive Summary</h2>
+      <p>AI captured 61% of all global venture capital in 2025 — $258.7 billion out of $427.1 billion total.<a href="#src-1" class="cite">[1]</a> But this capital is heavily concentrated in a few sectors (legal, healthcare, fintech) while industries with equal or greater disruption potential remain founder-starved. This report maps 12 legacy industries by AI vulnerability, cross-references with startup activity, and identifies where the gap between disruption potential and founder attention creates the best seed-stage opportunities.</p>
+      <ul>
+        <li><strong>The biggest gaps</strong> are in government/public sector, construction, and agriculture — industries with massive TAMs, <10% AI adoption, and minimal dedicated startup activity</li>
+        <li><strong>Legal and insurance</strong> are real but crowded — Harvey ($8B valuation), Clio ($5B), and FurtherAI ($25M Series A) signal category validation but compressed entry windows<a href="#src-2" class="cite">[2]</a></li>
+        <li><strong>Goldman Sachs says AI added "basically zero" to GDP in 2025</strong> despite $258.7B in investment<a href="#src-3" class="cite">[3]</a> — the gap between capital deployed and productivity realized is the macro tension defining this moment</li>
+        <li><strong>2026 is the year of application-layer execution</strong> — foundation model competition yields to vertical AI companies embedding into specific workflows<a href="#src-4" class="cite">[4]</a></li>
+        <li><strong>The new company-building economics are real:</strong> AI-native startups are reaching $100M ARR in 18–24 months vs. 5+ years in prior software cycles<a href="#src-4" class="cite">[4]</a></li>
+      </ul>
+      <p class="bottom-line">Bottom line: Seed capital should flow to vertical AI companies targeting high-vulnerability, low-founder-activity industries — particularly government services, construction, and agriculture. These sectors have the structural characteristics (fragmented, paper-heavy, regulated, labor-intensive) that make them most susceptible to AI disruption, but founders haven't shown up yet. The window is open.</p>
+    </div>
+
+    <!-- SECTION 1: THE DISRUPTION FRAMEWORK -->
+    <div class="section">
+      <h2 class="section-title">1. The Disruption Vulnerability Framework</h2>
+
+      <p>Not all industries are equally vulnerable to AI. The factors that predict disruption potential are structural, not just technical:</p>
+      <ul>
+        <li><strong>Information intensity:</strong> How much of the work involves processing, analyzing, or generating information vs. physical manipulation?</li>
+        <li><strong>Fragmentation:</strong> How fragmented is the industry? Fragmented industries (many small players, no dominant platform) are ripe for AI-powered consolidation.</li>
+        <li><strong>Regulation density:</strong> Counter-intuitively, heavy regulation <em>increases</em> disruption potential — compliance is repetitive, rule-based work that AI handles well, and the cost of compliance creates willingness to pay.</li>
+        <li><strong>Labor intensity / labor scarcity:</strong> Industries facing structural labor shortages (construction, agriculture, government) have the strongest pull for automation.</li>
+        <li><strong>Data availability:</strong> Industries that generate structured digital data are faster to disrupt; industries with messy, physical-world data take longer but face equally large eventual disruption.</li>
+      </ul>
+
+      <p>A critical insight from Goldman Sachs: despite $258.7 billion in AI venture capital in 2025, AI's contribution to U.S. GDP growth was "basically zero."<a href="#src-3" class="cite">[3]</a> Over 80% of companies report no productivity gains from AI so far. This isn't a failure of AI — it's a failure of <em>application</em>. Capital has flowed to horizontal tools and foundation models while the vertical application layer — where AI actually touches industry workflows — remains underdeveloped.</p>
+
+      <p>TrueBridge Capital's analysis (Forbes, Feb 2026) confirms the shift: "If 2024 and 2025 were about foundation models, 2026 is increasingly about application-layer execution."<a href="#src-4" class="cite">[4]</a> Vertical AI companies like Harvey (legal) and Abridge (healthcare) are demonstrating growth curves dramatically compressed compared to prior software generations — reaching hundreds of millions in ARR within 2–3 years of launch.</p>
+    </div>
+
+    <!-- SECTION 2: SECTOR VULNERABILITY RANKING -->
+    <div class="section">
+      <h2 class="section-title">2. Sector Vulnerability Ranking</h2>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Industry</th>
+            <th>AI Displacement Risk</th>
+            <th>Market Size</th>
+            <th>Current AI Penetration</th>
+            <th>Founder Activity</th>
+            <th style="white-space: nowrap;">Gap Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Office & Admin</strong></td>
+            <td>90%<a href="#src-5" class="cite">[5]</a></td>
+            <td>$550B (US BPO)</td>
+            <td>High — horizontal tools (Copilot, etc.)</td>
+            <td>High</td>
+            <td class="gap-low">Low</td>
+          </tr>
+          <tr>
+            <td><strong>Finance & Accounting</strong></td>
+            <td>84%<a href="#src-5" class="cite">[5]</a></td>
+            <td>$624B (global accounting)</td>
+            <td>Medium — Big Four investing $10B+<a href="#src-6" class="cite">[6]</a></td>
+            <td>High</td>
+            <td class="gap-low">Low</td>
+          </tr>
+          <tr>
+            <td><strong>Retail & Customer Support</strong></td>
+            <td>82%<a href="#src-5" class="cite">[5]</a></td>
+            <td>$5.5T (US retail)</td>
+            <td>High — chatbots, personalization ubiquitous</td>
+            <td>Very High</td>
+            <td class="gap-low">Low</td>
+          </tr>
+          <tr>
+            <td><strong>Legal Services</strong></td>
+            <td>75%<a href="#src-5" class="cite">[5]</a></td>
+            <td>$1.1T (global)</td>
+            <td>Medium-High — $4.3B legaltech funding in 2025<a href="#src-2" class="cite">[2]</a></td>
+            <td>Very High</td>
+            <td class="gap-low">Low</td>
+          </tr>
+          <tr>
+            <td><strong>Insurance</strong></td>
+            <td>72%</td>
+            <td>$6.4T (global premiums)</td>
+            <td>Medium — insurtech → $239B by 2033<a href="#src-7" class="cite">[7]</a></td>
+            <td>High</td>
+            <td class="gap-med">Medium</td>
+          </tr>
+          <tr>
+            <td><strong>Government / Public Sector</strong></td>
+            <td>68%</td>
+            <td>$8.9T (US gov spending)</td>
+            <td>Very Low — pilot projects only<a href="#src-8" class="cite">[8]</a></td>
+            <td>Very Low</td>
+            <td class="gap-high">★ Very High</td>
+          </tr>
+          <tr>
+            <td><strong>Construction</strong></td>
+            <td>46%<a href="#src-5" class="cite">[5]</a></td>
+            <td>$13T (global)</td>
+            <td>Very Low — <10% meaningful adoption<a href="#src-7" class="cite">[7]</a></td>
+            <td>Low</td>
+            <td class="gap-high">★ Very High</td>
+          </tr>
+          <tr>
+            <td><strong>Agriculture</strong></td>
+            <td>52%</td>
+            <td>$3.5T (global ag)</td>
+            <td>Low — $7.8B digital ag market<a href="#src-9" class="cite">[9]</a></td>
+            <td>Low-Medium</td>
+            <td class="gap-high">★ High</td>
+          </tr>
+          <tr>
+            <td><strong>Logistics & Supply Chain</strong></td>
+            <td>65%</td>
+            <td>$9.5T (global logistics)</td>
+            <td>Medium — Flexport, project44, etc.</td>
+            <td>Medium</td>
+            <td class="gap-med">Medium</td>
+          </tr>
+          <tr>
+            <td><strong>Healthcare (clinical)</strong></td>
+            <td>55%</td>
+            <td>$4.5T (US)</td>
+            <td>Medium — Abridge, Ambience, Nabla</td>
+            <td>Very High</td>
+            <td class="gap-low">Low</td>
+          </tr>
+          <tr>
+            <td><strong>Education</strong></td>
+            <td>60%</td>
+            <td>$7.3T (global)</td>
+            <td>Low-Medium</td>
+            <td>Medium</td>
+            <td class="gap-med">Medium</td>
+          </tr>
+          <tr>
+            <td><strong>Energy & Utilities</strong></td>
+            <td>45%</td>
+            <td>$8T+ (global energy)</td>
+            <td>Low — Schneider/NVIDIA digital twins<a href="#src-7" class="cite">[7]</a></td>
+            <td>Low</td>
+            <td class="gap-high">★ High</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout insight">
+        <strong>Reading the table:</strong> "Gap Score" measures the mismatch between disruption potential and current founder/VC activity. ★ High and ★ Very High gaps represent the most attractive entry points for seed investors — large markets with structural vulnerability but insufficient startup coverage.
+      </div>
+
+      <p>Note on displacement scores: The FAIR Framework scores (marked with citations) measure job-level displacement risk — how much competitive pressure AI creates. A 46% displacement score for construction doesn't mean 46% of the industry will be automated. It means nearly half of construction work processes will be fundamentally reshaped by AI, creating massive demand for tools that help the industry adapt.<a href="#src-5" class="cite">[5]</a></p>
+    </div>
+
+    <!-- SECTION 3: THE GAP ZONES -->
+    <div class="section">
+      <h2 class="section-title">3. The Gap Zones: Where Founders Aren't Building</h2>
+
+      <h3>🏛️ Government & Public Sector — The Largest Gap</h3>
+      <p>The U.S. government alone spends $8.9 trillion annually. State and local governments process millions of permits, licenses, benefits applications, and compliance reviews — overwhelmingly through manual, paper-based workflows. AI adoption is in early pilot stages at best.<a href="#src-8" class="cite">[8]</a></p>
+
+      <p><strong>Why it's underserved:</strong> Government procurement is slow, opaque, and relationship-driven. Sales cycles are 12–24 months. Founders prefer faster-moving enterprise markets. But the structural characteristics scream disruption: massive data volumes, repetitive rule-based decisions, chronic staffing shortages, and immense political pressure to modernize.</p>
+
+      <p><strong>Who's building:</strong> Almost nobody at scale. Polimorphic ($18.6M Series A, 2025) sells AI chatbots and permitting tech to local governments.<a href="#src-8" class="cite">[8]</a> EffiGov (YC) is building an "AI OS for local governments" starting with 311 call operators.<a href="#src-10" class="cite">[10]</a> Deloitte published a major GovTech Trends 2026 report focused on "digital agents" for citizen services.<a href="#src-11" class="cite">[11]</a> But compared to the ~$4.3B flowing into legaltech, government AI is essentially unfunded.</p>
+
+      <p><strong>The opportunity:</strong></p>
+      <ul>
+        <li><span class="order-tag first">1st Order</span> AI automates permit review, benefits adjudication, compliance checking — reducing processing times from weeks to hours</li>
+        <li><span class="order-tag second">2nd Order</span> Faster permitting unlocks construction, housing, and infrastructure projects currently bottlenecked by bureaucratic backlog — multiplier effects across the economy</li>
+        <li><span class="order-tag third">3rd Order</span> AI-enabled government services become the new standard of citizen expectation, making non-AI-enabled municipalities uncompetitive for talent and business attraction</li>
+      </ul>
+
+      <h3>🏗️ Construction — The Physical-World Frontier</h3>
+      <p>Construction is the world's largest industry at $13 trillion globally, and one of the least digitized. Meaningful AI adoption is below 10%.<a href="#src-7" class="cite">[7]</a> AI in construction is expected to grow from $1.3 billion in 2022 to $13.5 billion by 2030 — a 10x expansion that's still a fraction of the industry's size.<a href="#src-12" class="cite">[12]</a></p>
+
+      <p><strong>Why it's underserved:</strong> Construction data is messy, fragmented, and physical-world. Unlike legal or finance, you can't just throw an LLM at a corpus of text. You need integration with sensors, drones, BIM models, project management tools, and safety systems. The technical bar is higher, and the customer base (general contractors, trade subcontractors) is notoriously resistant to new technology.</p>
+
+      <p><strong>The opportunity:</strong></p>
+      <ul>
+        <li><strong>Estimating & bidding:</strong> Construction bids are labor-intensive, error-prone, and based on experience rather than data. AI-powered estimating that learns from historical project data is a clear wedge.</li>
+        <li><strong>Safety monitoring:</strong> Jobsite safety violations are a $15B+ annual cost. Computer vision + AI for real-time safety monitoring is technically ready but barely deployed.</li>
+        <li><strong>Project scheduling:</strong> AI that can optimize complex project schedules with dynamic constraints, weather, supply chain delays — replacing the current art of Gantt chart management.</li>
+        <li><strong>Quality & compliance:</strong> AI-powered inspection of work quality against plans and code requirements, using drone and camera data.</li>
+      </ul>
+
+      <h3>🌾 Agriculture — Scale Meets Complexity</h3>
+      <p>The global agricultural market is $3.5 trillion, with a digital agriculture market of $7.8 billion growing at 10.4% CAGR to $17.2 billion by 2033.<a href="#src-9" class="cite">[9]</a> AI in agriculture specifically is projected to reach $8.5 billion by 2030.<a href="#src-13" class="cite">[13]</a> But adoption remains concentrated in large-scale operations, leaving the vast majority of the world's 570 million farms untouched.</p>
+
+      <p><strong>Why the gap matters:</strong> The AI-as-a-Service model is finally making precision agriculture accessible to smaller farms via cloud-based subscriptions rather than heavy hardware investments.<a href="#src-13" class="cite">[13]</a> This is an inflection point — the technical capability to serve the long tail of agriculture is arriving, but the startups to capture it haven't scaled.</p>
+
+      <h3>⚡ Energy & Utilities — Resilience as Competitive Advantage</h3>
+      <p>The Heathrow substation fire (£40M cost) and the Iberian Peninsula blackout (€1.6B lost economic output) in recent months have laid bare how fragile energy infrastructure is.<a href="#src-7" class="cite">[7]</a> Every $1 invested in AI-powered resilience and disaster preparedness saves $13 in post-event costs.<a href="#src-7" class="cite">[7]</a></p>
+
+      <p>Schneider Electric's partnership with NVIDIA on AI-driven digital twins for energy management is a leading indicator, but the vast majority of utilities — particularly smaller municipal and cooperative utilities — have no AI capability whatsoever. This is structurally similar to the government sector: large, slow-moving incumbents with immense data and clear ROI for AI, but a procurement culture that repels startups.</p>
+    </div>
+
+    <!-- SECTION 4: THE CROWDED LANES -->
+    <div class="section">
+      <h2 class="section-title">4. The Crowded Lanes: Where Founders Are Already Swarming</h2>
+
+      <p>For context, here's where capital is concentrated — these are validated categories, but entry windows are compressing:</p>
+
+      <h3>Legal (Saturating)</h3>
+      <p>Harvey: $800M+ raised, $8B valuation, $100M ARR, serves 8 of 10 top-grossing US law firms.<a href="#src-2" class="cite">[2]</a><a href="#src-14" class="cite">[14]</a> Clio: $500M Series G, $5B valuation.<a href="#src-15" class="cite">[15]</a> Total legaltech funding hit $4.3B across 356 deals in 2025, with AI-powered tools driving 70% of investment.<a href="#src-2" class="cite">[2]</a> The growth is real — Harvey reached $100M ARR in roughly two years — but the top of the market is claimed. Seed opportunities exist in legal sub-verticals (regulatory compliance, contract lifecycle for mid-market, litigation analytics) but not in general-purpose legal AI.</p>
+
+      <h3>Healthcare AI (Crowded, Specialty Gaps Remain)</h3>
+      <p>Clinical documentation (Abridge, Ambience, Nabla) and medical imaging are well-funded categories. But specific clinical specialties, revenue cycle management for smaller practices, and clinical trial operations remain less contested. Jack's defense and deep-tech focus may find overlap in healthcare AI for military/VA applications.</p>
+
+      <h3>Insurance (Maturing)</h3>
+      <p>Insurtech market projected to reach $239.2 billion by 2033 at 27% CAGR.<a href="#src-7" class="cite">[7]</a> Agentic AI in underwriting and claims is becoming standard — by mid-2025, industry publications documented real-world deployment in claims processing, fraud detection, and underwriting.<a href="#src-16" class="cite">[16]</a> FurtherAI ($25M Series A from a16z) is automating underwriting, claims, and compliance in the $7T insurance industry. Seed opportunities remain in specialty lines, parametric insurance, and the intersection of AI + climate risk.</p>
+
+      <h3>Accounting & Tax (Early-Crowding)</h3>
+      <p>The Big Four are collectively investing $10B+ in AI (Deloitte $3B by 2030, KPMG $5B, PwC $1.5B).<a href="#src-6" class="cite">[6]</a> Thomson Reuters launched agentic AI for tax and audit workflows in December 2025.<a href="#src-17" class="cite">[17]</a> 64% of accounting firms plan AI investments in 2025, up from 57% in 2024.<a href="#src-6" class="cite">[6]</a> But the mid-market and SMB segments remain underserved — the Big Four investments serve enterprise, leaving millions of smaller firms without AI-native tools.</p>
+    </div>
+
+    <!-- SECTION 5: INVESTMENT THESIS -->
+    <div class="section">
+      <h2 class="section-title">5. Where to Place Seed Bets</h2>
+
+      <h3>The Framework: High Gap Score + Jack's Thesis Overlap</h3>
+      <p>Cross-referencing the gap analysis with Jack's investment thesis (AI, energy, deep-tech, defense, robotics), three categories offer the strongest fit:</p>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Opportunity</th>
+            <th>Why Now</th>
+            <th>Ideal Founder Profile</th>
+            <th>Estimated Entry Window</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>AI for Government Services</strong></td>
+            <td>DOGE-era political pressure to modernize; chronic staffing shortages; Deloitte GovTech 2026 signals enterprise readiness</td>
+            <td>Ex-government + technical; understands procurement; patient with sales cycles</td>
+            <td>12–18 months before category crowds</td>
+          </tr>
+          <tr>
+            <td><strong>AI for Construction</strong></td>
+            <td>10x growth trajectory ($1.3B → $13.5B); labor shortage crisis; infrastructure bill deployment creating demand</td>
+            <td>Construction domain expert + ML; understands jobsite realities, not just software</td>
+            <td>18–24 months; physical-world complexity creates natural moat</td>
+          </tr>
+          <tr>
+            <td><strong>AI for Energy/Utility Resilience</strong></td>
+            <td>Recent infrastructure failures (Heathrow, Iberia); 13:1 resilience ROI; Jack's energy thesis alignment</td>
+            <td>Energy sector operator + AI; understands grid dynamics, regulatory environment</td>
+            <td>12–18 months; regulatory push accelerating</td>
+          </tr>
+          <tr>
+            <td><strong>AI for Agriculture (SMB)</strong></td>
+            <td>AIaaS model makes precision ag accessible to smaller farms for first time; $8.5B market by 2030</td>
+            <td>Ag-tech domain expert; understands farmer behavior and seasonal cycles</td>
+            <td>24+ months; adoption is slow but inevitable</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>The Contrarian Bet: Physical-World AI</h3>
+      <p>The consistent pattern across the highest-gap industries (government, construction, agriculture, energy) is that they involve <strong>physical-world complexity</strong>. Most AI capital has flowed to information-first industries — legal, finance, healthcare documentation — where the data is clean and digital.</p>
+
+      <p><span class="order-tag second">2nd Order</span> <strong>Physical-world AI is harder to build, which means it's harder to compete against.</strong> A legal AI startup faces the risk that OpenAI or Google ships a competitive feature in a model update. A construction AI startup that integrates with drones, BIM systems, project management tools, and safety hardware has a defensibility moat that model improvements can't easily replicate.</p>
+
+      <p><span class="order-tag third">3rd Order</span> <strong>Physical-world AI unlocks GDP growth that information-only AI can't.</strong> Goldman Sachs says AI has added "basically zero" to GDP so far.<a href="#src-3" class="cite">[3]</a> That's because information-worker productivity gains are real but small in economic terms. The big GDP unlock comes when AI makes <em>physical processes</em> more efficient — construction, manufacturing, agriculture, energy. The $7 trillion GDP boost Goldman predicted requires AI to reach the physical economy. The companies that bridge that gap will capture enormous value.</p>
+
+      <div class="callout insight">
+        <strong>The seed investor's edge:</strong> VCs with patience and domain networks can access these high-gap sectors before the generalist capital arrives. Construction, government, and energy have long sales cycles that deter impatient capital — which is exactly what creates durable early-mover advantage. By the time the sector heats up, well-positioned seed investments will have 18–24 months of customer learnings, data, and workflow integration that later entrants can't replicate.
+      </div>
+    </div>
+
+    <!-- SECTION 6: RISKS -->
+    <div class="section">
+      <h2 class="section-title">6. Key Risks & Open Questions</h2>
+
+      <h3>Why This Thesis Could Be Wrong</h3>
+      <ul>
+        <li><strong>Adoption velocity may be overstated:</strong> MIT found that 95% of generative AI pilot projects at companies fail.<a href="#src-7" class="cite">[7]</a> Physical-world industries may be even harder to crack than this analysis suggests. The gap might not be a market opportunity — it might be evidence that these industries are structurally resistant to AI.</li>
+        <li><strong>Platform bundling risk:</strong> Microsoft (via Copilot + government contracts), Salesforce (via Agentforce), and Autodesk (via construction tools) could bundle AI into existing platform relationships, squeezing vertical startups. Microsoft's free Copilot rollout to GSA covering millions of government employees is a direct threat.<a href="#src-18" class="cite">[18]</a></li>
+        <li><strong>Regulatory backlash:</strong> High-profile AI failures in government (wrongful benefit denials, biased enforcement) could trigger restrictions that slow adoption rather than accelerate it.</li>
+        <li><strong>The labor displacement backlash:</strong> TechCrunch's investor survey shows VCs expect AI to meaningfully impact the labor market in 2026.<a href="#src-19" class="cite">[19]</a> If this manifests as visible job losses in legacy industries, political pushback could constrain adoption in precisely the sectors identified here.</li>
+      </ul>
+
+      <h3>Open Questions</h3>
+      <ul>
+        <li>Can vertical AI companies maintain pricing power as foundation models commoditize? Harvey's path to $8B suggests yes — workflow integration creates switching costs — but the jury is out for earlier-stage categories.</li>
+        <li>Will the "AI megacycle" concentration of capital at the top (a16z, Sequoia, Kleiner Perkins backing Harvey, etc.) crowd out seed investors, or create a vacuum at the earliest stages?</li>
+        <li>How do you measure AI ROI in industries that can't yet quantify their inefficiency? Construction companies don't know how much they lose to scheduling errors. Government agencies don't measure permit processing cost per unit. The startups that solve the measurement problem may be as valuable as the ones that solve the automation problem.</li>
+      </ul>
+    </div>
+
+    <!-- SOURCES -->
+    <div class="sources">
+      <h2>Sources</h2>
+      <ol>
+        <li id="src-1">OECD. <span class="source-pub">"AI Firms Capture 61% of Global Venture Capital in 2025."</span> February 2026. <a href="https://www.oecd.org/en/about/news/announcements/2026/02/ai-firms-capture-61-percent-of-global-venture-capital-in-2025.html">Link</a></li>
+        <li id="src-2">Crunchbase News / Ellty. <span class="source-pub">"Legal Tech Startup Investment Is Riding High, Thanks to AI Boost."</span> 2025. <a href="https://news.crunchbase.com/venture/legal-tech-startup-investment-ai-clio-harvey/">Link</a></li>
+        <li id="src-3">Gizmodo / Tom's Hardware (citing Goldman Sachs). <span class="source-pub">"AI Added 'Basically Zero' to US Economic Growth Last Year."</span> February 2026. <a href="https://www.tomshardware.com/tech-industry/artificial-intelligence/ai-boosted-us-economy-by-basically-zero-in-2025-says-goldman-sachs-chief-economist">Link</a></li>
+        <li id="src-4">TrueBridge Capital Partners / Forbes. <span class="source-pub">"The AI Megacycle: Five Forces Reshaping the Venture Market in 2026."</span> February 25, 2026. <a href="https://www.forbes.com/sites/truebridge/2026/02/25/the-ai-megacycle-five-forces-reshaping-the-venture-market-in-2026/">Link</a></li>
+        <li id="src-5">What About AI? / FAIR Framework (Perkins, J.). <span class="source-pub">"Industries Most Affected by AI in 2026 — 26 Industries Ranked."</span> 2026. <a href="https://www.whataboutai.com/industries-affected-by-ai">Link</a></li>
+        <li id="src-6">Fiskl / CPA Practice Advisor / Bloomberg Tax. <span class="source-pub">"AI in Accounting in 2025: Real-Time Intelligence and Predictive Foresight."</span> August 2025. <a href="https://fiskl.com/blog/ai-finance/sme-ai-in-accounting-technology-global-research-2025/">Link</a></li>
+        <li id="src-7">Mind Foundry. <span class="source-pub">"Industrial AI in 2026: Turning Uncertainty into Opportunity."</span> 2026. <a href="https://www.mindfoundry.ai/blog/industrial-ai-in-2026">Link</a></li>
+        <li id="src-8">GovTech. <span class="source-pub">"The 2026 GT100: What It Will Take to Scale AI in Government."</span> February 2026. <a href="https://www.govtech.com/biz/the-2026-gt100-what-will-it-take-to-scale-ai-in-government">Link</a></li>
+        <li id="src-9">Congruence Market Insights. <span class="source-pub">"Digital Agriculture Market — USD 7.81B in 2025, USD 17.21B by 2033."</span> 2025. <a href="https://www.congruencemarketinsights.com/report/digital-agriculture-market">Link</a></li>
+        <li id="src-10">Y Combinator. <span class="source-pub">"Government Startups Funded by YC (2026)."</span> 2026. <a href="https://www.ycombinator.com/companies/industry/government">Link</a></li>
+        <li id="src-11">Deloitte. <span class="source-pub">"GovTech Trends 2026: A Government Perspective."</span> 2026. <a href="https://www.deloitte.com/us/en/Industries/government-public/articles/government-tech-trends.html">Link</a></li>
+        <li id="src-12">PropTech Jobs. <span class="source-pub">"ConTech Industry Landscape and Projections (2025-2030)."</span> 2025. <a href="https://proptechjobs.com/contech-industry-landscape-and-projections-2025-2030/">Link</a></li>
+        <li id="src-13">BCC Research / GlobeNewsWire. <span class="source-pub">"AI in Agriculture Market to Reach $8.5 Billion by 2030."</span> January 20, 2026. <a href="https://www.globenewswire.com/news-release/2026/01/20/3221480/0/en/AI-in-Agriculture-Market-to-Reach-8-5-Billion-by-2030-Reports-BCC-Research.html">Link</a></li>
+        <li id="src-14">PYMNTS. <span class="source-pub">"AI Makes Inroads in Legal Industry as Funding Tops $2.4 Billion."</span> October 2025. <a href="https://www.pymnts.com/artificial-intelligence-2/2025/ai-makes-inroads-in-legal-industry-as-funding-tops-2billion">Link</a></li>
+        <li id="src-15">Clio. <span class="source-pub">"Inside Clio 2025: $500M Series G, $5B Valuation."</span> December 2025. <a href="https://www.clio.com/blog/clio-2025-year-in-review/">Link</a></li>
+        <li id="src-16">Fenwick & West LLP. <span class="source-pub">"Tracking the Evolution of AI Insurance Regulation."</span> December 2025. <a href="https://www.fenwick.com/insights/publications/tracking-the-evolution-of-ai-insurance-regulation">Link</a></li>
+        <li id="src-17">Thomson Reuters. <span class="source-pub">"Thomson Reuters Launches Agentic AI Solutions to Transform Tax, Audit and Accounting Workflows."</span> November 2025. <a href="https://www.thomsonreuters.com/en/press-releases/2025/november/thomson-reuters-launches-agentic-ai-solutions-to-transform-tax-audit-and-accounting-workflows">Link</a></li>
+        <li id="src-18">Microsoft Official Blog. <span class="source-pub">"Accelerating AI Adoption for the US Government."</span> September 2025. <a href="https://blogs.microsoft.com/blog/2025/09/02/accelerating-ai-adoption-for-the-us-government/">Link</a></li>
+        <li id="src-19">TechCrunch (Szkutak, R.). <span class="source-pub">"Investors Predict AI Is Coming for Labor in 2026."</span> December 31, 2025. <a href="https://techcrunch.com/2025/12/31/investors-predict-ai-is-coming-for-labor-in-2026/">Link</a></li>
+      </ol>
+    </div>
+
+    <p class="generated">Generated by Galileo 🔭 · February 27, 2026</p>
+  </div>
+</body>
+</html>
