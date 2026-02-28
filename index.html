@@ -4,57 +4,36 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Galileo Research</title>
-  <link rel="stylesheet" href="styles.css">
+  <style>
+    :root { --bg: #fff; --text: #1a1a1a; --text-sec: #6b7280; --accent: #2563eb; --border: #e5e7eb; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    .container { max-width: 680px; margin: 0 auto; padding: 48px 20px; }
+    h1 { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+    .subtitle { color: var(--text-sec); font-size: 15px; margin-bottom: 40px; }
+    .report { display: block; text-decoration: none; color: inherit; padding: 20px 0; border-bottom: 1px solid var(--border); }
+    .report:hover .title { color: var(--accent); }
+    .date { font-size: 13px; color: var(--text-sec); margin-bottom: 4px; }
+    .title { font-size: 18px; font-weight: 600; margin-bottom: 6px; transition: color 0.15s; }
+    .summary { font-size: 14px; color: var(--text-sec); line-height: 1.5; }
+  </style>
 </head>
 <body>
   <div class="container">
-    <header class="site-header">
-      <h1>Galileo Research</h1>
-      <p>Investment research and analysis</p>
-    </header>
-    
-    <main class="report-list" id="reportList">
-      <!-- Reports will be loaded here dynamically -->
-    </main>
-    
-    <div class="empty-state" id="emptyState" style="display: none;">
-      <p>No research reports yet. Check back soon for investment insights.</p>
-    </div>
-  </div>
+    <h1>Galileo Research</h1>
+    <p class="subtitle">Investment research and analysis</p>
 
-  <script>
-    // Load reports index and render cards
-    async function loadReports() {
-      try {
-        const res = await fetch('reports/index.json');
-        if (!res.ok) throw new Error('No reports yet');
-        const reports = await res.json();
-        
-        if (reports.length === 0) {
-          document.getElementById('emptyState').style.display = 'block';
-          document.getElementById('reportList').style.display = 'none';
-          return;
-        }
-        
-        const list = document.getElementById('reportList');
-        list.innerHTML = reports.map(report => `
-          <a href="reports/${report.slug}.html" class="report-card">
-            <div class="report-meta">
-              <span class="type">Research</span>
-              <span class="date">${report.date}</span>
-            </div>
-            <h3 class="report-title">${report.title}</h3>
-            <p class="report-summary">${report.summary}</p>
-          </a>
-        `).join('');
-        
-      } catch (e) {
-        document.getElementById('emptyState').style.display = 'block';
-        document.getElementById('reportList').style.display = 'none';
-      }
-    }
-    
-    loadReports();
-  </script>
+    <a class="report" href="2026-02-27-ai-legacy-disruption.html">
+      <div class="date">February 27, 2026</div>
+      <div class="title">AI Disruption of Legacy Industries — Where Founders Should Be Building</div>
+      <div class="summary">Sector vulnerability ranking, accelerator batch analysis, and gap identification for AI disruption of physical-world industries. Includes 2x2 matrix of disruption potential vs. founder activity.</div>
+    </a>
+
+    <a class="report" href="2026-02-25-ai-agent-security.html">
+      <div class="date">February 25, 2026</div>
+      <div class="title">The Agent Security Gap — Vulnerabilities and Investment Opportunities</div>
+      <div class="summary">Analysis of autonomous AI agent security vulnerabilities based on "Agents of Chaos" research. Maps the emerging agent security market and seed-stage investment opportunities.</div>
+    </a>
+  </div>
 </body>
 </html>
