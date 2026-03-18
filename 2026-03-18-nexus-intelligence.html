@@ -83,7 +83,9 @@
         <li><strong>Vendor copilots (Siemens, Schneider) are single-vendor only</strong> — they work within their own ecosystem but cannot cross vendor boundaries. This is the gap Nexus targets.<a href="#src-4" class="cite">[4]</a></li>
         <li><strong>The controls engineering talent crisis is acute</strong> — 26% of manufacturing workforce is 55+, and PLC-specialized engineers are among the hardest to hire<a href="#src-5" class="cite">[5]</a></li>
       </ul>
-      <p class="bottom-line">Bottom line: Nexus occupies a structurally unique position — the format translation layer between proprietary PLC ecosystems and AI. If executed, this is the "openpyxl for industrial automation" — a foundational infrastructure play that every AI-powered manufacturing tool would depend on. The moat is technical depth (reverse-engineering proprietary binary formats is extremely hard) and the TAM is anchored by the $13.3B PLC market + $155B AI-in-manufacturing market. The risk is execution: this is deep systems programming, not an LLM wrapper.</p>
+      <li><strong>Team passes the Founder Obsession test:</strong> CEO Chris Yuan is ex-Tesla factory automation; Lead Architect Jonas Neubert has a decade bridging factory automation and modern software (Zymergen, AWS, Imperial College, IEEE robotics publications). Backed by a16z and BoxGroup at seed.<a href="#src-20" class="cite">[20]</a><a href="#src-21" class="cite">[21]</a><a href="#src-22" class="cite">[22]</a></li>
+      </ul>
+      <p class="bottom-line">Bottom line: Nexus occupies a structurally unique position — the format translation layer between proprietary PLC ecosystems and AI. The team has genuine controls engineering depth (not AI generalists learning PLC on the fly), and a16z has already validated the thesis at seed. The moat is technical depth (reverse-engineering proprietary binary formats is extremely hard) and the TAM is anchored by the $13.3B PLC market + $155B AI-in-manufacturing market. The key diligence question is now entry price: has a16z already priced in the upside?</p>
     </div>
 
     <!-- SECTION 1: THE PROBLEM -->
@@ -193,6 +195,48 @@
 
       <h3>The "Nexus Copilot"</h3>
       <p>The user-facing product is an "open, vendor-agnostic design environment that learns from your controls standards, I/O mappings, and more to explain, develop, and test code alongside your engineers."<a href="#src-8" class="cite">[8]</a> This is how they go to market: the copilot is the feature; the compiler is the infrastructure that makes the feature possible.</p>
+    </div>
+
+    <!-- SECTION 2B: TEAM & FUNDING -->
+    <div class="section">
+      <h2 class="section-title">2B. Team &amp; Funding</h2>
+
+      <p>Founded in 2024 in San Francisco. Backed by <strong>Andreessen Horowitz (a16z)</strong> and <strong>BoxGroup</strong> at seed stage.<a href="#src-20" class="cite">[20]</a></p>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Background</th>
+            <th>Signal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Chris Yuan</strong></td>
+            <td>CEO &amp; Founder</td>
+            <td>Former <strong>Tesla</strong> — factory automation software engineer, battery raw materials strategy. Lived the problem firsthand: "I expected cutting-edge tools for manufacturing systems… the reality was quite different. Increasingly complex equipment is being built, operated, and maintained using aging, vendor-locked software tools and PLC platforms."<a href="#src-21" class="cite">[21]</a></td>
+            <td>🟢 <strong>Strong.</strong> Founder-market fit from direct Tesla factory floor experience. Origin story is the problem statement.</td>
+          </tr>
+          <tr>
+            <td><strong>Jonas Neubert</strong></td>
+            <td>Lead Architect</td>
+            <td>Self-described "automation engineer and software developer." Former <strong>Zymergen/Ginkgo Bioworks</strong> (created software architecture for robotic automation platform), <strong>AWS</strong> (CLI and boto3 — used by millions), <strong>Counsyl</strong> (high-throughput diagnostics lab). M.Eng. from <strong>Imperial College London</strong>. Published at IEEE IROS and ICRA (top robotics conferences). PyCon speaker on PLC-Python integration since 2019.<a href="#src-22" class="cite">[22]</a><a href="#src-23" class="cite">[23]</a></td>
+            <td>🟢 <strong>Exceptional.</strong> One of the best-qualified people to architect a PLC format compiler — a decade bridging factory automation and modern software, with AWS-grade systems engineering. This wasn't a pivot; it's a culmination.</td>
+          </tr>
+          <tr>
+            <td><strong>Pin-Yen Chen</strong></td>
+            <td>Founding SWE</td>
+            <td>Limited public information available.</td>
+            <td>⚪ Worth asking about in the meeting.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout insight">
+        <strong>Team assessment:</strong> The Founder Obsession filter — which we flagged as the #1 open question — now passes. Chris Yuan lived the problem at Tesla. Jonas Neubert has been building at the intersection of factory automation and modern software for a decade, and has been literally giving talks about bridging Python and PLCs since 2019. The a16z + BoxGroup backing at seed means smart money has already validated the thesis. The key question becomes: <strong>is there still room at a reasonable entry price, or has a16z already priced in the upside?</strong>
+      </div>
     </div>
 
     <!-- SECTION 3: SQUINT COMPARISON -->
@@ -388,8 +432,8 @@
         <li><strong>Category Creation Test ✓</strong> — "Cross-vendor PLC format library for AI" is not an existing category. There's no market map for this. If it succeeds, analysts will need a new term.</li>
         <li><strong>Non-Consensus Test ✓</strong> — Most VCs would pass because: (a) it's deep industrial tech, not a category they understand, (b) the TAM is indirect (infrastructure layer, not direct revenue model), (c) "PLC compiler" doesn't sound like a VC pitch. This is exactly the kind of investment that looks weird.</li>
         <li><strong>Increasing Returns Test — Partially.</strong> The data flywheel (more PLC code processed → better AI models) and the format library network effect (more vendor formats → more valuable platform) create increasing returns. However, it's not a consumer network effect — the winner-take-most dynamic depends on becoming the de facto standard, which requires ecosystem adoption.</li>
-        <li><strong>Founder Obsession Test — Unknown.</strong> Limited public information on the founding team. This is the most important diligence question to answer in person.</li>
-        <li><strong>Entry Discipline Test — Likely ✓</strong> — Early stage, likely low valuation. The math works if entry is at a reasonable seed/pre-seed price.</li>
+        <li><strong>Founder Obsession Test ✓</strong> CEO Chris Yuan lived the problem at Tesla's factory floor. Lead Architect Jonas Neubert has spent a decade at the intersection of factory automation and modern software — PyCon talks on PLCs since 2019, Zymergen/Ginkgo robotic automation architecture, AWS systems engineering, IEEE robotics publications. This wasn't a pivot; it's a culmination.<a href="#src-21" class="cite">[21]</a><a href="#src-22" class="cite">[22]</a></li>
+        <li><strong>Entry Discipline Test — TBD.</strong> a16z and BoxGroup are already in at seed<a href="#src-20" class="cite">[20]</a>. The question is whether there's room to participate at a valuation where the math still works, or whether smart money has already priced in the thesis.</li>
       </ol>
 
       <h3>The Investment Case</h3>
@@ -467,6 +511,10 @@
         <li id="src-17">Augmentir. <span class="source-pub">"Industrial Copilots: Top 10 Vendors to Watch in 2025."</span> July 2025. <a href="https://www.augmentir.com/blog/top-10-genai-powered-industrial-copilot-vendors-to-watch-in-2025">Link</a></li>
         <li id="src-18">Automate Show. <span class="source-pub">"Navigating the Era of Industrial Copilots in Manufacturing."</span> 2026. <a href="https://www.automateshow.com/blog/navigating-the-era-of-industrial-copilots-in-manufacturing">Link</a></li>
         <li id="src-19">SiliconANGLE. <span class="source-pub">"Squint Gets $40M in Funding to Accelerate Human-Machine Collaboration in Manufacturing."</span> August 13, 2025. Founded by ex-Splunk exec Devin Bhushan; 30+ AR patents. <a href="https://siliconangle.com/2025/08/12/squint-gets-40m-funding-accelerate-human-machine-collaboration-manufacturing/">Link</a></li>
+        <li id="src-20">Specter Monitor #193. <span class="source-pub">"Nexus Intelligence — Industrial automation startup founded 2024 in SF, backed by Andreessen Horowitz and BoxGroup."</span> September 2025. <a href="https://insights.tryspecter.com/specter-monitor-193/">Link</a></li>
+        <li id="src-21">Chris Yuan, LinkedIn. <span class="source-pub">"As a software engineer working on manufacturing systems at Tesla, I expected to have cutting-edge tools… The reality was quite different."</span> <a href="https://www.linkedin.com/in/cqyuan/">Link</a></li>
+        <li id="src-22">Jonas Neubert. <span class="source-pub">Personal website — "Automation engineer and software developer."</span> Former Zymergen/Ginkgo Bioworks, AWS (CLI, boto3), Counsyl. M.Eng. Imperial College London. IEEE IROS/ICRA publications. <a href="https://jonasneubert.com/">Link</a></li>
+        <li id="src-23">Jonas Neubert. <span class="source-pub">"What is a PLC and how do I talk Python to it?"</span> PyCon 2019. <a href="https://blog.jonasneubert.com/2019/10/27/what-is-a-plc-and-how-do-i-talk-python-to-it/">Link</a></li>
       </ol>
     </div>
 
