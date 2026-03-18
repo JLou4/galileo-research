@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Industrial Control Systems AI: Nexus Intelligence Deep Dive — Galileo Research</title>
+  <style>
+    :root { --bg: #ffffff; --bg-secondary: #f8f9fa; --text: #1a1a1a; --text-secondary: #6b7280; --accent: #2563eb; --border: #e5e7eb; --radius: 8px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; font-size: 16px; }
+    .container { max-width: 740px; margin: 0 auto; padding: 32px 20px; }
+    .back-link { font-size: 13px; color: var(--text-secondary); text-decoration: none; }
+    .back-link:hover { text-decoration: underline; }
+    .report-header { margin-top: 16px; margin-bottom: 36px; border-bottom: 2px solid var(--text); padding-bottom: 20px; }
+    .report-header h1 { font-size: 28px; font-weight: 700; line-height: 1.2; margin-bottom: 8px; }
+    .report-header .subtitle { font-size: 17px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 12px; }
+    .report-header .meta { font-size: 13px; color: var(--text-secondary); }
+    .report-header .meta span { margin-right: 16px; }
+    .section { margin-bottom: 32px; }
+    .section-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-secondary); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+    .section p { margin-bottom: 14px; }
+    .section p:last-child { margin-bottom: 0; }
+    .section ul, .section ol { margin-bottom: 14px; padding-left: 24px; }
+    .section li { margin-bottom: 6px; }
+    .exec-summary { background: var(--bg-secondary); border-left: 3px solid var(--accent); padding: 20px 24px; border-radius: 0 var(--radius) var(--radius) 0; margin-bottom: 32px; }
+    .exec-summary h2 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-secondary); margin-bottom: 12px; }
+    .exec-summary p { margin-bottom: 12px; }
+    .exec-summary ul { padding-left: 20px; margin-bottom: 12px; }
+    .exec-summary li { margin-bottom: 4px; }
+    .exec-summary .bottom-line { font-weight: 600; border-top: 1px solid var(--border); padding-top: 12px; margin-top: 12px; }
+    .section h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; margin-top: 20px; }
+    .section h3:first-child { margin-top: 0; }
+    .data-table { width: 100%; font-size: 14px; border-collapse: collapse; margin-bottom: 16px; }
+    .data-table th, .data-table td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+    .data-table th { font-weight: 500; color: var(--text-secondary); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; background: var(--bg-secondary); }
+    .callout { background: var(--bg-secondary); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 16px; font-size: 14px; }
+    .callout.warning { border-left: 3px solid #f59e0b; }
+    .callout.insight { border-left: 3px solid var(--accent); }
+    .cite { font-size: 10px; color: var(--accent); vertical-align: super; cursor: pointer; text-decoration: none; margin-left: 1px; }
+    .cite:hover { text-decoration: underline; }
+    .sources { background: var(--bg-secondary); border-radius: var(--radius); padding: 20px 24px; margin-top: 40px; }
+    .sources h2 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); margin-bottom: 14px; }
+    .sources ol { font-size: 13px; color: var(--text-secondary); padding-left: 24px; }
+    .sources li { margin-bottom: 8px; word-break: break-word; line-height: 1.5; }
+    .sources a { color: var(--accent); text-decoration: none; }
+    .sources a:hover { text-decoration: underline; }
+    .source-pub { font-style: italic; }
+    .generated { font-size: 12px; color: var(--text-secondary); text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+    .order-tag { display: inline-block; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 2px 6px; border-radius: 3px; margin-right: 4px; }
+    .order-tag.first { background: #dbeafe; color: #1d4ed8; }
+    .order-tag.second { background: #fef3c7; color: #92400e; }
+    .order-tag.third { background: #fce7f3; color: #9d174d; }
+    @media (max-width: 600px) {
+      .container { padding: 16px; }
+      .report-header h1 { font-size: 24px; }
+      .data-table { font-size: 13px; }
+      .data-table th, .data-table td { padding: 6px 8px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">← All Reports</a>
+
+    <header class="report-header">
+      <h1>Industrial Control Systems AI: Nexus Intelligence Deep Dive</h1>
+      <p class="subtitle">90% of manufacturing runs on PLCs. AI can't read the code. One startup is building the Rosetta Stone for industrial automation — and the competitive moat may be deeper than it looks.</p>
+      <div class="meta">
+        <span>📅 March 18, 2026</span>
+        <span>🔭 Galileo Research</span>
+        <span>📋 Investor Diligence</span>
+      </div>
+    </header>
+
+    <!-- EXECUTIVE SUMMARY -->
+    <div class="exec-summary">
+      <h2>Executive Summary</h2>
+      <p>Nexus Intelligence is building two things: (1) a compiler that translates between proprietary PLC formats (Rockwell, Siemens, Beckhoff, etc.) and a vendor-neutral representation, and (2) a tool layer that gives AI agents code navigation APIs and live equipment access via industrial protocols. Their thesis: AI cannot transform manufacturing until it can read, write, and reason about the code that actually controls machines — and that code is locked inside proprietary, vendor-specific formats that no AI system can currently parse.</p>
+      <ul>
+        <li><strong>The PLC market is $13.3B (2026)</strong>, growing to $16.4B by 2031, with top 5 vendors holding ~60% share — each using incompatible proprietary formats<a href="#src-1" class="cite">[1]</a></li>
+        <li><strong>AI in manufacturing is a $34.2B market (2025)</strong> → $155B by 2030 at 35.3% CAGR — but almost none of this touches PLC code directly<a href="#src-2" class="cite">[2]</a></li>
+        <li><strong>Squint (named competitor) is NOT a direct competitor</strong> — they solve operator knowledge capture (tribal knowledge → AR guides), not PLC code comprehension. Different stack, different problem.<a href="#src-3" class="cite">[3]</a></li>
+        <li><strong>Vendor copilots (Siemens, Schneider) are single-vendor only</strong> — they work within their own ecosystem but cannot cross vendor boundaries. This is the gap Nexus targets.<a href="#src-4" class="cite">[4]</a></li>
+        <li><strong>The controls engineering talent crisis is acute</strong> — 26% of manufacturing workforce is 55+, and PLC-specialized engineers are among the hardest to hire<a href="#src-5" class="cite">[5]</a></li>
+      </ul>
+      <p class="bottom-line">Bottom line: Nexus occupies a structurally unique position — the format translation layer between proprietary PLC ecosystems and AI. If executed, this is the "openpyxl for industrial automation" — a foundational infrastructure play that every AI-powered manufacturing tool would depend on. The moat is technical depth (reverse-engineering proprietary binary formats is extremely hard) and the TAM is anchored by the $13.3B PLC market + $155B AI-in-manufacturing market. The risk is execution: this is deep systems programming, not an LLM wrapper.</p>
+    </div>
+
+    <!-- SECTION 1: THE PROBLEM -->
+    <div class="section">
+      <h2 class="section-title">1. The Problem: Why AI Can't Touch Manufacturing</h2>
+
+      <p>The entire AI industry has a blind spot. AI can write Python, analyze legal contracts, and generate marketing copy — but it cannot read or modify the code that controls 90% of global manufacturing. That code runs on Programmable Logic Controllers (PLCs), and it's locked inside proprietary vendor ecosystems that predate the internet.</p>
+
+      <h3>What is a PLC?</h3>
+      <p>A PLC is a ruggedized computer that runs the real-time control logic for industrial equipment — assembly lines, chemical plants, power stations, water treatment, food processing, building HVAC. PLCs are everywhere: every factory, every warehouse with automation, every industrial process that runs without constant human intervention. The global installed base is estimated at tens of millions of units.<a href="#src-1" class="cite">[1]</a></p>
+
+      <h3>The Fragmentation Problem</h3>
+      <p>IEC 61131-3, the international standard for PLC programming, defines five programming languages: Ladder Diagram, Function Block Diagram, Structured Text, Instruction List, and Sequential Function Chart.<a href="#src-6" class="cite">[6]</a> In theory, these create portability. In practice, every vendor implements them differently:</p>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Vendor</th>
+            <th>IDE / Platform</th>
+            <th>File Format</th>
+            <th>Global Market Share</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Siemens</strong></td>
+            <td>TIA Portal</td>
+            <td>Proprietary XML/binary (S7 format)</td>
+            <td>~20-25%</td>
+          </tr>
+          <tr>
+            <td><strong>Rockwell (Allen-Bradley)</strong></td>
+            <td>Studio 5000 / RSLogix</td>
+            <td>Proprietary L5X/L5K (XML-based but vendor-specific)</td>
+            <td>~15-20% (dominant in US)</td>
+          </tr>
+          <tr>
+            <td><strong>Schneider Electric</strong></td>
+            <td>EcoStruxure Machine Expert</td>
+            <td>CODESYS-based, proprietary extensions</td>
+            <td>~10-12%</td>
+          </tr>
+          <tr>
+            <td><strong>Mitsubishi Electric</strong></td>
+            <td>GX Works</td>
+            <td>Proprietary binary</td>
+            <td>~10-12% (dominant in Asia)</td>
+          </tr>
+          <tr>
+            <td><strong>ABB</strong></td>
+            <td>Automation Builder</td>
+            <td>Proprietary</td>
+            <td>~8-10%</td>
+          </tr>
+          <tr>
+            <td><strong>Beckhoff</strong></td>
+            <td>TwinCAT</td>
+            <td>CODESYS-based, proprietary extensions</td>
+            <td>~3-5% (growing rapidly)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>The critical point: <strong>"direct code transfer between brands requires manual rewriting, not simple conversion."</strong><a href="#src-7" class="cite">[7]</a> There is no universal format. There is no "PLC code to text" converter. Each vendor's format is a proprietary binary or XML structure with vendor-specific function blocks, tag databases, hardware configuration, and I/O mappings that are meaningless outside their own IDE. This means:</p>
+
+      <ul>
+        <li>An LLM cannot read a Rockwell L5X file and understand the control logic</li>
+        <li>An AI agent cannot compare a Siemens S7 program to a Beckhoff TwinCAT program</li>
+        <li>No existing tool can translate between vendor formats automatically</li>
+        <li>Every AI-for-manufacturing startup that doesn't solve this problem is working above the code layer — analyzing sensor data, optimizing schedules, or presenting documentation — but never touching the actual control logic</li>
+      </ul>
+
+      <div class="callout insight">
+        <strong>The analogy:</strong> Imagine if every word processor (Word, Google Docs, Pages) used a completely different file format that couldn't be read by any other tool, and AI coding assistants could only work with one word processor at a time. That's the state of PLC programming in 2026. Nexus is building the equivalent of <code>python-docx</code> — the library that lets software read and write these proprietary formats programmatically.
+      </div>
+    </div>
+
+    <!-- SECTION 2: NEXUS INTELLIGENCE -->
+    <div class="section">
+      <h2 class="section-title">2. What Nexus Intelligence is Building</h2>
+
+      <p>Nexus Intelligence has two products forming a two-layer architecture:<a href="#src-8" class="cite">[8]</a></p>
+
+      <h3>Layer 1: The Compiler (Format Library)</h3>
+      <p>A translation engine that can parse proprietary PLC file formats (Rockwell L5X, Siemens S7, Beckhoff TwinCAT, etc.) and convert them into a vendor-neutral intermediate representation — what they call "Nexus format." This is the foundational technical challenge: reverse-engineering binary and XML formats that vendors have spent decades developing and deliberately keeping incompatible.</p>
+
+      <p>This is not a thin wrapper. A complete PLC program includes:</p>
+      <ul>
+        <li><strong>Control logic</strong> — the actual program (ladder diagram, structured text, function blocks)</li>
+        <li><strong>Tag database</strong> — all the named variables, their types, and their mappings to physical I/O</li>
+        <li><strong>Hardware configuration</strong> — which modules are in which slots, how they're networked</li>
+        <li><strong>HMI bindings</strong> — how the operator interface connects to the control logic</li>
+        <li><strong>Vendor-specific function blocks</strong> — proprietary instructions that only work in that vendor's ecosystem (Rockwell's AOIs, Siemens' FBs)</li>
+      </ul>
+
+      <p>Faithfully representing all of this in a vendor-neutral format while preserving semantic meaning is a deep compiler engineering problem — not an AI problem.</p>
+
+      <h3>Layer 2: The AI Agent Tool Layer</h3>
+      <p>Once the code is in Nexus format, the second layer provides APIs that AI agents can use to:</p>
+      <ul>
+        <li><strong>Navigate code</strong> — "show me all the logic that controls valve V-301" or "trace the interlock chain for this safety system"</li>
+        <li><strong>Access live equipment</strong> — read real-time values from PLCs over industrial protocols (EtherNet/IP, Modbus TCP, OPC UA) so the AI can see what machines are <em>actually doing</em>, not just what the code says they should do</li>
+        <li><strong>Modify code</strong> — generate changes to control logic that can be compiled back into vendor-specific formats and deployed to actual PLCs</li>
+      </ul>
+
+      <p>The combination is the thesis: the compiler makes PLC code <em>legible</em> to AI; the tool layer makes it <em>actionable</em>.</p>
+
+      <h3>The "Nexus Copilot"</h3>
+      <p>The user-facing product is an "open, vendor-agnostic design environment that learns from your controls standards, I/O mappings, and more to explain, develop, and test code alongside your engineers."<a href="#src-8" class="cite">[8]</a> This is how they go to market: the copilot is the feature; the compiler is the infrastructure that makes the feature possible.</p>
+    </div>
+
+    <!-- SECTION 3: SQUINT COMPARISON -->
+    <div class="section">
+      <h2 class="section-title">3. Squint: Named Competitor Analysis</h2>
+
+      <p><strong>Verdict: Squint is not a direct competitor.</strong> They operate at a fundamentally different layer of the manufacturing stack.</p>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Nexus Intelligence</th>
+            <th>Squint</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Problem</strong></td>
+            <td>AI can't read or modify PLC code</td>
+            <td>Tribal knowledge is trapped in operators' heads and manuals</td>
+          </tr>
+          <tr>
+            <td><strong>User</strong></td>
+            <td>Controls engineers, system integrators</td>
+            <td>Frontline operators, maintenance technicians</td>
+          </tr>
+          <tr>
+            <td><strong>Data Source</strong></td>
+            <td>Native PLC code (binary/XML) + live equipment data</td>
+            <td>PDFs, manuals, video recordings, operator knowledge</td>
+          </tr>
+          <tr>
+            <td><strong>Technical Approach</strong></td>
+            <td>Compiler + format library + industrial protocol integration</td>
+            <td>AR + multimodal AI to convert video/docs into step-by-step guides</td>
+          </tr>
+          <tr>
+            <td><strong>Stack Layer</strong></td>
+            <td>Code / Control layer (what the machine is programmed to do)</td>
+            <td>Knowledge / Operations layer (how operators interact with machines)</td>
+          </tr>
+          <tr>
+            <td><strong>Funding</strong></td>
+            <td>Early stage (limited public data)</td>
+            <td>$53M total: $13M Series A (Sequoia), $40M Series B (Aug 2025)<a href="#src-3" class="cite">[3]</a><a href="#src-9" class="cite">[9]</a></td>
+          </tr>
+          <tr>
+            <td><strong>Customers</strong></td>
+            <td>Not publicly disclosed</td>
+            <td>Colgate-Palmolive, Berkshire Hathaway Energy, Siemens, Volvo</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>The "PDF-based" distinction raised in the brief is accurate and important. Squint's AI works with <em>documents about machines</em> — manuals, SOPs, training materials. Nexus works with <em>the code that runs machines</em>. A PDF can tell you "turn this valve 90 degrees clockwise"; PLC code can tell you "this valve opens when pressure sensor PT-101 reads above 150 PSI AND the safety interlock on HS-102 is cleared AND the timer T4:0 has elapsed." The information density and actionability are categorically different.</p>
+
+      <p>That said, they're <strong>potentially complementary</strong> rather than competitive. A complete manufacturing AI platform would need both: Nexus for code-level intelligence, Squint for operator-level knowledge. An integration play (or an acqui-hire by a platform player) is plausible.</p>
+    </div>
+
+    <!-- SECTION 4: COMPETITIVE LANDSCAPE -->
+    <div class="section">
+      <h2 class="section-title">4. The Real Competitive Landscape</h2>
+
+      <p>If Squint isn't the competitor, who is? The answer reveals the structural opportunity:</p>
+
+      <h3>Vendor Copilots: The Single-Vendor Trap</h3>
+      <p>Both Siemens and Schneider Electric have launched AI copilots for PLC programming:</p>
+      <ul>
+        <li><strong>Siemens Industrial Copilot</strong> (with Microsoft): Integrated into TIA Portal; generates Structured Text code; adopted by thyssenkrupp for global rollout to 120,000+ engineers. Available only for Siemens PLCs.<a href="#src-4" class="cite">[4]</a><a href="#src-10" class="cite">[10]</a></li>
+        <li><strong>Schneider EcoStruxure Automation Expert Copilot</strong> (with Microsoft): Similar approach for Schneider's ecosystem. Supports end-to-end workflows from logic to HMI to testing — but only within EcoStruxure.<a href="#src-11" class="cite">[11]</a></li>
+      </ul>
+
+      <p><strong>The structural limitation:</strong> Each vendor's copilot only works with their own format. This is by design — vendor lock-in is the business model. Siemens has no incentive to help you read Rockwell code, and vice versa. The cross-vendor translation problem is structurally unattractive to incumbents because solving it <em>undermines their lock-in moat</em>.</p>
+
+      <div class="callout insight">
+        <strong>This is the key insight for the investment case:</strong> The incumbents (Siemens, Rockwell, Schneider) will never build what Nexus is building because it would erode their competitive advantage. They benefit from format incompatibility. This means the cross-vendor translation layer must come from a startup — and whoever builds it becomes the infrastructure layer that all cross-vendor AI tools depend on.
+      </div>
+
+      <h3>Adjacent Players</h3>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Company</th>
+            <th>What They Do</th>
+            <th>Overlap with Nexus</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Copia Automation</strong></td>
+            <td>Git-based version control for PLC code — "GitHub for industrial automation"</td>
+            <td>High. Copia has already solved parts of the format-parsing problem (they render PLC diffs). Nexus and Copia could either compete or integrate.<a href="#src-12" class="cite">[12]</a></td>
+          </tr>
+          <tr>
+            <td><strong>Augmentir</strong></td>
+            <td>AI-powered connected worker platform for frontline manufacturing</td>
+            <td>Low. Similar to Squint — operates at operator/knowledge layer, not code layer.</td>
+          </tr>
+          <tr>
+            <td><strong>Tulip Interfaces</strong></td>
+            <td>No-code manufacturing platform for frontline operations</td>
+            <td>Low-Medium. Tulip connects to PLCs for data but doesn't parse/modify code.</td>
+          </tr>
+          <tr>
+            <td><strong>Rockwell FactoryTalk</strong></td>
+            <td>Rockwell's analytics platform (vendor-specific)</td>
+            <td>Low. Works above the code layer; vendor-locked.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p><strong>Copia Automation is the most relevant adjacent player.</strong> They've built Git-based version control that can render visual diffs of PLC code across vendors — meaning they've already done some of the format-parsing work. Their "Copia AI" product references actual PLC project files for code generation.<a href="#src-12" class="cite">[12]</a> Whether Copia is a competitor, a potential partner, or an acquisition target depends on the depth of their format parsing vs. Nexus's compiler approach.</p>
+    </div>
+
+    <!-- SECTION 5: TECHNICAL MOAT -->
+    <div class="section">
+      <h2 class="section-title">5. Technical Moat Assessment</h2>
+
+      <h3>Why This Is Genuinely Hard</h3>
+      <p>The format translation problem is not solvable with an LLM. It requires deep compiler engineering:</p>
+      <ol>
+        <li><strong>Reverse engineering proprietary binary formats.</strong> Many PLC vendors store programs in proprietary binary formats that are undocumented. Parsing them requires byte-level reverse engineering — the same discipline used in malware analysis and security research. This is a scarce skill set.</li>
+        <li><strong>Semantic preservation across formats.</strong> A Rockwell AOI (Add-On Instruction) and a Siemens FB (Function Block) may perform the same function but are structured completely differently. Translating between them requires understanding the <em>intent</em> of the code, not just its syntax.</li>
+        <li><strong>Hardware-aware translation.</strong> PLC code is not abstract — it's tightly coupled to specific hardware (I/O modules, network configurations, safety controllers). A faithful translation must account for hardware differences between vendors.</li>
+        <li><strong>Real-time protocol integration.</strong> Connecting to live PLCs over EtherNet/IP, Modbus TCP, and OPC UA requires implementing industrial protocol stacks — these are not REST APIs. They're real-time, deterministic protocols with safety implications.</li>
+        <li><strong>Safety-critical correctness.</strong> A bug in a PLC program can cause physical harm or death. The compiler must produce provably correct translations — not "good enough" approximations. This standard of correctness is categorically different from web software.</li>
+      </ol>
+
+      <h3>Moat Depth Assessment</h3>
+      <p>Applying a defensibility framework:</p>
+      <ul>
+        <li><strong>Technical barriers:</strong> Very high. The format-parsing knowledge is cumulative — each vendor format takes months to years to fully reverse-engineer. A head start of even 12–18 months creates significant barriers.</li>
+        <li><strong>Network effects:</strong> Moderate. Each integration partner (system integrator, equipment OEM) who builds on the Nexus format creates ecosystem lock-in. The value of the format library increases with each vendor format supported.</li>
+        <li><strong>Data moat:</strong> Moderate-High. Every PLC program processed through the compiler becomes training data for the AI layer. Industrial control code is extremely scarce in public datasets — Nexus would accumulate a proprietary corpus of real-world PLC logic that no LLM training run has access to.</li>
+        <li><strong>Switching costs:</strong> High. Once AI tools and workflows are built on top of the Nexus format, switching to a different intermediate representation would require rewriting the entire tool chain.</li>
+      </ul>
+
+      <div class="callout warning">
+        <strong>Risk: Incumbent response.</strong> Rockwell ($8.3B revenue, $26B market cap) or Siemens ($85B revenue) could build a cross-vendor format if they chose to. But they won't — because cross-vendor interoperability undermines their lock-in premium. The structural incentive alignment is in Nexus's favor. The risk vector is not that incumbents build this, but that they block it — by restricting format access, changing binary formats with each software update, or acquiring the startup pre-maturity.
+      </div>
+    </div>
+
+    <!-- SECTION 6: MARKET & INVESTMENT -->
+    <div class="section">
+      <h2 class="section-title">6. Market Sizing &amp; Investment Thesis</h2>
+
+      <h3>TAM Framework</h3>
+      <p>The addressable market is not the $13.3B PLC hardware market — it's the value unlocked by making PLC code AI-accessible:</p>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Market Layer</th>
+            <th>Size (2025)</th>
+            <th>Size (2030)</th>
+            <th>Nexus Position</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>PLC Hardware</td>
+            <td>$13.3B</td>
+            <td>$16.4B<a href="#src-1" class="cite">[1]</a></td>
+            <td>Not targeting hardware; enables software layer on top</td>
+          </tr>
+          <tr>
+            <td>AI in Manufacturing</td>
+            <td>$34.2B</td>
+            <td>$155B<a href="#src-2" class="cite">[2]</a></td>
+            <td>Infrastructure layer: every AI-manufacturing tool needs PLC code access</td>
+          </tr>
+          <tr>
+            <td>Industrial Automation Software</td>
+            <td>$23.8B</td>
+            <td>$131.6B (2035)<a href="#src-13" class="cite">[13]</a></td>
+            <td>Format library enables new category of cross-vendor tools</td>
+          </tr>
+          <tr>
+            <td>Controls Engineering Services</td>
+            <td>$50B+ (est.)</td>
+            <td>Growing with complexity</td>
+            <td>Copilot reduces engineering hours; captures share of services spend</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Applying the 1000x Framework</h3>
+      <p>From our <a href="2026-03-09-finding-the-1000x.html">Finding the 1000x report</a> — does Nexus pass the six filters?</p>
+
+      <ol>
+        <li><strong>Inflection Test ✓</strong> — Foundation models can now generate and understand Structured Text code, but they can't read proprietary PLC formats. The inflection is: AI capability has crossed the threshold where it <em>could</em> reason about industrial control logic — if it could access the code. Nexus unlocks the gate.</li>
+        <li><strong>Category Creation Test ✓</strong> — "Cross-vendor PLC format library for AI" is not an existing category. There's no market map for this. If it succeeds, analysts will need a new term.</li>
+        <li><strong>Non-Consensus Test ✓</strong> — Most VCs would pass because: (a) it's deep industrial tech, not a category they understand, (b) the TAM is indirect (infrastructure layer, not direct revenue model), (c) "PLC compiler" doesn't sound like a VC pitch. This is exactly the kind of investment that looks weird.</li>
+        <li><strong>Increasing Returns Test — Partially.</strong> The data flywheel (more PLC code processed → better AI models) and the format library network effect (more vendor formats → more valuable platform) create increasing returns. However, it's not a consumer network effect — the winner-take-most dynamic depends on becoming the de facto standard, which requires ecosystem adoption.</li>
+        <li><strong>Founder Obsession Test — Unknown.</strong> Limited public information on the founding team. This is the most important diligence question to answer in person.</li>
+        <li><strong>Entry Discipline Test — Likely ✓</strong> — Early stage, likely low valuation. The math works if entry is at a reasonable seed/pre-seed price.</li>
+      </ol>
+
+      <h3>The Investment Case</h3>
+      <p><span class="order-tag first">1st Order</span> <strong>The copilot itself generates revenue.</strong> Controls engineers pay for tools that save them time. A vendor-agnostic copilot that works across Rockwell AND Siemens AND Beckhoff is immediately valuable to system integrators who work across multiple vendor ecosystems (which is most of them).</p>
+
+      <p><span class="order-tag second">2nd Order</span> <strong>The format library becomes infrastructure.</strong> If Nexus's vendor-neutral format becomes the standard way to represent PLC code, every AI-manufacturing startup, every MES system, every predictive maintenance platform becomes a potential customer or partner. This is the "picks and shovels" play for the $155B AI-in-manufacturing market.</p>
+
+      <p><span class="order-tag third">3rd Order</span> <strong>Cross-vendor interoperability changes the PLC market itself.</strong> If manufacturers can easily translate between vendor formats, vendor lock-in erodes. This threatens the incumbents' business model — but it creates massive value for manufacturers who currently pay a premium for being locked into a single vendor's ecosystem. The value transferred from vendor margins to manufacturer savings could be enormous.</p>
+    </div>
+
+    <!-- SECTION 7: RISKS -->
+    <div class="section">
+      <h2 class="section-title">7. Risks &amp; Open Questions</h2>
+
+      <h3>Key Risks</h3>
+      <ul>
+        <li><strong>Execution risk is the primary concern.</strong> Building a compiler for industrial PLC formats is extremely hard engineering. Reverse-engineering proprietary binary formats, ensuring safety-critical correctness, and supporting the long tail of vendor variants requires a team with rare expertise. Most AI startups can't recruit this talent.</li>
+        <li><strong>Vendor hostility.</strong> If Nexus gains traction, vendors may change their file formats to break compatibility, restrict access to documentation, or use IP claims to slow the startup. Rockwell in particular has a history of aggressively protecting its ecosystem.</li>
+        <li><strong>Go-to-market in industrial is slow.</strong> Manufacturing enterprises have 12–24 month procurement cycles, require extensive safety validation, and resist tools from unproven vendors. The sales cycle could burn capital faster than revenue grows.</li>
+        <li><strong>Safety liability.</strong> If a Nexus-translated PLC program causes equipment damage or injury, the liability exposure is significant. This isn't a "move fast and break things" domain.</li>
+        <li><strong>Copia as competitor.</strong> Copia Automation has already solved portions of the format-parsing problem for their Git version control product. If they pivot toward AI code generation/translation, they have a head start and existing customers.</li>
+      </ul>
+
+      <h3>Diligence Questions for the Founders</h3>
+      <ol>
+        <li><strong>Team background:</strong> Who on the team has reverse-engineered PLC binary formats before? What's their controls engineering depth? (This is the #1 predictor of success.)</li>
+        <li><strong>Format coverage:</strong> How many vendor formats do you currently parse? What's the fidelity of the translation? Can you round-trip (vendor format → Nexus → vendor format) without information loss?</li>
+        <li><strong>Safety validation:</strong> What's your approach to ensuring translated code is safety-equivalent to the original? Do you have any certifications or plans for TÜV / UL certification?</li>
+        <li><strong>Customer pipeline:</strong> Who are your first customers — system integrators, OEMs, or end-user manufacturers? What's the sales cycle looking like?</li>
+        <li><strong>Copia relationship:</strong> Are you aware of Copia Automation? How do you differentiate from their format-parsing capability?</li>
+        <li><strong>IP strategy:</strong> How do you handle the legal risk of reverse-engineering proprietary formats? Any vendor pushback yet?</li>
+        <li><strong>Live protocol access:</strong> How do you handle authentication, security, and safety when connecting to production PLCs? What happens if an AI agent sends a bad command?</li>
+      </ol>
+    </div>
+
+    <!-- SECTION 8: THESIS FIT -->
+    <div class="section">
+      <h2 class="section-title">8. Thesis Fit: Tomales Bay Capital</h2>
+
+      <p>Nexus Intelligence maps precisely onto the investment thesis developed across our previous reports:</p>
+
+      <ul>
+        <li><strong>Physical-world AI:</strong> This is the archetype of the "hard to build, hard to compete against" physical-world AI company from our <a href="2026-02-27-ai-legacy-disruption.html">Legacy Industries report</a>. Manufacturing is the largest underserved sector for AI; PLC code access is the bottleneck.</li>
+        <li><strong>Non-consensus:</strong> "PLC compiler for AI agents" would get a pass from most Sand Hill Road VCs. The market is non-obvious, the technology is niche, and the go-to-market is industrial. This is exactly the 1000x profile.</li>
+        <li><strong>Infrastructure layer:</strong> Like Stripe for payments or Twilio for communications, Nexus positions as the infrastructure layer that every application-layer company needs. This is the "picks and shovels" play for AI in manufacturing.</li>
+        <li><strong>Deep-tech + AI convergence:</strong> Directly in Jack's thesis (AI, energy, deep-tech, defense, robotics). Industrial control systems underpin all five of those sectors.</li>
+        <li><strong>Defensibility:</strong> The technical moat (format parsing, industrial protocol integration, safety-critical correctness) is not replicable by a team with just AI skills. This requires rare controls engineering expertise — exactly the kind of founder-market depth that our 1000x framework prioritizes.</li>
+      </ul>
+
+      <div class="callout insight">
+        <strong>The bottom line for Jack:</strong> This is the kind of deal the Founders Fund framework says to look for — deeply non-consensus, technically hard, with a founder-market fit that requires obsessive domain knowledge. The question is entirely about execution and team. If the founders have genuine controls engineering depth AND can build a compiler-grade product, this is a bet worth making. If they're AI generalists trying to learn PLC formats on the fly, pass.
+      </div>
+    </div>
+
+    <!-- SOURCES -->
+    <div class="sources">
+      <h2>Sources</h2>
+      <ol>
+        <li id="src-1">Mordor Intelligence. <span class="source-pub">"PLC Market — Share, Size & Growth."</span> January 2026. PLC market $13.33B (2026) → $16.4B by 2031, CAGR 4.24%. <a href="https://www.mordorintelligence.com/industry-reports/programmable-logic-controller-plc-market">Link</a></li>
+        <li id="src-2">MarketsAndMarkets. <span class="source-pub">"AI in Manufacturing Market Size, Share, Trends and Growth Drivers 2032."</span> $34.18B (2025) → $155.04B by 2030, CAGR 35.3%. <a href="https://www.marketsandmarkets.com/Market-Reports/artificial-intelligence-manufacturing-market-72679105.html">Link</a></li>
+        <li id="src-3">PR Newswire. <span class="source-pub">"Squint Raises $40M Series B to Expand Agentic Manufacturing and Accelerate Human Potential with AI."</span> August 12, 2025. <a href="https://www.prnewswire.com/news-releases/squint-raises-40m-series-b-to-expand-agentic-manufacturing-and-accelerate-human-potential-with-ai-302527083.html">Link</a></li>
+        <li id="src-4">Siemens. <span class="source-pub">"Siemens Industrial Copilot."</span> 2025. Developed in partnership with Microsoft; integrated into TIA Portal. <a href="https://www.siemens.com/en-us/company/insights/generative-ai-industrial-copilot/">Link</a></li>
+        <li id="src-5">ManpowerGroup. <span class="source-pub">"Solving the Talent Shortage: Industry Insights and Strategies."</span> 2025. 26% of manufacturing workforce aged 55+. <a href="https://www.mpgtalentsolutions.com/us/en/insights/talent-shortage-survey-insights">Link</a></li>
+        <li id="src-6">Wikipedia. <span class="source-pub">"IEC 61131-3."</span> Current (4th) edition published May 2025. <a href="https://en.wikipedia.org/wiki/IEC_61131-3">Link</a></li>
+        <li id="src-7">Industrial Monitor Direct. <span class="source-pub">"IEC 61131-3 Explained: PLC Languages and Compliance Reality."</span> March 2026. "Direct code transfer between brands requires manual rewriting, not simple conversion." <a href="https://industrialmonitordirect.com/blogs/knowledgebase/iec-61131-3-plc-programming-standard-explained">Link</a></li>
+        <li id="src-8">Nexus Intelligence. <span class="source-pub">"Nexus Copilot — An Open, Vendor-Agnostic Design Environment."</span> Company website. <a href="https://getnexus.ai/">Link</a></li>
+        <li id="src-9">Squint. <span class="source-pub">"Why We Raised $13M from Sequoia to Empower More Industrial Workers."</span> Series A announcement. <a href="https://www.squint.ai/blog/series-a">Link</a></li>
+        <li id="src-10">Microsoft News. <span class="source-pub">"Siemens and Microsoft Scale Industrial AI."</span> October 24, 2024. thyssenkrupp rollout to 120,000+ engineers. <a href="https://news.microsoft.com/source/2024/10/24/siemens-and-microsoft-scale-industrial-ai/">Link</a></li>
+        <li id="src-11">Schneider Electric Blog. <span class="source-pub">"Engineering at Scale: How AI Is Transforming PLC Coding."</span> November 14, 2025. <a href="https://blog.se.com/digital-transformation/artificial-intelligence/2025/11/14/engineering-at-scale-how-ai-is-transforming-plc-coding/">Link</a></li>
+        <li id="src-12">Copia Automation. <span class="source-pub">"Copia AI — Context-Driven PLC Code Intelligence."</span> December 2025. <a href="https://copia.io/product/copia-ai/">Link</a></li>
+        <li id="src-13">InsightAce Analytic. <span class="source-pub">"AI in Industrial Automation Market Size."</span> February 2026. $23.76B (2025) → $131.62B by 2035, CAGR 18.8%. <a href="https://www.insightaceanalytic.com/report/ai-in-industrial-automation-market/2739">Link</a></li>
+        <li id="src-14">DAVRON. <span class="source-pub">"The Engineering Talent Shortage Explained: Specialization Gaps, Retirements & Workforce Trends (2026)."</span> 2026. <a href="https://www.davron.net/engineering-talent-shortage-explained-2026/">Link</a></li>
+        <li id="src-15">Schneider Electric Blog. <span class="source-pub">"Bridging the Gap: Building the Future Workforce of U.S. Manufacturing."</span> December 2025. <a href="https://blog.se.com/industry/2025/12/10/building-the-future-workforce-us-manufacturing/">Link</a></li>
+        <li id="src-16">Market Growth Reports / GM Insights. <span class="source-pub">"PLC Market Size, Share & Forecast Report."</span> Top 5 vendors hold ~60% of global share. <a href="https://www.marketgrowthreports.com/market-reports/programmable-logic-controller-plc-market-109400">Link</a></li>
+        <li id="src-17">Augmentir. <span class="source-pub">"Industrial Copilots: Top 10 Vendors to Watch in 2025."</span> July 2025. <a href="https://www.augmentir.com/blog/top-10-genai-powered-industrial-copilot-vendors-to-watch-in-2025">Link</a></li>
+        <li id="src-18">Automate Show. <span class="source-pub">"Navigating the Era of Industrial Copilots in Manufacturing."</span> 2026. <a href="https://www.automateshow.com/blog/navigating-the-era-of-industrial-copilots-in-manufacturing">Link</a></li>
+        <li id="src-19">SiliconANGLE. <span class="source-pub">"Squint Gets $40M in Funding to Accelerate Human-Machine Collaboration in Manufacturing."</span> August 13, 2025. Founded by ex-Splunk exec Devin Bhushan; 30+ AR patents. <a href="https://siliconangle.com/2025/08/12/squint-gets-40m-funding-accelerate-human-machine-collaboration-manufacturing/">Link</a></li>
+      </ol>
+    </div>
+
+    <p class="generated">Generated by Galileo 🔭 · March 18, 2026</p>
+  </div>
+</body>
+</html>
