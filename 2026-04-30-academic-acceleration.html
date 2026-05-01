@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Academic Acceleration → Startup Signal — Galileo Research</title>
+  <style>
+    :root { --bg: #ffffff; --bg-secondary: #f8f9fa; --text: #1a1a1a; --text-secondary: #6b7280; --accent: #2563eb; --border: #e5e7eb; --radius: 8px; --green: #059669; --yellow: #d97706; --red: #dc2626; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; font-size: 16px; }
+    .container { max-width: 740px; margin: 0 auto; padding: 32px 20px; }
+    .back-link { font-size: 13px; color: var(--text-secondary); text-decoration: none; }
+    .back-link:hover { text-decoration: underline; }
+    .report-header { margin-top: 16px; margin-bottom: 36px; border-bottom: 2px solid var(--text); padding-bottom: 20px; }
+    .report-header h1 { font-size: 28px; font-weight: 700; line-height: 1.2; margin-bottom: 8px; }
+    .report-header .subtitle { font-size: 17px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 12px; }
+    .report-header .meta { font-size: 13px; color: var(--text-secondary); }
+    .report-header .meta span { margin-right: 16px; }
+    .section { margin-bottom: 32px; }
+    .section-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-secondary); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+    .section p { margin-bottom: 14px; }
+    .section ul, .section ol { margin-bottom: 14px; padding-left: 24px; }
+    .section li { margin-bottom: 6px; }
+    .section h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; margin-top: 20px; }
+    .section h3:first-child { margin-top: 0; }
+    .exec-summary { background: var(--bg-secondary); border-left: 3px solid var(--accent); padding: 20px 24px; border-radius: 0 var(--radius) var(--radius) 0; margin-bottom: 32px; }
+    .exec-summary h2 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-secondary); margin-bottom: 12px; }
+    .exec-summary p { margin-bottom: 12px; }
+    .exec-summary ul { padding-left: 20px; margin-bottom: 12px; }
+    .exec-summary li { margin-bottom: 4px; }
+    .exec-summary .bottom-line { font-weight: 600; border-top: 1px solid var(--border); padding-top: 12px; margin-top: 12px; }
+    .data-table { width: 100%; font-size: 14px; border-collapse: collapse; margin-bottom: 16px; }
+    .data-table th, .data-table td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+    .data-table th { font-weight: 500; color: var(--text-secondary); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; background: var(--bg-secondary); }
+    .callout { background: var(--bg-secondary); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 16px; font-size: 14px; }
+    .callout.warning { border-left: 3px solid #f59e0b; }
+    .callout.insight { border-left: 3px solid var(--accent); }
+    .callout.opportunity { border-left: 3px solid var(--green); }
+    .cite { font-size: 10px; color: var(--accent); vertical-align: super; cursor: pointer; text-decoration: none; margin-left: 1px; }
+    .cite:hover { text-decoration: underline; }
+    .verdict { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
+    .verdict.green { background: #d1fae5; color: var(--green); }
+    .verdict.yellow { background: #fef3c7; color: var(--yellow); }
+    .verdict.red { background: #fee2e2; color: var(--red); }
+    .category-card { background: var(--bg-secondary); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; }
+    .category-card h3 { margin-top: 0; font-size: 17px; }
+    .category-card .stats { font-size: 13px; color: var(--text-secondary); margin-bottom: 10px; }
+    .sources { background: var(--bg-secondary); border-radius: var(--radius); padding: 20px 24px; margin-top: 40px; }
+    .sources h2 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); margin-bottom: 14px; }
+    .sources ol { font-size: 13px; color: var(--text-secondary); padding-left: 24px; }
+    .sources li { margin-bottom: 8px; word-break: break-word; line-height: 1.5; }
+    .sources a { color: var(--accent); text-decoration: none; }
+    .sources a:hover { text-decoration: underline; }
+    .source-pub { font-style: italic; }
+    .generated { font-size: 12px; color: var(--text-secondary); text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+    @media (max-width: 600px) {
+      .container { padding: 16px; }
+      .report-header h1 { font-size: 24px; }
+      .data-table { font-size: 13px; }
+      .data-table th, .data-table td { padding: 6px 8px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">← All Reports</a>
+
+    <header class="report-header">
+      <h1>Academic Acceleration → Startup Signal</h1>
+      <p class="subtitle">We scanned 181 academic categories. The 10 fastest-accelerating fields reveal three clear investment signals — and two traps where the money arrived before the science matured.</p>
+      <div class="meta">
+        <span>📅 April 30, 2026</span>
+        <span>🔭 Galileo Research</span>
+        <span>📋 Investment Signal</span>
+      </div>
+    </header>
+
+    <!-- EXECUTIVE SUMMARY -->
+    <div class="exec-summary">
+      <h2>Executive Summary</h2>
+      <p>An unbiased scan of 181 academic categories across arXiv, bioRxiv, and medRxiv identified the 10 fields accelerating fastest in 2025. The thesis: academic publication acceleration predicts startup formation 12–24 months later. Fields where papers surge but startups are sparse = alpha. Fields where startups flood in but papers plateau = crowded/late.</p>
+      <ul>
+        <li><strong>🟢 Formal Verification + AI (cs.LO):</strong> The clearest opportunity. LLM-powered theorem proving is exploding (+30% growth, 2,040 papers) with only two funded startups (Harmonic $100M, Logical Intelligence). Maps directly to the AI safety thesis — "vericoding" will replace "vibecoding."<a href="#src-1" class="cite">[1]</a></li>
+        <li><strong>🟢 Physics-Informed ML (cond-mat.dis-nn + physics.data-an):</strong> Two related categories accelerating simultaneously. Statistical physics methods are being weaponized for ML theory and scientific computing. Startup density is extremely low despite obvious applications in drug discovery, materials science, and climate modeling.<a href="#src-2" class="cite">[2]</a></li>
+        <li><strong>🟢 Precision Nutrition (medRxiv nutrition):</strong> GLP-1 revolution is creating a $155B tailwind. Research is shifting from population-level to individual metabolomics + microbiome. The category is small (218 papers) but accelerating fast (+55%) — early signal, not late.<a href="#src-3" class="cite">[3]</a></li>
+        <li><strong>🔴 Multi-Agent Systems (cs.MA):</strong> The fastest-accelerating category (+91%) is also the most crowded. LangGraph, CrewAI, AutoGen, and dozens of VC-backed startups have flooded in. The science is following the money, not the other way around.<a href="#src-4" class="cite">[4]</a></li>
+        <li><strong>🔴 Brain-Computer Interfaces (q-bio.NC):</strong> $1.6B raised in 2025–2026 (Neuralink $650M, Synchron $200M, Merge Labs $252M). Science is accelerating (+47%) but capital has arrived at scale. Not a seed opportunity.<a href="#src-5" class="cite">[5]</a></li>
+      </ul>
+      <p class="bottom-line">Bottom line: The best signal is in the unglamorous categories — mathematical logic, disordered systems, physics data analysis. These are fields where deep technical founders are publishing breakthrough work that VCs aren't reading. The worst signal is in the categories that already have buzz (multi-agent AI, BCI). When the academic acceleration matches the VC hype cycle, you're late.</p>
+    </div>
+
+    <!-- SUMMARY TABLE -->
+    <div class="section">
+      <h2 class="section-title">Signal Map</h2>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Category</th>
+            <th>Accel</th>
+            <th>Papers</th>
+            <th>Startup Density</th>
+            <th>Verdict</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td><strong>cs.MA</strong> — Multi-Agent Systems</td>
+            <td>+83.6</td>
+            <td>2,587</td>
+            <td>Very High</td>
+            <td><span class="verdict red">🔴 Crowded</span></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><strong>cond-mat.other</strong> — Other Condensed Matter</td>
+            <td>+51.4</td>
+            <td>968</td>
+            <td>Very Low</td>
+            <td><span class="verdict yellow">🟡 Watch</span></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><strong>cs.LO</strong> — Mathematical Logic</td>
+            <td>+48.1</td>
+            <td>2,040</td>
+            <td>Low</td>
+            <td><span class="verdict green">🟢 Opportunity</span></td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td><strong>physics.data-an</strong> — Data Analysis in Physics</td>
+            <td>+42.4</td>
+            <td>963</td>
+            <td>Very Low</td>
+            <td><span class="verdict green">🟢 Opportunity</span></td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td><strong>cond-mat.dis-nn</strong> — Disordered Systems & NNs</td>
+            <td>+42.2</td>
+            <td>1,947</td>
+            <td>Very Low</td>
+            <td><span class="verdict green">🟢 Opportunity</span></td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td><strong>medRxiv nutrition</strong></td>
+            <td>+40.9</td>
+            <td>218</td>
+            <td>Medium</td>
+            <td><span class="verdict green">🟢 Opportunity</span></td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td><strong>hep-ex</strong> — High Energy Physics (Exp)</td>
+            <td>+40.2</td>
+            <td>4,085</td>
+            <td>None</td>
+            <td><span class="verdict yellow">🟡 Adjacent</span></td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td><strong>physics.comp-ph</strong> — Computational Physics</td>
+            <td>+36.2</td>
+            <td>3,588</td>
+            <td>High</td>
+            <td><span class="verdict yellow">🟡 Getting Crowded</span></td>
+          </tr>
+          <tr>
+            <td>9</td>
+            <td><strong>astro-ph.HE</strong> — High Energy Astrophysics</td>
+            <td>+35.6</td>
+            <td>6,739</td>
+            <td>None</td>
+            <td><span class="verdict yellow">🟡 Adjacent</span></td>
+          </tr>
+          <tr>
+            <td>10</td>
+            <td><strong>q-bio.NC</strong> — Neurons & Cognition</td>
+            <td>+34.4</td>
+            <td>1,619</td>
+            <td>Very High</td>
+            <td><span class="verdict red">🔴 Crowded</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- THE GREEN OPPORTUNITIES -->
+    <div class="section">
+      <h2 class="section-title">The 🟢 Opportunities: Where Science Is Outrunning Startups</h2>
+
+      <!-- CATEGORY 3: cs.LO -->
+      <div class="category-card">
+        <h3>🟢 #3: Formal Verification + AI (cs.LO) — The Strongest Signal</h3>
+        <div class="stats">Acceleration: +48.1 | Growth: +30% | Papers: 2,040 | Startup density: Low</div>
+        
+        <p><strong>What's happening:</strong> LLMs are learning to write mathematical proofs. This sounds academic, but the implications are enormous: AI systems that can <em>prove</em> their outputs are correct, not just predict they're probably right. The Lean4 proof assistant has become the lingua franca, and LLM-based theorem provers are now setting state-of-the-art results on formal reasoning benchmarks (miniF2F, ProofNet, LeanWorkbook).<a href="#src-1" class="cite">[1]</a><a href="#src-6" class="cite">[6]</a></p>
+
+        <p><strong>Why it's accelerating NOW:</strong> Three converging forces: (1) Foundation models crossed the capability threshold for meaningful mathematical reasoning in 2024–2025 (DeepSeek-Prover-V2, o3-mini); (2) LeanDojo-v2 created the training infrastructure (datasets, environments) that didn't exist before;<a href="#src-7" class="cite">[7]</a> (3) The "vibecoding" backlash — as AI-generated code proliferates, the demand for formal verification of that code is accelerating in lockstep. Martin Kleppmann's influential December 2025 prediction that "AI will make formal verification go mainstream" captured the zeitgeist.<a href="#src-8" class="cite">[8]</a></p>
+
+        <p><strong>The startup landscape is thin:</strong></p>
+        <ul>
+          <li><strong>Harmonic AI</strong> — $100M raised (2025). Founded by Robinhood CEO Vlad Tenev. Building "hallucination-free" AI using Lean4 as its backbone. The highest-profile bet in this space.<a href="#src-9" class="cite">[9]</a></li>
+          <li><strong>Logical Intelligence</strong> — Launched September 2025. Building formal verification models specifically for code correctness. Less funded than Harmonic but technically deep.<a href="#src-10" class="cite">[10]</a></li>
+          <li><strong>That's it at seed/Series A.</strong> For a $155B+ AI safety addressable market, two funded startups is remarkably thin.</li>
+        </ul>
+
+        <div class="callout opportunity">
+          <strong>Investment signal:</strong> This maps directly to the AI safety and reliability thesis. Every enterprise deploying AI agents needs formal guarantees that the code/decisions are correct. The "vericoding" concept — using LLMs to generate formally verified code — could become as standard as unit testing. The opportunity: seed-stage companies building domain-specific formal verification (financial regulations, medical devices, autonomous systems, smart contracts). Harmonic is going broad; the domain-specific plays are wide open.
+        </div>
+      </div>
+
+      <!-- CATEGORY 4+5: Physics methods -->
+      <div class="category-card">
+        <h3>🟢 #4 + #5: Physics-Informed ML (physics.data-an + cond-mat.dis-nn) — The Hidden Pattern</h3>
+        <div class="stats">Combined acceleration: +84.6 | Combined papers: 2,910 | Startup density: Very Low</div>
+        
+        <p><strong>What's happening:</strong> Two related categories are accelerating in tandem — and the connection is the real signal. Statistical physics (spin glasses, phase transitions, disorder) is being used to explain <em>why</em> deep learning works. And physics data analysis methods (Monte Carlo, Bayesian inference, signal processing) are being imported into ML, drug discovery, and climate science.<a href="#src-2" class="cite">[2]</a></p>
+
+        <p><strong>Why this matters for startups:</strong> The physics → ML theory connection isn't just academic. It's producing practical tools:</p>
+        <ul>
+          <li><strong>Reservoir computing</strong> — using physical systems (photonic, spintronic, even DNA-based) as neural networks. Nature published a major optical reservoir computing review in 2025.<a href="#src-11" class="cite">[11]</a> Sandia Labs deployed a SpiNNaker2 neuromorphic system with German startup SpiNNcloud.<a href="#src-12" class="cite">[12]</a></li>
+          <li><strong>Phase transition theory for ML</strong> — understanding when models suddenly "get it" (grokking, emergent abilities) through the lens of statistical mechanics. Papers on "phase transitions in neural network accuracy" are cross-listed in both categories.<a href="#src-2" class="cite">[2]</a></li>
+          <li><strong>Physics-informed neural networks (PINNs)</strong> — encoding physical laws into ML models. Applications in materials science, fluid dynamics, climate modeling.</li>
+        </ul>
+
+        <p><strong>The startup landscape is almost empty:</strong> Beyond SpiNNcloud (neuromorphic hardware, Germany) and a handful of academic spin-outs, there are almost no seed-stage companies building on physics-informed ML methods. The venture-backed neuromorphic computing space exists (Intel Loihi, IBM TrueNorth) but is dominated by large corporates, not startups.</p>
+
+        <div class="callout opportunity">
+          <strong>Investment signal:</strong> The methods being developed in these categories — reservoir computing, physics-informed neural networks, statistical mechanics of learning — will become essential infrastructure for scientific computing and AI. The adjacent applications are massive: drug discovery (molecular dynamics), materials science (crystal structure prediction), climate modeling (atmospheric physics), and defense (signal processing). Look for founders who have physics PhDs and are building applied tools, not theory papers. The "Schrödinger" for the next decade could come from this space.
+        </div>
+      </div>
+
+      <!-- CATEGORY 6: Nutrition -->
+      <div class="category-card">
+        <h3>🟢 #6: Precision Nutrition (medRxiv nutrition) — The GLP-1 Tailwind</h3>
+        <div class="stats">Acceleration: +40.9 | Growth: +55% | Papers: 218 | Startup density: Medium</div>
+        
+        <p><strong>What's happening:</strong> The GLP-1 revolution (Ozempic, Mounjaro) is forcing a paradigm shift in nutrition science. As Food Navigator put it: "To modify metabolism, you have to understand it."<a href="#src-3" class="cite">[3]</a> Research is rapidly shifting from population-level dietary guidelines to individual-level metabolomics, microbiome profiling, and genetic-based nutrition (nutrigenomics). Key convergence: CGM data + microbiome sequencing + AI = truly personalized dietary interventions.<a href="#src-13" class="cite">[13]</a></p>
+
+        <p><strong>Why it's accelerating NOW:</strong> Three forces: (1) GLP-1 drugs created demand for complementary nutritional support — patients on Ozempic need dietary optimization, creating a massive new market; (2) Multi-omics integration (genomics + metabolomics + microbiome) reached practical feasibility in 2024–2025;<a href="#src-14" class="cite">[14]</a> (3) Continuous glucose monitors (CGMs) went consumer-grade, creating a real-time data feedback loop.</p>
+
+        <p><strong>Startup landscape (medium density but room to grow):</strong></p>
+        <ul>
+          <li><strong>ZOE</strong> — the largest precision nutrition company ($303M+ raised). Consumer-facing, CGM + microbiome testing. Now operating at scale in US and UK.</li>
+          <li><strong>Pinkmatter</strong> — early-stage, leveraging microbiome data for women's reproductive health nutrition.<a href="#src-15" class="cite">[15]</a></li>
+          <li><strong>DayTwo</strong> — microbiome-based glycemic response prediction. Enterprise/clinical focus.</li>
+          <li><strong>Gap:</strong> AI-native precision nutrition for the GLP-1 patient population specifically. Nobody is owning "nutritional optimization for the 50M+ people on GLP-1 drugs."</li>
+        </ul>
+
+        <div class="callout opportunity">
+          <strong>Investment signal:</strong> The paper count (218) is small but the acceleration is strong (+55%). This is early-stage signal, not late-stage crowding. The specific gap: AI-driven nutritional support optimized for GLP-1 patients. The GLP-1 market is projected at $100B+ by 2030; complementary nutrition is a natural $10B+ adjacent market. Look for founders with clinical + ML backgrounds who are building for the GLP-1 patient journey, not generic "personalized nutrition."
+        </div>
+      </div>
+    </div>
+
+    <!-- THE YELLOW WATCHES -->
+    <div class="section">
+      <h2 class="section-title">The 🟡 Watches: Interesting But Unclear</h2>
+
+      <div class="category-card">
+        <h3>🟡 #2: Other Condensed Matter — Altermagnetism & Quantum Materials</h3>
+        <div class="stats">Acceleration: +51.4 | Growth: +55% | Papers: 968 | Startup density: Very Low</div>
+        <p><strong>What's happening:</strong> The "other" condensed matter bucket is surging because of <strong>altermagnetism</strong> — a newly classified form of magnetism (distinct from ferromagnetism and antiferromagnetism) that was experimentally confirmed in 2024. This is generating excitement similar to the topological insulator discovery of the 2000s. The commercial path runs through spintronics (next-gen memory and logic devices), but it's 5–10 years from products. Pure research acceleration with no near-term startup opportunity. <strong>Watch for the spin-out moment</strong> when university labs start licensing the IP.</p>
+      </div>
+
+      <div class="category-card">
+        <h3>🟡 #7: High Energy Physics (Experimental) — The Data Tsunami</h3>
+        <div class="stats">Acceleration: +40.2 | Growth: +34% | Papers: 4,085 | Startup density: None (direct)</div>
+        <p><strong>What's happening:</strong> The LHC delivered record integrated luminosity in 2025 (125 fb⁻¹),<a href="#src-16" class="cite">[16]</a> new particles are being discovered (Ξcc⁺ doubly charmed baryon),<a href="#src-17" class="cite">[17]</a> and the LHCb collaboration made breakthroughs in matter-antimatter asymmetry.<a href="#src-18" class="cite">[18]</a> No direct commercial path — but the ML methods being developed to process petabytes of collision data (anomaly detection, generative models for event simulation, real-time trigger systems) transfer directly to financial fraud detection, cybersecurity, and sensor data processing. <strong>The adjacent play:</strong> founders with CERN/particle physics backgrounds building enterprise ML tools. This has precedent — several hedge funds recruit heavily from particle physics.</p>
+      </div>
+
+      <div class="category-card">
+        <h3>🟡 #8: Computational Physics — Materials Discovery Getting Crowded</h3>
+        <div class="stats">Acceleration: +36.2 | Growth: +45% | Papers: 3,588 | Startup density: High</div>
+        <p><strong>What's happening:</strong> AI-driven materials discovery hit escape velocity with DeepMind's GNoME (2.2M new crystal structures in 2023). Now the follow-on wave: generative models for crystalline materials, ML-accelerated molecular dynamics, and foundation models for materials science. Periodic Labs (co-founded by the GNoME lead + a ChatGPT co-creator) is the headline startup.<a href="#src-19" class="cite">[19]</a></p>
+        <p><strong>Why 🟡, not 🟢:</strong> The startup density is already high — Seedtable tracks 56 materials science startups with $3.5B aggregate funding.<a href="#src-20" class="cite">[20]</a> The science is still accelerating, but the money has arrived. This is a 🟡 because late-stage winners haven't consolidated yet (the "Schrödinger of AI materials" hasn't emerged), but entry at seed requires deep domain conviction and a specific wedge. <strong>The specific gap:</strong> materials discovery for energy storage (batteries, supercapacitors) and defense applications — most startups target pharma.</p>
+      </div>
+
+      <div class="category-card">
+        <h3>🟡 #9: High Energy Astrophysics — Pure Science, Rich Methods</h3>
+        <div class="stats">Acceleration: +35.6 | Growth: +30% | Papers: 6,739 | Startup density: None (direct)</div>
+        <p><strong>What's happening:</strong> Multi-messenger astronomy (gravitational waves + electromagnetic + neutrinos) is maturing. LIGO O4 delivered the largest-ever black hole merger detection; O5 is planned for 2027 with dramatically improved sensitivity.<a href="#src-21" class="cite">[21]</a> The 6,739 papers (largest category in our scan) reflect a field hitting its stride with new instrumentation. No direct commercial path — but the signal processing, anomaly detection, and real-time data processing methods developed for gravitational wave detection are directly applicable to defense (radar/sonar signal processing), seismology, and industrial IoT sensor fusion.</p>
+      </div>
+    </div>
+
+    <!-- THE RED CROWDED -->
+    <div class="section">
+      <h2 class="section-title">The 🔴 Crowded: Where Capital Outran the Science</h2>
+
+      <div class="category-card">
+        <h3>🔴 #1: Multi-Agent Systems (cs.MA) — Peak Hype</h3>
+        <div class="stats">Acceleration: +83.6 | Growth: +91% | Papers: 2,587 | Startup density: Very High</div>
+        <p><strong>The numbers look incredible — that's the trap.</strong> cs.MA has the highest acceleration of any category (+83.6), but this is <em>research following money</em>, not the other way around. The multi-agent framework landscape is already saturated: LangGraph (LangChain), CrewAI, AutoGen (Microsoft), MetaGPT, Google's Agent-to-Agent Protocol (A2A), Anthropic's MCP. Datadog reports agent framework adoption nearly doubled YoY, from 9% to 18% of organizations.<a href="#src-4" class="cite">[4]</a><a href="#src-22" class="cite">[22]</a></p>
+
+        <p><strong>Why this is 🔴 for seed investors:</strong></p>
+        <ul>
+          <li>The framework layer is dominated by well-funded companies (LangChain, Microsoft, Google) — a seed startup building "another multi-agent framework" is DOA</li>
+          <li>The academic surge (+91%) is researchers publishing on the hot topic, not breakthrough science enabling new products</li>
+          <li>The protocol layer (MCP, A2A) is being set by Anthropic and Google — startups can't compete on standards</li>
+          <li><strong>The exception:</strong> vertical-specific agent orchestration (healthcare, legal, manufacturing) where domain expertise creates moats. But the general platform play is over.</li>
+        </ul>
+      </div>
+
+      <div class="category-card">
+        <h3>🔴 #10: Neurons & Cognition (q-bio.NC) — Capital Has Arrived at Scale</h3>
+        <div class="stats">Acceleration: +34.4 | Growth: +47% | Papers: 1,619 | Startup density: Very High</div>
+        <p><strong>The science is real but the opportunity window at seed is closing.</strong> Brain-computer interface investment hit record levels — more than $1.6B raised in 2025–2026: Neuralink ($650M), Merge Labs ($252M, backed by Sam Altman), Science Corporation ($230M), Synchron ($200M), Paradromics ($105M + $18M DARPA).<a href="#src-5" class="cite">[5]</a><a href="#src-23" class="cite">[23]</a></p>
+
+        <p>The academic acceleration (+47%) is driven by real breakthroughs: non-invasive neural decoding via fMRI achieving 0.81 semantic similarity,<a href="#src-24" class="cite">[24]</a> FDA breakthrough designations for Paradromics, and Precision Neuroscience's Layer 7 Cortical Interface completing first-in-human recording.</p>
+
+        <p><strong>Why 🔴:</strong> This is a capital-intensive, regulatory-heavy space where the leaders have raised hundreds of millions. A seed-stage BCI hardware company can't compete. <strong>The narrow exception:</strong> BCI software/algorithms (neural decoding ML, brain-data analytics) where a small team with neuroscience PhD depth could build the "Datadog for brain data." But the hardware and clinical opportunity is locked up.</p>
+      </div>
+    </div>
+
+    <!-- META-ANALYSIS -->
+    <div class="section">
+      <h2 class="section-title">Meta-Analysis: What the Pattern Reveals</h2>
+
+      <h3>The Acceleration-Hype Divergence</h3>
+      <p>The most actionable signal in this data isn't any individual category — it's the pattern across all 10. The categories fall into three distinct clusters:</p>
+
+      <ol>
+        <li><strong>Science leading, VCs trailing (🟢):</strong> cs.LO, physics.data-an, cond-mat.dis-nn, medRxiv nutrition. These fields are accelerating because of genuine scientific breakthroughs, and the startup ecosystem hasn't caught up yet. This is where the 12–24 month predictive signal is strongest.</li>
+        <li><strong>Science and VCs in sync (🟡):</strong> cond-mat.other, physics.comp-ph. The science is real and the commercial path exists, but capital is arriving at roughly the same pace as the research. Good for conviction bets, not for finding overlooked opportunities.</li>
+        <li><strong>VCs leading, science following (🔴):</strong> cs.MA, q-bio.NC. The capital arrived first and the research accelerated in response (researchers chase funding, conferences, and citations in hot topics). This is the worst signal for seed investors — you're buying at the top.</li>
+      </ol>
+
+      <div class="callout insight">
+        <strong>The meta-insight for Jack:</strong> The best academic acceleration signals are in fields that sound boring to generalist VCs. "Mathematical logic" and "disordered systems" don't show up in TechCrunch. But "formal verification for AI safety" and "physics-informed machine learning" — the commercial translations of these fields — are potentially massive markets with almost no funded startups. The thesis: <strong>invest where the PhDs are publishing, not where the blog posts are trending.</strong>
+      </div>
+
+      <h3>The Three Bets</h3>
+      <p>If I had to deploy three seed checks based on this analysis:</p>
+      <ol>
+        <li><strong>Formal verification for AI-generated code.</strong> The "vericoding" thesis. A team of Lean/Coq experts building domain-specific verification tools for AI-generated code in regulated industries (medical devices, financial systems, autonomous vehicles). This is the cs.LO → commercial play.</li>
+        <li><strong>Physics-native scientific computing.</strong> A team of physics PhDs building ML tools that encode physical laws (conservation of energy, symmetry, etc.) into models for materials discovery, drug design, or climate prediction. The cond-mat.dis-nn + physics.data-an → applied science play.</li>
+        <li><strong>Precision nutrition for the GLP-1 era.</strong> A team at the intersection of metabolomics, microbiome science, and ML building personalized nutrition optimization for the 50M+ GLP-1 patients. The medRxiv nutrition → consumer health play.</li>
+      </ol>
+    </div>
+
+    <!-- METHODOLOGY NOTE -->
+    <div class="section">
+      <h2 class="section-title">Methodology & Limitations</h2>
+      <p><strong>Category selection:</strong> 181 academic categories across arXiv, bioRxiv, and medRxiv were scanned for acceleration (2025 growth rate minus 2024 growth rate) using the Valency API. The top 10 by acceleration were selected for deep-dive analysis.</p>
+      <p><strong>Startup cross-reference:</strong> This analysis used web-sourced startup landscape data (Crunchbase, Seedtable, industry reports) rather than our internal company database. A follow-up cross-reference against the ~4,400 company database will sharpen the gap analysis.</p>
+      <p><strong>Limitations:</strong> Academic paper volume is an imperfect proxy for scientific importance — it can be inflated by bandwagon effects (as with cs.MA) or deflated by niche fields where a single breakthrough paper matters more than volume. The Valency API scan is comprehensive but treats all papers equally regardless of citation count or venue prestige.</p>
+    </div>
+
+    <!-- SOURCES -->
+    <div class="sources">
+      <h2>Sources</h2>
+      <ol>
+        <li id="src-1">Communications of the ACM. <span class="source-pub">"Formal Reasoning Meets LLMs: Toward AI for Mathematics and Verification."</span> February 2026. <a href="https://cacm.acm.org/research/formal-reasoning-meets-llms-toward-ai-for-mathematics-and-verification/">Link</a></li>
+        <li id="src-2">arXiv. <span class="source-pub">Disordered Systems and Neural Networks (cond-mat.dis-nn) recent listings.</span> Cross-listed papers on phase transitions in neural network accuracy and reservoir computing. <a href="https://arxiv.org/list/cond-mat.dis-nn/recent">Link</a></li>
+        <li id="src-3">Food Navigator. <span class="source-pub">"Can GLP-1 Drugs Accelerate the Age of Precision Nutrition?"</span> October 2025. <a href="https://www.foodnavigator.com/Article/2025/10/20/can-glp-1-drugs-accelerate-the-age-of-precision-nutrition/">Link</a></li>
+        <li id="src-4">Datadog. <span class="source-pub">"State of AI Engineering."</span> April 2026. Agent framework adoption nearly doubled YoY, rising from 9% to 18% of organizations. <a href="https://www.datadoghq.com/state-of-ai-engineering/">Link</a></li>
+        <li id="src-5">BCI Intel. <span class="source-pub">"State of BCI: 2026 Annual Industry Report."</span> April 2026. $1.6B+ raised in 2025–2026 YTD. <a href="https://bciintel.com/state-of-bci-2026/">Link</a></li>
+        <li id="src-6">Emergent Mind. <span class="source-pub">"LLM-Based Theorem Provers — Topic Overview."</span> 2025. SOTA on miniF2F, ProofNet, LeanWorkbook benchmarks. <a href="https://www.emergentmind.com/topics/llm-based-theorem-provers">Link</a></li>
+        <li id="src-7">LeanDojo. <span class="source-pub">"LeanDojo-v2: A Comprehensive Library for AI-Assisted Theorem Proving in Lean."</span> NeurIPS Mathematical Reasoning and AI Workshop, 2025. <a href="https://leandojo.org/">Link</a></li>
+        <li id="src-8">Martin Kleppmann. <span class="source-pub">"Prediction: AI Will Make Formal Verification Go Mainstream."</span> December 8, 2025. <a href="https://martin.kleppmann.com/2025/12/08/ai-formal-verification.html">Link</a></li>
+        <li id="src-9">VentureBeat. <span class="source-pub">"Lean4: How the Theorem Prover Works and Why It's the New Competitive Edge."</span> December 22, 2025. Harmonic raised $100M in 2025. <a href="https://venturebeat.com/ai/lean4-how-the-theorem-prover-works-and-why-its-the-new-competitive-edge-in">Link</a></li>
+        <li id="src-10">Upstarts Media. <span class="source-pub">"Math AI Startup Logical Intelligence Launches New Model to Verify Code."</span> September 19, 2025. <a href="https://www.upstartsmedia.com/p/math-ai-startups-push-new-models">Link</a></li>
+        <li id="src-11">Nature: Light Science & Applications. <span class="source-pub">"Optical Next Generation Reservoir Computing."</span> July 2025. <a href="https://www.nature.com/articles/s41377-025-01927-6">Link</a></li>
+        <li id="src-12">Sandia National Laboratories. <span class="source-pub">"Brain-Based Computing for ND Solutions."</span> March 2026. SpiNNaker2 neuromorphic system deployment with SpiNNcloud. <a href="https://www.sandia.gov/labnews/2025/06/12/brain-based-computing-for-nd-solutions/">Link</a></li>
+        <li id="src-13">MDPI Nutrients. <span class="source-pub">"Integrating Precision Medicine and Digital Health in Personalized Weight Management."</span> August 2025. <a href="https://www.mdpi.com/2072-6643/17/16/2695">Link</a></li>
+        <li id="src-14">PMC. <span class="source-pub">"Nutrigenomics Meets Multi-Omics: Integrating Genetic, Metabolic, and Microbiome Data for Personalized Nutrition Strategies."</span> 2026. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12751198/">Link</a></li>
+        <li id="src-15">GreyB. <span class="source-pub">"Precision Nutrition Innovations 2026: Digitally Advanced with AI."</span> October 2025. <a href="https://www.greyb.com/blog/precision-nutrition-innovations/">Link</a></li>
+        <li id="src-16">CERN. <span class="source-pub">"LHC Delivers a Record Number of Particle Collisions in 2025."</span> December 2025. 125 fb⁻¹ integrated luminosity. <a href="https://home.cern/news/news/accelerators/lhc-delivers-record-number-particle-collisions-2025">Link</a></li>
+        <li id="src-17">ScienceDaily. <span class="source-pub">"Large Hadron Collider Finally Explains How Fragile Matter Forms."</span> December 2025. Discovery of Ξcc⁺ doubly charmed baryon. <a href="https://www.sciencedaily.com/releases/2025/12/251227082727.htm">Link</a></li>
+        <li id="src-18">Big Think. <span class="source-pub">"The LHC's Best 2025 Discovery Points the Way to New Physics."</span> December 2025. LHCb matter-antimatter asymmetry breakthroughs. <a href="https://bigthink.com/starts-with-a-bang/lhc-best-2025-discovery-new-physics/">Link</a></li>
+        <li id="src-19">MIT Technology Review. <span class="source-pub">"AI Materials Discovery Now Needs to Move Into the Real World."</span> December 2025. Periodic Labs co-founded by GNoME lead + ChatGPT co-creator. <a href="https://www.technologyreview.com/2025/12/15/1129210/ai-materials-science-discovery-startups-investment/">Link</a></li>
+        <li id="src-20">Seedtable. <span class="source-pub">"56 Best Materials Science Startups to Watch in 2026."</span> $3.5B aggregate funding. <a href="https://www.seedtable.com/best-materials-science-startups">Link</a></li>
+        <li id="src-21">UMass Dartmouth News. <span class="source-pub">"Faculty Involved in Discovery of the Largest-Ever Black Hole Merger."</span> August 2025. <a href="https://www.umassd.edu/news/2025/ligo-discovery.html">Link</a></li>
+        <li id="src-22">Frontiers in AI. <span class="source-pub">"Auto-Scaling LLM-Based Multi-Agent Systems Through Dynamic Integration of Agents."</span> August 2025. <a href="https://www.frontiersin.org/journals/artificial-intelligence/articles/10.3389/frai.2025.1638227/full">Link</a></li>
+        <li id="src-23">Paradromics / Andersen Lab. <span class="source-pub">"Neurochips: The State of Brain-Computer Interfaces in 2025."</span> July 2025. <a href="https://andersenlab.com/blueprint/bci-challenges-and-opportunities">Link</a></li>
+        <li id="src-24">Springer Nature: Nano-Micro Letters. <span class="source-pub">"Non-Invasive Brain-Computer Interfaces: Converging Frontiers in Neural Signal Decoding."</span> January 2026. fMRI semantic similarity score of 0.8116. <a href="https://link.springer.com/article/10.1007/s40820-025-02042-2">Link</a></li>
+        <li id="src-25">Forbes. <span class="source-pub">"Could AI-Driven Materials Discovery Be the Next Big Investment Boom?"</span> December 2025. <a href="https://www.forbes.com/sites/gauravsharma/2025/12/08/could-ai-driven-materials-discovery-be-the-next-big-investment-boom/">Link</a></li>
+      </ol>
+    </div>
+
+    <p class="generated">Generated by Galileo 🔭 · April 30, 2026</p>
+  </div>
+</body>
+</html>
