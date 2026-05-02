@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anthropic: Investment Memo — Galileo Research</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
+  <style>
+    :root { --bg: #ffffff; --bg-secondary: #f8f9fa; --text: #1a1a1a; --text-secondary: #6b7280; --accent: #D97706; --accent-light: #FEF3C7; --border: #e5e7eb; --radius: 8px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; font-size: 16px; }
+    .container { max-width: 780px; margin: 0 auto; padding: 32px 20px; }
+    .back-link { font-size: 13px; color: var(--text-secondary); text-decoration: none; }
+    .back-link:hover { text-decoration: underline; }
+
+    /* Header */
+    .report-header { margin-top: 16px; margin-bottom: 36px; border-bottom: 2px solid var(--text); padding-bottom: 20px; }
+    .report-header h1 { font-size: 28px; font-weight: 700; line-height: 1.2; margin-bottom: 8px; }
+    .report-header .subtitle { font-size: 17px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 12px; }
+    .report-header .meta { font-size: 13px; color: var(--text-secondary); }
+    .report-header .meta span { margin-right: 16px; }
+
+    /* Key Metrics Strip */
+    .metrics-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 32px; }
+    .metric-card { background: var(--bg-secondary); border-radius: var(--radius); padding: 16px; text-align: center; border-top: 3px solid var(--accent); }
+    .metric-card .label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); margin-bottom: 4px; }
+    .metric-card .value { font-size: 24px; font-weight: 700; color: var(--text); }
+    .metric-card .sub { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+
+    /* Sections */
+    .section { margin-bottom: 32px; }
+    .section-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-secondary); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+    .section p { margin-bottom: 14px; }
+    .section ul, .section ol { margin-bottom: 14px; padding-left: 24px; }
+    .section li { margin-bottom: 6px; }
+    .section h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; margin-top: 20px; }
+    .section h3:first-child { margin-top: 0; }
+
+    /* Executive Summary */
+    .exec-summary { background: var(--bg-secondary); border-left: 3px solid var(--accent); padding: 20px 24px; border-radius: 0 var(--radius) var(--radius) 0; margin-bottom: 32px; }
+    .exec-summary h2 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-secondary); margin-bottom: 12px; }
+    .exec-summary p { margin-bottom: 12px; }
+    .exec-summary ul { padding-left: 20px; margin-bottom: 12px; }
+    .exec-summary li { margin-bottom: 4px; }
+    .exec-summary .bottom-line { font-weight: 600; border-top: 1px solid var(--border); padding-top: 12px; margin-top: 12px; }
+
+    /* Tables */
+    .data-table { width: 100%; font-size: 14px; border-collapse: collapse; margin-bottom: 16px; }
+    .data-table th, .data-table td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+    .data-table th { font-weight: 500; color: var(--text-secondary); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; background: var(--bg-secondary); }
+    .data-table td.right { text-align: right; }
+
+    /* Charts */
+    .chart-container { background: var(--bg-secondary); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; }
+    .chart-container canvas { max-height: 320px; }
+    .chart-label { font-size: 12px; color: var(--text-secondary); text-align: center; margin-top: 8px; }
+
+    /* Quotes */
+    .quote-card { background: var(--bg-secondary); border-left: 3px solid var(--accent); padding: 16px 20px; margin-bottom: 14px; border-radius: 0 var(--radius) var(--radius) 0; }
+    .quote-card blockquote { font-style: italic; margin-bottom: 8px; line-height: 1.6; font-size: 15px; }
+    .quote-card .attribution { font-size: 13px; color: var(--text-secondary); font-weight: 500; }
+
+    /* Callouts */
+    .callout { background: var(--bg-secondary); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 16px; font-size: 14px; }
+    .callout.warning { border-left: 3px solid #f59e0b; }
+    .callout.insight { border-left: 3px solid var(--accent); }
+    .callout.breaking { border-left: 3px solid #dc2626; background: #fef2f2; }
+
+    /* Citations */
+    .cite { font-size: 10px; color: var(--accent); vertical-align: super; cursor: pointer; text-decoration: none; margin-left: 1px; }
+    .cite:hover { text-decoration: underline; }
+
+    /* Sources */
+    .sources { background: var(--bg-secondary); border-radius: var(--radius); padding: 20px 24px; margin-top: 40px; }
+    .sources h2 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); margin-bottom: 14px; }
+    .sources ol { font-size: 13px; color: var(--text-secondary); padding-left: 24px; }
+    .sources li { margin-bottom: 8px; word-break: break-word; line-height: 1.5; }
+    .sources a { color: var(--accent); text-decoration: none; }
+    .sources a:hover { text-decoration: underline; }
+
+    .generated { font-size: 12px; color: var(--text-secondary); text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+
+    /* Tags */
+    .tag { display: inline-block; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 2px 8px; border-radius: 3px; margin-right: 4px; }
+    .tag.bull { background: #dcfce7; color: #166534; }
+    .tag.bear { background: #fef2f2; color: #991b1b; }
+    .tag.breaking { background: #fee2e2; color: #b91c1c; }
+    .tag.new { background: #dbeafe; color: #1d4ed8; }
+
+    @media (max-width: 600px) {
+      .container { padding: 16px; }
+      .report-header h1 { font-size: 24px; }
+      .metrics-strip { grid-template-columns: repeat(2, 1fr); }
+      .data-table { font-size: 13px; }
+      .data-table th, .data-table td { padding: 6px 8px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">← All Reports</a>
+
+    <header class="report-header">
+      <h1>Anthropic: Investment Memo</h1>
+      <p class="subtitle">The fastest-growing enterprise AI company in history is approaching a $1 trillion valuation — and may be the defining company of the AI era.</p>
+      <div class="meta">
+        <span>📅 May 2, 2026</span>
+        <span>🔭 Galileo Research</span>
+        <span>🏷️ AI / Foundation Models / Enterprise</span>
+      </div>
+    </header>
+
+    <!-- KEY METRICS STRIP -->
+    <div class="metrics-strip">
+      <div class="metric-card">
+        <div class="label">Valuation</div>
+        <div class="value">$380B</div>
+        <div class="sub">Series G (Feb 2026)</div>
+      </div>
+      <div class="metric-card">
+        <div class="label">ARR Run-Rate</div>
+        <div class="value">$30B+</div>
+        <div class="sub">Apr 2026 (est. ~$40B)</div>
+      </div>
+      <div class="metric-card">
+        <div class="label">Total Raised</div>
+        <div class="value">$72B+</div>
+        <div class="sub">18 rounds, 90+ investors</div>
+      </div>
+      <div class="metric-card">
+        <div class="label">Secondary Mkt</div>
+        <div class="value">$1T</div>
+        <div class="sub">Forge Global (Apr 2026)</div>
+      </div>
+    </div>
+
+    <!-- EXECUTIVE SUMMARY -->
+    <div class="exec-summary">
+      <h2>Executive Summary</h2>
+      <p>Anthropic, the maker of Claude, has become the fastest-growing enterprise software company in history. From $87M in annualized revenue in January 2024 to $30B+ in April 2026 — a roughly 345x increase in 27 months — the company has surpassed OpenAI on secondary markets and is now entertaining offers for a $50B funding round at a $900B valuation.<a href="#src-1" class="cite">[1]</a></p>
+      <ul>
+        <li><strong>Revenue:</strong> $30B+ ARR (Apr 2026), up from $9B at end of 2025 — ~1,400% YoY growth<a href="#src-2" class="cite">[2]</a></li>
+        <li><strong>Claude Code:</strong> $2.5B ARR standalone; 4% of all public GitHub commits; 29M daily VS Code installs<a href="#src-3" class="cite">[3]</a></li>
+        <li><strong>Enterprise dominance:</strong> 500+ customers spending >$1M/yr; 8 of Fortune 10 are Claude customers<a href="#src-3" class="cite">[3]</a></li>
+        <li><strong>Upcoming:</strong> ~$50B round at $850-900B valuation (closing within weeks); IPO potentially Oct 2026<a href="#src-4" class="cite">[4]</a><a href="#src-5" class="cite">[5]</a></li>
+        <li><strong>First M&A:</strong> Coefficient Bio ($400M) — expanding into life sciences/drug discovery<a href="#src-6" class="cite">[6]</a></li>
+      </ul>
+      <p class="bottom-line">Bottom line: Anthropic is the rare company that is simultaneously the revenue growth leader, the safety/research leader, and the enterprise market leader in foundation model AI. The risk is execution at scale and the capital intensity of the race. But the trajectory is historically unprecedented.</p>
+    </div>
+
+    <!-- SECTION 1: COMPANY OVERVIEW -->
+    <div class="section">
+      <h2 class="section-title">1. Company Overview</h2>
+      <table class="data-table">
+        <tr><th style="width:35%">Detail</th><th>Info</th></tr>
+        <tr><td><strong>Founded</strong></td><td>2021, San Francisco</td></tr>
+        <tr><td><strong>CEO / Co-Founder</strong></td><td>Dario Amodei (ex-VP Research, OpenAI)</td></tr>
+        <tr><td><strong>President / Co-Founder</strong></td><td>Daniela Amodei (ex-VP Operations, OpenAI)</td></tr>
+        <tr><td><strong>Structure</strong></td><td>Public Benefit Corporation (PBC); governed by Long-Term Benefit Trust</td></tr>
+        <tr><td><strong>Employees</strong></td><td>~1,500 (Mar 2026)<a href="#src-7" class="cite">[7]</a></td></tr>
+        <tr><td><strong>Flagship Product</strong></td><td>Claude (Opus 4.6, Sonnet 4.5) — API, Claude Code, Claude for Work, Cowork</td></tr>
+        <tr><td><strong>Mission</strong></td><td>"Build reliable, interpretable, and steerable AI systems"</td></tr>
+        <tr><td><strong>Key Differentiation</strong></td><td>Constitutional AI; safety-first approach; enterprise-grade; multi-cloud (AWS, GCP, Azure)</td></tr>
+      </table>
+      <p>Anthropic was founded by Dario and Daniela Amodei along with several other ex-OpenAI researchers who departed over disagreements about safety practices and commercialization speed. The founding team includes Tom Brown (GPT-3 lead author), Chris Olah (interpretability pioneer), and Jared Kaplan (scaling laws co-author).<a href="#src-8" class="cite">[8]</a></p>
+      <p>In April 2026, Anthropic restructured leadership with the creation of <strong>Anthropic Labs</strong>, co-headed by Mike Krieger (Instagram co-founder) and Ben Mann (Anthropic co-founder), signaling a product-forward push ahead of a potential IPO.<a href="#src-9" class="cite">[9]</a></p>
+    </div>
+
+    <!-- SECTION 2: FUNDING HISTORY -->
+    <div class="section">
+      <h2 class="section-title">2. Funding History & Valuation</h2>
+
+      <div class="callout breaking">
+        <span class="tag breaking">BREAKING</span> <strong>Apr 29-30, 2026:</strong> Anthropic has received multiple preemptive offers to raise ~$50B at a $850-900B valuation. Board decision expected in May; round could close within two weeks.<a href="#src-4" class="cite">[4]</a><a href="#src-5" class="cite">[5]</a><a href="#src-10" class="cite">[10]</a>
+      </div>
+
+      <table class="data-table">
+        <tr><th>Round</th><th>Date</th><th class="right">Amount</th><th class="right">Valuation</th><th>Lead Investor(s)</th></tr>
+        <tr><td>Series A</td><td>May 2021</td><td class="right">$125M</td><td class="right">$623M</td><td>Jaan Tallinn, various</td></tr>
+        <tr><td>Series B</td><td>Apr 2022</td><td class="right">$580M</td><td class="right">~$4B</td><td>Sam Bankman-Fried / FTX</td></tr>
+        <tr><td>Corporate</td><td>Late 2022</td><td class="right">$300M</td><td class="right">—</td><td>Google (10% stake)</td></tr>
+        <tr><td>Series C</td><td>May 2023</td><td class="right">$450M</td><td class="right">~$5B</td><td>Spark Capital</td></tr>
+        <tr><td>Corporate</td><td>2023-24</td><td class="right">$8B</td><td class="right">—</td><td>Amazon (cumulative)</td></tr>
+        <tr><td>Corporate</td><td>Oct 2023</td><td class="right">$2B+</td><td class="right">—</td><td>Google (additional)</td></tr>
+        <tr><td>Series D</td><td>Mar 2024</td><td class="right">$2.75B</td><td class="right">$18.4B</td><td>Menlo Ventures</td></tr>
+        <tr><td>Series E</td><td>Mar 2025</td><td class="right">$3.5B</td><td class="right">$61.5B</td><td>Lightspeed Venture Partners</td></tr>
+        <tr><td>Series F</td><td>Sep 2025</td><td class="right">$13B</td><td class="right">$183B</td><td>ICONIQ, Fidelity, Lightspeed</td></tr>
+        <tr><td><strong>Series G</strong></td><td><strong>Feb 2026</strong></td><td class="right"><strong>$30B</strong></td><td class="right"><strong>$380B</strong></td><td><strong>GIC, Coatue</strong></td></tr>
+        <tr style="background:#fef3c7"><td><em>Rumored</em></td><td><em>May 2026</em></td><td class="right"><em>~$50B</em></td><td class="right"><em>$850-900B</em></td><td><em>TBD</em></td></tr>
+      </table>
+      <p class="chart-label">Total raised to date: ~$72B+ across 18 rounds from 90+ investors<a href="#src-11" class="cite">[11]</a></p>
+
+      <div class="chart-container">
+        <canvas id="valuationChart"></canvas>
+        <p class="chart-label">Valuation trajectory from founding through rumored next round. Vertical axis is log-scale.</p>
+      </div>
+
+      <div class="chart-container">
+        <canvas id="fundingChart"></canvas>
+        <p class="chart-label">Funding raised per round (equity rounds only, excludes corporate investments).</p>
+      </div>
+
+      <p><strong>Key investor roster:</strong> GIC (Singapore sovereign wealth), Coatue, Amazon ($8B), Google ($2.3B+), ICONIQ, Fidelity, Lightspeed, Founders Fund, Sequoia, Bessemer, General Catalyst, Menlo Ventures, D.E. Shaw, Dragoneer, BlackRock, Blackstone, Goldman Sachs, JPMorgan, Morgan Stanley, Temasek, Qatar Investment Authority, Microsoft, NVIDIA.<a href="#src-3" class="cite">[3]</a></p>
+    </div>
+
+    <!-- SECTION 3: PRODUCT & TECHNOLOGY -->
+    <div class="section">
+      <h2 class="section-title">3. Product & Technology</h2>
+
+      <h3>Model Family</h3>
+      <p>Anthropic's Claude family is built on Constitutional AI (CAI) — a training approach where the model is aligned to a set of principles rather than purely through human feedback. The current flagship models:<a href="#src-12" class="cite">[12]</a></p>
+      <table class="data-table">
+        <tr><th>Model</th><th>Strengths</th><th>Pricing (per 1M tokens)</th></tr>
+        <tr><td><strong>Opus 4.6</strong></td><td>High-complexity reasoning, 1M token context, Agent Teams, 14.5hr task horizon</td><td>$5 input / $25 output</td></tr>
+        <tr><td><strong>Sonnet 4.5</strong></td><td>Fast code & agent workflows, improved tool use, computer-use</td><td>$3 input / $15 output</td></tr>
+      </table>
+
+      <h3>Key Products</h3>
+      <ul>
+        <li><strong>Claude Code</strong> — Agentic coding tool (CLI + VS Code + JetBrains). $2.5B ARR. 4% of GitHub commits. Benchmark: 72.5% SWE-bench. Used by Air India, Cognizant (350K associates).<a href="#src-3" class="cite">[3]</a></li>
+        <li><strong>Claude Cowork</strong> — Desktop agent for knowledge work (macOS). File management, data extraction, report drafting. Open-source plugins for legal, sales, marketing, data analysis.<a href="#src-12" class="cite">[12]</a></li>
+        <li><strong>Claude for Healthcare</strong> — HIPAA-ready. CMS, ICD-10, PubMed integrations. Coefficient Bio acquisition extends into drug discovery.<a href="#src-6" class="cite">[6]</a></li>
+        <li><strong>Claude for Finance</strong> — Excel add-in; connectors to LSEG, Moody's, Aiera. Pre-built DCF, comp analysis, initiation agent skills.<a href="#src-12" class="cite">[12]</a></li>
+        <li><strong>Claude Code Security</strong> — Reasoning-based zero-day vulnerability scanning (launched Feb 20, 2026).</li>
+        <li><strong>Model Context Protocol (MCP)</strong> — Open standard for secure real-time connections between AI and enterprise systems. Available on Bedrock, Vertex, Azure Foundry.<a href="#src-12" class="cite">[12]</a></li>
+      </ul>
+
+      <h3>Distribution</h3>
+      <p>Claude is the <strong>only frontier AI model available on all three major clouds</strong>: AWS Bedrock, Google Vertex AI, and Microsoft Azure Foundry. Anthropic trains on diversified hardware (AWS Trainium, Google TPUs, NVIDIA GPUs), enabling workload-optimized inference.<a href="#src-3" class="cite">[3]</a></p>
+    </div>
+
+    <!-- SECTION 4: REVENUE / ARR -->
+    <div class="section">
+      <h2 class="section-title">4. Revenue & Growth</h2>
+
+      <div class="chart-container">
+        <canvas id="revenueChart"></canvas>
+        <p class="chart-label">Annualized revenue run-rate over time. Sources: Sacra, SaaStr, Axios, The Information, Anthropic.<a href="#src-2" class="cite">[2]</a><a href="#src-13" class="cite">[13]</a><a href="#src-14" class="cite">[14]</a></p>
+      </div>
+
+      <h3>Revenue Breakdown</h3>
+      <table class="data-table">
+        <tr><th>Segment</th><th>% of Revenue</th><th>Notes</th></tr>
+        <tr><td>Token-based API</td><td>~70-75%</td><td>Pay-per-token; enterprise + cloud resellers</td></tr>
+        <tr><td>Subscriptions (Pro/Max/Team/Enterprise)</td><td>~10-15%</td><td>$20-$200/mo consumer; custom enterprise</td></tr>
+        <tr><td>Reserved capacity / enterprise commitments</td><td>~10-15%</td><td>Fixed-rate contracts; "model units"</td></tr>
+      </table>
+
+      <div class="callout insight">
+        <strong>So what?</strong> Anthropic is growing revenue at ~1,400% annually — from $1B to $30B+ in ~16 months. For context, <strong>no enterprise software company in history has reached $30B ARR this fast</strong>. Salesforce took 20 years. Microsoft's Azure took 15. Anthropic did it in under 3 years from first dollar.<a href="#src-14" class="cite">[14]</a>
+      </div>
+
+      <h3>Key Customer Metrics</h3>
+      <ul>
+        <li>300,000+ business customers (Oct 2025), accounting for ~80% of revenue<a href="#src-12" class="cite">[12]</a></li>
+        <li>500+ customers spending >$1M annually (up from 12 two years ago)<a href="#src-3" class="cite">[3]</a></li>
+        <li>$100K+ customers grew 7x in the past year<a href="#src-3" class="cite">[3]</a></li>
+        <li>8 of Fortune 10 are Claude customers<a href="#src-3" class="cite">[3]</a></li>
+        <li>Major deployments: Deloitte (470K employees, 150 countries), Snowflake ($200M multi-year deal), Goldman Sachs, Cognizant (350K associates)<a href="#src-12" class="cite">[12]</a></li>
+      </ul>
+
+      <div class="callout warning">
+        <strong>Caveat:</strong> Anthropic reports cloud reseller revenue (AWS, Google, Microsoft) on a <em>gross</em> basis — counting total end-customer spend as revenue and partner payouts as expenses. This inflates top-line figures relative to net-reporting peers.<a href="#src-12" class="cite">[12]</a>
+      </div>
+    </div>
+
+    <!-- SECTION 5: COMPETITIVE LANDSCAPE -->
+    <div class="section">
+      <h2 class="section-title">5. Competitive Landscape</h2>
+
+      <div class="chart-container">
+        <canvas id="competitorChart"></canvas>
+        <p class="chart-label">Latest primary valuation and total capital raised across frontier AI companies.<a href="#src-15" class="cite">[15]</a><a href="#src-16" class="cite">[16]</a><a href="#src-17" class="cite">[17]</a></p>
+      </div>
+
+      <table class="data-table">
+        <tr><th>Company</th><th class="right">Valuation</th><th class="right">Total Raised</th><th class="right">Est. ARR</th><th>Notes</th></tr>
+        <tr style="background:var(--accent-light)"><td><strong>Anthropic</strong></td><td class="right">$380B*</td><td class="right">$72B+</td><td class="right">$30B+</td><td>$1T on secondaries; $900B round imminent</td></tr>
+        <tr><td>OpenAI</td><td class="right">$852B</td><td class="right">$180B</td><td class="right">$16B+†</td><td>ChatGPT, GPT-5, Sora; targeting Q4 2026 IPO</td></tr>
+        <tr><td>xAI</td><td class="right">~$250B</td><td class="right">~$42B</td><td class="right"><$1B</td><td>Grok; merged with SpaceX; IPO June 2026</td></tr>
+        <tr><td>Mistral AI</td><td class="right">~$13B</td><td class="right">~$1.5B</td><td class="right">—</td><td>European champion; open-source + API</td></tr>
+        <tr><td>Cohere</td><td class="right">$6.8B</td><td class="right">~$1B</td><td class="right">—</td><td>Enterprise RAG focus; Canadian</td></tr>
+      </table>
+      <p style="font-size:13px; color:var(--text-secondary);">*Primary round valuation; secondary market trading at ~$1T. †OpenAI ARR estimate varies by source; reported ~$16.8B in early 2026.</p>
+
+      <div class="callout insight">
+        <strong>So what?</strong> Anthropic has reportedly <strong>surpassed OpenAI in revenue growth</strong> while spending approximately 4x less on model training.<a href="#src-13" class="cite">[13]</a> On secondary markets, Anthropic at $1T now trades above OpenAI at $880B — a stunning reversal from 12 months ago when OpenAI was valued at 10x Anthropic.<a href="#src-18" class="cite">[18]</a> The key differentiator: Anthropic's enterprise-first strategy is generating real, recurring revenue, while competitors lean more heavily on consumer or speculative capital.
+      </div>
+    </div>
+
+    <!-- SECTION 6: TAM -->
+    <div class="section">
+      <h2 class="section-title">6. Market Opportunity (TAM)</h2>
+
+      <div class="chart-container">
+        <canvas id="tamChart"></canvas>
+        <p class="chart-label">Generative AI market size projections from leading research firms.<a href="#src-19" class="cite">[19]</a><a href="#src-20" class="cite">[20]</a></p>
+      </div>
+
+      <p>The generative AI market is projected to grow from ~$83B in 2026 to $988B by 2035 (31.6% CAGR per GMI)<a href="#src-19" class="cite">[19]</a>, with Grand View Research estimating $325B by 2033 and Precedence Research projecting $1.2T by 2035<a href="#src-20" class="cite">[20]</a>. Enterprise AI spending alone tripled to $37B in 2025.<a href="#src-21" class="cite">[21]</a></p>
+
+      <p>Anthropic's addressable market extends across multiple vectors:</p>
+      <ul>
+        <li><strong>Enterprise AI/API</strong> — the core market today (~$83B in 2026)</li>
+        <li><strong>Developer tools / coding</strong> — Claude Code competing with GitHub Copilot, Cursor, Devin</li>
+        <li><strong>Healthcare / life sciences</strong> — Claude for Healthcare + Coefficient Bio acquisition</li>
+        <li><strong>Financial services</strong> — Goldman Sachs partnership; DCF/comp analysis tools</li>
+        <li><strong>Government / defense</strong> — Claude for Government (active despite Dept. of War standoff)</li>
+        <li><strong>Knowledge work automation</strong> — Cowork targets legal, sales, marketing, data analysis</li>
+      </ul>
+    </div>
+
+    <!-- SECTION 7: WHAT THEY'RE SAYING -->
+    <div class="section">
+      <h2 class="section-title">7. 💬 What They're Saying</h2>
+
+      <div class="quote-card">
+        <blockquote>"AGI-level AI will arrive in approximately 2 years. Software engineers may be replaced in 6-12 months. 50% of white-collar jobs could be disrupted in 1-5 years."</blockquote>
+        <div class="attribution">— Dario Amodei, CEO, Anthropic (Davos 2026)<a href="#src-22" class="cite">[22]</a></div>
+      </div>
+
+      <div class="quote-card">
+        <blockquote>"Our strong preference is to continue to serve the Department and our warfighters — with our two requested safeguards in place."</blockquote>
+        <div class="attribution">— Dario Amodei, Statement on Department of War discussions (Feb 26, 2026)<a href="#src-23" class="cite">[23]</a></div>
+      </div>
+
+      <div class="quote-card">
+        <blockquote>"In 2025, Claude transformed how developers work, and in 2026, it will do the same for knowledge work."</blockquote>
+        <div class="attribution">— Kate Jensen, Head of Americas, Anthropic (Feb 24, 2026)<a href="#src-24" class="cite">[24]</a></div>
+      </div>
+
+      <div class="quote-card">
+        <blockquote>"The team's ability to rapidly scale its offerings further positions Anthropic as a leader in a highly competitive AI market."</blockquote>
+        <div class="attribution">— Philippe Laffont, Founder & PM, Coatue (Series G co-lead)<a href="#src-3" class="cite">[3]</a></div>
+      </div>
+
+      <div class="quote-card">
+        <blockquote>"Anthropic is the clear category leader in enterprise AI, demonstrating breakthrough capabilities and setting a new standard for safety, performance, and scale."</blockquote>
+        <div class="attribution">— Choo Yong Cheen, CIO Private Equity, GIC (Series G co-lead)<a href="#src-3" class="cite">[3]</a></div>
+      </div>
+
+      <div class="quote-card">
+        <blockquote>"Everybody wants to be part of a generational opportunity in AI, and right now, Anthropic is [it]."</blockquote>
+        <div class="attribution">— Glen Anderson, CEO, Rainmaker Securities (Apr 2026)<a href="#src-18" class="cite">[18]</a></div>
+      </div>
+
+      <div class="quote-card">
+        <blockquote>"Claude is increasingly becoming critical to how businesses work."</blockquote>
+        <div class="attribution">— Krishna Rao, CFO, Anthropic (Feb 2026)<a href="#src-3" class="cite">[3]</a></div>
+      </div>
+    </div>
+
+    <!-- SECTION 8: TEAM -->
+    <div class="section">
+      <h2 class="section-title">8. Leadership & Team</h2>
+
+      <table class="data-table">
+        <tr><th>Name</th><th>Role</th><th>Background</th></tr>
+        <tr><td><strong>Dario Amodei</strong></td><td>CEO, Co-Founder</td><td>VP of Research at OpenAI; PhD Physics (Princeton)</td></tr>
+        <tr><td><strong>Daniela Amodei</strong></td><td>President, Co-Founder</td><td>VP of Operations at OpenAI; previously at Stripe</td></tr>
+        <tr><td><strong>Tom Brown</strong></td><td>Co-Founder</td><td>Lead author of GPT-3 paper</td></tr>
+        <tr><td><strong>Chris Olah</strong></td><td>Co-Founder</td><td>Pioneer of neural network interpretability; Google Brain</td></tr>
+        <tr><td><strong>Jared Kaplan</strong></td><td>Co-Founder</td><td>Co-author of scaling laws; Johns Hopkins professor</td></tr>
+        <tr><td><strong>Mike Krieger</strong></td><td>Co-Head, Anthropic Labs</td><td>Co-founder of Instagram</td></tr>
+        <tr><td><strong>Ben Mann</strong></td><td>Co-Head, Anthropic Labs</td><td>Anthropic co-founder; infrastructure lead</td></tr>
+        <tr><td><strong>Krishna Rao</strong></td><td>CFO</td><td>Former CFO of Stripe</td></tr>
+      </table>
+      <p>Approximately 1,500 employees as of March 2026, with 93% CEO approval rating on Glassdoor.<a href="#src-7" class="cite">[7]</a> The team is unusually research-heavy for a company at this scale — co-founders include multiple authors of foundational AI papers (GPT-3, scaling laws, interpretability).</p>
+    </div>
+
+    <!-- SECTION 9: KEY RISKS -->
+    <div class="section">
+      <h2 class="section-title">9. Key Risks & Open Questions</h2>
+
+      <h3><span class="tag bear">RISK</span> Capital Intensity & Path to Profitability</h3>
+      <p>Despite $30B+ ARR, Anthropic is almost certainly not profitable. Training frontier models costs billions; compute infrastructure is the largest expense. The company has raised $72B+ and is seeking $50B more. At a $900B valuation, even $30B ARR implies a 30x revenue multiple — requiring continued hypergrowth to justify.<a href="#src-4" class="cite">[4]</a></p>
+
+      <h3><span class="tag bear">RISK</span> Revenue Recognition / Gross Basis Reporting</h3>
+      <p>Anthropic reports cloud reseller revenue gross (total customer spend), not net (after partner payouts). This inflates top-line figures. The actual take-rate on Bedrock/Vertex revenue is lower than headline numbers suggest.<a href="#src-12" class="cite">[12]</a></p>
+
+      <h3><span class="tag bear">RISK</span> Department of War Standoff</h3>
+      <p>In February-March 2026, Anthropic publicly clashed with the Department of War over AI safeguards, risking designation as a "supply chain risk." The company is challenging this in court. This creates regulatory/political risk and potential government revenue loss.<a href="#src-23" class="cite">[23]</a><a href="#src-25" class="cite">[25]</a></p>
+
+      <h3><span class="tag bear">RISK</span> Competitive Moat Durability</h3>
+      <p>OpenAI ($852B, GPT-5), Google (Gemini, infinite compute), and Meta (Llama, open-source) all have structural advantages. The model layer could commoditize. Anthropic's moat rests on enterprise relationships, safety brand, and product velocity — all of which can be replicated.</p>
+
+      <h3><span class="tag bear">RISK</span> Concentration in Strategic Investors</h3>
+      <p>Amazon ($8B invested) and Google ($2.3B+) are simultaneously investors, distribution partners, and compute providers. This creates complex dependency dynamics and potential conflicts of interest at IPO.</p>
+
+      <h3>Open Questions</h3>
+      <ul>
+        <li>What is the actual net revenue after cloud reseller payouts?</li>
+        <li>Will the IPO happen in October 2026? What structure (PBC implications)?</li>
+        <li>How does the Dept. of War situation resolve — and does it affect government contracts?</li>
+        <li>Can Claude Code maintain its developer momentum against GitHub Copilot + Gemini?</li>
+        <li>What does the Claude Mythos release look like, and does it maintain technical leadership?</li>
+      </ul>
+    </div>
+
+    <!-- SECTION 10: INVESTMENT THESIS -->
+    <div class="section">
+      <h2 class="section-title">10. Investment Thesis</h2>
+
+      <h3><span class="tag bull">BULL CASE</span></h3>
+      <ul>
+        <li><strong>Generational growth trajectory:</strong> $87M → $30B+ ARR in 27 months is without historical precedent. If revenue doubles again in 2026 (to ~$60B), the current $380B valuation is ~6x forward revenue — reasonable for a hyper-growth platform company.</li>
+        <li><strong>Enterprise lock-in:</strong> 500+ $1M+ customers, Fortune 10 adoption, multi-year deals (Snowflake $200M, Deloitte 470K seats). This is sticky, recurring revenue — not consumer whimsy.</li>
+        <li><strong>Multi-cloud moat:</strong> Only frontier model on all three major clouds. This is a structural distribution advantage no competitor has matched.</li>
+        <li><strong>Safety as brand:</strong> In a world of increasing AI regulation (EU AI Act enforcement Aug 2026), Anthropic's safety-first positioning becomes a regulatory moat. The Dept. of War standoff, paradoxically, strengthens the brand with enterprise and public trust.</li>
+        <li><strong>Product expansion:</strong> Claude Code → Cowork → Healthcare → Finance → Agents. Each product line creates a new revenue wedge. The Coefficient Bio acquisition shows willingness to build vertical depth.</li>
+        <li><strong>IPO catalyst:</strong> If October 2026 IPO materializes at $900B+, early investors see massive liquidity event.</li>
+      </ul>
+
+      <h3><span class="tag bear">BEAR CASE</span></h3>
+      <ul>
+        <li><strong>Valuation assumes perfection:</strong> $900B for a company that is likely burning billions annually requires sustained 100%+ growth for years. Any slowdown gets punished severely.</li>
+        <li><strong>Model commoditization:</strong> If open-source models (Llama, Mistral) close the gap, API pricing collapses and Anthropic's margin structure breaks.</li>
+        <li><strong>Gross revenue reporting flatters the picture:</strong> Actual take-rate on cloud-resold revenue may be 50-70%, meaning real revenue is materially lower than headlines suggest.</li>
+        <li><strong>Compute dependency:</strong> Anthropic doesn't own its compute. Amazon, Google, and now Microsoft control the infrastructure Anthropic runs on — creating leverage risk.</li>
+        <li><strong>Political risk:</strong> The Dept. of War standoff, PBC structure, and safety-first stance could alienate government customers or create political backlash in an era of AI nationalism.</li>
+      </ul>
+    </div>
+
+    <!-- SOURCES -->
+    <div class="sources">
+      <h2>Sources</h2>
+      <ol>
+        <li id="src-1">TechCrunch, "Sources: Anthropic could raise a new $50B round at a valuation of $900B," April 29, 2026. <a href="https://techcrunch.com/2026/04/29/sources-anthropic-could-raise-a-new-50b-round-at-a-valuation-of-900b/" target="_blank">Link</a></li>
+        <li id="src-2">Axios, "Anthropic's unprecedented growth," April 13, 2026. <a href="https://www.axios.com/2026/04/13/anthropic-revenue-growth-ai" target="_blank">Link</a></li>
+        <li id="src-3">Anthropic, "Anthropic raises $30 billion in Series G funding at $380 billion post-money valuation," February 12, 2026. <a href="https://www.anthropic.com/news/anthropic-raises-30-billion-series-g-funding-380-billion-post-money-valuation" target="_blank">Link</a></li>
+        <li id="src-4">TechCrunch, "Anthropic potential $900B+ valuation round could happen within two weeks," April 30, 2026. <a href="https://techcrunch.com/2026/04/30/anthropic-potential-900b-valuation-round-could-happen-within-two-weeks/" target="_blank">Link</a></li>
+        <li id="src-5">Bloomberg, "Anthropic Weighs Funding Offers at Over $900 Billion Valuation," April 29, 2026. <a href="https://www.bloomberg.com/news/articles/2026-04-29/anthropic-considering-funding-offers-at-over-900-billion-value" target="_blank">Link</a></li>
+        <li id="src-6">TechCrunch, "Anthropic buys biotech startup Coefficient Bio in $400M deal," April 3, 2026. <a href="https://techcrunch.com/2026/04/03/anthropic-buys-biotech-startup-coefficient-bio-in-400m-deal-reports/" target="_blank">Link</a></li>
+        <li id="src-7">JobsByCulture, "Anthropic in 2026: Number of Employees, Glassdoor Rating," March 14, 2026. <a href="https://jobsbyculture.com/blog/working-at-anthropic-2026" target="_blank">Link</a></li>
+        <li id="src-8">Wikipedia, "Anthropic," accessed May 2, 2026. <a href="https://en.wikipedia.org/wiki/Anthropic" target="_blank">Link</a></li>
+        <li id="src-9">Observer, "14 Executives Driving Anthropic's Future After Its Labs Expansion," April 2026. <a href="https://observer.com/2026/04/anthropic-top-executives-after-labs-launch/" target="_blank">Link</a></li>
+        <li id="src-10">Reuters, "Anthropic weighs new funding round at valuation exceeding $900 billion," April 29, 2026. <a href="https://www.reuters.com/business/retail-consumer/anthropic-weighs-new-funding-round-valuation-exceeding-900-billion-bloomberg-2026-04-29/" target="_blank">Link</a></li>
+        <li id="src-11">Tracxn, "Anthropic - 2026 Funding Rounds & List of Investors," accessed May 2, 2026. <a href="https://tracxn.com/d/companies/anthropic/__SzoxXDMin-NK5tKB7ks8yHr6S9Mz68pjVCzFEcGFZ08/funding-and-investors" target="_blank">Link</a></li>
+        <li id="src-12">Sacra, "Anthropic revenue, valuation & funding," April 2026. <a href="https://sacra.com/c/anthropic/" target="_blank">Link</a></li>
+        <li id="src-13">SaaStr, "Anthropic Just Passed OpenAI in Revenue. While Spending 4x Less to Train Their Models," April 2026. <a href="https://www.saastr.com/anthropic-just-passed-openai-in-revenue-while-spending-4x-less-to-train-their-models/" target="_blank">Link</a></li>
+        <li id="src-14">SaaStr, "Anthropic Just Hit $14 Billion in ARR," February 19, 2026. <a href="https://www.saastr.com/anthropic-just-hit-14-billion-in-arr-up-from-1-billion-just-14-months-ago/" target="_blank">Link</a></li>
+        <li id="src-15">OpenAI, "OpenAI raises $122 billion to accelerate the next phase of AI," March 31, 2026. <a href="https://openai.com/index/accelerating-the-next-phase-ai/" target="_blank">Link</a></li>
+        <li id="src-16">CNBC, "OpenAI closes funding round at an $852 billion valuation," March 31, 2026. <a href="https://www.cnbc.com/2026/03/31/openai-funding-round-ipo.html" target="_blank">Link</a></li>
+        <li id="src-17">xAI, "Series E," January 6, 2026. <a href="https://x.ai/news/series-e" target="_blank">Link</a></li>
+        <li id="src-18">Business Insider, "Anthropic has surged to a trillion-dollar valuation on secondary markets, overtaking OpenAI," April 2026. <a href="https://www.businessinsider.com/anthropic-trillion-dollar-valuation-on-secondary-markets-2026" target="_blank">Link</a></li>
+        <li id="src-19">Global Market Insights, "Generative AI Market Size & Share, Forecast Report 2026-2035," 2026. <a href="https://www.gminsights.com/industry-analysis/generative-ai-market" target="_blank">Link</a></li>
+        <li id="src-20">Grand View Research, "Generative AI Market Size, Share, Industry Report 2033." <a href="https://www.grandviewresearch.com/industry-analysis/generative-ai-market-report" target="_blank">Link</a></li>
+        <li id="src-21">AutoFaceless, "Generative AI Statistics 2026," April 2026. <a href="https://autofaceless.ai/blog/generative-ai-statistics-2026" target="_blank">Link</a></li>
+        <li id="src-22">Tamiltech, "Anthropic CEO Dario Amodei Davos 2026: AGI, Jobs, India," March 15, 2026. <a href="https://tamiltech.in/index.php/article/anthropic-ceo-dario-amodei-davos-2026-interview-agi-predictions" target="_blank">Link</a></li>
+        <li id="src-23">Anthropic, "Statement from Dario Amodei on our discussions with the Department of War," February 26, 2026. <a href="https://www.anthropic.com/news/statement-department-of-war" target="_blank">Link</a></li>
+        <li id="src-24">Gizmodo, "Anthropic's Claude Comes for Knowledge Work as Markets Freak Out," February 24, 2026. <a href="https://gizmodo.com/anthropics-claude-comes-for-knowledge-work-as-markets-freak-out-2000725881" target="_blank">Link</a></li>
+        <li id="src-25">Anthropic, "Where things stand with the Department of War," March 5, 2026. <a href="https://www.anthropic.com/news/where-stand-department-war" target="_blank">Link</a></li>
+      </ol>
+    </div>
+
+    <p class="generated">Generated by Galileo 🔭 · May 2, 2026</p>
+  </div>
+
+  <script>
+    // Chart.js defaults
+    Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+    Chart.defaults.font.size = 12;
+    Chart.defaults.color = '#6b7280';
+
+    // 1. VALUATION TRAJECTORY (Log Scale)
+    new Chart(document.getElementById('valuationChart'), {
+      type: 'line',
+      data: {
+        labels: ['Series A\nMay 2021', 'Series B\nApr 2022', 'Series C\nMay 2023', 'Series D\nMar 2024', 'Series E\nMar 2025', 'Series F\nSep 2025', 'Series G\nFeb 2026', 'Rumored\nMay 2026'],
+        datasets: [{
+          label: 'Post-Money Valuation ($B)',
+          data: [0.623, 4, 5, 18.4, 61.5, 183, 380, 900],
+          borderColor: '#D97706',
+          backgroundColor: 'rgba(217,119,6,0.1)',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 6,
+          pointBackgroundColor: '#D97706',
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          title: { display: true, text: 'Valuation Trajectory ($B)', font: { size: 14, weight: '600' }, color: '#1a1a1a' },
+          legend: { display: false }
+        },
+        scales: {
+          y: {
+            type: 'logarithmic',
+            title: { display: true, text: 'Valuation ($B) — Log Scale' },
+            ticks: {
+              callback: function(value) { return '$' + value + 'B'; }
+            },
+            grid: { color: 'rgba(0,0,0,0.05)' }
+          },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+
+    // 2. FUNDING PER ROUND
+    new Chart(document.getElementById('fundingChart'), {
+      type: 'bar',
+      data: {
+        labels: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'Rumored'],
+        datasets: [{
+          label: 'Amount Raised ($B)',
+          data: [0.125, 0.58, 0.45, 2.75, 3.5, 13, 30, 50],
+          backgroundColor: [
+            '#FCD34D', '#FBBF24', '#F59E0B', '#D97706', '#B45309', '#92400E', '#78350F', 'rgba(120,53,15,0.4)'
+          ],
+          borderRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          title: { display: true, text: 'Capital Raised Per Round ($B)', font: { size: 14, weight: '600' }, color: '#1a1a1a' },
+          legend: { display: false }
+        },
+        scales: {
+          y: {
+            title: { display: true, text: '$B Raised' },
+            ticks: { callback: function(v) { return '$' + v + 'B'; } },
+            grid: { color: 'rgba(0,0,0,0.05)' }
+          },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+
+    // 3. REVENUE TRAJECTORY
+    new Chart(document.getElementById('revenueChart'), {
+      type: 'line',
+      data: {
+        labels: ['Jan 2024', 'Dec 2024', 'Jan 2025', 'May 2025', 'Aug 2025', 'Oct 2025', 'Dec 2025', 'Feb 2026', 'Mar 2026', 'Apr 2026'],
+        datasets: [{
+          label: 'Annualized Revenue Run-Rate ($B)',
+          data: [0.087, 1, 1, 3, 5, 7, 9, 14, 19, 30],
+          borderColor: '#059669',
+          backgroundColor: 'rgba(5,150,105,0.08)',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 5,
+          pointBackgroundColor: '#059669',
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          title: { display: true, text: 'Revenue Run-Rate Trajectory ($B)', font: { size: 14, weight: '600' }, color: '#1a1a1a' },
+          legend: { display: false }
+        },
+        scales: {
+          y: {
+            title: { display: true, text: 'Annualized Run-Rate ($B)' },
+            ticks: { callback: function(v) { return '$' + v + 'B'; } },
+            grid: { color: 'rgba(0,0,0,0.05)' }
+          },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+
+    // 4. COMPETITIVE LANDSCAPE
+    new Chart(document.getElementById('competitorChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Anthropic', 'OpenAI', 'xAI', 'Mistral AI', 'Cohere'],
+        datasets: [
+          {
+            label: 'Valuation ($B)',
+            data: [380, 852, 250, 13, 6.8],
+            backgroundColor: '#D97706',
+            borderRadius: 4
+          },
+          {
+            label: 'Total Raised ($B)',
+            data: [72, 180, 42, 1.5, 1],
+            backgroundColor: '#FBBF24',
+            borderRadius: 4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          title: { display: true, text: 'Frontier AI Companies: Valuation vs. Capital Raised ($B)', font: { size: 14, weight: '600' }, color: '#1a1a1a' },
+          legend: { position: 'top', labels: { boxWidth: 12 } }
+        },
+        scales: {
+          y: {
+            ticks: { callback: function(v) { return '$' + v + 'B'; } },
+            grid: { color: 'rgba(0,0,0,0.05)' }
+          },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+
+    // 5. TAM CHART
+    new Chart(document.getElementById('tamChart'), {
+      type: 'bar',
+      data: {
+        labels: ['2025', '2026', '2028', '2030', '2033', '2035'],
+        datasets: [{
+          label: 'Gen AI Market Size ($B)',
+          data: [38, 83, 200, 400, 690, 988],
+          backgroundColor: 'rgba(217,119,6,0.7)',
+          borderRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          title: { display: true, text: 'Generative AI Total Addressable Market ($B)', font: { size: 14, weight: '600' }, color: '#1a1a1a' },
+          legend: { display: false }
+        },
+        scales: {
+          y: {
+            title: { display: true, text: 'Market Size ($B)' },
+            ticks: { callback: function(v) { return '$' + v + 'B'; } },
+            grid: { color: 'rgba(0,0,0,0.05)' }
+          },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
