@@ -9,24 +9,24 @@
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
   :root {
-    --bg-primary: #0a0f1a;
-    --bg-secondary: #111827;
-    --bg-card: #1a2236;
-    --bg-card-hover: #1e2842;
-    --text-primary: #f1f5f9;
-    --text-secondary: #94a3b8;
-    --text-muted: #64748b;
-    --accent: #6366f1;
-    --accent-light: #818cf8;
-    --accent-glow: rgba(99, 102, 241, 0.15);
-    --green: #34d399;
-    --green-bg: rgba(52, 211, 153, 0.1);
-    --red: #f87171;
-    --red-bg: rgba(248, 113, 113, 0.1);
-    --yellow: #fbbf24;
-    --yellow-bg: rgba(251, 191, 36, 0.1);
-    --border: #1e293b;
-    --border-light: #334155;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-card: #f1f5f9;
+    --bg-card-hover: #e2e8f0;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --accent: #4f46e5;
+    --accent-light: #6366f1;
+    --accent-glow: rgba(79, 70, 229, 0.08);
+    --green: #059669;
+    --green-bg: rgba(5, 150, 105, 0.08);
+    --red: #dc2626;
+    --red-bg: rgba(220, 38, 38, 0.06);
+    --yellow: #d97706;
+    --yellow-bg: rgba(217, 119, 6, 0.06);
+    --border: #e2e8f0;
+    --border-light: #cbd5e1;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -60,9 +60,7 @@
     font-weight: 800;
     letter-spacing: -1px;
     margin-bottom: 12px;
-    background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-light) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--text-primary);
   }
   .header .subtitle {
     font-size: 18px;
@@ -402,7 +400,7 @@
       <tr><td>New Deal</td><td>1936</td><td class="amount">$150B</td><td>7.7%</td></tr>
       <tr><td>Railroads (Gilded Age)</td><td>1870</td><td class="amount">$18B</td><td>6.0%</td></tr>
       <tr><td>Interstate Highways</td><td>1964</td><td class="amount">$142B</td><td>2.0%</td></tr>
-      <tr><td style="color: var(--accent-light)"><strong>AI Infrastructure</strong></td><td style="color: var(--accent-light)"><strong>2025</strong></td><td class="amount" style="color: var(--accent-light)"><strong>$500B</strong></td><td style="color: var(--accent-light)"><strong>1.6%</strong></td></tr>
+      <tr><td style="color: var(--accent)"><strong>AI Infrastructure</strong></td><td style="color: var(--accent)"><strong>2025</strong></td><td class="amount" style="color: var(--accent)"><strong>$500B</strong></td><td style="color: var(--accent)"><strong>1.6%</strong></td></tr>
       <tr><td>Telecom Bubble</td><td>2000</td><td class="amount">$226B</td><td>1.2%</td></tr>
       <tr><td>Manhattan Project</td><td>1945</td><td class="amount">$36B</td><td>0.9%</td></tr>
       <tr><td>Apollo Program</td><td>1966</td><td class="amount">$59B</td><td>0.7%</td></tr>
@@ -552,8 +550,8 @@
 <script>
   const fontFamily = "'Inter', sans-serif";
   Chart.defaults.font.family = fontFamily;
-  Chart.defaults.color = '#94a3b8';
-  const gridColor = 'rgba(51, 65, 85, 0.5)';
+  Chart.defaults.color = '#475569';
+  const gridColor = 'rgba(203, 213, 225, 0.6)';
 
   // 1. GDP Comparison (horizontal bar)
   new Chart(document.getElementById('gdpChart'), {
@@ -563,7 +561,7 @@
       datasets: [{
         label: '% of U.S. GDP',
         data: [37.8, 12.3, 7.7, 6.0, 2.0, 1.6, 1.2, 0.9, 0.7],
-        backgroundColor: ['#475569','#475569','#475569','#475569','#475569','#6366f1','#475569','#475569','#475569'],
+        backgroundColor: ['#94a3b8','#94a3b8','#94a3b8','#94a3b8','#94a3b8','#4f46e5','#94a3b8','#94a3b8','#94a3b8'],
         borderRadius: 4,
       }]
     },
@@ -586,7 +584,7 @@
       datasets: [{
         label: 'Global AI Spending ($T)',
         data: [1.0, 1.75, 2.52, 3.2, 4.0],
-        backgroundColor: 'rgba(99, 102, 241, 0.7)',
+        backgroundColor: 'rgba(79, 70, 229, 0.75)',
         borderRadius: 6,
       }]
     },
@@ -606,8 +604,8 @@
     data: {
       labels: ['2024', '2025', '2026', '2027', '2028', '2029', '2030'],
       datasets: [
-        { label: 'Enterprise AI ($B)', data: [24, 98, 115, 155, 195, 235, 273], backgroundColor: 'rgba(99, 102, 241, 0.7)', borderRadius: 4 },
-        { label: 'Consumer AI ($B)', data: [8, 12, 20, 35, 60, 100, 160], backgroundColor: 'rgba(52, 211, 153, 0.7)', borderRadius: 4 }
+        { label: 'Enterprise AI ($B)', data: [24, 98, 115, 155, 195, 235, 273], backgroundColor: 'rgba(79, 70, 229, 0.75)', borderRadius: 4 },
+        { label: 'Consumer AI ($B)', data: [8, 12, 20, 35, 60, 100, 160], backgroundColor: 'rgba(5, 150, 105, 0.7)', borderRadius: 4 }
       ]
     },
     options: {
@@ -626,8 +624,8 @@
     data: {
       labels: ['Jan 24', 'Dec 24', 'May 25', 'Jul 25', 'Oct 25', 'Dec 25', 'Feb 26', 'Mar 26', 'Apr 26', 'May 26'],
       datasets: [
-        { label: 'Anthropic ARR ($B)', data: [0.087, 1.0, 3.0, 4.0, 7.0, 9.0, 14.0, 19.5, 30.0, 44.0], borderColor: '#34d399', backgroundColor: 'rgba(52,211,153,0.1)', fill: true, tension: 0.3, pointRadius: 4, pointBackgroundColor: '#34d399' },
-        { label: 'OpenAI ARR ($B)', data: [2.0, 6.0, 10.0, 12.0, 15.0, 20.0, 24.0, 24.5, 25.0, 26.0], borderColor: '#f87171', fill: false, tension: 0.3, pointRadius: 3, pointBackgroundColor: '#f87171', borderDash: [5,5] }
+        { label: 'Anthropic ARR ($B)', data: [0.087, 1.0, 3.0, 4.0, 7.0, 9.0, 14.0, 19.5, 30.0, 44.0], borderColor: '#059669', backgroundColor: 'rgba(5,150,105,0.08)', fill: true, tension: 0.3, pointRadius: 4, pointBackgroundColor: '#059669' },
+        { label: 'OpenAI ARR ($B)', data: [2.0, 6.0, 10.0, 12.0, 15.0, 20.0, 24.0, 24.5, 25.0, 26.0], borderColor: '#dc2626', fill: false, tension: 0.3, pointRadius: 3, pointBackgroundColor: '#dc2626', borderDash: [5,5] }
       ]
     },
     options: {
@@ -648,7 +646,7 @@
       datasets: [{
         label: 'Amount ($B)',
         data: [0.124, 0.58, 3.3, 0.75, 3.5, 13.0, 30.0],
-        backgroundColor: '#6366f1',
+        backgroundColor: '#4f46e5',
         borderRadius: 6,
       }]
     },
@@ -668,8 +666,8 @@
     data: {
       labels: ['OpenAI', 'Anthropic', 'xAI/SpaceX', 'Mistral', 'Cohere'],
       datasets: [
-        { label: 'Valuation ($B)', data: [852, 380, 244, 13, 6.8], backgroundColor: 'rgba(129,140,248,0.8)', borderRadius: 4 },
-        { label: 'Total Raised ($B)', data: [50, 64, 20, 1, 1], backgroundColor: 'rgba(52,211,153,0.8)', borderRadius: 4 }
+        { label: 'Valuation ($B)', data: [852, 380, 244, 13, 6.8], backgroundColor: 'rgba(79,70,229,0.75)', borderRadius: 4 },
+        { label: 'Total Raised ($B)', data: [50, 64, 20, 1, 1], backgroundColor: 'rgba(5,150,105,0.7)', borderRadius: 4 }
       ]
     },
     options: {
