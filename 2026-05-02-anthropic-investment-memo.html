@@ -394,11 +394,6 @@
   <h2>Historical Context</h2>
   <p>Anthropic's revenue trajectory — $1B to $30B+ in 16 months — has no precedent in the history of enterprise technology. The closest comparisons are not software companies but <strong>national infrastructure projects</strong>.<a href="#src-10" class="cite">[10]</a></p>
 
-  <div class="chart-container">
-    <div class="chart-title">Major U.S. Infrastructure Investments — Peak Spending as % of GDP</div>
-    <canvas id="infraChart"></canvas>
-  </div>
-
   <table>
     <thead><tr><th>Project</th><th>Peak Year</th><th>Peak Spending (2025$)</th><th>% of GDP</th></tr></thead>
     <tbody>
@@ -440,6 +435,10 @@
   <div class="quote-card">
     <div class="quote-text">"We always had a fraction of what [OpenAI had]. Scaling is not necessarily the only thing that matters."</div>
     <div class="quote-attr"><strong>Daniela Amodei</strong>, President <a href="#src-27" class="cite">[27]</a></div>
+  </div>
+  <div class="quote-card">
+    <div class="quote-text">"AI is a horizontal computational layer that permeates workflows, creative work, analysis, routine tasks, and decision-making across sectors. It raises the floor of productivity in many places at once."</div>
+    <div class="quote-attr"><strong>KKR</strong>, "Beyond the Bubble: Why AI Infrastructure Will Compound Long after the Hype" <a href="#src-25" class="cite">[25]</a></div>
   </div>
   <div class="quote-card">
     <div class="quote-text">"The company that most people outside of B2B circles couldn't name two years ago is now generating more run-rate revenue than the company that invented the consumer AI category."</div>
@@ -691,27 +690,7 @@
     }
   });
 
-  // 7. Infrastructure % GDP
-  new Chart(document.getElementById('infraChart'), {
-    type: 'bar',
-    data: {
-      labels: ['WWII', 'WWI', 'New Deal', 'Railroads', 'Interstates', 'AI Infra', 'Telecom', 'Manhattan', 'Apollo'],
-      datasets: [{
-        label: '% of GDP',
-        data: [37.8, 12.3, 7.7, 6.0, 2.0, 1.6, 1.2, 0.9, 0.7],
-        backgroundColor: (ctx) => ctx.dataIndex === 5 ? '#6366f1' : '#334155',
-        borderRadius: 4,
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => `${ctx.parsed.y}% of GDP` } } },
-      scales: {
-        y: { beginAtZero: true, grid: { color: gridColor }, ticks: { callback: v => `${v}%` } },
-        x: { grid: { display: false }, ticks: { font: { size: 10 } } }
-      }
-    }
-  });
+
 </script>
 </body>
 </html>
