@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Where Is ~$1 Trillion Going? — Mag7 Capital Expenditure Deep Dive | May 2026</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  :root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-card: #f1f5f9;
+    --bg-card-hover: #e2e8f0;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --accent: #4f46e5;
+    --accent-light: #6366f1;
+    --accent-glow: rgba(79, 70, 229, 0.08);
+    --green: #059669;
+    --green-bg: rgba(5, 150, 105, 0.08);
+    --red: #dc2626;
+    --red-bg: rgba(220, 38, 38, 0.06);
+    --yellow: #d97706;
+    --yellow-bg: rgba(217, 119, 6, 0.06);
+    --border: #e2e8f0;
+    --border-light: #cbd5e1;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  .header {
+    text-align: center;
+    padding: 60px 0 40px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+  }
+  .header-label {
+    font-size: 12px; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 16px;
+  }
+  .header h1 {
+    font-size: 38px; font-weight: 800; letter-spacing: -1px;
+    margin-bottom: 12px; color: var(--text-primary);
+  }
+  .header .subtitle {
+    font-size: 17px; color: var(--text-secondary); font-weight: 400;
+    max-width: 700px; margin: 0 auto 16px;
+  }
+  .header .date { font-size: 13px; color: var(--text-muted); }
+
+  .section { margin-bottom: 56px; }
+  .section-number {
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
+  }
+  .section h2 { font-size: 24px; font-weight: 700; margin-bottom: 20px; letter-spacing: -0.5px; }
+  .section h3 { font-size: 17px; font-weight: 600; margin: 28px 0 12px; color: var(--text-primary); }
+  .section p { color: var(--text-secondary); margin-bottom: 16px; }
+
+  .snapshot-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px; margin-bottom: 32px;
+  }
+  .snapshot-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 20px; text-align: center;
+  }
+  .snapshot-card .label {
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 1.5px; color: var(--text-muted); margin-bottom: 8px;
+  }
+  .snapshot-card .value { font-size: 28px; font-weight: 700; color: var(--text-primary); }
+  .snapshot-card .value.accent { color: var(--accent); }
+  .snapshot-card .sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+  .chart-container {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 24px; margin: 24px 0;
+  }
+  .chart-container canvas { max-height: 400px; }
+  .chart-title { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 16px; }
+  .chart-subtitle { font-size: 12px; color: var(--text-muted); margin-top: 8px; }
+
+  table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
+  thead th {
+    text-align: left; font-weight: 600; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted);
+    padding: 12px 14px; border-bottom: 2px solid var(--border-light);
+  }
+  tbody td { padding: 12px 14px; border-bottom: 1px solid var(--border); color: var(--text-secondary); }
+  tbody tr:hover { background: var(--bg-card); }
+  .amount { font-weight: 600; color: var(--text-primary); }
+  .growth-pos { color: var(--green); font-weight: 600; }
+  .growth-neg { color: var(--red); font-weight: 600; }
+
+  .callout {
+    background: var(--accent-glow); border: 1px solid rgba(79, 70, 229, 0.2);
+    border-radius: 10px; padding: 16px 20px; margin: 16px 0;
+    font-size: 14px; color: var(--text-secondary);
+  }
+  .callout strong { color: var(--accent); }
+
+  .callout-warn {
+    background: var(--yellow-bg); border: 1px solid rgba(217, 119, 6, 0.2);
+    border-radius: 10px; padding: 16px 20px; margin: 16px 0;
+    font-size: 14px; color: var(--text-secondary);
+  }
+  .callout-warn strong { color: var(--yellow); }
+
+  .cite {
+    color: var(--accent); text-decoration: none;
+    font-size: 11px; vertical-align: super; font-weight: 600;
+  }
+  .cite:hover { text-decoration: underline; }
+
+  .ref-list { list-style: none; padding: 0; }
+  .ref-list li {
+    font-size: 13px; color: var(--text-muted); padding: 6px 0;
+    border-bottom: 1px solid var(--border); line-height: 1.5;
+  }
+  .ref-list li a { color: var(--accent); text-decoration: none; }
+  .ref-list li a:hover { text-decoration: underline; }
+
+  .disclaimer {
+    margin-top: 60px; padding: 20px; border-radius: 10px;
+    background: var(--bg-card); border: 1px solid var(--border);
+    font-size: 12px; color: var(--text-muted); text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    .header h1 { font-size: 28px; }
+    .snapshot-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-label">Capital Expenditure Analysis</div>
+  <h1>Where Is ~$1 Trillion Going?</h1>
+  <div class="subtitle">A forensic reconstruction of the Magnificent 7's combined capital expenditure — sourced from primary filings, earnings calls, and management guidance.</div>
+  <div class="date">May 2026 · Prepared by Galileo Research · Tomales Bay Capital</div>
+</div>
+
+<!-- 1. EXECUTIVE SUMMARY -->
+<div class="section">
+  <div class="section-number">01</div>
+  <h2>Executive Summary</h2>
+
+  <div class="snapshot-grid">
+    <div class="snapshot-card">
+      <div class="label">Mag7 Combined 2026E</div>
+      <div class="value accent">~$750B</div>
+      <div class="sub">Up ~70% from CY2025</div>
+    </div>
+    <div class="snapshot-card">
+      <div class="label">Big 4 Hyperscalers</div>
+      <div class="value">~$700B</div>
+      <div class="sub">MSFT + GOOG + AMZN + META</div>
+    </div>
+    <div class="snapshot-card">
+      <div class="label">AI % of Total</div>
+      <div class="value accent">~75%</div>
+      <div class="sub">Per IEEE ComSoc, Futurum</div>
+    </div>
+    <div class="snapshot-card">
+      <div class="label">GS Cumulative 2026-31</div>
+      <div class="value">$7.6T</div>
+      <div class="sub">Goldman Sachs scenario framework</div>
+    </div>
+  </div>
+
+  <p>The Magnificent 7 will spend approximately <strong>$750 billion in capital expenditure in 2026</strong> — nearly double their 2025 combined spend of ~$440 billion. Four companies (Amazon, Microsoft, Alphabet, Meta) account for 93% of the total. Apple and Nvidia remain outliers: Apple's $13B commitment is smaller than Meta's single quarterly spend, while Nvidia — whose products absorb most of this capital — invests modestly in its own infrastructure.<a href="#src-1" class="cite">[1]</a><a href="#src-2" class="cite">[2]</a></p>
+
+  <p>This is not speculative. Every figure below traces to an SEC filing, earnings call transcript, or official management guidance. Where estimates are required, methodology is explicit.</p>
+</div>
+
+<!-- 2. COMPANY-BY-COMPANY -->
+<div class="section">
+  <div class="section-number">02</div>
+  <h2>Company-by-Company: Total Capex</h2>
+
+  <div class="chart-container">
+    <div class="chart-title">Mag7 Capital Expenditure by Company ($B) — CY2021 to CY2026E</div>
+    <canvas id="totalChart"></canvas>
+    <div class="chart-subtitle">Sources: 10-K filings, quarterly earnings reports, management guidance. Microsoft figures converted to calendar year estimates.</div>
+  </div>
+
+  <table>
+    <thead><tr><th>Company</th><th>CY2021</th><th>CY2022</th><th>CY2023</th><th>CY2024</th><th>CY2025</th><th>CY2026E</th><th>YoY Δ</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="amount">Amazon</td><td>$61.1B</td><td>$63.6B</td><td>$48.1B</td><td>$83.0B</td><td>$131.8B</td>
+        <td class="amount">$200B</td><td class="growth-pos">+52%</td>
+      </tr>
+      <tr>
+        <td class="amount">Microsoft*</td><td>$20.6B</td><td>$23.9B</td><td>$28.1B</td><td>$44.5B</td><td>~$118B†</td>
+        <td class="amount">$190B</td><td class="growth-pos">+61%</td>
+      </tr>
+      <tr>
+        <td class="amount">Alphabet</td><td>$24.6B</td><td>$31.5B</td><td>$32.3B</td><td>$52.5B</td><td>$91.5B</td>
+        <td class="amount">$185B†</td><td class="growth-pos">+102%</td>
+      </tr>
+      <tr>
+        <td class="amount">Meta</td><td>$19.2B</td><td>$31.4B</td><td>$27.2B</td><td>$37.7B</td><td>$72.2B</td>
+        <td class="amount">$135B†</td><td class="growth-pos">+87%</td>
+      </tr>
+      <tr>
+        <td class="amount">Tesla</td><td>$6.5B</td><td>$7.2B</td><td>$8.9B</td><td>$11.3B</td><td>$8.5B</td>
+        <td class="amount">$25B</td><td class="growth-pos">+194%</td>
+      </tr>
+      <tr>
+        <td class="amount">Apple*</td><td>$11.1B</td><td>$10.7B</td><td>$11.0B</td><td>$9.9B</td><td>$12.7B</td>
+        <td class="amount">~$13B‡</td><td class="growth-pos">+2%</td>
+      </tr>
+      <tr>
+        <td class="amount">Nvidia*</td><td>$1.0B</td><td>$1.8B</td><td>$1.1B</td><td>$2.8B</td><td>$5.6B</td>
+        <td class="amount">~$7B</td><td class="growth-pos">+25%</td>
+      </tr>
+      <tr style="font-weight: 700; border-top: 2px solid var(--border-light);">
+        <td>TOTAL</td><td>$144B</td><td>$170B</td><td>$157B</td><td>$242B</td><td>$440B</td>
+        <td class="amount" style="color: var(--accent);">~$755B</td><td class="growth-pos">+72%</td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="font-size: 12px; color: var(--text-muted);">*Microsoft FY ends June; figures are calendar year estimates. Apple FY ends September. Nvidia FY ends January. †Midpoint of guidance range.<br>
+  Sources: Amazon 10-K [3], Alphabet 10-K/Q1 2026 [4][5], Meta investor release [6], Microsoft earnings [7][8], Tesla Q1 2026 [9], Apple 10-K [10], Nvidia 10-K [11].<br>†Microsoft CY2025 is implied (CNBC: "$190B is up 61% from 2025" → ~$118B). Not directly reported as calendar year figure.<br>††Alphabet and Meta figures use midpoint of updated guidance ranges (raised on Apr 29 Q1 2026 calls): GOOG $180-190B (from $175-185B), META $125-145B (from $115-135B).<br>‡Apple FY2026 guidance is pre-Q2 FY2026 earnings (Apr 30). May be revised.</p>
+
+  <div class="callout">
+    <strong>The acceleration is extreme.</strong> Combined Mag7 capex went from $157B (2023) to $755B (2026E) — a 4.8x increase in three years. For context: this exceeds the GDP of Saudi Arabia, Switzerland, or the Netherlands.
+  </div>
+</div>
+
+<!-- 3. AGGREGATE CHART -->
+<div class="section">
+  <div class="section-number">03</div>
+  <h2>The Aggregate Picture</h2>
+
+  <div class="chart-container">
+    <div class="chart-title">Mag7 Combined Capex ($B) — The Hockey Stick</div>
+    <canvas id="aggChart"></canvas>
+  </div>
+
+  <p>The combined figure approached $1 trillion when including finance leases and infrastructure commitments beyond pure capex. Goldman Sachs projects <strong>$7.6 trillion cumulative AI CapEx from 2026-2031</strong>, starting at ~$765B/year and growing to $1.6T/year by 2031.<a href="#src-1" class="cite">[1]</a></p>
+
+  <p>Every major hyperscaler reported the same constraint on their Q1 2026 earnings calls: <strong>demand exceeds supply</strong>. Microsoft disclosed an $80B Azure backlog unfulfillable due to power constraints. Alphabet's cloud backlog nearly doubled QoQ to $460B. Amazon said AI capacity is "monetized as quickly as it is installed."<a href="#src-7" class="cite">[7]</a><a href="#src-5" class="cite">[5]</a><a href="#src-3" class="cite">[3]</a></p>
+</div>
+
+<!-- 4. CATEGORY DECOMPOSITION -->
+<div class="section">
+  <div class="section-number">04</div>
+  <h2>Where the Money Goes: Category Decomposition</h2>
+
+  <div class="chart-container">
+    <div class="chart-title">Estimated Capex Allocation by Category — Big 4 Hyperscalers 2026E ($B)</div>
+    <canvas id="categoryChart"></canvas>
+  </div>
+
+  <p>Companies don't publicly decompose capex into neat categories. The following taxonomy is reconstructed from earnings commentary, investor presentations, analyst estimates, and infrastructure announcements. All estimates are labeled as such.</p>
+
+  <table>
+    <thead><tr><th>Category</th><th>Est. % of Total</th><th>Est. $ (Big 4)</th><th>Key Signal</th></tr></thead>
+    <tbody>
+      <tr><td class="amount">AI Compute (GPUs, ASICs, servers)</td><td>40–50%</td><td>$280–350B</td><td>~75% of capex is AI-related per IEEE ComSoc<a href="#src-12" class="cite">[12]</a></td></tr>
+      <tr><td class="amount">Data Centers (buildings, cooling, fit-out)</td><td>25–30%</td><td>$175–210B</td><td>Meta 1GW Ohio, 5GW Louisiana; MSFT global DC expansion<a href="#src-13" class="cite">[13]</a></td></tr>
+      <tr><td class="amount">Network & Connectivity</td><td>5–8%</td><td>$35–56B</td><td>Subsea cables, fiber, interconnect, CDN</td></tr>
+      <tr><td class="amount">Energy & Power</td><td>5–8%</td><td>$35–56B</td><td>Nuclear PPAs, solar, grid infrastructure<a href="#src-14" class="cite">[14]</a></td></tr>
+      <tr><td class="amount">Custom Silicon R&D</td><td>3–5%</td><td>$21–35B</td><td>TPU v7, Maia 200, Trainium 3, MTIA<a href="#src-15" class="cite">[15]</a></td></tr>
+      <tr><td class="amount">Other (logistics, offices, etc.)</td><td>8–12%</td><td>$56–84B</td><td>Amazon fulfillment, Tesla factories</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout-warn">
+    <strong>Caveat:</strong> These category splits are estimates based on public commentary and analyst frameworks. No Mag7 company provides a granular capex breakdown in filings. The percentages represent informed estimates, not audited figures.
+  </div>
+
+  <h3>AI Within AI: Decomposing the Compute Spend</h3>
+  <p>Within the "AI Compute" bucket, the split is roughly:<a href="#src-15" class="cite">[15]</a><a href="#src-16" class="cite">[16]</a></p>
+  <table>
+    <thead><tr><th>Sub-Category</th><th>Est. Share</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Inference compute</td><td>~65%</td><td>Two-thirds of all AI compute cycles are now inference (Introl, SemiAnalysis)</td></tr>
+      <tr><td>Training compute</td><td>~25%</td><td>Foundation model training (GPT-5, Gemini 3, Claude Opus 5, etc.)</td></tr>
+      <tr><td>Fine-tuning & product-specific</td><td>~10%</td><td>Customer workloads, RAG, specialized models</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 5. BUILD VS BUY -->
+<div class="section">
+  <div class="section-number">05</div>
+  <h2>Build vs. Buy: The Custom Silicon War</h2>
+
+  <div class="chart-container">
+    <div class="chart-title">AI Accelerator Market: Custom ASICs vs GPUs — CAGR Through 2033</div>
+    <canvas id="siliconChart"></canvas>
+  </div>
+
+  <p>2026 marks the <strong>custom silicon inflection point</strong>. Every hyperscaler now has production-scale alternatives to Nvidia GPUs, primarily targeting inference workloads where cost-per-token economics dominate. Bloomberg Intelligence projects custom ASICs growing at 44.6% CAGR vs. 16.1% for GPUs through 2033.<a href="#src-15" class="cite">[15]</a></p>
+
+  <table>
+    <thead><tr><th>Company</th><th>Custom Chip</th><th>Gen</th><th>Build Strategy</th><th>Nvidia Reliance</th></tr></thead>
+    <tbody>
+      <tr><td class="amount">Google</td><td>TPU</td><td>v7 Ironwood</td><td>Training + inference; 2.7x perf/$ vs prior gen</td><td>Moderate (GPU for burst)</td></tr>
+      <tr><td class="amount">Microsoft</td><td>Maia</td><td>200</td><td>Inference-focused; Azure deployment 2026</td><td>High (Nvidia primary for training)</td></tr>
+      <tr><td class="amount">Amazon</td><td>Trainium</td><td>3</td><td>Training + inference; Graviton for general compute</td><td>Moderate-High</td></tr>
+      <tr><td class="amount">Meta</td><td>MTIA</td><td>v2</td><td>Inference for recommendations, ranking</td><td>Very High (training = almost all Nvidia)<a href="#src-17" class="cite">[17]</a></td></tr>
+      <tr><td class="amount">Apple</td><td>Apple Silicon</td><td>M4+</td><td>On-device AI; minimal cloud reliance</td><td>Low (bought $1B GB300s for DC)<a href="#src-10" class="cite">[10]</a></td></tr>
+      <tr><td class="amount">Tesla</td><td>Dojo / HW5</td><td>Gen 2</td><td>FSD training; building Terafab for chip R&D</td><td>High (doubling Nvidia AI compute)</td></tr>
+      <tr><td class="amount">Nvidia</td><td>N/A</td><td>Blackwell/Rubin</td><td>Sells to all above; DGX Cloud for direct access</td><td>Self (fabless, TSMC manufactures)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <strong>The punchline:</strong> Nvidia still dominates training (~90%+ share) and holds the CUDA ecosystem moat. But inference — now 2/3 of all AI compute — is fragmenting. Analysts project Nvidia's inference share falling from 90%+ to 20-30% by 2028 as hyperscaler ASICs reach scale.<a href="#src-15" class="cite">[15]</a>
+  </div>
+</div>
+
+<!-- 6. FASTEST-GROWING CATEGORIES -->
+<div class="section">
+  <div class="section-number">06</div>
+  <h2>Fastest-Growing Categories</h2>
+
+  <div class="chart-container">
+    <div class="chart-title">Capex Growth by Company — CY2023 → CY2026E (3-Year CAGR)</div>
+    <canvas id="cagrChart"></canvas>
+  </div>
+
+  <table>
+    <thead><tr><th>Company</th><th>CY2023</th><th>CY2026E</th><th>3-Year CAGR</th><th>Primary Growth Driver</th></tr></thead>
+    <tbody>
+      <tr><td class="amount">Alphabet</td><td>$32.3B</td><td>$185B</td><td class="growth-pos">78%</td><td>AI compute (TPU + Nvidia); cloud backlog</td></tr>
+      <tr><td class="amount">Meta</td><td>$27.2B</td><td>$135B</td><td class="growth-pos">71%</td><td>Meta Superintelligence Labs; 6GW+ nuclear</td></tr>
+      <tr><td class="amount">Amazon</td><td>$48.1B</td><td>$200B</td><td class="growth-pos">61%</td><td>AWS AI capacity; Trainium clusters</td></tr>
+      <tr><td class="amount">Microsoft</td><td>$28.1B</td><td>$190B</td><td class="growth-pos">89%</td><td>Azure AI; Copilot infrastructure</td></tr>
+      <tr><td class="amount">Tesla</td><td>$8.9B</td><td>$25B</td><td class="growth-pos">41%</td><td>Optimus, Cybercab, AI compute, factories</td></tr>
+      <tr><td class="amount">Apple</td><td>$11.0B</td><td>$13B</td><td class="growth-pos">6%</td><td>Minimal — on-device AI strategy</td></tr>
+      <tr><td class="amount">Nvidia</td><td>$1.1B</td><td>$7B</td><td class="growth-pos">85%</td><td>DGX Cloud, test/validation infrastructure</td></tr>
+    </tbody>
+  </table>
+
+  <p><strong>The standouts:</strong> Microsoft's 89% 3-year CAGR is remarkable for a $3.2T market cap company. The four hyperscalers are each growing capex at 60-90% annually — a rate historically associated with wartime mobilization or nation-building infrastructure programs, not corporate P&Ls.<a href="#src-18" class="cite">[18]</a></p>
+</div>
+
+<!-- 7. ENERGY & POWER -->
+<div class="section">
+  <div class="section-number">07</div>
+  <h2>The Binding Constraint: Energy & Power</h2>
+  <p>Power is now the primary bottleneck for AI infrastructure, not capital or chip supply. Microsoft disclosed an <strong>$80 billion Azure backlog that cannot be fulfilled due to power constraints</strong>. This is driving an unprecedented corporate rush into energy procurement — particularly nuclear.<a href="#src-7" class="cite">[7]</a></p>
+
+  <table>
+    <thead><tr><th>Company</th><th>Key Energy Deals</th><th>Capacity</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td class="amount">Microsoft</td><td>Three Mile Island restart PPA (20-year)</td><td>835MW</td><td>$1.6B Constellation investment to restart<a href="#src-28" class="cite">[28]</a></td></tr>
+      <tr><td class="amount">Google</td><td>Kairos SMRs, Fervo geothermal</td><td>500MW+ nuclear</td><td>Multiple PPAs 2025-2026<a href="#src-14" class="cite">[14]</a></td></tr>
+      <tr><td class="amount">Amazon</td><td>Susquehanna nuclear, Talen Energy PPA</td><td>Multi-GW</td><td>$20B investment; 17-year Talen PPA<a href="#src-14" class="cite">[14]</a></td></tr>
+      <tr><td class="amount">Meta</td><td>Multi-GW nuclear portfolio</td><td>6GW+</td><td>Biggest nuclear buyer among hyperscalers<a href="#src-19" class="cite">[19]</a></td></tr>
+    </tbody>
+  </table>
+
+  <p><strong>Combined: 10GW+ of new nuclear capacity contracted by Big Tech.</strong> For context, 10GW equals roughly 10 conventional nuclear reactors. This is the corporate world's largest-ever bet on nuclear energy — driven entirely by AI demand.<a href="#src-14" class="cite">[14]</a></p>
+
+  <div class="callout">
+    <strong>Investment implication:</strong> The energy constraint creates a structural advantage for companies with secured power. It also creates massive tailwinds for: nuclear services companies, grid infrastructure, cooling technology, and energy storage. The ~$35-56B/year flowing into energy procurement will grow as AI inference demand scales.
+  </div>
+</div>
+
+<!-- 8. IMPLICATIONS -->
+<div class="section">
+  <div class="section-number">08</div>
+  <h2>Implications: What This Tells Us</h2>
+
+  <h3>Where They Converge</h3>
+  <p>All four hyperscalers are doing the same thing: building massive GPU clusters (primarily Nvidia Blackwell), constructing data centers at unprecedented scale, securing nuclear/renewable power, and developing custom inference chips. The playbook is identical. The differentiator is execution speed and capital access.<a href="#src-12" class="cite">[12]</a></p>
+
+  <h3>Where They Diverge</h3>
+  <table>
+    <thead><tr><th>Company</th><th>Unique Bet</th><th>Why It Matters</th></tr></thead>
+    <tbody>
+      <tr><td class="amount">Google</td><td>TPU v7 for training (not just inference)</td><td>Only hyperscaler with viable GPU alternative for frontier training</td></tr>
+      <tr><td class="amount">Amazon</td><td>Vertical integration: chips + cloud + marketplace</td><td>Trainium 3 + Bedrock + retail AI = end-to-end</td></tr>
+      <tr><td class="amount">Microsoft</td><td>OpenAI partnership + Azure distribution</td><td>Capex partially subsidizes a model provider (unique structure)</td></tr>
+      <tr><td class="amount">Meta</td><td>Open-source Llama + internal consumption</td><td>Biggest spender with NO external cloud revenue from AI compute</td></tr>
+      <tr><td class="amount">Tesla</td><td>Robotics + autonomy + energy + AI compute</td><td>Only company where capex spans manufacturing, robotics, AND AI</td></tr>
+      <tr><td class="amount">Apple</td><td>On-device AI; minimal cloud dependency</td><td>Betting compute happens on the edge, not in the data center</td></tr>
+    </tbody>
+  </table>
+
+  <h3>What This Means for Startups</h3>
+  <p>The $750B creates opportunity in three layers:</p>
+  <ul style="margin: 12px 0 16px 24px; color: var(--text-secondary);">
+    <li><strong>Picks & shovels beneficiaries:</strong> Cooling technology, power infrastructure, fiber/interconnect, DC construction, liquid cooling (Vertiv, Schneider, Eaton)</li>
+    <li><strong>Software for the infra layer:</strong> DC management, AI workload orchestration, energy optimization, supply chain visibility for chips</li>
+    <li><strong>Application layer arbitrage:</strong> As compute becomes commodity via hyperscaler competition, application-layer AI companies benefit from falling inference costs without bearing the capex burden</li>
+  </ul>
+
+  <h3>Who Benefits Most in the Supply Chain</h3>
+  <table>
+    <thead><tr><th>Beneficiary</th><th>Why</th><th>Revenue Exposure</th></tr></thead>
+    <tbody>
+      <tr><td class="amount">Nvidia</td><td>~$500B+ in Blackwell/Rubin order visibility</td><td>Direct: $280-350B+ of Mag7 compute spend</td></tr>
+      <tr><td class="amount">TSMC</td><td>Manufactures ALL custom chips (TPU, Maia, Trainium, MTIA) + Nvidia</td><td>Near-monopoly on 3nm AI fabrication</td></tr>
+      <tr><td class="amount">SK Hynix / Samsung</td><td>HBM memory shortage driving $25B MSFT cost overrun</td><td>Memory is the bottleneck; pricing power extreme</td></tr>
+      <tr><td class="amount">Vertiv / Schneider</td><td>Liquid cooling, power distribution for 1GW+ facilities</td><td>Critical infrastructure layer</td></tr>
+      <tr><td class="amount">Nuclear utilities</td><td>10GW+ new contracts from Big Tech</td><td>Constellation, Talen, NuScale, Kairos</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 9. DISCLOSED CONTRACTS & DEALS (Last 12 Months) -->
+<div class="section">
+  <div class="section-number">09</div>
+  <h2>Disclosed Contracts & Deals (May 2025 – May 2026)</h2>
+  <p>The following table catalogs publicly disclosed infrastructure contracts, acquisitions, PPAs, and investment commitments announced in the last 12 months. These are the "receipts" that decompose aggregate capex guidance into specific, verifiable line items.</p>
+
+  <h3>Amazon</h3>
+  <table>
+    <thead><tr><th>Deal</th><th>Amount</th><th>Date</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td>AWS AI/HPC infrastructure for US government</td><td class="amount">$50B</td><td>Nov 2025</td><td>aboutamazon.com, FedScoop<a href="#src-24" class="cite">[24]</a></td></tr>
+      <tr><td>AWS data center expansion — Pennsylvania</td><td class="amount">$20B</td><td>2025</td><td>Data Centre Magazine<a href="#src-25" class="cite">[25]</a></td></tr>
+      <tr><td>AWS data center expansion — North Carolina</td><td class="amount">$10B</td><td>2025</td><td>Data Centre Magazine<a href="#src-25" class="cite">[25]</a></td></tr>
+      <tr><td>Susquehanna nuclear investment + Talen 17-yr PPA</td><td class="amount">$20B</td><td>2025</td><td>Introl<a href="#src-14" class="cite">[14]</a></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Alphabet/Google</h3>
+  <table>
+    <thead><tr><th>Deal</th><th>Amount</th><th>Date</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td>Acquisition of Intersect (DC + energy infra)</td><td class="amount">$4.75B</td><td>Dec 2025</td><td>abc.xyz investor release<a href="#src-26" class="cite">[26]</a></td></tr>
+      <tr><td>Three new Texas data centers (through 2027)</td><td class="amount">$40B</td><td>Nov 2025</td><td>ESG Dive<a href="#src-27" class="cite">[27]</a></td></tr>
+      <tr><td>Kairos Power SMRs (nuclear PPA)</td><td class="amount">500MW</td><td>2025</td><td>Introl<a href="#src-14" class="cite">[14]</a></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Microsoft</h3>
+  <table>
+    <thead><tr><th>Deal</th><th>Amount</th><th>Date</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td>Three Mile Island nuclear restart — 20-year PPA (835MW)</td><td class="amount">$1.6B (Constellation investment)</td><td>Sep 2024</td><td>DCD, Constellation<a href="#src-28" class="cite">[28]</a></td></tr>
+      <tr><td>Wisconsin AI datacenter #1 (online early 2026)</td><td class="amount">$3.3B</td><td>Sep 2025</td><td>Microsoft blog, CNBC<a href="#src-29" class="cite">[29]</a></td></tr>
+      <tr><td>Wisconsin AI datacenter #2</td><td class="amount">$4B</td><td>Sep 2025</td><td>CNBC<a href="#src-29" class="cite">[29]</a></td></tr>
+      <tr><td>France DC expansion (25,000 GPUs)</td><td class="amount">€4B (~$4.3B)</td><td>2024-2025</td><td>CIO Dive<a href="#src-30" class="cite">[30]</a></td></tr>
+      <tr><td>Malaysia + Indonesia datacenter regions</td><td class="amount">Multi-B</td><td>2025</td><td>Azure blog<a href="#src-31" class="cite">[31]</a></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Meta</h3>
+  <table>
+    <thead><tr><th>Deal</th><th>Amount</th><th>Date</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td>Nuclear energy deals: Oklo, Vistra, TerraPower</td><td class="amount">Up to 6.6GW</td><td>Jan 2026</td><td>about.fb.com, CNBC, LA Times<a href="#src-19" class="cite">[19]</a></td></tr>
+      <tr><td>Prometheus AI supercluster — New Albany, Ohio</td><td class="amount">1GW (online 2026)</td><td>Jul 2025</td><td>Utility Dive<a href="#src-32" class="cite">[32]</a></td></tr>
+      <tr><td>Hyperion data center — Louisiana</td><td class="amount">Up to 5GW (online 2028)</td><td>Jan 2026</td><td>LA Times<a href="#src-19" class="cite">[19]</a></td></tr>
+      <tr><td>AMD chip deal (Instinct MI series)</td><td class="amount">~$60B</td><td>2025-2026</td><td>Intellectia.ai<a href="#src-33" class="cite">[33]</a></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Nvidia (as recipient of Mag7 spend)</h3>
+  <table>
+    <thead><tr><th>Metric</th><th>Amount</th><th>Date</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td>Supply commitments (contracted orders)</td><td class="amount">$95.2B</td><td>Q2 FY2026</td><td>Phemex, CFO Colette Kress<a href="#src-34" class="cite">[34]</a></td></tr>
+      <tr><td>Blackwell + Rubin pipeline visibility</td><td class="amount">$500B</td><td>Through 2026</td><td>Morgan Stanley, AI CERTs<a href="#src-35" class="cite">[35]</a></td></tr>
+      <tr><td>Blackwell GPU unit price (hyperscaler volume)</td><td class="amount">$25-30K/unit</td><td>Apr 2026</td><td>Tech-Insider<a href="#src-36" class="cite">[36]</a></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Tesla</h3>
+  <table>
+    <thead><tr><th>Deal</th><th>Amount</th><th>Date</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td>Six new Gigafactories (vehicles, robots, batteries)</td><td class="amount">Largest capex category</td><td>Q1 2026</td><td>TNW, earnings call<a href="#src-9" class="cite">[9]</a></td></tr>
+      <tr><td>Austin "Terafab" semiconductor R&D facility</td><td class="amount">Undisclosed</td><td>Q1 2026</td><td>TNW<a href="#src-9" class="cite">[9]</a></td></tr>
+      <tr><td>AI compute doubling (Nvidia clusters)</td><td class="amount">~$5B est.</td><td>2026</td><td>Earnings call commentary<a href="#src-9" class="cite">[9]</a></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Stargate (OpenAI + SoftBank + Oracle — for context)</h3>
+  <table>
+    <thead><tr><th>Deal</th><th>Amount</th><th>Date</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td>Total committed (4-year plan)</td><td class="amount">$500B / 10GW</td><td>Jan 2025</td><td>OpenAI announcement<a href="#src-37" class="cite">[37]</a></td></tr>
+      <tr><td>Currently planned/contracted</td><td class="amount">$400B+ / 7GW</td><td>Sep 2025</td><td>Reuters, OpenAI<a href="#src-37" class="cite">[37]</a></td></tr>
+      <tr><td>Abilene, Texas — initial site</td><td class="amount">$2.3B (JPMorgan lending)</td><td>May 2025</td><td>Wikipedia/JPMorgan<a href="#src-37" class="cite">[37]</a></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <strong>The receipts add up.</strong> Just the named deals above total well over $200B in specific, verifiable commitments from the last 12 months — and this is far from exhaustive. When you add Nvidia's $500B pipeline visibility and Stargate's $400B+ already contracted, the ~$750B aggregate 2026 guidance isn't aspirational. It's supply-constrained demand being partially filled.
+  </div>
+</div>
+
+<!-- 10. THE META PARADOX -->
+<div class="section">
+  <div class="section-number">10</div>
+  <h2>The Meta Paradox</h2>
+  <p>Meta is the most interesting case study in this analysis. It's spending $125-145B in 2026 — on par with Microsoft and Alphabet — but <strong>without a cloud business to directly monetize the infrastructure</strong>. Every other hyperscaler rents compute to external customers. Meta consumes it all internally.<a href="#src-6" class="cite">[6]</a></p>
+
+  <p>The bull case: Meta is building the infrastructure for "Meta Superintelligence Labs" and next-generation AI that will transform its $160B advertising business. The bear case: this is the Metaverse 2.0 — massive investment without clear revenue payback.</p>
+
+  <p>Critically, Meta's Q1 2026 capex came in at $19.84B — <strong>well below</strong> the $27.57B Street estimate. This suggests spending is heavily back-loaded into Q2-Q4, or the raised guidance ($125-145B) includes significant finance leases and infrastructure commitments beyond traditional capex.<a href="#src-13" class="cite">[13]</a></p>
+</div>
+
+<!-- 11. THE MEMORY CRISIS -->
+<div class="section">
+  <div class="section-number">11</div>
+  <h2>The Memory Crisis</h2>
+  <p>Microsoft CFO Amy Hood explicitly stated that <strong>$25 billion of the $190B forecast comes from higher component prices</strong> — primarily HBM (High Bandwidth Memory) costs. This is not a Microsoft-specific problem. A global memory crunch driven by AI demand is inflating capex across all players.<a href="#src-7" class="cite">[7]</a></p>
+
+  <p>HBM demand for AI accelerators (used in both Nvidia GPUs and custom ASICs) has outpaced supply expansion from SK Hynix, Samsung, and Micron. The result: 30-50% price increases in 2025-2026 that cascade through every data center buildout. Goldman Sachs identifies memory as one of the key assumptions that could push total AI capex above or below $7.6T.<a href="#src-1" class="cite">[1]</a></p>
+</div>
+
+<!-- 12. REFERENCES -->
+<div class="section">
+  <div class="section-number">12</div>
+  <h2>References</h2>
+  <ol class="ref-list">
+    <li id="src-1">[1] Goldman Sachs, "Tracking Trillions: The Assumptions Shaping the Scale of the AI Build-Out," May 2026. $7.6T cumulative 2026-2031. <a href="https://www.goldmansachs.com/insights/articles/tracking-trillions-the-assumptions-shaping-scale-of-the-ai-build-out">goldmansachs.com</a></li>
+    <li id="src-2">[2] Futurum Group, "AI Capex 2026: The $690B Infrastructure Sprint," Feb 12, 2026. $660-690B combined hyperscaler capex. <a href="https://futurumgroup.com/insights/ai-capex-2026-the-690b-infrastructure-sprint/">futurumgroup.com</a></li>
+    <li id="src-3">[3] CNBC, "Amazon (AMZN) Q1 earnings report 2026," Apr 29, 2026. $43.2B Q1 capex, $200B 2026 guidance. <a href="https://www.cnbc.com/2026/04/29/amazon-amzn-q1-earnings-report-2026.html">cnbc.com</a></li>
+    <li id="src-4">[4] Reuters, "Alphabet revenue tops expectations on record quarter for cloud unit," Apr 29, 2026. CY2025 capex: $91.45B. <a href="https://www.reuters.com/business/alphabets-cloud-unit-beats-quarterly-revenue-estimates-strong-ai-demand-2026-04-29/">reuters.com</a></li>
+    <li id="src-5">[5] SEC Filing, Alphabet Inc. Exhibit 99.1, Q1 2026. $35.7B Q1 capex, $180-190B guidance. <a href="https://www.sec.gov/Archives/edgar/data/1652044/000165204426000043/googexhibit991q12026.htm">sec.gov</a></li>
+    <li id="src-6">[6] Meta Platforms, "Fourth Quarter and Full Year 2025 Results," Jan 28, 2026. FY2025 capex: $72.22B. 2026 guidance: $115-135B (initial). <a href="https://investor.atmeta.com/investor-news/press-release-details/2026/Meta-Reports-Fourth-Quarter-and-Full-Year-2025-Results/default.aspx">investor.atmeta.com</a></li>
+    <li id="src-7">[7] CNBC, "Microsoft calls for $190 billion in 2026 capital spending on soaring memory prices," Apr 29, 2026. Q3 FY2026: $31.9B. CY2026: $190B guidance. <a href="https://www.cnbc.com/2026/04/29/microsoft-msft-q3-earnings-report-2026.html">cnbc.com</a></li>
+    <li id="src-8">[8] Yahoo Finance, "Big Tech's AI investments set to spike to $364 billion in 2025," Aug 1, 2025. Microsoft FY2025: $88.7B. <a href="https://finance.yahoo.com/news/big-techs-ai-investments-set-to-spike-to-364-billion-in-2025-as-bubble-fears-ease-143203885.html">yahoo.com</a></li>
+    <li id="src-9">[9] The Next Web, "Tesla raises 2026 capex to $25 billion," Apr 2026. Historical: $8.9B (2023), $11.3B (2024), $8.5B (2025). <a href="https://thenextweb.com/news/tesla-25-billion-capex-2026-optimus-robotaxi-ai-chip-fab">thenextweb.com</a></li>
+    <li id="src-10">[10] CNBC, "Apple isn't playing the same AI capex game as the rest of the megacaps," Oct 30, 2025. FY2025: $12.72B. <a href="https://www.cnbc.com/2025/10/30/apple-isnt-playing-the-same-ai-capex-game-as-the-rest-of-the-megacaps.html">cnbc.com</a></li>
+    <li id="src-11">[11] Business Quant, "Nvidia (NVDA) Capital Expenditures (2016–2026)." Q1 FY2026: $1.3B, Q4 FY2025: $1.6B, Q3 FY2025: $1.9B. <a href="https://businessquant.com/metrics/nvda/capital-expenditures">businessquant.com</a></li>
+    <li id="src-12">[12] IEEE ComSoc Technology Blog, "Hyperscaler capex >$600bn in 2026," Dec 22, 2025. ~75% is AI infrastructure. <a href="https://techblog.comsoc.org/2025/12/22/hyperscaler-capex-600-bn-in-2026-a-36-increase-over-2025-while-global-spending-on-cloud-infrastructure-services-skyrockets/">ieee.org</a></li>
+    <li id="src-13">[13] Fortune, "Meta just bumped its 2026 capex forecast up to as much as $145 billion," Apr 29, 2026. <a href="https://fortune.com/2026/04/29/meta-zuckerberg-145-billion-ai-spending-roi/">fortune.com</a></li>
+    <li id="src-14">[14] Introl Blog, "Nuclear power for AI: inside the data center energy deals," Jan 8, 2026. MSFT $16B TMI, GOOG 500MW Kairos, AMZN $20B Susquehanna. <a href="https://introl.com/blog/nuclear-power-ai-data-centers-microsoft-google-amazon-2025">introl.com</a></li>
+    <li id="src-15">[15] Introl Blog, "The Custom Silicon Inflection Point," Feb 23, 2026. Custom ASICs 44.6% CAGR vs GPUs 16.1%. Bloomberg Intelligence data. <a href="https://introl.com/blog/custom-silicon-inflection-2026-hyperscaler-asics-nvidia-gpu">introl.com</a></li>
+    <li id="src-16">[16] SemiAnalysis, "Google TPUv7: The 900lb Gorilla In the Room," Nov 2025. Inference = 2/3 of AI compute. <a href="https://newsletter.semianalysis.com/p/tpuv7-google-takes-a-swing-at-the">semianalysis.com</a></li>
+    <li id="src-17">[17] AI News Hub, "Nvidia to Google TPU Migration 2025," Nov 2025. Meta capex "almost entirely Nvidia GPUs." <a href="https://www.ainewshub.org/post/nvidia-vs-google-tpu-2025-cost-comparison">ainewshub.org</a></li>
+    <li id="src-18">[18] Tom Tunguz, "Are We Being Railroaded by AI?" AI infrastructure at 1.6% of GDP in 2025. <a href="https://tomtunguz.com/llm-impact-gdp/">tomtunguz.com</a></li>
+    <li id="src-19">[19] Los Angeles Times, "Meta signs multi-gigawatt nuclear deals to power AI data centers," Jan 9, 2026. 6GW+ nuclear. <a href="https://www.latimes.com/business/story/2026-01-09/meta-signs-multi-gigawatt-nuclear-deals-to-power-ai-data-centers">latimes.com</a></li>
+    <li id="src-20">[20] CNBC, "Alphabet (GOOGL) Q1 2026 earnings," Apr 29, 2026. Raised guidance to $180-190B. <a href="https://www.cnbc.com/2026/04/29/alphabet-googl-q1-2026-earnings.html">cnbc.com</a></li>
+    <li id="src-21">[21] Reuters, "Alphabet says capital spending in 2026 could double," Feb 4, 2026. Initial $175-185B guidance. <a href="https://www.reuters.com/business/google-parent-alphabet-forecasts-sharp-surge-2026-capital-spending-2026-02-04/">reuters.com</a></li>
+    <li id="src-22">[22] Reuters, "Alphabet reaffirms $75 billion spending plan in 2025," Apr 9, 2025. CY2025 original plan. <a href="https://www.reuters.com/technology/alphabet-ceo-reaffirms-planned-75-billion-capital-spending-2025-2025-04-09/">reuters.com</a></li>
+    <li id="src-23">[23] S&P Global, "Hyperscaler procurement to shape US power investment," Dec 2025. All four rank top-7 DC electricity consumers globally. <a href="https://www.spglobal.com/sustainable1/en/insights/special-editorial/hyperscaler-procurement-to-shape-us-power-investment">spglobal.com</a></li>
+    <li id="src-24">[24] Amazon, "Amazon to invest up to $50 billion to expand AI and supercomputing capabilities for AWS U.S. government customers," Nov 24, 2025. <a href="https://www.aboutamazon.com/news/company-news/amazon-ai-investment-us-federal-agencies">aboutamazon.com</a></li>
+    <li id="src-25">[25] Data Centre Magazine, "AWS Commits US$50bn to New Federal AI Data Centres," Nov 2025. $20B Pennsylvania, $10B North Carolina. <a href="https://datacentremagazine.com/news/why-amazon-is-committing-50bn-to-federal-ai-infrastructure">datacentremagazine.com</a></li>
+    <li id="src-26">[26] Alphabet Investor Relations, "Agreement to Acquire Intersect," Dec 22, 2025. $4.75B cash + debt. <a href="https://abc.xyz/investor/news/news-details/2025/Alphabet-Announces-Agreement-to-Acquire-Intersect-to-Advance-U-S--Energy-Innovation-2025-DVIuVDM9wW/default.aspx">abc.xyz</a></li>
+    <li id="src-27">[27] ESG Dive, "Alphabet acquires clean energy developer Intersect," Jan 2026. $40B in three Texas data centers. <a href="https://www.esgdive.com/news/alphabet-acquires-clean-energy-developer-intersect-portfolio-4-75b-google-data-centers/808756/">esgdive.com</a></li>
+    <li id="src-28">[28] Data Center Dynamics, "Three Mile Island nuclear power plant to return — Microsoft 20-year, 835MW PPA," 2024-2026. $1.6B Constellation investment. <a href="https://www.datacenterdynamics.com/en/news/three-mile-island-nuclear-power-plant-to-return-as-microsoft-signs-20-year-835mw-ai-data-center-ppa/">dcd.com</a></li>
+    <li id="src-29">[29] CNBC, "Microsoft to spend $4 billion on second Wisconsin data center," Sep 18, 2025. $3.3B + $4B. <a href="https://www.cnbc.com/2025/09/18/microsoft-wisconsin-data-center.html">cnbc.com</a></li>
+    <li id="src-30">[30] CIO Dive, "Microsoft invests billions globally to expand Azure empire," Jun 2024. €4B France expansion. <a href="https://www.ciodive.com/news/microsoft-cloud-azure-data-center-investments-generative-ai/717897/">ciodive.com</a></li>
+    <li id="src-31">[31] Microsoft Azure Blog, "Supporting cloud infrastructure demand in Asia," Oct 2025. Malaysia, Indonesia, India, Taiwan. <a href="https://azure.microsoft.com/en-us/blog/microsofts-commitment-to-supporting-cloud-infrastructure-demand-in-asia/">azure.microsoft.com</a></li>
+    <li id="src-32">[32] Utility Dive, "Meta inks nuclear deals for up to 6.6 GW," Jan 9, 2026. Prometheus 1GW Ohio. <a href="https://www.utilitydive.com/news/meta-nuclear-deal-oklo-vistra-terrapower-ai-data-centers/809215/">utilitydive.com</a></li>
+    <li id="src-33">[33] Intellectia.ai, "Nvidia Stock Analysis 2026," Apr 2026. AMD $60B Meta deal. <a href="https://intellectia.ai/blog/nvidia-stock-analysis-2026-ai-demand">intellectia.ai</a></li>
+    <li id="src-34">[34] Phemex, "NVIDIA Stock in 2026: Blackwell Demand," Mar 2026. $95.2B supply commitments. <a href="https://phemex.com/academy/nvidia-nvda-stock-2026">phemex.com</a></li>
+    <li id="src-35">[35] AI CERTs News, "Nvidia Blackwell and the Chip Demand Forecast Crunch," Dec 2025. $500B pipeline. <a href="https://www.aicerts.ai/news/nvidia-blackwell-and-the-chip-demand-forecast-crunch/">aicerts.ai</a></li>
+    <li id="src-36">[36] Tech-Insider, "NVIDIA Blackwell GPU Pricing," Apr 2026. $25-30K volume pricing. <a href="https://tech-insider.org/nvidia-blackwell-gpu-pricing/">tech-insider.org</a></li>
+    <li id="src-37">[37] OpenAI, "Announcing The Stargate Project," Jan 2025; "Five New Stargate Sites," Sep 2025. $500B/10GW commitment. <a href="https://openai.com/index/announcing-the-stargate-project/">openai.com</a></li>
+  </ol>
+</div>
+
+<div class="disclaimer">
+  <strong>Disclaimer:</strong> For informational purposes only. Not investment advice. Some figures are estimates based on management guidance and analyst frameworks. Where exact breakdowns are unavailable, methodology is stated. Prepared by Galileo Research for Tomales Bay Capital.
+</div>
+
+</div><!-- /container -->
+
+<script>
+const fontFamily = "'Inter', sans-serif";
+Chart.defaults.font.family = fontFamily;
+Chart.defaults.color = '#475569';
+const gridColor = 'rgba(203, 213, 225, 0.6)';
+
+// Company colors
+const colors = {
+  amazon: '#FF9900',
+  microsoft: '#0078D4',
+  alphabet: '#4285F4',
+  meta: '#0668E1',
+  tesla: '#E31937',
+  apple: '#555555',
+  nvidia: '#76B900'
+};
+
+// 1. Total Capex by Company (Stacked Bar)
+new Chart(document.getElementById('totalChart'), {
+  type: 'bar',
+  data: {
+    labels: ['2021', '2022', '2023', '2024', '2025', '2026E'],
+    datasets: [
+      { label: 'Amazon', data: [61.1, 63.6, 48.1, 83.0, 131.8, 200], backgroundColor: colors.amazon },
+      { label: 'Microsoft', data: [20.6, 23.9, 28.1, 44.5, 118, 190], backgroundColor: colors.microsoft },
+      { label: 'Alphabet', data: [24.6, 31.5, 32.3, 52.5, 91.5, 185], backgroundColor: colors.alphabet },
+      { label: 'Meta', data: [19.2, 31.4, 27.2, 37.7, 72.2, 135], backgroundColor: colors.meta },
+      { label: 'Tesla', data: [6.5, 7.2, 8.9, 11.3, 8.5, 25], backgroundColor: colors.tesla },
+      { label: 'Apple', data: [11.1, 10.7, 11.0, 9.9, 12.7, 13], backgroundColor: colors.apple },
+      { label: 'Nvidia', data: [1.0, 1.8, 1.1, 2.8, 5.6, 7], backgroundColor: colors.nvidia }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'top', labels: { usePointStyle: true, padding: 16, font: { size: 11 } } },
+      tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: $${ctx.parsed.y}B` } }
+    },
+    scales: {
+      y: { stacked: true, beginAtZero: true, grid: { color: gridColor }, ticks: { callback: v => `$${v}B` } },
+      x: { stacked: true, grid: { display: false } }
+    }
+  }
+});
+
+// 2. Aggregate (Line)
+new Chart(document.getElementById('aggChart'), {
+  type: 'line',
+  data: {
+    labels: ['2021', '2022', '2023', '2024', '2025', '2026E'],
+    datasets: [{
+      label: 'Mag7 Combined Capex ($B)',
+      data: [144, 170, 157, 242, 440, 755],
+      borderColor: '#4f46e5',
+      backgroundColor: 'rgba(79,70,229,0.08)',
+      fill: true,
+      tension: 0.3,
+      pointRadius: 6,
+      pointBackgroundColor: '#4f46e5',
+      borderWidth: 3
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => `$${ctx.parsed.y}B` } }
+    },
+    scales: {
+      y: { beginAtZero: true, grid: { color: gridColor }, ticks: { callback: v => `$${v}B` } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// 3. Category Decomposition (Doughnut)
+new Chart(document.getElementById('categoryChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['AI Compute (GPUs, ASICs)', 'Data Centers (bldg/cooling)', 'Network & Connectivity', 'Energy & Power', 'Custom Silicon R&D', 'Other'],
+    datasets: [{
+      data: [315, 192, 46, 46, 28, 73],
+      backgroundColor: ['#4f46e5', '#059669', '#0ea5e9', '#f59e0b', '#8b5cf6', '#94a3b8'],
+      borderWidth: 2,
+      borderColor: '#ffffff'
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'right', labels: { usePointStyle: true, padding: 12, font: { size: 12 } } },
+      tooltip: { callbacks: { label: ctx => `${ctx.label}: ~$${ctx.parsed}B (${Math.round(ctx.parsed/7)}%)` } }
+    }
+  }
+});
+
+// 4. Custom Silicon vs GPU (Bar)
+new Chart(document.getElementById('siliconChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Custom ASICs (TPU, Maia, Trainium, MTIA)', 'General-Purpose GPUs (Nvidia)', 'Other (AMD, Intel)'],
+    datasets: [
+      { label: '2024 Revenue ($B)', data: [18, 130, 12], backgroundColor: 'rgba(79,70,229,0.6)' },
+      { label: '2033 Projected ($B)', data: [165, 290, 55], backgroundColor: 'rgba(5,150,105,0.6)' }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'top', labels: { usePointStyle: true, padding: 16 } },
+      tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: $${ctx.parsed.y}B` } }
+    },
+    scales: {
+      y: { beginAtZero: true, grid: { color: gridColor }, ticks: { callback: v => `$${v}B` } },
+      x: { grid: { display: false }, ticks: { font: { size: 11 } } }
+    }
+  }
+});
+
+// 5. CAGR by Company (Horizontal Bar)
+new Chart(document.getElementById('cagrChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Microsoft', 'Nvidia', 'Alphabet', 'Meta', 'Amazon', 'Tesla', 'Apple'],
+    datasets: [{
+      label: '3-Year CAGR (CY2023→2026E)',
+      data: [89, 85, 78, 71, 61, 41, 6],
+      backgroundColor: [colors.microsoft, colors.nvidia, colors.alphabet, colors.meta, colors.amazon, colors.tesla, colors.apple],
+      borderRadius: 4
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => `${ctx.parsed.x}% CAGR` } }
+    },
+    scales: {
+      x: { beginAtZero: true, grid: { color: gridColor }, ticks: { callback: v => `${v}%` } },
+      y: { grid: { display: false }, ticks: { font: { size: 13, weight: '600' } } }
+    }
+  }
+});
+</script>
+</body>
+</html>
