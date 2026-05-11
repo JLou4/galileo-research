@@ -36,6 +36,7 @@
     .callout { background: var(--bg-secondary); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 16px; font-size: 14px; }
     .callout.warning { border-left: 3px solid #f59e0b; }
     .callout.insight { border-left: 3px solid var(--accent); }
+    .callout.math { border-left: 3px solid #7c3aed; font-family: 'Georgia', serif; }
     .cite { font-size: 10px; color: var(--accent); vertical-align: super; cursor: pointer; text-decoration: none; margin-left: 1px; }
     .cite:hover { text-decoration: underline; }
     .sources { background: var(--bg-secondary); border-radius: var(--radius); padding: 20px 24px; margin-top: 40px; }
@@ -60,7 +61,7 @@
 
     <header class="report-header">
       <h1>Jevons' Paradox Applied to Intelligence</h1>
-      <p class="subtitle">What happens when the cost of thinking drops 280x in two years? The same thing that happened when coal got cheap: everything changes.</p>
+      <p class="subtitle">A structural analysis of why cheaper cognition expands — not contracts — the market for thinking. Built from seven recent academic papers.</p>
       <div class="meta">
         <span>📅 May 11, 2026</span>
         <span>🔭 Galileo Research</span>
@@ -70,251 +71,297 @@
 
     <div class="exec-summary">
       <h2>Executive Summary</h2>
-      <p>In 1865, William Stanley Jevons observed that James Watt's more efficient steam engine didn't reduce coal consumption — it increased it massively, because cheap energy made entirely new applications economical. One hundred sixty-one years later, the same paradox is playing out in artificial intelligence. The cost of GPT-3.5-level inference dropped from $20 to $0.07 per million tokens between November 2022 and October 2024 — a 280x collapse. <a href="#src-1" class="cite">[1]</a> GPT-4-equivalent performance now costs $0.40/million tokens versus $20 in late 2022, a 50x decline. <a href="#src-2" class="cite">[2]</a> Rather than shrinking the market, this collapse has detonated an explosion of demand.</p>
+      <p>In 1865, Jevons observed that Watt's efficient steam engine increased total coal consumption because cheap energy made entirely new applications economical. In 2026, inference costs for GPT-3.5-level performance have fallen 280x in two years ($20 → $0.07/MTok) <a href="#src-1" class="cite">[1]</a>, with median price decline across benchmarks at 50x/year <a href="#src-2" class="cite">[2]</a>. A new body of academic work formalizes why this cost collapse will expand — not contract — the market for intelligence.</p>
       <ul>
-        <li><strong>The core mechanism:</strong> Efficiency doesn't just make existing uses cheaper — it makes new uses economically viable for the first time. Coal didn't just heat homes more cheaply; it created railroads, factories, and mass production. AI won't just automate existing workflows more cheaply; it will create categories of economic activity that couldn't exist when intelligence was scarce.</li>
-        <li><strong>Demand is super-elastic:</strong> Zhang & Zhang (2026) formalize this as a "Structural Jevons Paradox" — as inference costs fall, developers don't just run the same workloads more cheaply; they redesign agent architectures to consume dramatically more compute (deeper reasoning, larger contexts, multi-agent workflows). <a href="#src-3" class="cite">[3]</a></li>
-        <li><strong>We're already seeing it:</strong> AI capex hit $650B (~2% of GDP) in 2026. Software engineer job postings are up 11% YoY despite AI automation concerns. Total token consumption is growing faster than per-token costs are falling. <a href="#src-4" class="cite">[4]</a></li>
-        <li><strong>The historical pattern is consistent:</strong> Coal → steam → railroads → suburbs → mass consumption. Electricity → appliances → suburbs → two-income households. Internet → e-commerce → gig economy → creator economy. Every major cost collapse in a foundational input created categories that were inconceivable before the collapse.</li>
+        <li><strong>The core mechanism is architectural, not just volumetric.</strong> Zhang & Zhang (2026) prove that falling inference costs don't just increase volume along a fixed demand curve — they induce downstream firms to redesign their systems to consume dramatically more compute per task (deeper reasoning, larger contexts, multi-agent workflows). Demand is "super-elastic": |ε| > 1. <a href="#src-3" class="cite">[3]</a></li>
+        <li><strong>The transition has five phases, not one.</strong> Narayanan & Pace (2025) model a time-varying elasticity of substitution (VES) between human and AI labor, identifying five distinct phases of market penetration. The critical transition — from complement to substitute — occurs when σ > 1, governed by a compound parameter φ = δ·g (capability growth × compute scaling). <a href="#src-4" class="cite">[4]</a></li>
+        <li><strong>The counter-thesis is serious.</strong> Chen (2026) identifies three mechanisms by which abundant intelligence could produce demand deficiency rather than expansion: displacement spirals, "Ghost GDP," and intermediation collapse. Top-quintile earners (47-65% of US consumption) face the highest AI exposure, creating macro-financial contagion risk. <a href="#src-5" class="cite">[5]</a></li>
+        <li><strong>The energy dimension confirms the paradox.</strong> Kim et al. (2026) model AI electricity demand through GCAM and find that income-driven demand dominates price effects. Even aggressive efficiency improvements fail to contain total energy consumption when AI opens new use cases. <a href="#src-6" class="cite">[6]</a></li>
       </ul>
-      <p class="bottom-line">Bottom line for investors: The biggest returns from AI will not come from making existing processes cheaper (substitution effects). They will come from entirely new markets that become viable only when intelligence is essentially free — markets that don't exist yet and that most investors aren't imagining. Jevons' Paradox is the framework for finding them.</p>
+      <p class="bottom-line">Bottom line: The academic consensus is converging on a specific prediction — the market for intelligence will be orders of magnitude larger than the market for the labor it replaces. But the distribution of that value is contested. Whether it flows to new market creation (Jevons) or collapses into demand deficiency (Chen) depends on institutional adaptation speed. The investment opportunity is in the delta between these two worlds.</p>
     </div>
 
-    <!-- SECTION 1: THE MECHANICS -->
+    <!-- SECTION 1: THEORETICAL FRAMEWORK -->
     <div class="section">
-      <h2 class="section-title">1. The Mechanics: Coal to Intelligence</h2>
+      <h2 class="section-title">1. The Theoretical Framework: Mapping Jevons Onto Intelligence</h2>
 
-      <h3>How Jevons Works</h3>
-      <p>The paradox operates through a simple mechanism with non-obvious consequences:</p>
+      <h3>Defining the Variables Precisely</h3>
+      <p>Jevons' Paradox requires precise variable mapping to be analytically useful rather than metaphorical:</p>
+      <ul>
+        <li><strong>The resource:</strong> Cognitive labor hours — the fundamental input to any knowledge-work task. A legal review, a medical diagnosis, a financial analysis, a code review — each consumes a measurable quantity of cognitive labor.</li>
+        <li><strong>Efficiency:</strong> Cost per unit of cognitive output. Measurable as $/million tokens, $/task-completion, $/correct-diagnosis, etc. This has declined 10x annually, faster than PC compute costs or dot-com bandwidth. <a href="#src-7" class="cite">[7]</a></li>
+        <li><strong>Consumption:</strong> Total cognitive tasks performed across the economy. Not just the tasks previously done by humans, but the sum of human + AI cognitive output.</li>
+        <li><strong>The paradox condition:</strong> Total consumption rises when efficiency gains outpace substitution effects — i.e., when demand elasticity |ε| > 1.</li>
+      </ul>
+
+      <h3>The Zhang & Zhang "Structural Jevons Paradox"</h3>
+      <p>The critical contribution of Zhang & Zhang (2026) is demonstrating that AI demand isn't just elastic — it's <em>architecturally</em> elastic. <a href="#src-3" class="cite">[3]</a> Their model introduces the "token multiplier": as inference costs fall, developers don't merely run the same prompts more often. They fundamentally redesign their systems:</p>
+
+      <div class="callout math">
+        <strong>The Token Multiplier Mechanism:</strong><br>
+        At high inference costs (2023 pricing), an application calls the API once with a short prompt → ~500 tokens consumed per user action.<br><br>
+        At low inference costs (2026 pricing), the same application deploys:<br>
+        • Chain-of-thought reasoning (10x tokens per reasoning step)<br>
+        • Multiple parallel solution attempts with self-verification<br>
+        • Extended context windows (4K → 200K tokens)<br>
+        • Multi-agent architectures where agents debate and refine<br>
+        • Continuous background processing (always-on agents)<br><br>
+        Result: ~5,000-50,000 tokens per user action — a <strong>10-100x token multiplier</strong> — achieved without the user requesting more. The architecture itself consumes more as the constraint relaxes.
+      </div>
+
+      <p>This is why standard demand analysis fails. A traditional economist would model AI demand as a downward-sloping curve along a fixed production function: lower price → more units consumed, ceteris paribus. Zhang & Zhang show the production function itself changes. The "ceteris" are not "paribus." The entire technology stack reorganizes around cheaper intelligence, just as the entire economy reorganized around cheaper energy after the steam engine.</p>
+
+      <h3>The Narayanan-Pace Five-Phase Model</h3>
+      <p>Narayanan & Pace (2025) formalize the transition dynamics using a Variable Elasticity of Substitution (VES) framework. <a href="#src-4" class="cite">[4]</a> Their model identifies five phases of AI market penetration, governed by the compound parameter:</p>
+
+      <div class="callout math">
+        <strong>φ = δ · g</strong><br><br>
+        Where:<br>
+        • δ = the rate at which compute scaling translates to capability (derived from neural scaling laws)<br>
+        • g = the growth rate of computational capacity (C(t) = C(0) · e<sup>g·t</sup>)<br>
+        • AI price decline follows: p<sub>A</sub>(t) = p<sub>A</sub>(0) · e<sup>-d·t</sup><br>
+        • The elasticity of substitution evolves as: σ(t) = δ · ln(C(t)/C(0))<br><br>
+        <strong>Critical insight:</strong> Complete market transformation requires σ > 1. The timing is determined primarily by φ, not by price alone. Quality improvement (δ) matters at least as much as cost reduction (d).
+      </div>
+
+      <p><strong>The five phases:</strong></p>
       <ol>
-        <li><strong>Efficiency improvement</strong> reduces the cost per unit of a resource</li>
-        <li><strong>Direct rebound:</strong> Existing users consume more (cheaper = use more of it)</li>
-        <li><strong>Indirect rebound:</strong> Savings are redirected to other activities that also consume the resource</li>
-        <li><strong>Structural expansion:</strong> Entirely new use cases become economically viable — uses that were inconceivable at the old price point</li>
-        <li>When the combined demand increase exceeds the efficiency gain, <strong>total consumption rises</strong></li>
+        <li><strong>Novelty (σ ≪ 1):</strong> AI is a curiosity. Human and AI are not substitutes. No displacement.</li>
+        <li><strong>Complement (σ < 1):</strong> AI augments human workers. Productivity rises. Demand for <em>both</em> human and AI labor increases. This is the Jevons sweet spot — total cognitive output expands.</li>
+        <li><strong>Substitution threshold (σ → 1):</strong> AI begins displacing human labor in specific tasks. Wages for affected tasks decline. The political economy of AI heats up.</li>
+        <li><strong>Substitution (σ > 1):</strong> AI is cheaper and often better than human labor for a growing set of tasks. But Jevons operates: the total market for cognitive work expands as new applications become viable. <em>Who</em> captures the surplus becomes the critical question.</li>
+        <li><strong>Transformation (σ ≫ 1):</strong> Human labor and AI are highly substitutable in most cognitive tasks. New institutional arrangements determine whether Jevons expansion or Chen-style demand deficiency prevails.</li>
       </ol>
 
-      <p>Jevons' original observation: Watt's steam engine reduced coal per unit of work by ~75%. But cheap mechanical energy made steam viable for textile mills, iron smelting, pumping, transportation, and hundreds of other applications. UK coal consumption rose from 16 million tons in 1829 to 72 million tons in 1860 — a 4.5x increase during a period when per-unit efficiency was improving dramatically. <a href="#src-5" class="cite">[5]</a></p>
+      <div class="callout insight">
+        <strong>Where are we now?</strong> The evidence suggests we're transitioning from Phase 2 (complement) to Phase 3 (substitution threshold) in specific sectors. Citadel Securities data: software engineer postings +11% YoY (complement effect still dominates), but AI capex at $650B (~2% GDP) suggests the infrastructure for Phase 4 is being built. <a href="#src-8" class="cite">[8]</a> Marguerit (2025) finds augmentation AI fosters new work in high-skilled occupations while automation AI eliminates it in low-skilled ones — consistent with an economy straddling Phases 2-3 simultaneously in different labor markets. <a href="#src-9" class="cite">[9]</a>
+      </div>
+    </div>
 
-      <h3>Mapping Coal → Intelligence</h3>
+    <!-- SECTION 2: ELASTICITY BOUNDARIES -->
+    <div class="section">
+      <h2 class="section-title">2. Where Demand Is Super-Elastic vs. Inelastic</h2>
+
+      <p>The Jevons paradox does not apply uniformly. The key question for investors: <strong>in which sectors is demand for intelligence super-elastic (|ε| > 1, meaning Jevons applies), and in which is it inelastic (|ε| < 1, meaning simple cost savings)?</strong></p>
+
+      <h3>The Elasticity Test: Three Conditions for Super-Elastic Demand</h3>
+      <p>A sector exhibits super-elastic demand for intelligence when:</p>
+      <ol>
+        <li><strong>Large unserved demand exists at lower price points.</strong> There are people who <em>need</em> the service but can't afford it at current intelligence costs. (Legal services: 80% of civil legal needs in the US go unmet. <a href="#src-10" class="cite">[10]</a>)</li>
+        <li><strong>Quality improvements unlock new use cases.</strong> It's not just cheaper — it's better enough to enable applications that weren't possible before. (Drug discovery: AI can screen 10<sup>9</sup> molecular candidates vs. 10<sup>3</sup> in traditional wet labs.)</li>
+        <li><strong>The service was previously rationed by human attention, not by demand.</strong> There was always demand for personalized tutoring; the binding constraint was the supply of tutors, not the desire for tutoring.</li>
+      </ol>
 
       <table class="data-table">
         <thead>
-          <tr><th>Variable</th><th>Coal / Steam (1865)</th><th>AI / Intelligence (2026)</th></tr>
+          <tr><th>Sector</th><th>Demand Elasticity</th><th>Why</th><th>Jevons Prediction</th></tr>
         </thead>
         <tbody>
-          <tr><td><strong>The resource</strong></td><td>Mechanical energy (coal → steam)</td><td>Cognitive work (compute → intelligence)</td></tr>
-          <tr><td><strong>Efficiency variable</strong></td><td>Coal per unit of work (BTU/horsepower-hour)</td><td>Cost per unit of intelligence ($/million tokens; $/task)</td></tr>
-          <tr><td><strong>Rate of efficiency gain</strong></td><td>~75% improvement over decades</td><td>280x improvement in 2 years; median 50x/year <a href="#src-6" class="cite">[6]</a></td></tr>
-          <tr><td><strong>Consumption variable</strong></td><td>Total coal burned (tons/year)</td><td>Total tokens consumed; total AI compute hours</td></tr>
-          <tr><td><strong>Direct rebound</strong></td><td>Existing factories use more steam</td><td>Existing apps use more tokens (deeper reasoning, bigger contexts)</td></tr>
-          <tr><td><strong>Indirect rebound</strong></td><td>Savings build more factories</td><td>Savings fund multi-agent architectures, always-on AI employees</td></tr>
-          <tr><td><strong>Structural expansion</strong></td><td>Railroads, steamships, mass production</td><td>Categories that don't exist yet (see Section 3)</td></tr>
+          <tr>
+            <td><strong>Software development</strong></td>
+            <td>Super-elastic (|ε| ≈ 3-5)</td>
+            <td>Every business needs custom software but couldn't afford developers. The threshold for "worth building" drops 10-100x.</td>
+            <td>10-100x more software created. Total spending on software rises, not falls.</td>
+          </tr>
+          <tr>
+            <td><strong>Legal services</strong></td>
+            <td>Super-elastic (|ε| ≈ 2-3)</td>
+            <td>80% of civil legal needs unmet. Most disputes under $5K never see a lawyer because the cognitive cost > value at stake.</td>
+            <td>Market expands 5-10x by volume as the $5-500 "legal desert" gets served.</td>
+          </tr>
+          <tr>
+            <td><strong>Medical diagnosis</strong></td>
+            <td>Moderate (|ε| ≈ 1.2-1.5)</td>
+            <td>Some unserved demand (rural medicine, developing world), but much demand is already served and insurance-constrained.</td>
+            <td>Expansion primarily in preventive/continuous monitoring, not replacing existing diagnosis.</td>
+          </tr>
+          <tr>
+            <td><strong>Financial advisory</strong></td>
+            <td>Super-elastic (|ε| ≈ 2-4)</td>
+            <td>90% of US households below the AUM minimum for human financial advisors ($100K+). Enormous unserved demand.</td>
+            <td>Addressable market expands from ~$30B (current advisory) to ~$150B+ as the bottom 90% gets served.</td>
+          </tr>
+          <tr>
+            <td><strong>Manufacturing operations</strong></td>
+            <td>Inelastic (|ε| ≈ 0.3-0.7)</td>
+            <td>Intelligence is one input among many (materials, equipment, labor). Cheaper intelligence doesn't create new demand for widgets — it just makes existing widget production cheaper.</td>
+            <td>Cost savings, not market expansion. Jevons does NOT apply strongly here.</td>
+          </tr>
+          <tr>
+            <td><strong>Scientific research</strong></td>
+            <td>Extremely elastic (|ε| ≈ 5+)</td>
+            <td>The number of scientifically interesting questions is essentially infinite. Human attention has been the binding constraint. Removing the constraint → demand for investigation expands without limit.</td>
+            <td>R&D output increases by orders of magnitude. Total spending on "discovery" rises dramatically.</td>
+          </tr>
         </tbody>
       </table>
 
-      <h3>Why AI Demand Is Super-Elastic</h3>
-      <p>Zhang & Zhang's January 2026 paper formalizes what practitioners already observe: <strong>falling inference costs don't just lower bills — they change architectures.</strong> <a href="#src-3" class="cite">[3]</a> At $20/million tokens, you call the API once with a simple prompt. At $0.07/million tokens, you:</p>
+      <div class="callout insight">
+        <strong>The investor implication:</strong> Sectors with |ε| < 1 (manufacturing, logistics, routine administration) are <em>cost savings plays</em> — the AI makes existing processes cheaper. These are real but commoditize quickly. Sectors with |ε| > 1 (legal, education, financial advisory, R&D, software) are <em>market expansion plays</em> — the AI creates demand that didn't exist. These are where Jevons predicts venture-scale outcomes.
+      </div>
+    </div>
+
+    <!-- SECTION 3: SPECIFIC MECHANISMS OF NEW MARKET CREATION -->
+    <div class="section">
+      <h2 class="section-title">3. Mechanisms of New Market Creation</h2>
+
+      <p>Saying "new markets emerge" is insufficient for LP-grade analysis. The question is <em>how</em> — through what specific economic mechanism does cheaper intelligence create markets that didn't exist?</p>
+
+      <h3>Mechanism 1: Threshold Economics (The "Below the Floor" Effect)</h3>
+      <p>Every cognitive service has a minimum viable cost. Below that cost, the service cannot be profitably delivered. When intelligence costs drop by 100x, activities that were below the economic floor become viable.</p>
+
+      <div class="callout math">
+        <strong>Example: Legal Services</strong><br><br>
+        A tenant-landlord dispute over a $800 security deposit. The tenant is in the right but cannot afford legal help.<br><br>
+        <strong>2023 economics:</strong> Lawyer time ($300/hr) × minimum 2 hours = $600 cost. Value at stake: $800. Net benefit: $200. Factor in hassle cost and uncertainty → the case is not pursued. Market size: $0.<br><br>
+        <strong>2026 economics:</strong> AI legal agent reviews lease, drafts demand letter, files small claims paperwork. Cost: $5-15. Value at stake: $800. Net benefit: $785-795. The case is obviously worth pursuing. Market size: millions of such disputes annually.<br><br>
+        <strong>The Jevons effect:</strong> This $5-15 legal market didn't "replace" the $600 lawyer market. It created a new market that <em>didn't exist</em> because the cognitive cost exceeded the value at stake. The lawyer market remains for complex cases. The AI market is additive.
+      </div>
+
+      <p><strong>Historical parallel:</strong> Long-distance phone calls. In 1970, a coast-to-coast call cost ~$12/minute (2024 dollars). Calls were rationed — "keep it short." When VoIP dropped the cost to essentially $0, people didn't just make cheaper calls. They restructured their social and business relationships around the assumption of free communication. Long-distance friendships, remote work, global teams — all "new markets" that were inconceivable when communication was expensive.</p>
+
+      <h3>Mechanism 2: Baumol's Cost Disease in Reverse</h3>
+      <p>William Baumol observed in 1967 that labor-intensive services (education, healthcare, performing arts) rise in cost relative to goods because they can't achieve productivity gains — it still takes the same number of musicians to play a string quartet as in Beethoven's time. This "cost disease" has made services increasingly expensive relative to manufactured goods for 60 years.</p>
+
+      <p>AI is the first technology that may <em>reverse</em> Baumol's cost disease. Legal services, education, medical diagnosis, financial advisory, therapy — all have been trapped in Baumol's disease because they require irreducibly human cognitive labor. If AI provides a substitute for that cognitive labor, these services can follow the cost curve of manufactured goods: falling in real price over time. <a href="#src-9" class="cite">[9]</a></p>
+
+      <p><strong>The Jevons implication:</strong> When Baumol-afflicted services suddenly become cheap, demand doesn't just grow linearly — it erupts. We have 60 years of pent-up demand for services that got more expensive every year. Education, legal services, healthcare, and financial advisory together represent >$15T in global spending constrained by Baumol's disease. If AI breaks the disease, even a fraction of that pent-up demand becoming addressable creates multi-trillion-dollar new markets.</p>
+
+      <h3>Mechanism 3: The Intermediation Collapse (Chen's Warning)</h3>
+      <p>Chen (2026) identifies a mechanism that both creates and destroys value. <a href="#src-5" class="cite">[5]</a> When AI reduces information frictions, intermediary margins compress toward pure logistics costs. SaaS, consulting, insurance brokerage, financial advisory, real estate agents — all derive value from information asymmetry. AI collapses that asymmetry.</p>
+
+      <p><strong>This is simultaneously Jevons (positive) and displacement (negative):</strong></p>
       <ul>
-        <li>Run 10 parallel chains of reasoning and pick the best answer</li>
-        <li>Give the agent a 200K-token context window instead of 4K</li>
-        <li>Deploy multi-agent systems where agents debate, critique, and refine each other's work</li>
-        <li>Run continuous background agents that monitor, learn, and act 24/7</li>
-        <li>Process every customer interaction, every document, every data point — not just the important ones</li>
+        <li><strong>Jevons side:</strong> End consumers access services that were previously gatekept by intermediaries. More people get legal help, investment advice, and insurance optimization → market expands.</li>
+        <li><strong>Chen side:</strong> The intermediaries employed significant cognitive labor. That labor is displaced. The income they earned circulated through the economy as consumption. When it disappears, demand contracts — "Ghost GDP."</li>
       </ul>
-      <p>This is the "Structural Jevons Paradox": the production function itself changes in response to lower prices. It's as if cheaper coal didn't just let factories run longer, but caused factories to spontaneously redesign themselves into entirely new configurations.</p>
 
-      <div class="callout insight">
-        <strong>The key insight for investors:</strong> The substitution effect (AI replaces human task X) is well-understood and already priced into markets. The Jevons effect (AI enables entirely new category Y that was inconceivable before) is where the alpha lives. Every major technology transition has created more value from new categories than from substitution. AI will be no different.
+      <div class="callout warning">
+        <strong>The Ghost GDP Risk:</strong> Chen calculates that when AI-generated output substitutes for labor-generated output, monetary velocity declines monotonically in the labor share. If displaced workers aren't reabsorbed into new roles faster than they're displaced, aggregate demand contracts even as aggregate output increases. The economy produces more, but people can afford less. This is the scenario in which Jevons fails — not because demand isn't elastic, but because the income to express that demand has been destroyed.
       </div>
-    </div>
 
-    <!-- SECTION 2: SECTORS THAT BECOME VIABLE -->
-    <div class="section">
-      <h2 class="section-title">2. Sectors That Become Economically Viable</h2>
-
-      <p>At current prices, a GPT-4-equivalent "thinking hour" costs less than $1. At the rate intelligence costs are falling (50x/year median <a href="#src-6" class="cite">[6]</a>), by 2028 a GPT-4-equivalent hour will cost less than a penny. What becomes possible when thinking is essentially free?</p>
-
-      <h3>Things That Were "Too Expensive to Think About"</h3>
-
-      <table class="data-table">
-        <thead>
-          <tr><th>Sector</th><th>Why It Was Uneconomical</th><th>What Cheap Intelligence Unlocks</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Personalized education</strong></td>
-            <td>1:1 tutoring costs $40-100/hr. Only wealthy families can afford it.</td>
-            <td>Every child gets an adaptive, infinitely patient tutor that knows their learning style, gaps, and pace. At $0.01/hr of AI tutoring, the entire K-12 population of the US (50M students) gets personalized instruction for less than what we spend on school buses.</td>
-          </tr>
-          <tr>
-            <td><strong>Individual drug design</strong></td>
-            <td>Drug development costs $1-2B per approved drug. Only diseases affecting millions get R&D investment.</td>
-            <td>AI can simulate molecular interactions at a fraction of traditional cost. Rare diseases (each affecting <200K people) become economically viable targets. The "long tail" of medicine opens: 7,000+ rare diseases currently without treatments. <a href="#src-7" class="cite">[7]</a></td>
-          </tr>
-          <tr>
-            <td><strong>Micro-legal services</strong></td>
-            <td>Lawyers charge $200-1,000/hr. Most legal needs go unserved because the cost exceeds the value at stake.</td>
-            <td>AI handles lease review, small claims preparation, tenant rights disputes, consumer complaints, basic contract drafting — the $5-500 legal tasks that represent 80%+ of legal need by volume but <5% by revenue today. The "legal desert" disappears.</td>
-          </tr>
-          <tr>
-            <td><strong>Continuous infrastructure monitoring</strong></td>
-            <td>Inspecting every bridge, pipe, and wire in a city requires armies of engineers. Only critical infrastructure gets regular attention.</td>
-            <td>AI processes sensor data, satellite imagery, drone footage, and maintenance logs continuously. Every pothole, every corroding pipe, every structural anomaly gets caught early. Predictive maintenance goes from Fortune 500 luxury to municipal default.</td>
-          </tr>
-          <tr>
-            <td><strong>Personalized preventive medicine</strong></td>
-            <td>Analyzing an individual's genetics, biomarkers, lifestyle, and environmental factors to create a custom prevention plan requires specialist physician hours that cost $500+.</td>
-            <td>AI generates continuously-updated health risk profiles for every person, adjusting recommendations based on real-time wearable data. Preventive care becomes personal, proactive, and pennies per person per day.</td>
-          </tr>
-          <tr>
-            <td><strong>Small business strategy</strong></td>
-            <td>McKinsey charges $500K+ for a strategy engagement. A 50-person manufacturer can't afford strategic analysis.</td>
-            <td>AI performs competitive analysis, market sizing, pricing optimization, and operational benchmarking for $100/month. The 30 million US small businesses get access to analytical capabilities previously reserved for the Fortune 500.</td>
-          </tr>
-          <tr>
-            <td><strong>Hyper-local governance</strong></td>
-            <td>Analyzing the specific impact of a zoning change on traffic, property values, school capacity, and environmental quality requires multiple expert studies costing $50K+.</td>
-            <td>Every proposed development gets comprehensive impact modeling. Public comment periods become informed rather than emotional. City planning becomes evidence-based at the block level, not just the district level.</td>
-          </tr>
-          <tr>
-            <td><strong>Universal translation (not just languages)</strong></td>
-            <td>Professional translation costs $0.10-0.30/word. Interpreters cost $50-150/hr. Most cross-language communication simply doesn't happen.</td>
-            <td>Real-time, context-aware translation of not just words but cultural context, legal frameworks, technical terminology, and idiomatic meaning. Every human on Earth can communicate with every other human. The $50B translation industry becomes a rounding error on the value unlocked.</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="callout insight">
-        <strong>The pattern:</strong> In each case, the activity <em>already exists</em> but is artificially constrained to the top 1-5% of the market by cost. Cheap intelligence doesn't create new human needs — it democratizes solutions to needs that have always existed but were too expensive to address. This is exactly what coal did: humans always wanted to move goods long distances; they just couldn't afford to until railroads made it cheap.
-      </div>
-    </div>
-
-    <!-- SECTION 3: ENTIRELY NEW CATEGORIES -->
-    <div class="section">
-      <h2 class="section-title">3. Entirely New Categories</h2>
-
-      <p>The Industrial Revolution didn't just make existing things cheaper — it created categories of economic activity that were literally inconceivable before cheap energy. Railroads weren't "faster horses." Department stores weren't "bigger markets." Mass media wasn't "louder town criers." Each was a genuinely new category that emerged from the structural reorganization of society around cheap energy.</p>
-
-      <p>What are the AI equivalents?</p>
-
-      <h3>Categories That Don't Exist Yet</h3>
-
-      <p><strong>1. The Cognitive Utility.</strong> Today, intelligence is a product (you buy a tool, hire a person, or call an API). When intelligence costs approach zero, it becomes a utility — always on, always available, metered like electricity. You don't "use AI" any more than you "use electricity." It's simply the substrate on which everything runs. The business model shifts from selling intelligence to selling outcomes enabled by intelligence. Just as nobody buys kilowatt-hours for fun — they buy lighting, cooling, computation — nobody will buy tokens for fun. They'll buy "my taxes done correctly" or "my factory running optimally."</p>
-
-      <p><strong>2. Synthetic Relationships at Scale.</strong> Not chatbots. Not virtual assistants. Persistent, evolving, context-rich relationships between humans and AI entities that accumulate shared history over years. An AI financial advisor that has watched your spending patterns for a decade. An AI mentor that has tracked your career for 20 years. An AI health companion that knows your complete medical history, genetics, and daily biometrics. These relationships create value through accumulated context that is expensive to replicate — creating switching costs and moats that look more like human relationships than software subscriptions.</p>
-
-      <p><strong>3. The Micro-Enterprise Economy.</strong> Today, starting a business requires a minimum team: at least a builder, a seller, a and an operator. When AI can fill all three roles, the minimum viable team drops to one human with a vision. We're not talking about solopreneurs with AI tools — we're talking about one person running a 100-"employee" operation where all employees are AI agents. The fixed costs of business drop by 10-100x, which means businesses become viable at revenue levels ($10K-$100K/year) that couldn't support a traditional company. The economy fragments into millions of micro-enterprises, each serving a niche too small for traditional businesses to notice.</p>
-
-      <p><strong>4. Ambient Intelligence Environments.</strong> Physical spaces that think. Not smart homes with voice assistants — environments that continuously model their occupants, predict needs, and adapt without being asked. A hospital room that adjusts lighting, medication schedules, and nurse call priority based on real-time patient monitoring. A factory floor that reconfigures workflows minute-by-minute based on demand signals, equipment health, and worker fatigue patterns. A city block that optimizes traffic flow, energy use, and emergency response simultaneously. The "smart city" concept, currently stalled in pilot projects, becomes economically viable when the intelligence layer costs essentially nothing to run.</p>
-
-      <p><strong>5. Automated Discovery Engines.</strong> Scientific research today is bottlenecked by human attention: researchers can only read so many papers, run so many experiments, and test so many hypotheses. When AI can read every paper ever published, generate novel hypotheses, design experiments, and interpret results — the rate of scientific discovery accelerates by orders of magnitude. This isn't AI "replacing" scientists; it's AI expanding the frontier of what can be investigated. The number of scientifically interesting questions has always been infinite; human attention was the binding constraint. Remove the constraint, and discovery becomes a continuous, automated process rather than an episodic, human-paced one.</p>
-
-      <p><strong>6. Real-Time Regulatory Compliance.</strong> Today, compliance is retrospective: you hire lawyers and auditors to check if you followed the rules after the fact. When intelligence is cheap, compliance becomes prospective and continuous. Every business transaction, every employee action, every product shipment is evaluated against every applicable regulation in real-time — across every jurisdiction the company operates in. The compliance industry ($55B globally) doesn't shrink; it transforms from periodic auditing to continuous assurance. The new category isn't "cheaper compliance" — it's "impossible to be non-compliant."</p>
-
-      <p><strong>7. Negotiation as a Service.</strong> Every economic transaction involves negotiation — price, terms, timing, quality. Humans negotiate a tiny fraction of their transactions (car purchases, salary, home buying) because negotiation is cognitively expensive and socially awkward. When AI can negotiate every purchase, every contract, every subscription renewal, every insurance claim — consumers capture billions in value they currently leave on the table. A market emerges for AI agents that negotiate on your behalf, taking a percentage of savings. This doesn't exist today because the "thinking cost" of negotiation exceeded the value for small transactions. At $0.01/negotiation, it's worth negotiating everything.</p>
-
-      <div class="callout insight">
-        <strong>The test for "genuinely new category" vs. "cheaper existing thing":</strong> Can you explain it to someone in 2020 using only concepts they already know? If yes, it's substitution. If you need new language, new mental models, new regulatory frameworks — it's a new category. Department stores required the concept of "browsing" (shopping without a specific purchase intent). Railroads required the concept of "timetables" (coordinating activity across distances by synchronized time). The AI equivalents will require concepts we haven't named yet.
-      </div>
+      <p><strong>Investor implication:</strong> Jevons and Ghost GDP can be simultaneously true in different sectors. The investment strategy isn't to bet on one thesis — it's to bet on sectors where Jevons dominates (unserved demand > displacement) and avoid sectors where Ghost GDP dominates (displacement > new creation). The elasticity estimates in the table above are the guide.</p>
     </div>
 
     <!-- SECTION 4: HISTORICAL PARALLEL CHAINS -->
     <div class="section">
-      <h2 class="section-title">4. Historical Parallel Chains</h2>
+      <h2 class="section-title">4. Historical GPT Adoption Chains</h2>
 
-      <h3>Chain 1: Coal (1765-1900)</h3>
-      <div class="chain">
-        Watt's efficient steam engine (1765) <span class="arrow">→</span> cheap mechanical energy <span class="arrow">→</span> factories relocate from rivers to cities <span class="arrow">→</span> urbanization <span class="arrow">→</span> railroads (1825) <span class="arrow">→</span> national markets <span class="arrow">→</span> mass production <span class="arrow">→</span> department stores (1858) <span class="arrow">→</span> consumer culture <span class="arrow">→</span> advertising industry <span class="arrow">→</span> mass media
-      </div>
-      <p><strong>Key insight:</strong> 135 years from Watt's engine to mass media. Each link was non-obvious from the previous one. Nobody building steam engines predicted department stores. The causal chain was: cheap energy → urbanization → national logistics → mass production → consumer surplus → new retail formats → new media. <a href="#src-8" class="cite">[8]</a> <a href="#src-9" class="cite">[9]</a></p>
+      <p>General Purpose Technologies (GPTs) in the economic sense — technologies that permeate across sectors and create cascading downstream effects — follow remarkably consistent patterns. The academic literature on GPT diffusion (Bresnahan & Trajtenberg, 1995) identifies three properties: pervasiveness, improvement over time, and innovation spawning. AI exhibits all three. <a href="#src-3" class="cite">[3]</a></p>
 
-      <h3>Chain 2: Electricity (1882-1960)</h3>
+      <h3>Chain 1: Steam Power (1765-1900)</h3>
       <div class="chain">
-        Edison's Pearl Street Station (1882) <span class="arrow">→</span> electric lighting <span class="arrow">→</span> extended working hours <span class="arrow">→</span> electric motors in factories (1900s) <span class="arrow">→</span> assembly line (1913) <span class="arrow">→</span> consumer appliances (1920s-1950s) <span class="arrow">→</span> household labor savings <span class="arrow">→</span> women enter workforce <span class="arrow">→</span> two-income households <span class="arrow">→</span> suburban expansion <span class="arrow">→</span> automobile dependence
+        Watt's engine (1765) <span class="arrow">→</span> 75% fuel efficiency gain <span class="arrow">→</span> coal consumption 4.5x (16M→72M tons, 1829-1860) <span class="arrow">→</span> factories move from rivers to cities <span class="arrow">→</span> urbanization <span class="arrow">→</span> railroads (1825) <span class="arrow">→</span> national markets <span class="arrow">→</span> mass production <span class="arrow">→</span> department stores (1858) <span class="arrow">→</span> consumer culture <span class="arrow">→</span> advertising <span class="arrow">→</span> mass media
       </div>
-      <p><strong>Key insight:</strong> The washing machine's impact on the labor force was more consequential than the electric motor's impact on factories. The second and third-order effects (household time savings → women's workforce participation → suburban growth) were larger than the first-order effect (cheaper factory power). Nobody electrifying Pearl Street predicted the suburban revolution.</p>
+      <p><strong>Non-obvious link:</strong> Steam → department stores. The department store required (a) urbanization (concentrated consumers), (b) railroads (supply chain logistics), and (c) mass production (inventory). None could exist without cheap energy. But nobody building steam engines in 1765 would have predicted browsing-based retail 93 years later. <a href="#src-11" class="cite">[11]</a> <a href="#src-12" class="cite">[12]</a></p>
 
-      <h3>Chain 3: Internet (1995-2020)</h3>
+      <h3>Chain 2: Electrification (1882-1960)</h3>
       <div class="chain">
-        Netscape browser (1995) <span class="arrow">→</span> cheap information distribution <span class="arrow">→</span> e-commerce (Amazon, 1995) <span class="arrow">→</span> disintermediation of retail <span class="arrow">→</span> smartphones (2007) <span class="arrow">→</span> always-on connectivity <span class="arrow">→</span> gig economy (Uber, 2009) <span class="arrow">→</span> algorithmic labor markets <span class="arrow">→</span> creator economy (YouTube monetization, Instagram, TikTok) <span class="arrow">→</span> individual as media company
+        Edison's grid (1882) <span class="arrow">→</span> 20-year productivity paradox (electricity in factories didn't immediately improve output) <span class="arrow">→</span> factory redesign around electric motors (1900s-1920s) <span class="arrow">→</span> assembly line (1913) <span class="arrow">→</span> consumer appliances (1920s-50s) <span class="arrow">→</span> household labor savings <span class="arrow">→</span> women's workforce participation doubles (1950-1990) <span class="arrow">→</span> two-income households <span class="arrow">→</span> suburban expansion <span class="arrow">→</span> automobile dependence <span class="arrow">→</span> shopping malls
       </div>
-      <p><strong>Key insight:</strong> The internet made information distribution cheap. The non-obvious consequence was that it made coordination cheap — which enabled gig work, creator economies, and eventually individual media empires. The "creator economy" ($250B+ by 2025) was inconceivable in 1995. The internet didn't make existing media companies cheaper; it made everyone a potential media company.</p>
+      <p><strong>Non-obvious link:</strong> Electricity → women's workforce participation. The washing machine, refrigerator, and vacuum cleaner reduced household labor by ~40 hours/week, enabling women to enter the paid workforce at scale. This was a more consequential economic effect than the factory productivity gains that justified electrification — but it took 50+ years to manifest.</p>
+      <p><strong>The productivity paradox note:</strong> Economists measured essentially zero productivity gain from electrification for the first 20 years (1882-1900s) because factories simply replaced steam with electric motors without redesigning production. Productivity exploded only when factories were redesigned around the <em>unique properties</em> of electricity (individual motor drive, flexible layout). David (1990) argues AI may follow the same pattern — the gains come from institutional redesign, not drop-in replacement. <a href="#src-13" class="cite">[13]</a></p>
 
-      <h3>Chain 4: AI / Cheap Intelligence (2022-?)</h3>
+      <h3>Chain 3: Internet (1995-2025)</h3>
       <div class="chain">
-        ChatGPT / GPT-4 (2022-2023) <span class="arrow">→</span> cheap cognitive work <span class="arrow">→</span> AI coding tools (2024) <span class="arrow">→</span> 10-100x more software created <span class="arrow">→</span> micro-enterprise explosion <span class="arrow">→</span> AI agents as employees (2025-2026) <span class="arrow">→</span> every person manages a "team" of AI agents <span class="arrow">→</span> individual as enterprise <span class="arrow">→</span> <strong>[?] → [?] → [?]</strong>
+        Netscape (1995) <span class="arrow">→</span> information distribution costs → $0 <span class="arrow">→</span> e-commerce (1995-2005) <span class="arrow">→</span> disintermediation of retail <span class="arrow">→</span> smartphone (2007) <span class="arrow">→</span> coordination costs → $0 <span class="arrow">→</span> gig economy (2009+) <span class="arrow">→</span> algorithmic labor markets <span class="arrow">→</span> creator economy (2015+) <span class="arrow">→</span> individual as media company <span class="arrow">→</span> attention economy
       </div>
-      <p><strong>Projected next links:</strong></p>
-      <ul>
-        <li><strong>2026-2028:</strong> "One-person enterprise" becomes a recognized category. Individual operators running AI agent teams generate $1-10M revenue. The minimum viable company drops from 10 people to 1.</li>
-        <li><strong>2028-2030:</strong> Agent-to-agent commerce emerges. AI agents negotiate, transact, and fulfill on behalf of humans. The "economy" includes non-human participants with purchasing power, creating markets between agents. <em>(This is where our earlier research on agent-to-agent commerce — Circuit & Chisel — connects.)</em></li>
-        <li><strong>2030-2035:</strong> Physical world integration. AI agents that can think cheaply + robotics that can act cheaply = intelligence embedded in the physical environment. Every object, surface, and space becomes intelligent. The built environment reorganizes around ambient intelligence, just as cities reorganized around electricity.</li>
-        <li><strong>2035+:</strong> The equivalent of "suburban expansion" — a structural reorganization of how humans live and work that is non-obvious from today's vantage point. If the pattern holds, the biggest consequence of cheap intelligence will be something we haven't named yet.</li>
-      </ul>
+      <p><strong>Non-obvious link:</strong> Cheap information → gig economy. The internet didn't just make buying things cheaper — it made <em>coordinating strangers</em> cheap. Uber's insight wasn't "cheaper taxis"; it was "you can match supply and demand for rides in real-time at zero coordination cost." The creator economy ($250B+ by 2025) was inconceivable in 1995. The internet didn't make existing media cheaper — it made everyone a potential media company.</p>
+
+      <h3>Chain 4: Intelligence (2022-?)</h3>
+      <div class="chain">
+        ChatGPT/GPT-4 (2022-23) <span class="arrow">→</span> cognitive labor costs → approaching $0 <span class="arrow">→</span> AI coding tools (2024) <span class="arrow">→</span> software creation explodes (10-100x more software) <span class="arrow">→</span> the one-person enterprise (2025-27) <span class="arrow">→</span> AI agents as employees (2026-28) <span class="arrow">→</span> <strong>[institutional redesign around cheap cognition]</strong> <span class="arrow">→</span> <strong>[non-obvious consequence we can't name yet]</strong>
+      </div>
 
       <div class="callout warning">
-        <strong>The humility check:</strong> If someone in 1882 had tried to predict the consequences of cheap electricity, they would have predicted "brighter streets" and "safer factories." They would not have predicted the washing machine, the two-income household, the suburb, or the automobile. Our predictions for AI are probably similarly limited. The most honest version of Chain 4 ends with "[categories we cannot currently name]."
+        <strong>The humility calibration:</strong> In every prior GPT chain, the most consequential effect was non-obvious from the initial technology. Steam engineers didn't predict department stores. Edison didn't predict women's workforce participation. Netscape didn't predict the creator economy. We are probably wrong about the most important consequence of cheap intelligence — and the pattern suggests the most important effect will be a second or third-order social reorganization, not a first-order efficiency gain.<br><br>
+        <strong>What the pattern does predict:</strong> (a) There will be a productivity paradox period where AI doesn't show up in macro statistics because institutions haven't redesigned around it yet. (b) The biggest effects will involve social reorganization, not task automation. (c) The timeline is 20-50 years, not 2-5.
       </div>
     </div>
 
-    <!-- SECTION 5: INVESTABLE IMPLICATIONS -->
+    <!-- SECTION 5: THE COUNTER-THESIS -->
     <div class="section">
-      <h2 class="section-title">5. Investable Implications</h2>
+      <h2 class="section-title">5. The Counter-Thesis: When Jevons Fails</h2>
 
-      <h3>The Jevons Investment Framework</h3>
-      <p>If Jevons' Paradox is the correct mental model, the investment implications are specific and contrarian:</p>
+      <p>Chen's "Abundant Intelligence and Deficient Demand" (2026) is the most rigorous challenge to Jevons optimism. <a href="#src-5" class="cite">[5]</a> It deserves serious engagement, not dismissal.</p>
 
-      <p><strong>1. Bet on demand expansion, not cost reduction.</strong> Most AI investment today is focused on making existing processes cheaper (substitution). The Jevons framework says the larger opportunity is in new demand creation. Companies building for markets that don't yet exist — but will at 100x cheaper intelligence — are the analogues of railroad companies in 1825.</p>
+      <h3>Three Mechanisms of Demand Destruction</h3>
+      <p><strong>1. The Displacement Spiral.</strong> Each firm's rational decision to substitute AI for labor reduces aggregate labor income, which reduces aggregate demand, which accelerates further AI adoption. Chen derives conditions on the AI capability growth rate, diffusion speed, and reinstatement rate under which this feedback is self-limiting versus explosive. If new job creation (Marguerit's "augmentation AI" effect <a href="#src-9" class="cite">[9]</a>) lags displacement, the spiral feeds itself.</p>
 
-      <p><strong>2. The "intelligence infrastructure" layer is the highest-conviction bet.</strong> In every Jevons cycle, the picks-and-shovels companies win regardless of which specific applications emerge. Coal mines and railroad steel won whether the application was textile mills or department stores. For AI:</p>
-      <ul>
-        <li><strong>Compute infrastructure</strong> (NVIDIA, cloud providers) — already priced in</li>
-        <li><strong>Inference optimization</strong> (cost reduction = demand expansion flywheel) — still venture-scale opportunities</li>
-        <li><strong>Agent orchestration</strong> (managing thousands of AI agents per organization) — nascent category</li>
-        <li><strong>Trust/verification infrastructure</strong> (when intelligence is cheap, trust becomes scarce) — early innings</li>
-        <li><strong>Intelligence metering/billing</strong> (the "utility meter" for cognitive work) — barely exists</li>
-      </ul>
+      <p><strong>2. Ghost GDP.</strong> When AI-generated output substitutes for labor-generated output, monetary velocity declines. The economy produces more "stuff" but the income to buy it shrinks. Measured GDP might rise while consumption-relevant income falls. This is a demand-side crisis masquerading as supply-side abundance.</p>
 
-      <p><strong>3. Look for the "below the threshold" markets.</strong> The most valuable Jevons investments are in activities that were just barely uneconomical before the cost drop. These are the first to become viable. Right now:</p>
-      <ul>
-        <li>Legal services for disputes involving $500-$5,000 (currently below the cost floor for attorney involvement)</li>
-        <li>Personalized education for children in families earning $30-80K (can't afford tutors, can't afford to not have them)</li>
-        <li>Financial advisory for people with $10K-$100K in assets (below the minimums for human advisors)</li>
-        <li>R&D for markets of 10K-100K potential customers (below the threshold for traditional pharmaceutical/product development)</li>
-        <li>Professional services for businesses with $500K-$5M revenue (too small for McKinsey, too complex for DIY)</li>
-      </ul>
+      <p><strong>3. Intermediation Collapse.</strong> AI agents that reduce information frictions compress intermediary margins toward pure logistics costs. SaaS (30-40% of revenue is information arbitrage), consulting ($500B globally), insurance brokerage, real estate — all face margin compression as AI eliminates the information asymmetry that justified their margins. The income these sectors generate (high salaries for knowledge workers) has outsized consumption impact because top-quintile earners drive 47-65% of US consumption.</p>
 
-      <p><strong>4. The "cognitive utility" company is the trillion-dollar opportunity.</strong> Just as Standard Oil (energy utility) and AT&T (communication utility) became the dominant companies of their eras by providing foundational inputs as metered services, the company that becomes the "cognitive utility" — always-on intelligence, metered and billed per unit of thinking delivered — will be one of the most valuable enterprises in history. Anthropic and OpenAI are racing toward this. But the utility model also creates opportunities for infrastructure plays (billing, governance, reliability) that every utility needs.</p>
+      <h3>Can Jevons and Chen Both Be True?</h3>
+      <p>Yes — in different sectors simultaneously. The resolution:</p>
 
-      <p><strong>5. The scarcity inversion.</strong> In every Jevons cycle, when one resource becomes abundant, an adjacent resource becomes newly scarce. When energy became cheap, materials (steel, copper) became scarce. When information became cheap, attention became scarce. When intelligence becomes cheap, what becomes scarce?</p>
-      <ul>
-        <li><strong>Trust and verification</strong> — when anyone can generate convincing text, images, and code, proving authenticity becomes precious</li>
-        <li><strong>Human judgment for novel situations</strong> — AI handles the 95% of cases that fit patterns; humans handle the 5% that don't. That 5% becomes more valuable per hour, not less.</li>
-        <li><strong>Physical-world execution</strong> — thinking is cheap; doing is still expensive. Robotics, construction, and physical service delivery become the bottleneck.</li>
-        <li><strong>Attention and curation</strong> — infinite content generation → human attention is the binding constraint → curation and recommendation become the value layer</li>
-        <li><strong>Regulation and liability frameworks</strong> — new capabilities create new liability questions faster than legal systems can resolve them. Compliance, insurance, and governance become growth industries.</li>
-      </ul>
-
-      <h3>Sectors Ranked by Jevons Opportunity</h3>
       <table class="data-table">
         <thead>
-          <tr><th>Sector</th><th>Substitution Value (existing market made cheaper)</th><th>Jevons Value (new market created)</th><th>Timing</th></tr>
+          <tr><th></th><th>Jevons Dominates</th><th>Chen Dominates</th></tr>
         </thead>
         <tbody>
-          <tr><td>Legal services</td><td>$900B global market</td><td>10x expansion into unserved demand</td><td>Now → 2028</td></tr>
-          <tr><td>Education</td><td>$7T global market</td><td>Personalized learning for 7B people</td><td>2026 → 2030</td></tr>
-          <tr><td>Drug discovery / healthcare</td><td>$1.5T pharma + $4T healthcare</td><td>Long-tail rare diseases + preventive medicine</td><td>2027 → 2035</td></tr>
-          <tr><td>Software creation</td><td>$600B IT services</td><td>10-100x more software; every person creates software</td><td>Now → 2028</td></tr>
-          <tr><td>Financial services</td><td>$500B advisory/wealth mgmt</td><td>Advisory for the 90% currently without it</td><td>Now → 2028</td></tr>
-          <tr><td>Professional services</td><td>$1.5T consulting/accounting</td><td>SMB access to Fortune 500 capabilities</td><td>2026 → 2030</td></tr>
-          <tr><td>Scientific research</td><td>$2T global R&D</td><td>Automated hypothesis generation + testing</td><td>2028 → 2035</td></tr>
-          <tr><td>Agent-to-agent commerce</td><td>$0 (doesn't exist)</td><td>New market category entirely</td><td>2028 → 2032</td></tr>
+          <tr><td><strong>Condition</strong></td><td>Large unserved demand exists below the old cost floor</td><td>The service was already fully served; AI only displaces existing providers</td></tr>
+          <tr><td><strong>Example</strong></td><td>Legal: 80% unserved demand → massive market expansion</td><td>SaaS: Existing customers already served → margin compression + displacement</td></tr>
+          <tr><td><strong>Labor effect</strong></td><td>New roles created (AI tutoring design, legal AI oversight)</td><td>Net role destruction (consultants, intermediaries)</td></tr>
+          <tr><td><strong>Income effect</strong></td><td>New income streams from serving previously unserved markets</td><td>Income destruction as high-paid knowledge workers displaced</td></tr>
+          <tr><td><strong>Macro effect</strong></td><td>GDP growth, new consumption, velocity maintained</td><td>Ghost GDP, demand deficiency, financial stress</td></tr>
         </tbody>
       </table>
 
       <div class="callout insight">
-        <strong>The seed investor's Jevons filter:</strong> When evaluating a company, ask: "Is this making an existing market cheaper (substitution)?" or "Is this creating a market that couldn't exist before cheap intelligence (Jevons)?" The substitution plays are crowded and margin-compressed. The Jevons plays are lonely and expanding. Back the companies building for markets that other investors think don't exist — because until intelligence was cheap, they didn't.
+        <strong>The investment thesis refinement:</strong> Don't just ask "Will AI create new markets?" Ask: "Is this company serving demand that <em>didn't exist before</em> (Jevons, bullish), or is it compressing the margin of an existing intermediary (Chen, dangerous)?" The former creates net new economic activity. The latter destroys existing economic activity faster than it creates new activity — at least in the transition period.
+      </div>
+    </div>
+
+    <!-- SECTION 6: INVESTABLE IMPLICATIONS -->
+    <div class="section">
+      <h2 class="section-title">6. Investable Implications</h2>
+
+      <h3>The Quantitative Framework</h3>
+      <p>Using Zhang & Zhang's calibrations: if the token multiplier for agentic workflows is ~10x (conservative — they observe up to 100x), and demand elasticity θ = 2.5, we can project:</p>
+
+      <div class="callout math">
+        <strong>If inference costs drop another 90% (10x) — which the 50x/year trend suggests within ~18 months:</strong><br><br>
+        • Token consumption per task: current × 10 (architectural multiplier) = 10x<br>
+        • Number of viable tasks: current × 10<sup>2.5</sup> ≈ 316x (super-elastic demand expansion)<br>
+        • Total compute consumption: ~3,160x current levels<br>
+        • Total <em>spending</em> on intelligence: even at 10x lower per-token price, 3,160x more tokens = ~316x current revenue<br><br>
+        This arithmetic — falling unit prices but exploding total revenue — is precisely what happened in semiconductors. Transistor prices fell 10<sup>9</sup>x while total semiconductor revenue grew from $1B (1960) to $600B+ (2025).
+      </div>
+
+      <h3>Where to Invest: The Jevons Filter</h3>
+      <p>Apply three filters simultaneously:</p>
+
+      <p><strong>Filter 1: Is demand super-elastic?</strong> (|ε| > 1 — large unserved market below current cost floor)</p>
+      <p><strong>Filter 2: Is it Jevons, not Chen?</strong> (Creating new demand, not compressing existing intermediaries)</p>
+      <p><strong>Filter 3: Is the timing right?</strong> (Is the threshold price being crossed <em>now</em>, not in 5 years?)</p>
+
+      <p><strong>Sectors that pass all three filters today:</strong></p>
+      <ol>
+        <li><strong>Sub-$500 legal services:</strong> Unserved demand is 80%+. AI provides a genuinely new service (nobody was getting legal help for $200 disputes before). Threshold is being crossed now. <em>This is the canonical Jevons opportunity.</em></li>
+        <li><strong>Personalized education at the $10-100/month price point:</strong> 1:1 tutoring was $50-100/hr. AI tutoring at $10/month creates an entirely new market — not displacing Kumon or tutors, but serving the 95% who couldn't afford them.</li>
+        <li><strong>Financial advisory for sub-$100K households:</strong> 90% of US households below typical AUM minimums. AI opens this market at $5-50/month. The advisor market doesn't shrink — it expands 10x by adding the unserved.</li>
+        <li><strong>Continuous scientific experimentation:</strong> The number of hypotheses worth testing is infinite. Human attention was the bottleneck. AI removes it. R&D spending expands into "long-tail research" — questions too small for traditional funding but valuable in aggregate.</li>
+        <li><strong>Software creation for non-developers:</strong> Every business has custom software needs. At current dev costs ($150K+/engineer), only the top 5% of businesses can afford custom software. At AI-assisted development costs ($5-50K), the bottom 95% becomes addressable. <a href="#src-14" class="cite">[14]</a></li>
+      </ol>
+
+      <h3>The Scarcity Inversion</h3>
+      <p>In every Jevons cycle, making one resource abundant creates scarcity in an adjacent resource. For investors, the newly scarce resource is often where the most durable value accrues:</p>
+
+      <table class="data-table">
+        <thead>
+          <tr><th>GPT Cycle</th><th>What Became Abundant</th><th>What Became Scarce</th><th>Where Value Concentrated</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Steam/Coal</td><td>Mechanical energy</td><td>Skilled machine operators, steel, transport infrastructure</td><td>Railroads (infrastructure), Carnegie Steel (materials)</td></tr>
+          <tr><td>Electricity</td><td>Distributed energy</td><td>Appliance designers, electricians, suburban land</td><td>GE (appliances), real estate developers</td></tr>
+          <tr><td>Internet</td><td>Information distribution</td><td>Attention, trust, curation</td><td>Google (attention), Amazon (trust), social networks (curation)</td></tr>
+          <tr><td><strong>AI/Intelligence</strong></td><td><strong>Cognitive labor</strong></td><td><strong>Trust, human judgment for edge cases, physical execution, liability frameworks</strong></td><td><strong>Verification infrastructure, human-in-loop platforms, robotics, compliance/insurance</strong></td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout insight">
+        <strong>The meta-thesis:</strong> The largest returns won't come from selling AI itself (that's "selling coal"). They'll come from providing what becomes scarce when intelligence is abundant — trust infrastructure, physical-world execution, regulatory compliance, and the institutional scaffolding for a world where cognitive labor is essentially free. These are the "railroads" and "GEs" of the intelligence revolution — the companies that provide what the abundant resource can't.
       </div>
     </div>
 
@@ -322,23 +369,28 @@
     <div class="sources">
       <h2>Sources</h2>
       <ol>
-        <li id="src-1">Jan Horecny, "The AI Price Collapse Is Real," Mar 2026. <a href="https://medium.com/@horecny/the-ai-price-collapse-is-real-your-excuse-to-wait-is-not-cc575844497c">medium.com</a>; Cerulean, "The Decreasing Cost of Intelligence." <a href="https://www.joincerulean.com/blog/the-decreasing-cost-of-intelligence">joincerulean.com</a> — GPT-3.5-level: $20→$0.07/MTok (280x decline, Nov 2022 → Oct 2024).</li>
-        <li id="src-2">Introl, "Inference Unit Economics: The True Cost Per Million Tokens," Feb 2026. <a href="https://introl.com/blog/inference-unit-economics-true-cost-per-million-tokens-guide">introl.com</a> — GPT-4-equivalent: $20→$0.40/MTok. "LLM inference costs declined 10x annually — faster than PC compute or dotcom bandwidth."</li>
-        <li id="src-3">Yukun Zhang & Zihan Zhang, "The Economics of Digital Intelligence Capital: Endogenous Depreciation and the Structural Jevons Paradox," arXiv:2601.12339, Jan 2026. <a href="https://arxiv.org/abs/2601.12339">arxiv.org</a> — Formalizes super-elastic demand: firms redesign agent architectures to consume more compute as prices fall.</li>
-        <li id="src-4">Citadel Securities, "The 2026 Global Intelligence Crisis," Apr 2026. <a href="https://www.citadelsecurities.com/news-and-insights/2026-global-intelligence-crisis/">citadelsecurities.com</a> — AI capex $650B (~2% GDP), software engineer postings +11% YoY, unemployment 4.28%. "Rising productivity lowered costs and expanded the consumption frontier."</li>
-        <li id="src-5">William Stanley Jevons, "The Coal Question," 1865. Yale Energy History overview. <a href="https://energyhistory.yale.edu/w-stanley-jevons-the-coal-question-1865/">energyhistory.yale.edu</a>; Wikipedia, "Jevons paradox." <a href="https://en.wikipedia.org/wiki/Jevons_paradox">wikipedia.org</a></li>
-        <li id="src-6">Epoch AI, "LLM inference prices have fallen rapidly but unequally across tasks." <a href="https://epoch.ai/data-insights/llm-inference-price-trends">epoch.ai</a> — "Prices declining between 9x per year and 900x per year, with a median of 50x per year."</li>
-        <li id="src-7">Dario Amodei, "Machines of Loving Grace," Oct 2024. <a href="https://www.darioamodei.com/essay/machines-of-loving-grace">darioamodei.com</a> — Framework for how AI could transform biology, medicine, and scientific discovery.</li>
-        <li id="src-8">Yale Energy History, "Rise of Coal in the Nineteenth-Century United States." <a href="https://energyhistory.yale.edu/rise-of-coal-in-the-nineteenth-century-united-states/">energyhistory.yale.edu</a> — Coal → iron → steam engines → railroads chain.</li>
-        <li id="src-9">Harvard Business School, "Creating Mass Markets: Mass Distribution — Railroads and the Transformation of Capitalism." <a href="https://www.library.hbs.edu/hc/railroads/mass-distribution.html">library.hbs.edu</a> — Railroads → national markets → department stores → consumer culture chain.</li>
-        <li id="src-10">Metavert, "Jevons' Paradox." <a href="https://metavert.io/jevons-paradox">metavert.io</a> — Comprehensive analysis of Jevons applied to AI; Wright's Law/Jevons flywheel; software's Creator Era.</li>
-        <li id="src-11">iKangai, "The LLM Cost Paradox: How 'Cheaper' AI Models Are Breaking Budgets," Aug 2025. <a href="https://www.ikangai.com/the-llm-cost-paradox-how-cheaper-ai-models-are-breaking-budgets/">ikangai.com</a> — Enterprise token spend increasing despite per-token costs falling.</li>
-        <li id="src-12">AI.cc / AICC Report, "Enterprise Token Costs Drop 67% YoY," May 2026. <a href="https://www.mykxlg.com/online_features/press_releases/aicc-report-enterprise-token-costs-drop-67-year-over-year-as-multi-model-ai-adoption/article_794d655c-f59b-5921-bbd0-33edb058b05e.html">mykxlg.com</a> — Open-source models: 11%→38% of enterprise token volume in 12 months.</li>
-        <li id="src-13">Andrew Ng / DeepLearning.AI, "Falling LLM Token Prices and What They Mean for AI Companies," Sep 2024. <a href="https://www.deeplearning.ai/the-batch/falling-llm-token-prices-and-what-they-mean-for-ai-companies/">deeplearning.ai</a> — ~79% annual price decline for equivalent performance.</li>
+        <li id="src-1">Horecny, "The AI Price Collapse Is Real," Mar 2026. GPT-3.5-level: $20→$0.07/MTok (280x decline, Nov 2022 → Oct 2024). <a href="https://medium.com/@horecny/the-ai-price-collapse-is-real-your-excuse-to-wait-is-not-cc575844497c">medium.com</a>; Cerulean, "The Decreasing Cost of Intelligence." <a href="https://www.joincerulean.com/blog/the-decreasing-cost-of-intelligence">joincerulean.com</a></li>
+        <li id="src-2">Epoch AI, "LLM inference prices have fallen rapidly but unequally across tasks." Median 50x/year decline. <a href="https://epoch.ai/data-insights/llm-inference-price-trends">epoch.ai</a></li>
+        <li id="src-3">Zhang, Y. & Zhang, T. "The Economics of Digital Intelligence Capital: Endogenous Depreciation and the Structural Jevons Paradox." arXiv:2601.12339, Jan 2026. <a href="https://arxiv.org/abs/2601.12339">arxiv.org</a> — Super-elastic demand, Red Queen Effect, token multiplier, data flywheel, Wrapper Trap.</li>
+        <li id="src-4">Narayanan, R. & Pace, R.K. "Will Neural Scaling Laws Activate Jevons' Paradox in AI Labor Markets? A Time-Varying Elasticity of Substitution (VES) Analysis." arXiv:2503.05816, Mar 2025. <a href="https://arxiv.org/abs/2503.05816">arxiv.org</a> — Five phases, compound parameter φ = δ·g, σ > 1 threshold.</li>
+        <li id="src-5">Chen, X. "Abundant Intelligence and Deficient Demand: A Macro-Financial Stress Test of Rapid AI Adoption." arXiv:2603.09209, Mar 2026. <a href="https://arxiv.org/abs/2603.09209">arxiv.org</a> — Displacement spiral, Ghost GDP, intermediation collapse. Top quintile = 47-65% US consumption.</li>
+        <li id="src-6">Kim, D. et al. "Efficiency vs Demand in AI Electricity: Implications for Post-AGI Scaling." arXiv:2603.10498, Mar 2026. <a href="https://arxiv.org/abs/2603.10498">arxiv.org</a> — GCAM modeling, income-driven vs price-driven demand regimes.</li>
+        <li id="src-7">Introl, "Inference Unit Economics: The True Cost Per Million Tokens," Feb 2026. GPT-4-equivalent: $20→$0.40/MTok. "10x annual decline — faster than PC compute or dotcom bandwidth." <a href="https://introl.com/blog/inference-unit-economics-true-cost-per-million-tokens-guide">introl.com</a></li>
+        <li id="src-8">Citadel Securities, "The 2026 Global Intelligence Crisis," Apr 2026. AI capex $650B (~2% GDP), SW engineer postings +11% YoY, unemployment 4.28%. <a href="https://www.citadelsecurities.com/news-and-insights/2026-global-intelligence-crisis/">citadelsecurities.com</a></li>
+        <li id="src-9">Marguerit, D. "Augmenting or Automating Labor? The Effect of AI Development on New Work, Employment, and Wages." arXiv:2503.19159, Mar 2025. <a href="https://arxiv.org/abs/2503.19159">arxiv.org</a> — Augmentation AI creates new work in high-skilled occupations; automation AI destroys it in low-skilled ones.</li>
+        <li id="src-10">Legal Services Corporation, "The Justice Gap: Measuring the Unmet Civil Legal Needs of Low-income Americans," 2022. 80%+ of civil legal problems receive inadequate or no legal help.</li>
+        <li id="src-11">Yale Energy History, "Rise of Coal in the Nineteenth-Century United States." <a href="https://energyhistory.yale.edu/rise-of-coal-in-the-nineteenth-century-united-states/">energyhistory.yale.edu</a></li>
+        <li id="src-12">Harvard Business School, "Creating Mass Markets: Mass Distribution — Railroads and the Transformation of Capitalism." <a href="https://www.library.hbs.edu/hc/railroads/mass-distribution.html">library.hbs.edu</a></li>
+        <li id="src-13">David, P.A. "The Dynamo and the Computer: An Historical Perspective on the Modern Productivity Paradox." American Economic Review 80(2), 1990. — 20-year electricity productivity paradox; institutional redesign required for GPT benefits.</li>
+        <li id="src-14">Metavert, "Jevons' Paradox." <a href="https://metavert.io/jevons-paradox">metavert.io</a> — Software's Creator Era, Wright's Law/Jevons flywheel, super-elastic demand in AI.</li>
+        <li id="src-15">Luccioni, A.S., Strubell, E. & Crawford, K. "From Efficiency Gains to Rebound Effects: The Problem of Jevons' Paradox in AI's Polarized Environmental Debate." arXiv:2501.16548, Jan 2025; FAccT '25. <a href="https://arxiv.org/abs/2501.16548">arxiv.org</a></li>
+        <li id="src-16">Fan, T. "The Labor Market Incidence of New Technologies." arXiv:2504.04047, Apr 2025. <a href="https://arxiv.org/abs/2504.04047">arxiv.org</a> — Distance-dependent elasticity of substitution (DIDES); 20-50% of demand shocks translate to wages.</li>
+        <li id="src-17">Narayanan, R. & Pace, R.K. "Can the Nexus of Scaling Laws Coupled with CES/VES Predict AI and Other Technology Adoption?" arXiv:2502.00909, Feb 2025. <a href="https://arxiv.org/abs/2502.00909">arxiv.org</a> — Companion paper: S-curve adoption under Moore's/Wright's/scaling laws. Found via Valency.</li>
+        <li id="src-18">AI.cc / AICC Report, "Enterprise Token Costs Drop 67% YoY," May 2026. Open-source models: 11%→38% of enterprise token volume in 12 months. <a href="https://www.mykxlg.com/online_features/press_releases/aicc-report-enterprise-token-costs-drop-67-year-over-year-as-multi-model-ai-adoption/article_794d655c-f59b-5921-bbd0-33edb058b05e.html">mykxlg.com</a></li>
       </ol>
     </div>
 
-    <p class="generated">Generated by Galileo 🔭 · May 11, 2026</p>
+    <p class="generated">Generated by Galileo 🔭 · May 11, 2026 · V2 (Academic Revision)</p>
   </div>
 </body>
 </html>
