@@ -383,7 +383,7 @@
 
     <h3>The Announced-vs-Energized Gap</h3>
 
-    <p>Sightline Climate: 12 GW US capacity announced for 2026, <strong>only 5 GW under construction</strong> (58% gap).<a href="#src-31" class="cite">[31]</a> Bloomberg (Apr 2026): <strong>>50% of US DCs planned for 2026 delayed</strong>.<a href="#src-32" class="cite">[32]</a> JLL: >50% of global projects delayed 3+ months in 2025; equipment lead times 33 weeks (50% above pre-2020).<a href="#src-6" class="cite">[6]</a> LBNL "Queued Up" data: historically only 13% of capacity in interconnection queues reaches commercial operation; median wait 4.5 years.<a href="#src-45" class="cite">[45]</a></p>
+    <p>Sell-side research from @negligible_cap (citing industry data) projects DC capacity deployment of <strong>+25 GW by end of 2026, +32 GW more by end of 2027, and +34 GW more by end of 2028</strong>.<a href="#src-62" class="cite">[62]</a> But the gap between announced and energized is wide: Sightline Climate found 12 GW US capacity announced for 2026 with <strong>only 5 GW under construction</strong> (58% gap).<a href="#src-31" class="cite">[31]</a> Bloomberg (Apr 2026): <strong>>50% of US DCs planned for 2026 delayed</strong>.<a href="#src-32" class="cite">[32]</a> JLL: >50% of global projects delayed 3+ months in 2025; equipment lead times 33 weeks (50% above pre-2020).<a href="#src-6" class="cite">[6]</a> LBNL "Queued Up" data: historically only 13% of capacity in interconnection queues reaches commercial operation; median wait 4.5 years.<a href="#src-45" class="cite">[45]</a></p>
 
     <h3>The Supplier Margin Story</h3>
 
@@ -473,9 +473,107 @@
     <p>The Blackwell NVL72 architecture is now in "full-scale production" across all major cloud providers, with the next-generation GB300 sampling and the Vera Rubin platform announced at GTC 2026 - promising 10× inference throughput per watt versus Blackwell.<a href="#src-19" class="cite">[19]</a><a href="#src-22" class="cite">[22]</a> Nvidia's annual product cadence through 2028 means each generation of datacenter is obsolescent before the next one is built - a structural advantage that forces continuous capex.</p>
   </div>
 
-  <!-- SECTION 2: US DATACENTER POWER DEMAND -->
+  <!-- SECTION 2: THE PREDICTION GAP -->
   <div class="section">
     <div class="section-number">Section 2</div>
+    <h2>The Prediction Gap: Forecasts vs. Reality</h2>
+
+    <p>Before projecting forward, we need to ask: <strong>how reliable are the forecasts we're relying on?</strong> The answer — based on tracking forecast vintages from the same sources — is more nuanced than the common narrative of "everyone underestimates." Some forecasters have overshot near-term. Others have consistently revised upward. And the gap <em>between</em> major forecasters may matter more than the gap between any individual forecast and reality.</p>
+
+    <h3>Goldman Sachs: The Serial Reviser</h3>
+
+    <p>Goldman Sachs has been the most prolific publisher of datacenter power forecasts — and the most consistent at raising them. Tracking their 2030 global datacenter power demand forecast (expressed as % increase vs. 2023 baseline of ~415 TWh):</p>
+
+    <table>
+      <thead>
+        <tr><th>Date Published</th><th>Report Title</th><th>2030 Forecast (% increase vs. 2023)</th><th>Implied 2030 TWh</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>May 2024</td><td>"AI Is Poised to Drive 160% Increase in Data Center Power Demand"</td><td>+160%</td><td>~1,079 TWh<a href="#src-61" class="cite">[61]</a></td></tr>
+        <tr><td>February 2025</td><td>"AI to drive 165% increase in data center power demand by 2030"</td><td>+165%</td><td>~1,100 TWh<a href="#src-62" class="cite">[62]</a></td></tr>
+        <tr><td>November 2025</td><td>"The 6 Ps Driving Growth and Constraints"</td><td>+175%</td><td>~1,141 TWh<a href="#src-24" class="cite">[24]</a></td></tr>
+        <tr><td>April 2026</td><td>Latest revision (Kobeissi Letter / Benzinga reporting)</td><td><strong>+220%</strong></td><td><strong>~1,350 TWh</strong><a href="#src-63" class="cite">[63]</a></td></tr>
+      </tbody>
+    </table>
+
+    <p>Goldman raised their 2030 target by <strong>60 percentage points in 23 months</strong> — from +160% to +220%. The April 2026 revision was the most aggressive single jump (+45 ppts from the November 2025 figure). They also increased the US share of global demand from 50% to 60%, projecting US datacenter consumption alone at ~750 TWh by 2030.<a href="#src-63" class="cite">[63]</a></p>
+
+    <div class="chart-container">
+      <div class="chart-title">The Prediction Gap: Goldman Sachs 2030 Forecast Revisions vs. IEA Base Case</div>
+      <div class="chart-subtitle">Sources: Goldman Sachs Research publications (May 2024–Apr 2026), IEA Energy and AI (Apr 2025, Apr 2026). Global datacenter electricity demand in TWh.</div>
+      <canvas id="predictionGapChart" height="300"></canvas>
+    </div>
+
+    <h3>IEA: Stable Base, But Initial Near-Term Overshoot</h3>
+
+    <p>The IEA's forecast history tells a more surprising story. Their January 2024 <em>Electricity 2024</em> report contained the headline: "Electricity consumption from data centres, AI and the cryptocurrency sector could double by 2026."<a href="#src-64" class="cite">[64]</a> With the 2022 global baseline at ~460 TWh, this implied ~920 TWh by 2026. Actual 2025 consumption came in at ~485 TWh, and 2026 is projected around 550-600 TWh<a href="#src-1" class="cite">[1]</a> — well below the "doubling" scenario.</p>
+
+    <p><strong>The IEA overestimated near-term growth.</strong> Their high-scenario was too aggressive for the 2024-2026 window. However, their 2030 base case has been remarkably stable: 945 TWh in the April 2025 report, ticking up to 950 TWh in the April 2026 update.<a href="#src-1" class="cite">[1]</a> This stability may reflect the IEA's recognition that physical bottlenecks (grid interconnection, transformer supply) create a ceiling on near-term deployment — demand exists, but infrastructure can't deliver it fast enough.</p>
+
+    <p>The IEA's US-specific forecast for 2026 (260 TWh, published Jan 2024) appears roughly on track — their own November 2025 data projects >250 TWh for 2026.<a href="#src-25" class="cite">[25]</a> The near-term US projections have held better than the global aggregate.</p>
+
+    <h3>McKinsey: The Most Aggressive — and Arguably Most Accurate</h3>
+
+    <p>McKinsey published the most granular US datacenter electricity forecast in their November 2024 "AI's Power Binge" report:<a href="#src-65" class="cite">[65]</a></p>
+
+    <table>
+      <thead>
+        <tr><th>Year</th><th>McKinsey US DC Forecast (TWh)</th><th>McKinsey (% of US total)</th><th>IEA Actual/Estimate</th><th>Delta</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>2023</td><td>147 TWh</td><td>3.7%</td><td>154 TWh (IEA)</td><td>-4.5%</td></tr>
+        <tr><td>2024</td><td>178 TWh</td><td>4.3%</td><td>183 TWh (IEA)</td><td>-2.7%</td></tr>
+        <tr><td>2025</td><td>224 TWh</td><td>5.2%</td><td>>200 TWh (IEA proj.)</td><td>TBD</td></tr>
+        <tr><td>2026</td><td>292 TWh</td><td>6.5%</td><td>>250 TWh (IEA proj.)</td><td>TBD</td></tr>
+        <tr><td>2028</td><td>450 TWh</td><td>9.3%</td><td>~350 TWh (IEA proj.)</td><td>—</td></tr>
+        <tr><td>2030</td><td>580 TWh</td><td>11.7%</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table>
+
+    <p>McKinsey's 2023-2024 estimates were within 3-5% of IEA's later actuals — the best near-term accuracy of any forecaster surveyed. Their 2026 projection of 292 TWh is notably higher than IEA's >250 TWh, potentially reflecting faster AI adoption than IEA models. On global capacity, McKinsey projected 171-219 GW by 2030 (Oct 2024), which they later refined to 219 GW (May 2025).<a href="#src-66" class="cite">[66]</a></p>
+
+    <h3>Forecaster Comparison Table</h3>
+
+    <table>
+      <thead>
+        <tr><th>Forecaster</th><th>Track Record</th><th>Current 2030 Global Estimate</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Goldman Sachs</strong></td>
+          <td>Has <strong>consistently underestimated</strong>. Four upward revisions in 23 months (+60 ppts). Most reliable as a leading indicator: when GS raises, the market follows</td>
+          <td>~1,350 TWh global (+220% vs 2023). US: ~750 TWh<a href="#src-63" class="cite">[63]</a></td>
+        </tr>
+        <tr>
+          <td><strong>IEA</strong></td>
+          <td><strong>Overshot near-term</strong> ("could double by 2026" didn't happen) but <strong>stable on 2030 base case</strong>. Cautious, bottleneck-aware. US near-term forecasts surprisingly accurate</td>
+          <td>~950 TWh global (base case). High case not quantified publicly<a href="#src-1" class="cite">[1]</a></td>
+        </tr>
+        <tr>
+          <td><strong>McKinsey</strong></td>
+          <td><strong>Most accurate near-term</strong> (within 3% on US 2024). Most aggressive capacity projections. Has been validated by subsequent data</td>
+          <td>219 GW global capacity. US: 580 TWh. $7T cumulative investment<a href="#src-65" class="cite">[65]</a><a href="#src-66" class="cite">[66]</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout insight">
+      <div class="callout-title">The Honest Answer</div>
+      <p>The prediction gap is not a simple story of universal underestimation. <strong>Three dynamics are at work:</strong></p>
+      <p>1. <strong>Goldman Sachs has been a serial underestimator</strong> — and they know it. Each revision admits the prior one was too low. Their trajectory suggests 220% may not be the final number.</p>
+      <p>2. <strong>The IEA is bottleneck-aware</strong> — their stable 950 TWh base case may reflect a realistic ceiling imposed by grid/transformer constraints, not conservative demand modeling. If the bottlenecks ease faster than expected, their number will look too low.</p>
+      <p>3. <strong>The gap between forecasters is as important as the gap between forecast and reality.</strong> IEA says 950 TWh; Goldman says 1,350 TWh. That's a 42% spread on a 4-year forecast. McKinsey's capacity numbers (219 GW) imply even more if utilization rates hold. The honest answer: <strong>nobody knows</strong>, and the range of plausible outcomes is wider than any single number suggests.</p>
+    </div>
+
+    <div class="callout warning">
+      <div class="callout-title">The Correction Band</div>
+      <p>If Goldman's average miss rate holds (~15-20% per annual revision), their current 1,350 TWh estimate for 2030 could be revised to <strong>1,550-1,600 TWh</strong> by early 2027. But — and this is critical — physical infrastructure sets a hard ceiling on what can actually be deployed. The LBNL "Queued Up" data shows only 13% of capacity in interconnection queues reaches commercial operation.<a href="#src-45" class="cite">[45]</a> The real question is not "how much demand exists?" but "how fast can supply respond?" The answer to the second question likely puts realized 2030 demand closer to IEA's 950 TWh than Goldman's 1,350 TWh — even if underlying demand would support the higher number.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 3: US DATACENTER POWER DEMAND -->
+  <div class="section">
+    <div class="section-number">Section 7</div>
     <h2>The Power Demand Reckoning: US-First Analysis</h2>
 
     <p>The United States is the epicenter of the global datacenter buildout. Accounting for approximately 50% of global datacenter capacity and ~90% of Americas regional capacity, the US power grid is absorbing the most acute demand shock in its history.<a href="#src-6" class="cite">[6]</a></p>
@@ -593,9 +691,9 @@
     </div>
   </div>
 
-  <!-- SECTION 3: THE BOTTLENECK WALL -->
+  <!-- SECTION 4: THE BOTTLENECK WALL -->
   <div class="section">
-    <div class="section-number">Section 3</div>
+    <div class="section-number">Section 7</div>
     <h2>The Bottleneck Wall: What Money Can't Buy (Yet)</h2>
 
     <p>Capital is no longer the binding constraint on the compute buildout. The bottleneck has shifted to physical infrastructure - specifically, electrical grid capacity, transformer manufacturing, and the speed of interconnection. This is the most underappreciated risk in the entire AI capex cycle.</p>
@@ -631,9 +729,9 @@
     <p>Beyond power, the IEA flagged a shortage of high-bandwidth memory (HBM) - integral to AI chip production - that has developed over the past six months and is anticipated to persist through at least the end of 2027.<a href="#src-1" class="cite">[1]</a> HBM is manufactured almost exclusively by Samsung, SK Hynix, and Micron, creating a three-company chokepoint for the entire AI hardware stack.</p>
   </div>
 
-  <!-- SECTION 4: THE RECURSIVE HORIZON -->
+  <!-- SECTION 5: THE RECURSIVE HORIZON -->
   <div class="section">
-    <div class="section-number">Section 4</div>
+    <div class="section-number">Section 7</div>
     <h2>The Recursive Horizon: Why Demand Compounds</h2>
 
     <p>The most important dynamic in the compute arms race is not the raw scale of buildout - it's the feedback loop between AI capability, efficiency, and demand. This is where the investment thesis either compounds or collapses.</p>
@@ -703,7 +801,7 @@
 
     <div class="callout insight">
       <div class="callout-title">Is 2-5× Token Demand Realistic?</div>
-      <p>We already have a data point: Dell's COO reported <strong>320×</strong> token consumption growth in one year for AI reasoning tasks.<a href="#src-5" class="cite">[5]</a> The 2-5× range refers to total datacenter power demand, not individual workload tokens. Given that reasoning tokens are 10-100× more compute-intensive than simple completion, and agentic workflows run continuously, a 2-5× increase in aggregate power demand by 2030 is plausible if RSI accelerates both capability supply and inference demand simultaneously.</p>
+      <p>We now have a sell-side model putting hard numbers on this. <strong>Evercore ISI</strong> (May 19, 2026) projects annual token consumption growing from ~100 quadrillion in 2026 to <strong>~4 quintillion by 2030 — a ~150% 4-year CAGR</strong>.<a href="#src-61" class="cite">[61]</a> Their model implies compute capacity demand reaching 250 GW by 2030. Dell's COO separately reported <strong>320×</strong> token consumption growth in one year for AI reasoning tasks.<a href="#src-5" class="cite">[5]</a> The 2-5× range in the bull case refers to total datacenter power demand, not individual workload tokens. Given that reasoning tokens are 10-100× more compute-intensive than simple completion, and agentic workflows run continuously, Evercore's 40× token growth figure makes a 2-5× increase in aggregate power demand by 2030 directionally consistent.</p>
     </div>
 
     <h3>Hardware Response: The Annual Cadence Race</h3>
@@ -725,9 +823,9 @@
     <p>Each generation improves efficiency per watt - but as established, efficiency gains at these magnitudes have historically increased, not decreased, total consumption. The Vera Rubin platform's 10× cost reduction per token will unlock use cases currently constrained by economics, driving another wave of demand.</p>
   </div>
 
-  <!-- SECTION 5: INVESTMENT IMPLICATIONS -->
+  <!-- SECTION 6: INVESTMENT IMPLICATIONS -->
   <div class="section">
-    <div class="section-number">Section 5</div>
+    <div class="section-number">Section 7</div>
     <h2>Investment Implications</h2>
 
     <h3>Where the Edge Lives</h3>
@@ -756,9 +854,9 @@
     <p>The IEA's analysis of AI and energy company share prices since the launch of ChatGPT found that AI demand has not provided a generalized uplift to the energy sector - it's too small in context. But manufacturers of gas turbines, electrical equipment, some nuclear companies, and energy startups have seen valuations become "more strongly linked to AI."<a href="#src-1" class="cite">[1]</a></p>
   </div>
 
-  <!-- SECTION 6: KEY RISKS -->
+  <!-- SECTION 7: KEY RISKS -->
   <div class="section">
-    <div class="section-number">Section 6</div>
+    <div class="section-number">Section 7</div>
     <h2>Key Risks & Open Questions</h2>
 
     <div class="callout risk">
@@ -849,6 +947,14 @@
       <li id="src-58">Latitude Media, "ERCOT's large load queue has nearly quadrupled," Feb 2026. 226 GW (from 63 GW), 77% DCs. <a href="https://www.latitudemedia.com/news/ercots-large-load-queue-has-nearly-quadrupled-in-a-single-year/">latitudemedia.com</a></li>
       <li id="src-59">PJM Inside Lines, "PJM Completes Interconnection Reform Transition Cycle 1," Sep 2025. 160 GW studied, 46 GW remaining. <a href="https://insidelines.pjm.com/pjm-completes-interconnection-reform-transition-cycle-1-studies/">insidelines.pjm.com</a></li>
       <li id="src-60">Fierce Network, "New investments could transform the data center power equation," Sep 2025. Eaton: $340M third US plant. <a href="https://www.fierce-network.com/cloud/new-investments-could-transform-data-center-power-equation">fierce-network.com</a></li>
+      <li id="src-61">Goldman Sachs Research, "AI is poised to drive 160% increase in data center power demand," May 14, 2024. First major DC forecast. <a href="https://www.goldmansachs.com/insights/articles/AI-poised-to-drive-160-increase-in-power-demand">goldmansachs.com</a></li>
+      <li id="src-62">Goldman Sachs Research, "AI to drive 165% increase in data center power demand by 2030," February 4, 2025. ~55 GW current; 122 GW by 2030. <a href="https://www.goldmansachs.com/insights/articles/ai-to-drive-165-increase-in-data-center-power-demand-by-2030">goldmansachs.com</a></li>
+      <li id="src-63">Benzinga / Goldman Sachs / Kobeissi Letter, "AI Power Boom Is Accelerating — Data Center Demand To Surge 220% By 2030," April 15, 2026. 1,350 TWh; US 60% = 750 TWh. <a href="https://www.benzinga.com/markets/equities/26/04/51796110/ai-power-boom-is-accelerating-as-goldman-sachs-forecasts-data-centers-demand-to-surge-220-by-2030">benzinga.com</a></li>
+      <li id="src-64">IEA, "Electricity 2024 — Executive Summary," January 2024. "Could double by 2026." US DC: 260 TWh by 2026. <a href="https://www.iea.org/reports/electricity-2024/executive-summary">iea.org</a></li>
+      <li id="src-65">McKinsey, "AI power demand in charts," November 6, 2024. US DC: 147 TWh (2023)→580 TWh (2030). <a href="https://www.mckinsey.com/featured-insights/week-in-charts/ais-power-binge">mckinsey.com</a></li>
+      <li id="src-66">McKinsey, "Data center demands," May 20, 2025. 82 GW (2025)→219 GW (2030). <a href="https://www.mckinsey.com/featured-insights/week-in-charts/data-center-demands">mckinsey.com</a></li>
+      <li id="src-61">Evercore ISI, CoreWeave/AI Demand note, May 19, 2026 (via Investing.com). Token consumption: ~100 quadrillion (2026) → ~4 quintillion (2030), ~150% 4-year CAGR. Compute capacity demand: 250 GW by 2030. <a href="https://www.investing.com/news/analyst-ratings/evercore-isi-reiterates-coreweave-stock-rating-on-ai-demand-outlook-93CH-4699353">investing.com</a></li>
+      <li id="src-62">@negligible_cap (X/Twitter), DC capacity deployment forecast chart, May 12, 2026. +25 GW by end 2026, +32 GW by end 2027, +34 GW by end 2028.</li>
     </ol>
   </div>
 
