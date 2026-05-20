@@ -335,9 +335,30 @@
       <p>AI margins are already better than early cloud margins were at a comparable stage, per Microsoft CFO Amy Hood.<a href="#src-10" class="cite">[10]</a> Microsoft's revenue per GW of datacenter capacity reached $6.2B annualized in Q3 FY2026, up from $4.8B a year earlier - AI extracts far more economic value per watt than traditional cloud.<a href="#src-52" class="cite">[52]</a> This is the single most important signal for sustainability of the capex cycle.</p>
     </div>
 
+    <h3>GW Deployment Trajectory by Company (Wells Fargo / BNEF)</h3>
+
+    <table>
+      <thead>
+        <tr><th>Provider</th><th>2023</th><th>2024</th><th>2025</th><th>2026E</th><th>2027E</th><th>2028E</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>AWS</td><td>7.2</td><td>9.2</td><td>13.1</td><td>18.6</td><td>24.2</td><td>29.3</td></tr>
+        <tr><td>GCP</td><td>4.0</td><td>5.6</td><td>7.6</td><td>12.0</td><td>17.3</td><td>21.9</td></tr>
+        <tr><td>Azure</td><td>4.6</td><td>6.3</td><td>8.9</td><td>12.7</td><td>18.2</td><td>22.5</td></tr>
+        <tr><td>Oracle</td><td>0.6</td><td>0.8</td><td>1.5</td><td>3.5</td><td>6.2</td><td>10.9</td></tr>
+        <tr><td>Meta</td><td>5.0</td><td>6.0</td><td>7.5</td><td>11.4</td><td>15.8</td><td>20.5</td></tr>
+        <tr><td><strong>Total CSPs</strong></td><td><strong>21.4</strong></td><td><strong>27.9</strong></td><td><strong>38.6</strong></td><td><strong>58.1</strong></td><td><strong>81.7</strong></td><td><strong>105.0</strong></td></tr>
+        <tr><td>xAI</td><td>0</td><td>0.2</td><td>1.3</td><td>2.0</td><td>4.5</td><td>7.0</td></tr>
+        <tr><td>Neoclouds*</td><td>0.1</td><td>0.5</td><td>2.2</td><td>7.4</td><td>13.4</td><td>21.9</td></tr>
+        <tr><td><strong>Combined Total</strong></td><td><strong>21.5</strong></td><td><strong>28.6</strong></td><td><strong>42.1</strong></td><td><strong>67.4</strong></td><td><strong>99.6</strong></td><td><strong>133.9</strong></td></tr>
+        <tr><td><em>Incremental Y/Y</em></td><td>-</td><td><em>+7.1</em></td><td><em>+13.6</em></td><td><em>+25.3</em></td><td><em>+32.1</em></td><td><em>+34.3</em></td></tr>
+      </tbody>
+    </table>
+    <p style="font-size: 13px; color: var(--text-muted);">*Neoclouds: CoreWeave, Nebius, Nscale, Crusoe, FluidStack, Lambda, IREN. Source: Wells Fargo Securities LLC Estimates; BloombergNEF.<a href="#src-84" class="cite">[84]</a></p>
+
     <div class="chart-container">
-      <div class="chart-title">Hyperscaler Datacenter Capacity: Operational vs. Contracted/Under Construction (MW)</div>
-      <div class="chart-subtitle">Note: Most hyperscalers don't disclose exact MW. Estimates from earnings, filings, industry reports. Contracted includes announced but not yet operational.</div>
+      <div class="chart-title">Global DC Capacity: Live vs. Under Construction vs. Pipeline (BNEF)</div>
+      <div class="chart-subtitle">Source: BloombergNEF historical data. All values in GW.</div>
       <canvas id="stackedCapChart" height="300"></canvas>
     </div>
 
@@ -606,7 +627,7 @@
       </tbody>
     </table>
 
-    <p>Of the total, AI-specific datacenters require <strong>$5.2 trillion</strong> while traditional IT workloads require $1.5 trillion.<a href="#src-67" class="cite">[67]</a> Goldman Sachs' May 2026 "Tracking Trillions" framework projects <strong>$7.6 trillion cumulative AI CapEx between 2026 and 2031</strong> alone, growing from $765B annually in 2026 to $1.6T in 2031 — anchored to Nvidia forward data center revenue estimates.<a href="#src-85" class="cite">[85]</a> The concentration of cost in technology (60%) explains why Nvidia captures outsized economics — but the bottleneck is in the energizer layer (25%), where delivery delays strand the other 75% of invested capital.</p>
+    <p>Of the total, AI-specific datacenters require <strong>$5.2 trillion</strong> while traditional IT workloads require $1.5 trillion.<a href="#src-67" class="cite">[67]</a> Goldman Sachs' May 2026 "Tracking Trillions" framework projects <strong>$7.6 trillion cumulative AI CapEx between 2026 and 2031</strong> alone, growing from $765B annually in 2026 to $1.6T in 2031 - anchored to Nvidia forward data center revenue estimates.<a href="#src-85" class="cite">[85]</a> The concentration of cost in technology (60%) explains why Nvidia captures outsized economics - but the bottleneck is in the energizer layer (25%), where delivery delays strand the other 75% of invested capital.</p>
 
     <h3>The Physical Wall: Supply Chain Constraints as Ceiling</h3>
 
@@ -635,7 +656,24 @@
 
     <h3>The Evercore Token Consumption Model</h3>
 
-    <p>Evercore ISI introduced a token consumption model on May 20, 2026 that provides the most granular demand-side framework published by a tier-1 sell-side firm. Their base case: total annual token demand grows from <strong>~100 quadrillion tokens in 2026 to ~4 quintillion by 2030</strong>, representing a ~150% four-year CAGR.<a href="#src-82" class="cite">[82]</a> Evercore estimates that demand for compute capacity could reach <strong>250 GW by 2030</strong>, assuming a blended install base throughput of 500,000 transactions per second per MW.<a href="#src-83" class="cite">[83]</a></p>
+    <p>Evercore ISI introduced a token consumption model on May 20, 2026 that provides the most granular demand-side framework published by a tier-1 sell-side firm:<a href="#src-82" class="cite">[82]</a><a href="#src-83" class="cite">[83]</a></p>
+
+    <table>
+      <thead>
+        <tr><th>Year</th><th>Annual Tokens (Quadrillions)</th><th>YoY Growth</th><th>Dominant Category</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>2024A</td><td>~100</td><td>-</td><td>Frontier training (59%)</td></tr>
+        <tr><td>2025E</td><td>~200</td><td>~100%</td><td>Frontier training</td></tr>
+        <tr><td>2026E</td><td>~350</td><td>~75%</td><td>Frontier training (59%), consumer inference (26%)</td></tr>
+        <tr><td>2027E</td><td>~700</td><td>~100%</td><td>Shift to inference-dominant</td></tr>
+        <tr><td>2028E</td><td>~1,500</td><td>~114%</td><td>Agentic AI rising rapidly</td></tr>
+        <tr><td>2029E</td><td>~2,500</td><td>~67%</td><td>Agentic AI + enterprise inference</td></tr>
+        <tr><td>2030E</td><td><strong>~4,000</strong></td><td>~60%</td><td><strong>Agentic AI becomes largest consumer</strong></td></tr>
+      </tbody>
+    </table>
+
+    <p>Key insight: agentic AI is negligible today (7% of 2026 tokens) but becomes the <strong>largest single category by 2030</strong>. This is the demand wildcard - agents consume tokens continuously, without human rate-limiting. Evercore estimates compute capacity demand could reach <strong>250 GW by 2030</strong>, assuming blended throughput of 500K transactions/sec/MW.<a href="#src-83" class="cite">[83]</a></p>
 
     <p>For context: Goldman Sachs' latest forecast implies ~150-170 GW by 2030 (at their +220% power demand growth rate). McKinsey projects 219 GW. <strong>Evercore's 250 GW is the most aggressive mainstream projection yet</strong> - 18% above Goldman and 14% above McKinsey. If Evercore is right, the implied cumulative capex exceeds $10 trillion.</p>
 
@@ -875,18 +913,6 @@
 
     <p>The United States is the epicenter of the global datacenter buildout. Accounting for approximately 50% of global datacenter capacity and ~90% of Americas regional capacity, the US power grid is absorbing the most acute demand shock in its history.<a href="#src-6" class="cite">[6]</a></p>
 
-    <h3>The Prediction Gap: How Every Major Forecast Keeps Missing Upward</h3>
-
-    <p>The single most important finding for investors is not the absolute numbers - it's the <strong>pattern of systematic underestimation</strong>. Goldman Sachs has revised its 2030 global datacenter power forecast upward three times in 14 months: from +165% (Feb 2025) to +175% (Nov 2025) to <strong>+220% / 1,350 TWh</strong> (Apr 2026).<a href="#src-37" class="cite">[37]</a> That's a 33% increase in their own forecast. IEA has similarly revised upward with each publication. McKinsey has been the most aggressive forecaster and arguably the most accurate - their Sep 2024 projection of 171-219 GW by 2030 was ahead of consensus and has been vindicated by subsequent data.<a href="#src-38" class="cite">[38]</a></p>
-
-    <div class="chart-container">
-      <div class="chart-title">Goldman Sachs 2030 Forecast Revisions - Each Report Revised Upward</div>
-      <div class="chart-subtitle">Source: Goldman Sachs Research reports (Feb 2025, Nov 2025, Apr 2026). Values: projected 2030 global DC demand.</div>
-      <canvas id="gsRevisionChart" height="240"></canvas>
-    </div>
-
-    <p><strong>Has anyone nailed it?</strong> No single forecaster has been consistently accurate. The IEA is reputable but conservative by institutional design. Goldman has been directionally right but magnitude-wrong - each forecast undershoots within 6-12 months. McKinsey has been closest to reality, likely because their consulting relationships give them early access to actual hyperscaler build plans. The key takeaway: if even the upward-revised forecasts keep getting blown past, the current consensus for 2030 is almost certainly still too low.</p>
-
     <h3>Goldman Sachs US Datacenter Power Additions</h3>
 
     <p>Goldman's latest analysis projects US capacity additions accelerating dramatically:<a href="#src-3" class="cite">[3]</a></p>
@@ -1026,82 +1052,22 @@
     <p>Beyond power, the IEA flagged a shortage of high-bandwidth memory (HBM) - integral to AI chip production - that has developed over the past six months and is anticipated to persist through at least the end of 2027.<a href="#src-1" class="cite">[1]</a> HBM is manufactured almost exclusively by Samsung, SK Hynix, and Micron, creating a three-company chokepoint for the entire AI hardware stack.</p>
   </div>
 
-  <!-- SECTION 7: THE RECURSIVE HORIZON -->
+  <!-- SECTION 7: HARDWARE ROADMAP & DEMAND DRIVERS -->
   <div class="section">
     <div class="section-number">Section 7</div>
-    <h2>The Recursive Horizon: Why Demand Compounds</h2>
+    <h2>Hardware Roadmap & Demand Drivers</h2>
 
-    <p>The most important dynamic in the compute arms race is not the raw scale of buildout - it's the feedback loop between AI capability, efficiency, and demand. This is where the investment thesis either compounds or collapses.</p>
+    <p>Nvidia's annual product cadence drives a continuous upgrade cycle, with each generation rendering the prior generation's datacenters partially obsolescent. This is a structural feature, not a bug - it forces continuous capex and sustains demand for both chips and the physical infrastructure to house them.</p>
 
-    <h3>Jevons Paradox in Real-Time</h3>
-
-    <p>Dell Technologies COO Jeff Clarke, speaking at Dell's annual conference on May 19, 2026, quantified the paradox: <strong>token costs have fallen 80% in a single year, but token consumption for AI reasoning has surged 320 times.</strong><a href="#src-5" class="cite">[5]</a> Nvidia CEO Jensen Huang reported at Q1 FY2026 earnings that AI inference token generation surged tenfold in just one year.<a href="#src-19" class="cite">[19]</a></p>
-
-    <p>This is Jevons paradox - where making a resource more efficient increases rather than decreases total consumption - playing out at unprecedented speed. The math is simple but devastating for anyone hoping efficiency will cap demand:</p>
+    <h3>The Jevons Gap: Token Cost vs. Token Consumption</h3>
 
     <div class="chart-container">
       <div class="chart-title">The Jevons Gap: Token Cost vs. Token Consumption</div>
-      <div class="chart-subtitle">Illustrative - indexed to May 2025 baseline. Sources: Dell COO (May 2026), Nvidia (May 2025)</div>
+      <div class="chart-subtitle">Illustrative - indexed to May 2025 baseline. Sources: Dell COO (May 2026), Nvidia (May 2025). See Section 3 for full analysis.</div>
       <canvas id="jevonsChart" height="280"></canvas>
     </div>
 
-    <h3>Three Layers of Recursive Demand</h3>
-
-    <p>The demand compounding is driven by three distinct but reinforcing dynamics:</p>
-
-    <p><span class="order-tag first">Layer 1</span> <strong>Reasoning Models:</strong> Modern AI systems use chain-of-thought reasoning that generates 10-100× more tokens per query than simple text completion. Models like Claude, GPT-o-series, and Gemini 3 "think" through problems step-by-step, consuming compute at every step. This isn't a temporary phase - it's the architecture of the future.<a href="#src-22" class="cite">[22]</a></p>
-
-    <p><span class="order-tag second">Layer 2</span> <strong>Agentic Workflows:</strong> AI agents that autonomously execute multi-step tasks generate continuous inference demand without human rate-limiting. As Dell's Clarke noted, these systems "do not sleep, pause between tasks, or wait for business hours."<a href="#src-5" class="cite">[5]</a> In agentic environments, KV caches - the memory state that models maintain - never reset. They accumulate continuously across multi-step reasoning chains, causing infrastructure demand to compound rather than scale linearly.<a href="#src-35" class="cite">[35]</a></p>
-
-    <p><span class="order-tag third">Layer 3</span> <strong>Media and Multimodal AI:</strong> Video generation, image creation, and speech synthesis consume orders of magnitude more compute than text. The IEA notes these "can consume hundreds or thousands of times more energy per query than simple text generation."<a href="#src-1" class="cite">[1]</a> As these capabilities become mainstream, per-user compute consumption rises dramatically.</p>
-
-    <div class="callout insight">
-      <div class="callout-title">The Inference Inflection</div>
-      <p>JLL projects a critical inflection point in 2027 when AI inference workloads will overtake training as the dominant requirement.<a href="#src-6" class="cite">[6]</a> This is seismic because inference demand is driven by end-users - it scales with adoption, not with model development cycles. Training is episodic and centralized; inference is continuous and distributed. The capex implications: the buildout doesn't stop when frontier models are trained. It accelerates as they're deployed.</p>
-    </div>
-
-    <h3>The Recursive Self-Improvement Wildcard</h3>
-
-    <p>The most consequential variable in forward compute projections is whether recursive self-improvement (RSI) arrives at scale. The latest statements from lab leaders suggest this is no longer theoretical:</p>
-
-    <ul style="color: var(--text-secondary); padding-left: 24px; margin-bottom: 20px;">
-      <li><strong>Jack Clark (Anthropic Co-Founder, May 4, 2026):</strong> "I think there's a <strong>60%+ chance</strong> that no-human-involved AI R&D - an AI system powerful enough that it could plausibly autonomously build its own successor - happens by the end of 2028."<a href="#src-41" class="cite">[41]</a></li>
-      <li><strong>Dario Amodei (Anthropic CEO, Davos Jan 2026):</strong> "We would make models that were good at coding and good at AI research, and we would use that to produce the next generation of models and speed it up to create a loop." Predicted RSI within 6-12 months.<a href="#src-42" class="cite">[42]</a></li>
-      <li><strong>OpenAI (March 2026):</strong> Plans intern-level AI research agents by September 2026, and fully functional AI research agents by 2028 - agents that write code, generate training data, run evaluations, and red-team models.<a href="#src-43" class="cite">[43]</a></li>
-      <li><strong>Shane Legg (DeepMind Co-Founder, Jan 2026):</strong> 50% chance of Minimal AGI by 2028.<a href="#src-44" class="cite">[44]</a></li>
-    </ul>
-
-    <div class="callout warning">
-      <div class="callout-title">What RSI Means for Compute Demand</div>
-      <p>If RSI arrives at scale ~2027-2028, AI systems training their successors would run <strong>continuously</strong>, not in discrete training runs. Each generation would likely require more compute (larger models, more data, more RLHF). And the resulting improved models would be deployed across more use cases, multiplying inference demand simultaneously. The feedback loop: better models → more users → more inference → more revenue → more capex for training → better models. There is no natural ceiling absent physical constraints.</p>
-      <p style="margin-top: 10px;"><strong>Counter-thesis:</strong> RSI might also optimize infrastructure. AI that improves itself can potentially improve its own efficiency - better architectures, better training algorithms, better inference optimization. Whether "more capability → more demand" dominates "more capability → more efficiency" is the central uncertainty. History (Jevons) strongly suggests demand wins.</p>
-    </div>
-
-    <h3>Three-Scenario Forward Extrapolation: 2024-2031</h3>
-
-    <div class="chart-container">
-      <div class="chart-title">US Datacenter Power Demand: Three Scenarios</div>
-      <div class="chart-subtitle">Base: current consensus. Bull: RSI + Jevons acceleration (~2028). Bear: supply chain ceiling. Sources: IEA, Goldman Sachs, McKinsey.</div>
-      <canvas id="scenarioChart" height="300"></canvas>
-    </div>
-
-    <table>
-      <thead>
-        <tr><th>Scenario</th><th>2028 US DC (TWh)</th><th>2030 US DC (TWh)</th><th>Key Assumptions</th></tr>
-      </thead>
-      <tbody>
-        <tr><td><strong>Bear</strong> (Supply-constrained)</td><td>~300</td><td>~400</td><td>Grid delays persist; only 50% of announced capacity comes online; LBNL 13% completion rate continues<a href="#src-45" class="cite">[45]</a></td></tr>
-        <tr><td><strong>Base</strong> (Current trajectory)</td><td>~380</td><td>~550</td><td>IEA/Goldman consensus + ~20% systematic miss. Behind-the-meter supplements 15-20% of new capacity</td></tr>
-        <tr><td><strong>Bull</strong> (RSI + Jevons)</td><td>~450</td><td>~800+</td><td>RSI arrives ~2028. Token demand 3-5× projections. Agentic inference scales without human rate-limiting. Goldman's Apr 2026 revision becomes the floor</td></tr>
-      </tbody>
-    </table>
-
-    <div class="callout insight">
-      <div class="callout-title">Is 2-5× Token Demand Realistic?</div>
-      <p>We now have a sell-side model putting hard numbers on this. <strong>Evercore ISI</strong> (May 19, 2026) projects annual token consumption growing from ~100 quadrillion in 2026 to <strong>~4 quintillion by 2030 - a ~150% 4-year CAGR</strong>.<a href="#src-61" class="cite">[61]</a> Their model implies compute capacity demand reaching 250 GW by 2030. Dell's COO separately reported <strong>320×</strong> token consumption growth in one year for AI reasoning tasks.<a href="#src-5" class="cite">[5]</a> The 2-5× range in the bull case refers to total datacenter power demand, not individual workload tokens. Given that reasoning tokens are 10-100× more compute-intensive than simple completion, and agentic workflows run continuously, Evercore's 40× token growth figure makes a 2-5× increase in aggregate power demand by 2030 directionally consistent.</p>
-    </div>
-
-    <h3>Hardware Response: The Annual Cadence Race</h3>
+    <h3>Hardware Cadence: The Annual Upgrade Race</h3>
 
     <p>Nvidia's response is an annual product cadence promising compounding performance gains:</p>
 
@@ -1375,27 +1341,33 @@ new Chart(document.getElementById('predictionGapChart'), {
   }
 });
 
-// Chart 0: Stacked Capacity - Operational vs Contracted/Under-Construction (GW, all players combined)
-// Sources: Goldman Sachs/Aterio (actual additions 2024-2025), sell-side est. (2026-2028), JLL (under construction)
-// Cumulative: 2023 base ~55 GW (Goldman), additions stack on top
+// Chart 0: Stacked Capacity — BNEF Historical: Live vs Under Construction vs Pipeline (GW)
+// Source: BloombergNEF via Wells Fargo Securities / @negligible_cap
 new Chart(document.getElementById('stackedCapChart'), {
   type: 'bar',
   data: {
-    labels: ['2023', '2024', '2025', '2026 (proj.)', '2027 (proj.)', '2028 (proj.)'],
+    labels: ['2010', '2015', '2019', '2020', '2022', '2023', '2024', '2025'],
     datasets: [
       {
-        label: 'Cumulative Operational (GW)',
-        data: [55, 61.4, 69.9, 83.5, 115.5, 133.9],
+        label: 'Live (GW)',
+        data: [5.85, 12.31, 21.77, 26.00, 35.91, 41.75, 50.97, 61.93],
         backgroundColor: 'rgba(79, 70, 229, 0.85)',
         borderColor: 'rgba(79, 70, 229, 1)',
         borderWidth: 1,
         borderRadius: { topLeft: 0, topRight: 0, bottomLeft: 6, bottomRight: 6 }
       },
       {
-        label: 'Under Construction / Contracted (GW)',
-        data: [8, 15, 35, 55, 45, 35],
-        backgroundColor: 'rgba(79, 70, 229, 0.30)',
-        borderColor: 'rgba(79, 70, 229, 0.5)',
+        label: 'Under Construction (GW)',
+        data: [1.16, 2.34, 6.43, 7.18, 10.66, 14.12, 19.02, 24.70],
+        backgroundColor: 'rgba(79, 70, 229, 0.45)',
+        borderColor: 'rgba(79, 70, 229, 0.6)',
+        borderWidth: 1
+      },
+      {
+        label: 'Pipeline (GW)',
+        data: [9.40, 16.34, 31.43, 39.56, 60.73, 69.65, 79.89, 77.15],
+        backgroundColor: 'rgba(79, 70, 229, 0.18)',
+        borderColor: 'rgba(79, 70, 229, 0.3)',
         borderWidth: 1,
         borderRadius: { topLeft: 6, topRight: 6, bottomLeft: 0, bottomRight: 0 }
       }
