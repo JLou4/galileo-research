@@ -571,9 +571,201 @@
     </div>
   </div>
 
-  <!-- SECTION 3: US DATACENTER POWER DEMAND -->
+  <!-- SECTION 3: FORWARD EXTRAPOLATION & COST ANALYSIS -->
   <div class="section">
-    <div class="section-number">Section 7</div>
+    <div class="section-number">Section 3</div>
+    <h2>Forward Extrapolation & Cost Analysis</h2>
+
+    <h3>Where Does Cost Accrue? The $7 Trillion Breakdown</h3>
+
+    <p>McKinsey's April 2025 analysis provides the most detailed decomposition of the $7 trillion in cumulative datacenter capital expenditure projected through 2030:<a href="#src-67" class="cite">[67]</a></p>
+
+    <table>
+      <thead>
+        <tr><th>Cost Category</th><th>Share</th><th>Amount</th><th>Key Components</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Technology (chips, GPUs, servers)</strong></td>
+          <td><strong>60%</strong></td>
+          <td>~$3.1T</td>
+          <td>GPU/XPU procurement (Nvidia, AMD, custom silicon), server assembly, networking equipment, HBM memory. This is where Nvidia's dominance translates to margin capture</td>
+        </tr>
+        <tr>
+          <td><strong>Energizers (power + cooling)</strong></td>
+          <td><strong>25%</strong></td>
+          <td>~$1.3T</td>
+          <td>Power generation/transmission ($720B grid spending needed per GS), cooling infrastructure, transformers, switchgear, electrical distribution. The bottleneck layer</td>
+        </tr>
+        <tr>
+          <td><strong>Builders (real estate + labor)</strong></td>
+          <td><strong>15%</strong></td>
+          <td>~$1.0T</td>
+          <td>Construction labor (~$0.6T), shell & site (~$0.3T), land acquisition (~$0.1T). Skilled labor shortages driving shift to prefabrication/modular</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Of the total, AI-specific datacenters require <strong>$5.2 trillion</strong> while traditional IT workloads require $1.5 trillion.<a href="#src-67" class="cite">[67]</a> The concentration of cost in technology (60%) explains why Nvidia captures outsized economics — but the bottleneck is in the energizer layer (25%), where delivery delays strand the other 75% of invested capital.</p>
+
+    <h3>The Physical Wall: Supply Chain Constraints as Ceiling</h3>
+
+    <p>Rabobank's May 2026 analysis identifies four binding constraints that create a physical ceiling on buildout speed:<a href="#src-68" class="cite">[68]</a></p>
+
+    <ul style="color: var(--text-secondary); padding-left: 24px; margin-bottom: 20px;">
+      <li><strong>Power:</strong> Grid interconnection delays of 4+ years. Transformer lead times 160+ weeks. Only 13% of interconnection queue capacity reaches commercial operation (LBNL)<a href="#src-45" class="cite">[45]</a></li>
+      <li><strong>Critical minerals:</strong> Copper supply could fall short by ~6M metric tons by 2035 (BNEF). New mines take up to 17 years to reach production. Copper prices at record $14,500/metric ton (Jan 2026)<a href="#src-68" class="cite">[68]</a></li>
+      <li><strong>Semiconductors:</strong> GPU lead times 36-52 weeks. HBM shortage persisting through at least end of 2027 (IEA). CPU lead times up to 12 weeks<a href="#src-68" class="cite">[68]</a></li>
+      <li><strong>Water:</strong> US DCs consumed 17.4B gallons in 2023 (direct cooling), projected 38-73B gallons by 2028. Texas alone: 49B gallons in 2025, potentially 399B gallons by 2030 — equivalent to drawing down Lake Mead. 200+ organizations signed letter supporting national DC moratorium<a href="#src-69" class="cite">[69]</a><a href="#src-70" class="cite">[70]</a></li>
+      <li><strong>Skilled labor:</strong> Schneider Electric VP: "major shift to prefabrication due to skilled labor shortages in electrical and HVAC." Modular DC systems projected to reach $48B annual sales by 2030<a href="#src-68" class="cite">[68]</a><a href="#src-6" class="cite">[6]</a></li>
+    </ul>
+
+    <h3>Efficiency vs. Demand: Why Jevons Paradox Dominates</h3>
+
+    <p>The historical pattern in computing is unambiguous: <strong>efficiency gains increase, not decrease, total consumption.</strong> Every major advance in computing efficiency has expanded the addressable market faster than it reduced per-unit cost.</p>
+
+    <p>The current cycle is the most extreme example yet. Dell COO Jeff Clarke (May 19, 2026): token costs fell 80% in one year, but token consumption for reasoning surged 320×.<a href="#src-5" class="cite">[5]</a> Net effect: <strong>64× increase in total compute spend</strong> (0.20 × 320 = 64). Nvidia CEO Jensen Huang reported inference token generation surged 10× in one year.<a href="#src-19" class="cite">[19]</a></p>
+
+    <p>The IEA confirms this at the macro level: energy per individual AI task is "improving at a rate unprecedented in energy history" — dropping by at least an order of magnitude annually. But new use cases (video generation, reasoning, agentic workflows) consume hundreds to thousands of times more energy per query.<a href="#src-1" class="cite">[1]</a> <strong>Efficiency unlocks demand categories that didn't previously exist.</strong></p>
+
+    <div class="callout insight">
+      <div class="callout-title">The Jevons Verdict</div>
+      <p>Every data point confirms Jevons paradox dominates: Nvidia's Vera Rubin promises 10× lower cost per token vs. Blackwell.<a href="#src-22" class="cite">[22]</a> This will not reduce total compute demand. It will unlock use cases currently constrained by economics — persistent agentic systems, real-time video generation, continuous scientific simulation — driving another wave of demand. The only scenario where efficiency caps total demand is one where AI capability plateaus. No credible observer is predicting that.</p>
+    </div>
+
+    <h3>Three Scenarios to 2030</h3>
+
+    <table>
+      <thead>
+        <tr><th>Scenario</th><th>Assumption</th><th>2030 Global DC Demand</th><th>Implied Capex</th><th>Key Risk</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Bear Case</strong></td>
+          <td>Supply chain constraints create a hard ceiling. Transformer/grid bottlenecks persist. Only 50% of announced capacity comes online. LBNL 13% completion rate continues</td>
+          <td>~120-140 GW operational (~950 TWh, IEA base)<a href="#src-1" class="cite">[1]</a></td>
+          <td>~$5T (constrained)</td>
+          <td>Stranded capital: $725B/yr committed but physically unable to deploy. Hyperscaler ROI timelines extend. AI revenue growth decelerates before capex cycle completes</td>
+        </tr>
+        <tr>
+          <td><strong>Base Case</strong></td>
+          <td>Current trajectory continues. Grid investments begin easing bottlenecks by 2028. Onsite generation fills gaps. No step-change in demand or efficiency</td>
+          <td>~170-220 GW (~1,100-1,350 TWh, GS/McKinsey range)<a href="#src-63" class="cite">[63]</a><a href="#src-66" class="cite">[66]</a></td>
+          <td>~$7T (McKinsey estimate)</td>
+          <td>Execution risk: actual buildout tracks 60-70% of plans. Regional concentration creates grid stress in key markets (Virginia, Texas, Dublin)</td>
+        </tr>
+        <tr>
+          <td><strong>Bull Case</strong></td>
+          <td>RSI kicks in ~2028. Token demand 2-5× current projections. Agentic AI creates unbounded inference demand. Every enterprise deploys autonomous agents</td>
+          <td>~300-400 GW (~1,800-2,500 TWh)</td>
+          <td>~$10-15T cumulative</td>
+          <td>Physically impossible on current grid trajectory. Requires massive onsite generation buildout. Water becomes binding constraint. Social backlash accelerates</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout warning">
+      <div class="callout-title">The 2-5× Question: How Realistic?</div>
+      <p>Is 2-5× current demand projections by 2030 realistic? The Dell COO data suggests we've already seen 64× total compute spend growth in one year (80% cost reduction × 320× consumption). If agentic AI reaches mainstream enterprise deployment and RSI accelerates model capability, 2-5× is conservative relative to what the token consumption curve implies. <strong>The constraint isn't demand — it's whether the physical world can deliver.</strong> The honest answer: demand may support 5×+ but realized consumption will be limited to whatever the grid, transformers, and supply chain can actually deliver. The gap between demand and deliverable supply is where the investment opportunity lies.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 4: THE RECURSIVE SELF-IMPROVEMENT WILDCARD -->
+  <div class="section">
+    <div class="section-number">Section 4</div>
+    <h2>The Recursive Self-Improvement Wildcard</h2>
+
+    <p>Every scenario model breaks if AI achieves recursive self-improvement (RSI) — the ability to autonomously improve its own capabilities, creating a feedback loop where each generation of AI is designed by a more capable predecessor. This is no longer a thought experiment. The leaders of every major AI lab are now publicly discussing RSI as a near-term possibility.</p>
+
+    <h3>The Timeline Consensus (Last 90 Days)</h3>
+
+    <table>
+      <thead>
+        <tr><th>Who</th><th>Role</th><th>Statement</th><th>Date</th><th>Timeline</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Jack Clark</strong></td>
+          <td>Co-founder, Anthropic</td>
+          <td>"I think there's a 60%+ chance that recursive self-improvement will occur before the end of 2028." Based on weeks reading hundreds of public data sources<a href="#src-71" class="cite">[71]</a></td>
+          <td>May 4, 2026</td>
+          <td><strong>End of 2028</strong> (60%)</td>
+        </tr>
+        <tr>
+          <td><strong>Dario Amodei</strong></td>
+          <td>CEO, Anthropic</td>
+          <td>"This loop has already started, and will accelerate rapidly." Transformative AI potentially late 2020s. AI doing all software engineering tasks within "6-12 months"<a href="#src-72" class="cite">[72]</a></td>
+          <td>2026</td>
+          <td><strong>Late 2020s</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Sam Altman</strong></td>
+          <td>CEO, OpenAI</td>
+          <td>"We are only a couple of years away from early versions of true superintelligence." Blog: 2026 = novel insights, 2027 = real-world robots. "By end of 2028, more intellectual capacity inside data centers than outside"<a href="#src-73" class="cite">[73]</a></td>
+          <td>Feb 2026</td>
+          <td><strong>2028</strong> (ASI)</td>
+        </tr>
+        <tr>
+          <td><strong>Demis Hassabis</strong></td>
+          <td>CEO, Google DeepMind</td>
+          <td>"AGI is now on the horizon... foothills of the singularity." 50% chance by 2030. "10× the impact of the Industrial Revolution, at 10× the speed"<a href="#src-74" class="cite">[74]</a></td>
+          <td>May 20, 2026</td>
+          <td><strong>2028-2031</strong> (50%)</td>
+        </tr>
+        <tr>
+          <td><strong>Elon Musk</strong></td>
+          <td>CEO, xAI</td>
+          <td>AGI surpasses any single human by end of 2026. Exceeds collective human intelligence by 2027. Grok 5: 10% probability of AGI<a href="#src-75" class="cite">[75]</a></td>
+          <td>Jan 2026 (Davos)</td>
+          <td><strong>2026-2027</strong> (most aggressive)</td>
+        </tr>
+        <tr>
+          <td><strong>Shane Legg</strong></td>
+          <td>Co-founder, Google DeepMind</td>
+          <td>50% probability of "Minimal AGI" by 2028. Has maintained this prediction since 2009 — 17 years of consistency<a href="#src-76" class="cite">[76]</a></td>
+          <td>Ongoing (since 2009)</td>
+          <td><strong>2028</strong> (50%)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout insight">
+      <div class="callout-title">The Convergence</div>
+      <p>What's remarkable is not any individual prediction — it's the convergence. The CEOs and founders of OpenAI, Anthropic, Google DeepMind, and xAI are all pointing to <strong>2026-2030</strong> as the window for AGI/ASI, with the center of mass around <strong>2028</strong>. These are not neutral observers — they have incentives to hype timelines. But they also have the most information about current capability trajectories. Jared Kaplan (Anthropic) told The Guardian humanity faces "the biggest decision yet" between 2027 and 2030.<a href="#src-71" class="cite">[71]</a></p>
+    </div>
+
+    <h3>What RSI Means for Compute Demand</h3>
+
+    <p>If RSI arrives circa 2028, the compute implications are qualitatively different from current scaling:</p>
+
+    <p><span class="order-tag first">Phase 1</span> <strong>AI-accelerated AI research (now – 2027):</strong> AI systems assist human researchers in model design, data curation, and hyperparameter optimization. This is already happening — Anthropic, OpenAI, and DeepMind all use AI to accelerate their research. Compute demand grows at current rates (17-22% CAGR per Goldman/McKinsey).</p>
+
+    <p><span class="order-tag second">Phase 2</span> <strong>Autonomous AI research (~2027-2028):</strong> AI systems design and run their own experiments with minimal human oversight. Training runs happen continuously rather than episodically. Demand for compute becomes <strong>continuous and compound</strong> rather than periodic. This is the phase Jack Clark's 60% probability applies to.</p>
+
+    <p><span class="order-tag third">Phase 3</span> <strong>Recursive loop (~2028+):</strong> Each AI generation designs a more capable successor. Training and inference merge into a single continuous process. <strong>Demand becomes theoretically unbounded</strong> — limited only by available compute, energy, and capital. This is where all current forecasts break.</p>
+
+    <div class="callout risk">
+      <div class="callout-title">The Unmodelable Scenario</div>
+      <p>If Phase 3 materializes, every 2030 projection in this report — Goldman's 1,350 TWh, IEA's 950 TWh, McKinsey's 219 GW — becomes an underestimate by definition. The demand curve goes vertical. The only binding constraint becomes physics: how fast can we build power plants, manufacture chips, and lay transmission lines? <strong>This is not a risk to the capex thesis — it's the most extreme version of it.</strong> The companies that have secured power, land, and supply chain commitments before RSI arrives will be the most valuable infrastructure assets on earth.</p>
+    </div>
+
+    <h3>The Skeptic's Case</h3>
+
+    <p>It would be intellectually dishonest to present RSI timelines without noting the skeptic's position. Hassabis himself notes his definition of AGI requires capabilities — robust creativity, scientific discovery — that current systems lack.<a href="#src-74" class="cite">[74]</a> Grok's own estimate of AGI timing (2040-2050) is notably more conservative than its creator's.<a href="#src-75" class="cite">[75]</a> Key objections:</p>
+
+    <ul style="color: var(--text-secondary); padding-left: 24px; margin-bottom: 20px;">
+      <li><strong>Lab leaders have incentives to hype timelines</strong> — AGI proximity justifies capex and fundraising. Every prediction should be discounted for motivated reasoning.</li>
+      <li><strong>Scaling laws may hit diminishing returns</strong> — the Chinchilla/DeepSeek efficiency revolution suggests algorithmic innovation may matter more than raw compute.</li>
+      <li><strong>Current AI lacks key capabilities</strong> — genuine scientific discovery, robust planning, and reliable reasoning under uncertainty remain unsolved.</li>
+      <li><strong>History of premature predictions</strong> — the AI community has a decades-long track record of predicting AGI "within 10 years."</li>
+    </ul>
+
+    <p>For investment purposes, the question isn't whether RSI arrives on schedule — it's whether the <em>belief</em> in near-term RSI sustains the capex cycle. As long as hyperscalers and sovereign governments believe AGI/ASI is 2-5 years away, the infrastructure buildout continues regardless of whether the timeline proves accurate. The capex is committed; the compute will be built; the only question is what runs on it.</p>
+  </div>
+
+  <!-- SECTION 5: US DATACENTER POWER DEMAND -->
+  <div class="section">
+    <div class="section-number">Section 5</div>
     <h2>The Power Demand Reckoning: US-First Analysis</h2>
 
     <p>The United States is the epicenter of the global datacenter buildout. Accounting for approximately 50% of global datacenter capacity and ~90% of Americas regional capacity, the US power grid is absorbing the most acute demand shock in its history.<a href="#src-6" class="cite">[6]</a></p>
@@ -691,9 +883,9 @@
     </div>
   </div>
 
-  <!-- SECTION 4: THE BOTTLENECK WALL -->
+  <!-- SECTION 6: THE BOTTLENECK WALL -->
   <div class="section">
-    <div class="section-number">Section 7</div>
+    <div class="section-number">Section 6</div>
     <h2>The Bottleneck Wall: What Money Can't Buy (Yet)</h2>
 
     <p>Capital is no longer the binding constraint on the compute buildout. The bottleneck has shifted to physical infrastructure - specifically, electrical grid capacity, transformer manufacturing, and the speed of interconnection. This is the most underappreciated risk in the entire AI capex cycle.</p>
@@ -729,7 +921,7 @@
     <p>Beyond power, the IEA flagged a shortage of high-bandwidth memory (HBM) - integral to AI chip production - that has developed over the past six months and is anticipated to persist through at least the end of 2027.<a href="#src-1" class="cite">[1]</a> HBM is manufactured almost exclusively by Samsung, SK Hynix, and Micron, creating a three-company chokepoint for the entire AI hardware stack.</p>
   </div>
 
-  <!-- SECTION 5: THE RECURSIVE HORIZON -->
+  <!-- SECTION 7: THE RECURSIVE HORIZON -->
   <div class="section">
     <div class="section-number">Section 7</div>
     <h2>The Recursive Horizon: Why Demand Compounds</h2>
@@ -823,9 +1015,9 @@
     <p>Each generation improves efficiency per watt - but as established, efficiency gains at these magnitudes have historically increased, not decreased, total consumption. The Vera Rubin platform's 10× cost reduction per token will unlock use cases currently constrained by economics, driving another wave of demand.</p>
   </div>
 
-  <!-- SECTION 6: INVESTMENT IMPLICATIONS -->
+  <!-- SECTION 8: INVESTMENT IMPLICATIONS -->
   <div class="section">
-    <div class="section-number">Section 7</div>
+    <div class="section-number">Section 8</div>
     <h2>Investment Implications</h2>
 
     <h3>Where the Edge Lives</h3>
@@ -854,9 +1046,9 @@
     <p>The IEA's analysis of AI and energy company share prices since the launch of ChatGPT found that AI demand has not provided a generalized uplift to the energy sector - it's too small in context. But manufacturers of gas turbines, electrical equipment, some nuclear companies, and energy startups have seen valuations become "more strongly linked to AI."<a href="#src-1" class="cite">[1]</a></p>
   </div>
 
-  <!-- SECTION 7: KEY RISKS -->
+  <!-- SECTION 9: KEY RISKS -->
   <div class="section">
-    <div class="section-number">Section 7</div>
+    <div class="section-number">Section 9</div>
     <h2>Key Risks & Open Questions</h2>
 
     <div class="callout risk">
@@ -953,6 +1145,16 @@
       <li id="src-64">IEA, "Electricity 2024 — Executive Summary," January 2024. "Could double by 2026." US DC: 260 TWh by 2026. <a href="https://www.iea.org/reports/electricity-2024/executive-summary">iea.org</a></li>
       <li id="src-65">McKinsey, "AI power demand in charts," November 6, 2024. US DC: 147 TWh (2023)→580 TWh (2030). <a href="https://www.mckinsey.com/featured-insights/week-in-charts/ais-power-binge">mckinsey.com</a></li>
       <li id="src-66">McKinsey, "Data center demands," May 20, 2025. 82 GW (2025)→219 GW (2030). <a href="https://www.mckinsey.com/featured-insights/week-in-charts/data-center-demands">mckinsey.com</a></li>
+      <li id="src-67">McKinsey, "The cost of compute: A $7 trillion race to scale data centers," April 28, 2025. AI DCs: $5.2T; Tech 60%/$3.1T, Energizers 25%/$1.3T, Builders 15%/$1.0T. <a href="https://www.mckinsey.com/industries/technology-media-and-telecommunications/our-insights/the-cost-of-compute-a-7-trillion-dollar-race-to-scale-data-centers">mckinsey.com</a></li>
+      <li id="src-68">Rabobank, "Supply chain constraints are curbing US data center development," May 2026. Power, water, minerals, labor as binding constraints. Copper deficit 6M MT by 2035. <a href="https://www.rabobank.com/knowledge/d011526506-supply-chain-constraints-are-curbing-us-data-center-development">rabobank.com</a></li>
+      <li id="src-69">Fortune, "America's data centers are thirsty," May 13, 2026. Texas: 49B gallons 2025, up to 399B by 2030. <a href="https://fortune.com/2026/05/13/data-center-georgia-arizona-water-wars/">fortune.com</a></li>
+      <li id="src-70">MOST Policy Initiative, "Data Center Water Use," April 2026. US DCs consumed 17.4B gallons in 2023; projected 38-73B by 2028. <a href="https://mostpolicyinitiative.org/science-note/data-center-water-use/">mostpolicyinitiative.org</a></li>
+      <li id="src-71">Axios, "Behind the Curtain: Intelligence explosion," May 7, 2026. Jack Clark (Anthropic): 60%+ chance RSI by end 2028. <a href="https://www.axios.com/2026/05/07/anthropic-jack-clark-ai-intelligence-explosion">axios.com</a></li>
+      <li id="src-72">Dario Amodei, "The Adolescence of Technology," 2026. "This loop has already started and will accelerate." <a href="https://www.darioamodei.com/essay/the-adolescence-of-technology">darioamodei.com</a></li>
+      <li id="src-73">Sam Altman, "The Gentle Singularity," blog.samaltman.com, Feb 2026. 2026=novel insights, 2027=robots. "By end 2028, more intellectual capacity inside DCs than outside." <a href="https://blog.samaltman.com/the-gentle-singularity">blog.samaltman.com</a></li>
+      <li id="src-74">The Verge, "Demis Hassabis at Google I/O: foothills of the singularity," May 20, 2026. AGI 50% by 2030. <a href="https://www.theverge.com/tech/934260/google-io-ai-singularity-demis-hassabis">theverge.com</a></li>
+      <li id="src-75">AI Core News, "Elon Musk AI 2026 Prediction," Jan 2026. AGI surpasses any human by end 2026, collective by 2027. <a href="https://aicorenews.com/industry-news/elon-musk-ai-2026-prediction-agi-surpass-humans/">aicorenews.com</a></li>
+      <li id="src-76">ITP.net / Shane Legg, "Google DeepMind Co-Founder Predicts AGI by 2028," Dec 2025. 50% minimal AGI by 2028 (consistent since 2009). <a href="https://www.itp.net/ai-automation/google-deepmind-co-founder-shane-legg-agi-prediction">itp.net</a></li>
       <li id="src-61">Evercore ISI, CoreWeave/AI Demand note, May 19, 2026 (via Investing.com). Token consumption: ~100 quadrillion (2026) → ~4 quintillion (2030), ~150% 4-year CAGR. Compute capacity demand: 250 GW by 2030. <a href="https://www.investing.com/news/analyst-ratings/evercore-isi-reiterates-coreweave-stock-rating-on-ai-demand-outlook-93CH-4699353">investing.com</a></li>
       <li id="src-62">@negligible_cap (X/Twitter), DC capacity deployment forecast chart, May 12, 2026. +25 GW by end 2026, +32 GW by end 2027, +34 GW by end 2028.</li>
     </ol>
