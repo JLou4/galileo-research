@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>The Compute Arms Race - Capacity, Projections, and the Recursive Horizon</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
@@ -1057,7 +1058,7 @@
       <li><strong>Nuclear:</strong> TVA filed the first SMR construction permit for GE Vernova's BWRX-300 reactor, explicitly targeting datacenter customers.<a href="#src-34" class="cite">[34]</a> However, the IEA cautions that "significant new nuclear capacity is unlikely to be widely deployed before the 2030s."<a href="#src-6" class="cite">[6]</a></li>
       <li><strong>Battery storage:</strong> The IEA projects 20-25 GW of battery storage could be installed in datacenters globally by 2030. AI workloads induce large, rapid power swings that make storage critical.<a href="#src-1" class="cite">[1]</a></li>
       <li><strong>Overbuilding required:</strong> New IEA analysis shows that providing reliable onsite gas-fired electricity to meet critical and variable datacenter load requires <strong>overbuilding generation by 30-70%</strong> relative to demand.<a href="#src-1" class="cite">[1]</a></li>
-      <li><strong>Ocean-powered floating DCs:</strong> Oregon-based Panthalassa raised $140M Series B led by Peter Thiel (May 2026, ~$1B valuation) to build autonomous floating datacenters powered by ocean waves with seawater cooling. An outlier approach that bypasses grid interconnection entirely - no land, no grid queue, no transformer wait. Pilot manufacturing facility near Portland.<a href="#src-86" class="cite">[86]</a></li>
+      <li><strong>Ocean-powered floating DCs:</strong> Oregon-based Panthalassa raised $140M Series B led by Peter Thiel (May 2026, ~$1B valuation) to build autonomous floating datacenters powered by ocean waves with seawater cooling. An outlier approach that bypasses grid interconnection entirely - no land, no grid queue, no transformer wait. Pilot manufacturing facility near Portland.<a href="#src-88" class="cite">[88]</a></li>
     </ul>
 
     <div class="callout warning">
@@ -1255,7 +1256,7 @@
       <li id="src-85">Goldman Sachs, "Tracking Trillions: The Assumptions Shaping the Scale of the AI Build-Out," May 2026. $7.6T cumulative AI CapEx 2026-2031. $765B annual (2026) → $1.6T (2031). <a href="https://www.goldmansachs.com/insights/articles/tracking-trillions-the-assumptions-shaping-scale-of-the-ai-build-out">goldmansachs.com</a></li>
       <li id="src-86">TechCrunch / Reuters / CNBC, "OpenAI co-founder Andrej Karpathy joins Anthropic pre-training team," May 19, 2026. "The next few years at the frontier of LLMs will be especially formative." <a href="https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/">techcrunch.com</a></li>
       <li id="src-87">@tmtlongshort, May 19, 2026. "This indicates we are close to RSI... the value of compute is going to explode." Market commentary on Karpathy/Anthropic move. <a href="https://x.com/tmtlongshort/status/2056814926312644892">x.com</a></li>
-      <li id="src-86">GeekWire, "Data centers at sea: Panthalassa nets $140M led by Peter Thiel for wave-powered AI," May 2026. $140M Series B, ~$1B valuation. Autonomous floating DCs, wave-powered, seawater-cooled. Pilot facility near Portland. <a href="https://www.geekwire.com/2026/data-centers-at-sea-oregons-panthalassa-nets-140m-led-by-peter-thiel-for-wave-powered-ai/">geekwire.com</a></li>
+      <li id="src-88">GeekWire, "Data centers at sea: Panthalassa nets $140M led by Peter Thiel for wave-powered AI," May 2026. $140M Series B, ~$1B valuation. Autonomous floating DCs, wave-powered, seawater-cooled. Pilot facility near Portland. <a href="https://www.geekwire.com/2026/data-centers-at-sea-oregons-panthalassa-nets-140m-led-by-peter-thiel-for-wave-powered-ai/">geekwire.com</a></li>
 
     </ol>
   </div>
@@ -1265,8 +1266,9 @@
 
 <!-- CHARTS -->
 <script>
+function initChart(id, config) { try { var el = document.getElementById(id); if (!el) { console.warn('Chart canvas not found: ' + id); return; } new Chart(el, config); } catch(e) { console.error('Chart init failed for ' + id + ': ' + e.message); } }
 // Chart: Prediction Gap - Goldman Sachs vintage forecasts vs IEA base case
-new Chart(document.getElementById('predictionGapChart'), {
+initChart('predictionGapChart', {
   type: 'line',
   data: {
     labels: ['2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030'],
@@ -1363,7 +1365,7 @@ new Chart(document.getElementById('predictionGapChart'), {
 
 // Chart 0: Stacked Capacity - BNEF Historical: Live vs Under Construction vs Pipeline (GW)
 // Source: BloombergNEF via Wells Fargo Securities / @negligible_cap
-new Chart(document.getElementById('stackedCapChart'), {
+initChart('stackedCapChart', {
   type: 'bar',
   data: {
     labels: ['2010', '2015', '2019', '2020', '2022', '2023', '2024', '2025'],
@@ -1413,7 +1415,7 @@ new Chart(document.getElementById('stackedCapChart'), {
 });
 
 // Chart 1: Hyperscaler Capex
-new Chart(document.getElementById('capexChart'), {
+initChart('capexChart', {
   type: 'bar',
   data: {
     labels: ['Amazon', 'Microsoft', 'Alphabet', 'Meta', 'Oracle'],
@@ -1453,7 +1455,7 @@ new Chart(document.getElementById('capexChart'), {
 });
 
 // Chart 2: Nvidia Data Center Revenue
-new Chart(document.getElementById('nvidiaChart'), {
+initChart('nvidiaChart', {
   type: 'line',
   data: {
     labels: ['Q1 FY25\n(Apr 24)', 'Q2 FY25', 'Q3 FY25', 'Q4 FY25', 'Q1 FY26\n(Apr 25)', 'Q2 FY26', 'Q3 FY26', 'Q4 FY26', 'Q1 FY27\n(Apr 26) est.'],
@@ -1490,7 +1492,7 @@ new Chart(document.getElementById('nvidiaChart'), {
 });
 
 // Chart 3: US Electricity Demand
-new Chart(document.getElementById('usElectricityChart'), {
+initChart('usElectricityChart', {
   type: 'bar',
   data: {
     labels: ['2024', '2025', '2026', '2027', '2028', '2029'],
@@ -1524,7 +1526,7 @@ new Chart(document.getElementById('usElectricityChart'), {
 });
 
 // Chart 4: Global Capacity by Region
-new Chart(document.getElementById('globalChart'), {
+initChart('globalChart', {
   type: 'bar',
   data: {
     labels: ['Americas\n(US ~90%)', 'Asia-Pacific', 'EMEA\n(ex. Middle East)', 'Middle East'],
@@ -1574,7 +1576,7 @@ new Chart(document.getElementById('globalChart'), {
 });
 
 // Chart 5a: Goldman Sachs Revision History
-new Chart(document.getElementById('gsRevisionChart'), {
+initChart('gsRevisionChart', {
   type: 'bar',
   data: {
     labels: ['Feb 2025 (+165%)', 'Nov 2025 (+175%)', 'Apr 2026 (+220%)'],
@@ -1601,7 +1603,7 @@ new Chart(document.getElementById('gsRevisionChart'), {
 });
 
 // Chart 5b: Three-Scenario Forward Extrapolation
-new Chart(document.getElementById('scenarioChart'), {
+initChart('scenarioChart', {
   type: 'line',
   data: {
     labels: ['2024', '2025', '2026', '2027', '2028', '2029', '2030', '2031'],
@@ -1644,7 +1646,7 @@ new Chart(document.getElementById('scenarioChart'), {
 });
 
 // Chart 5: Jevons Paradox - Token Cost vs Consumption
-new Chart(document.getElementById('jevonsChart'), {
+initChart('jevonsChart', {
   type: 'line',
   data: {
     labels: ['May 2025', 'Aug 2025', 'Nov 2025', 'Feb 2026', 'May 2026'],
