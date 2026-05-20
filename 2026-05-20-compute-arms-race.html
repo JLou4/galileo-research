@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Compute Arms Race — Capacity, Projections, and the Recursive Horizon</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  :root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-card: #f1f5f9;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --accent: #4f46e5;
+    --accent-light: #6366f1;
+    --green: #059669;
+    --green-bg: rgba(5, 150, 105, 0.08);
+    --red: #dc2626;
+    --red-bg: rgba(220, 38, 38, 0.06);
+    --yellow: #d97706;
+    --yellow-bg: rgba(217, 119, 6, 0.06);
+    --border: #e2e8f0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  .back-link { font-size: 13px; color: var(--text-muted); text-decoration: none; }
+  .back-link:hover { text-decoration: underline; }
+
+  .header {
+    text-align: center;
+    padding: 60px 0 40px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+  }
+  .header-label {
+    font-size: 12px; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--accent-light); margin-bottom: 16px;
+  }
+  .header h1 {
+    font-size: 38px; font-weight: 800; letter-spacing: -1px;
+    margin-bottom: 12px; color: var(--text-primary);
+  }
+  .header .subtitle {
+    font-size: 17px; color: var(--text-secondary); font-weight: 400;
+    max-width: 700px; margin: 0 auto 16px;
+  }
+  .header .date { font-size: 13px; color: var(--text-muted); }
+
+  .section { margin-bottom: 56px; }
+  .section-number {
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
+  }
+  .section h2 {
+    font-size: 26px; font-weight: 700; margin-bottom: 20px; letter-spacing: -0.5px;
+  }
+  .section h3 {
+    font-size: 18px; font-weight: 600; margin: 28px 0 12px; color: var(--text-primary);
+  }
+  .section p { color: var(--text-secondary); margin-bottom: 16px; }
+
+  .snapshot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px; margin-bottom: 32px;
+  }
+  .snapshot-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 20px; text-align: center;
+  }
+  .snapshot-card .label {
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 1.5px; color: var(--text-muted); margin-bottom: 8px;
+  }
+  .snapshot-card .value { font-size: 24px; font-weight: 700; color: var(--text-primary); }
+  .snapshot-card .sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+  .exec-summary {
+    background: var(--bg-secondary); border-left: 4px solid var(--accent);
+    padding: 28px 32px; border-radius: 0 12px 12px 0; margin-bottom: 48px;
+  }
+  .exec-summary h2 {
+    font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--accent); margin-bottom: 16px;
+  }
+  .exec-summary p { color: var(--text-secondary); margin-bottom: 14px; }
+  .exec-summary ul { padding-left: 20px; margin-bottom: 14px; }
+  .exec-summary li { margin-bottom: 6px; color: var(--text-secondary); }
+  .exec-summary .bottom-line {
+    font-weight: 600; border-top: 1px solid var(--border);
+    padding-top: 14px; margin-top: 14px; color: var(--text-primary);
+  }
+
+  table {
+    width: 100%; border-collapse: collapse; margin: 20px 0 24px;
+    font-size: 14px;
+  }
+  th, td {
+    text-align: left; padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  th {
+    font-weight: 600; color: var(--text-muted); font-size: 11px;
+    text-transform: uppercase; letter-spacing: 1px;
+    background: var(--bg-secondary);
+  }
+  td { color: var(--text-secondary); }
+  td:first-child { font-weight: 500; color: var(--text-primary); }
+
+  .chart-container {
+    background: var(--bg-secondary); border: 1px solid var(--border);
+    border-radius: 12px; padding: 24px; margin: 24px 0;
+  }
+  .chart-container .chart-title {
+    font-size: 14px; font-weight: 600; margin-bottom: 4px; color: var(--text-primary);
+  }
+  .chart-container .chart-subtitle {
+    font-size: 12px; color: var(--text-muted); margin-bottom: 16px;
+  }
+
+  .callout {
+    background: var(--bg-card); border-radius: 12px;
+    padding: 20px 24px; margin: 20px 0; font-size: 14px;
+  }
+  .callout.insight { border-left: 3px solid var(--accent); }
+  .callout.warning { border-left: 3px solid var(--yellow); }
+  .callout.risk { border-left: 3px solid var(--red); }
+  .callout .callout-title {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1.5px; margin-bottom: 8px;
+  }
+  .callout.insight .callout-title { color: var(--accent); }
+  .callout.warning .callout-title { color: var(--yellow); }
+  .callout.risk .callout-title { color: var(--red); }
+  .callout p { color: var(--text-secondary); margin-bottom: 0; }
+
+  .cite {
+    font-size: 10px; color: var(--accent); vertical-align: super;
+    cursor: pointer; text-decoration: none; margin-left: 1px;
+  }
+  .cite:hover { text-decoration: underline; }
+
+  .sources {
+    background: var(--bg-secondary); border-radius: 12px;
+    padding: 28px 32px; margin-top: 48px;
+  }
+  .sources h2 {
+    font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--text-muted); margin-bottom: 16px;
+  }
+  .sources ol { font-size: 13px; color: var(--text-secondary); padding-left: 24px; }
+  .sources li { margin-bottom: 8px; line-height: 1.5; word-break: break-word; }
+  .sources a { color: var(--accent); text-decoration: none; }
+  .sources a:hover { text-decoration: underline; }
+
+  .generated {
+    font-size: 12px; color: var(--text-muted); text-align: center;
+    margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border);
+  }
+
+  .order-tag {
+    display: inline-block; font-size: 10px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    padding: 2px 8px; border-radius: 4px; margin-right: 6px;
+  }
+  .order-tag.first { background: #dbeafe; color: #1d4ed8; }
+  .order-tag.second { background: #fef3c7; color: #92400e; }
+  .order-tag.third { background: #fce7f3; color: #9d174d; }
+
+  @media (max-width: 600px) {
+    .container { padding: 20px 16px 60px; }
+    .header h1 { font-size: 28px; }
+    .snapshot-grid { grid-template-columns: repeat(2, 1fr); }
+    table { font-size: 12px; }
+    th, td { padding: 8px 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="index.html" class="back-link">← All Reports</a>
+
+  <header class="header">
+    <div class="header-label">Tomales Bay Capital — Research Memo</div>
+    <h1>The Compute Arms Race</h1>
+    <p class="subtitle">Capacity, Projections, and the Recursive Horizon — Mapping the $725B infrastructure buildout reshaping the global energy grid</p>
+    <div class="date">📅 May 20, 2026 · 🔭 Galileo Research</div>
+  </header>
+
+  <!-- SNAPSHOT -->
+  <div class="snapshot-grid">
+    <div class="snapshot-card">
+      <div class="label">Hyperscaler Capex 2026</div>
+      <div class="value">~$725B</div>
+      <div class="sub">Big 4 only; +77% YoY</div>
+    </div>
+    <div class="snapshot-card">
+      <div class="label">US DC Power Demand</div>
+      <div class="value">2× by 2027</div>
+      <div class="sub">Goldman Sachs (May 2026)</div>
+    </div>
+    <div class="snapshot-card">
+      <div class="label">Global DC Capacity</div>
+      <div class="value">103 → 200 GW</div>
+      <div class="sub">By 2030 (JLL)</div>
+    </div>
+    <div class="snapshot-card">
+      <div class="label">Nvidia DC Revenue</div>
+      <div class="value">~$73B/qtr</div>
+      <div class="sub">Q1 FY27 consensus est.</div>
+    </div>
+    <div class="snapshot-card">
+      <div class="label">Transformer Lead Time</div>
+      <div class="value">160+ weeks</div>
+      <div class="sub">3+ years; rising</div>
+    </div>
+  </div>
+
+  <!-- EXECUTIVE SUMMARY -->
+  <div class="exec-summary">
+    <h2>Executive Summary</h2>
+    <p>The world's largest technology companies are collectively committing over $725 billion in capital expenditure in 2026 alone — nearly doubling 2025 levels and exceeding global oil & gas upstream investment for the first time.<a href="#src-1" class="cite">[1]</a> This report maps the compute buildout across hyperscalers and AI labs, projects US and global datacenter power demand through 2030, identifies the physical bottlenecks constraining deployment, and analyzes the "recursive horizon" — the phenomenon where AI efficiency gains are overwhelmed by exploding inference demand from reasoning and agentic workloads.</p>
+    <ul>
+      <li><strong>Capex supercycle:</strong> The Big 5 (Amazon, Microsoft, Alphabet, Meta, Oracle) plan $725-775B in 2026 capex, with ~75% tied to AI infrastructure<a href="#src-2" class="cite">[2]</a></li>
+      <li><strong>US power demand doubling:</strong> Goldman Sachs projects US datacenter power additions of 13.6 GW in 2026 and 36.3 GW in 2027 — a 4× acceleration from 2024<a href="#src-3" class="cite">[3]</a></li>
+      <li><strong>Grid as binding constraint:</strong> Transformer lead times exceed 160 weeks; more than half of US datacenters planned for 2026 face delays<a href="#src-4" class="cite">[4]</a></li>
+      <li><strong>The recursive horizon:</strong> Token consumption for AI reasoning surged 320× in one year while cost per token fell 80%<a href="#src-5" class="cite">[5]</a> — a Jevons paradox in real-time</li>
+      <li><strong>Global race:</strong> Americas hold ~50% of global capacity; APAC grows from 32 GW to 57 GW; Middle East pipeline is 12× its current capacity<a href="#src-6" class="cite">[6]</a></li>
+    </ul>
+    <p class="bottom-line">Bottom line: We are witnessing the largest infrastructure buildout since rural electrification, compressed into a decade. The binding constraint is not capital — it's watts. Every major player is now effectively in the power business. For seed investors, the opportunity set lies in the picks-and-shovels of power delivery: grid-enhancing technologies, onsite generation, battery storage, cooling, and the software layer that optimizes utilization of constrained compute.</p>
+  </div>
+
+  <!-- SECTION 1: HYPERSCALER COMPUTE INVENTORY -->
+  <div class="section">
+    <div class="section-number">Section 1</div>
+    <h2>The Capex Supercycle: Hyperscaler & Lab Compute Inventory</h2>
+
+    <p>The scale of capital deployment into AI infrastructure in 2026 has no precedent in the history of enterprise technology. Combined capital expenditure of the five largest US cloud and AI infrastructure providers — Amazon, Microsoft, Alphabet, Meta, and Oracle — is projected between $725 billion and $775 billion for 2026, nearly doubling 2025 levels and exceeding global investment in oil and natural gas production.<a href="#src-1" class="cite">[1]</a><a href="#src-7" class="cite">[7]</a> In Q1 2026 alone, Alphabet, Amazon, Microsoft, and Meta reported combined quarterly capex exceeding $130 billion.<a href="#src-8" class="cite">[8]</a></p>
+
+    <div class="chart-container">
+      <div class="chart-title">2026 Capex Guidance by Hyperscaler</div>
+      <div class="chart-subtitle">Sources: Q1 2026 earnings calls and annual guidance; all figures in $B USD</div>
+      <canvas id="capexChart" height="280"></canvas>
+    </div>
+
+    <h3>Individual Hyperscaler Profiles</h3>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Company</th>
+          <th>2026 Capex Guidance</th>
+          <th>Key Infrastructure</th>
+          <th>Notable</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Amazon / AWS</td>
+          <td>~$200B<a href="#src-9" class="cite">[9]</a></td>
+          <td>Custom Trainium / Graviton silicon; Project Rainier (Anthropic)</td>
+          <td>Largest single-company capex in history. Trainium projected to save "tens of billions" annually. Graviton powers 98% of AWS workloads</td>
+        </tr>
+        <tr>
+          <td>Microsoft / Azure</td>
+          <td>~$190B<a href="#src-10" class="cite">[10]</a></td>
+          <td>Nvidia Blackwell NVL72; Azure cloud; M365 Copilot</td>
+          <td>Includes ~$25B from higher component pricing. ~2/3 going to GPUs/CPUs. Expects to remain "capacity constrained" through 2026</td>
+        </tr>
+        <tr>
+          <td>Alphabet / Google</td>
+          <td>$180–190B<a href="#src-10" class="cite">[10]</a></td>
+          <td>Custom TPUs (v6); Nvidia GPUs; Google Cloud</td>
+          <td>Raised from $175-185B guidance. Cloud revenue $20B/qtr (+63% YoY). Cloud backlog $462B — nearly doubled QoQ. 2027 capex to "significantly increase"</td>
+        </tr>
+        <tr>
+          <td>Meta</td>
+          <td>$125–145B<a href="#src-10" class="cite">[10]</a></td>
+          <td>Nvidia GPUs; custom MTIA silicon; Llama training clusters</td>
+          <td>Raised from $115-135B. Building what was described as world's largest AI training cluster. Stock dropped 6% on guidance</td>
+        </tr>
+        <tr>
+          <td>Oracle</td>
+          <td>~$50B (FY2026)<a href="#src-11" class="cite">[11]</a></td>
+          <td>OCI GPU cloud; Stargate partnership; 8 AI superclusters</td>
+          <td>Backlog $523B. Larry Ellison: "We will build more cloud data centers than all competitors combined." Q3 FY2026 capex: $9.1B/qtr</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout insight">
+      <div class="callout-title">Key Insight</div>
+      <p>AI margins are already better than early cloud margins were at a comparable stage, per Microsoft CFO Amy Hood.<a href="#src-10" class="cite">[10]</a> This is the single most important signal for sustainability of the capex cycle — it means the flywheel is self-funding faster than the cloud buildout was.</p>
+    </div>
+
+    <h3>AI Labs: The New Compute Consumers</h3>
+
+    <p>The frontier AI labs have emerged as among the largest individual consumers of compute, rivaling the hyperscalers' own internal workloads:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Lab / Project</th>
+          <th>Compute Footprint</th>
+          <th>Power Capacity</th>
+          <th>Capital Committed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>OpenAI / Stargate</td>
+          <td>10 GW target; ~7 GW planned across multiple sites<a href="#src-12" class="cite">[12]</a></td>
+          <td>First site: Abilene, TX (Oracle). 5 additional sites announced Sep 2025</td>
+          <td>$500B total commitment (SoftBank, Oracle, OpenAI). $100B deployed immediately. UAE expansion: up to 5 GW (G42)<a href="#src-13" class="cite">[13]</a></td>
+        </tr>
+        <tr>
+          <td>Anthropic</td>
+          <td>Multi-cloud: 1M+ Google TPUs; 500-600K AWS Trainium chips; leasing xAI Colossus 1<a href="#src-14" class="cite">[14]</a></td>
+          <td>Google: >1 GW in 2026. AWS: additional 1 GW Trainium2/3 by end of 2026. Broadcom: "multiple gigawatts"<a href="#src-15" class="cite">[15]</a></td>
+          <td>Google: up to $40B investment. Amazon: up to $33B total ($25B latest round). Microsoft/Nvidia: $15B. $30B+ ARR<a href="#src-16" class="cite">[16]</a></td>
+        </tr>
+        <tr>
+          <td>xAI / Colossus</td>
+          <td>555,000 Nvidia GPUs (H100/H200/GB200) as of Feb 2026. Target: 1M GPUs<a href="#src-17" class="cite">[17]</a></td>
+          <td>~2 GW site capacity (Memphis, TN). Built 100K GPUs in 122 days; doubled to 200K in 92 more</td>
+          <td>$18B in silicon at Colossus alone. Anthropic leasing Colossus 1 as of May 2026<a href="#src-18" class="cite">[18]</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout warning">
+      <div class="callout-title">Anthropic as the Multi-Cloud Wildcard</div>
+      <p>Anthropic has become the most compute-diversified frontier lab in history — simultaneously running on Google TPUs, AWS Trainium, Azure GPUs, and now leasing xAI's Colossus facility. Total committed capacity across all partnerships exceeds 5 GW. This multi-cloud strategy is both a hedge against vendor lock-in and a signal that no single hyperscaler can satisfy frontier training demand alone.<a href="#src-14" class="cite">[14]</a><a href="#src-15" class="cite">[15]</a></p>
+    </div>
+
+    <h3>Nvidia: The Arms Dealer</h3>
+
+    <p>Nvidia remains the central beneficiary of the compute arms race. Data center revenue reached $39.1 billion in Q1 FY2026 (calendar Q1 2025), up 73% year-over-year, and grew to $51.2 billion in Q3 FY2026 (+66% YoY).<a href="#src-19" class="cite">[19]</a><a href="#src-20" class="cite">[20]</a> For Q1 FY2027 (calendar Q1 2026), consensus estimates project data center revenue of approximately $73 billion — nearly doubling in 12 months.<a href="#src-21" class="cite">[21]</a></p>
+
+    <div class="chart-container">
+      <div class="chart-title">Nvidia Data Center Revenue (Quarterly)</div>
+      <div class="chart-subtitle">Source: Nvidia earnings releases & consensus estimates. Fiscal year ends January.</div>
+      <canvas id="nvidiaChart" height="260"></canvas>
+    </div>
+
+    <p>The Blackwell NVL72 architecture is now in "full-scale production" across all major cloud providers, with the next-generation GB300 sampling and the Vera Rubin platform announced at GTC 2026 — promising 10× inference throughput per watt versus Blackwell.<a href="#src-19" class="cite">[19]</a><a href="#src-22" class="cite">[22]</a> Nvidia's annual product cadence through 2028 means each generation of datacenter is obsolescent before the next one is built — a structural advantage that forces continuous capex.</p>
+  </div>
+
+  <!-- SECTION 2: US DATACENTER POWER DEMAND -->
+  <div class="section">
+    <div class="section-number">Section 2</div>
+    <h2>The Power Demand Reckoning: US-First Analysis</h2>
+
+    <p>The United States is the epicenter of the global datacenter buildout. Accounting for approximately 50% of global datacenter capacity and ~90% of Americas regional capacity, the US power grid is absorbing the most acute demand shock in its history.<a href="#src-6" class="cite">[6]</a></p>
+
+    <h3>The Goldman Sachs Forecast (May 20, 2026)</h3>
+
+    <p>Goldman Sachs Research's latest analysis, published today, projects US datacenter power demand to <strong>double by 2027</strong>.<a href="#src-3" class="cite">[3]</a> Year-over-year capacity additions are accelerating dramatically:</p>
+
+    <table>
+      <thead>
+        <tr><th>Year</th><th>US DC Capacity Additions</th><th>YoY Change</th><th>Source</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>2024 (actual)</td><td>6.4 GW</td><td>—</td><td>Goldman Sachs / Aterio<a href="#src-3" class="cite">[3]</a></td></tr>
+        <tr><td>2025 (actual)</td><td>8.5 GW</td><td>+33%</td><td>Goldman Sachs / Aterio<a href="#src-3" class="cite">[3]</a></td></tr>
+        <tr><td>2026 (projected)</td><td>13.6 GW</td><td>+60%</td><td>Goldman Sachs / Aterio<a href="#src-3" class="cite">[3]</a></td></tr>
+        <tr><td>2027 (projected)</td><td>36.3 GW</td><td>+167%</td><td>Goldman Sachs / Aterio<a href="#src-3" class="cite">[3]</a></td></tr>
+      </tbody>
+    </table>
+
+    <p>Globally, Goldman Sachs forecasts datacenter demand growing approximately 50% to 92 GW by 2027, at a compound annual growth rate of 17% between 2025 and 2028. In a bullish scenario with stronger GPU power draw and higher customer demand, CAGR could reach 20%.<a href="#src-23" class="cite">[23]</a> By 2030, data center power demand is projected to surge 165–175% versus 2023 levels — "the equivalent of adding another Top 10 power consuming country."<a href="#src-24" class="cite">[24]</a></p>
+
+    <h3>The IEA Projection (April 2026)</h3>
+
+    <p>The International Energy Agency's updated <em>Key Questions on Energy and AI</em> report (April 2026) projects global datacenter electricity consumption roughly doubling from 485 TWh in 2025 to approximately 950 TWh by 2030 — slightly more than Japan's entire electricity consumption.<a href="#src-1" class="cite">[1]</a> For the United States specifically:</p>
+
+    <table>
+      <thead>
+        <tr><th>Year</th><th>US DC Electricity Demand (TWh)</th><th>Source</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>2024</td><td>~170</td><td>IEA<a href="#src-25" class="cite">[25]</a></td></tr>
+        <tr><td>2025</td><td>>200</td><td>IEA<a href="#src-25" class="cite">[25]</a></td></tr>
+        <tr><td>2026</td><td>>250</td><td>IEA<a href="#src-25" class="cite">[25]</a></td></tr>
+        <tr><td>2027</td><td>>300</td><td>IEA<a href="#src-25" class="cite">[25]</a></td></tr>
+        <tr><td>2028</td><td>~350</td><td>IEA<a href="#src-25" class="cite">[25]</a></td></tr>
+        <tr><td>2029</td><td>~400</td><td>IEA<a href="#src-25" class="cite">[25]</a></td></tr>
+      </tbody>
+    </table>
+
+    <p>The IEA estimates US electricity demand will add more than 420 TWh in total over the next five years, with datacenters making up approximately 50% of that demand growth.<a href="#src-26" class="cite">[26]</a> The agency also notes that US datacenters will increase their share of regional power from 4% to 7.8% between 2025 and 2030.<a href="#src-27" class="cite">[27]</a></p>
+
+    <div class="chart-container">
+      <div class="chart-title">US Datacenter Electricity Demand Projection</div>
+      <div class="chart-subtitle">Source: IEA Energy and AI Report (2025), Key Questions on Energy and AI (Apr 2026)</div>
+      <canvas id="usElectricityChart" height="280"></canvas>
+    </div>
+
+    <div class="callout insight">
+      <div class="callout-title">Critical Nuance — Efficiency vs. Demand</div>
+      <p>The IEA notes that energy per individual AI task is "improving at a rate unprecedented in energy history" — dropping by at least an order of magnitude annually. Simple text queries now consume less electricity than running a television over the same period. But new use cases (video generation, reasoning, agentic workflows) consume <strong>hundreds to thousands of times more energy per query</strong> than simple text. The net effect: demand growth overwhelms efficiency gains.<a href="#src-1" class="cite">[1]</a></p>
+    </div>
+
+    <h3>Global Comparison: Where the Buildout Is Most Acute</h3>
+
+    <p>JLL's 2026 Global Data Center Outlook provides the most comprehensive regional breakdown of installed capacity and projected growth:<a href="#src-6" class="cite">[6]</a></p>
+
+    <div class="chart-container">
+      <div class="chart-title">Global Datacenter Capacity by Region — 2025 vs. 2030 Projected</div>
+      <div class="chart-subtitle">Source: JLL 2026 Global Data Center Outlook (Jan 2026). Values in GW of IT load capacity.</div>
+      <canvas id="globalChart" height="300"></canvas>
+    </div>
+
+    <table>
+      <thead>
+        <tr><th>Region</th><th>2025 Capacity</th><th>2030 Projected</th><th>Growth</th><th>Key Dynamics</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Americas (US ~90%)</td>
+          <td>~50 GW</td>
+          <td>~100 GW</td>
+          <td>~100%</td>
+          <td>Fastest absolute growth. 35 GW under construction in N. America. 97% occupancy<a href="#src-28" class="cite">[28]</a></td>
+        </tr>
+        <tr>
+          <td>Asia-Pacific</td>
+          <td>32 GW</td>
+          <td>57 GW</td>
+          <td>+78%</td>
+          <td>Colocation-led growth. On-premise declining 6% as enterprises migrate to cloud<a href="#src-6" class="cite">[6]</a></td>
+        </tr>
+        <tr>
+          <td>EMEA (Europe + ME + Africa)</td>
+          <td>~20 GW</td>
+          <td>~33 GW</td>
+          <td>+65%</td>
+          <td>Growth in London, Frankfurt, Paris hubs. Europe: DC share of power from 2.7% to 5%<a href="#src-27" class="cite">[27]</a></td>
+        </tr>
+        <tr>
+          <td>Middle East (subset of EMEA)</td>
+          <td>~1 GW</td>
+          <td>~15 GW</td>
+          <td>+1,400%</td>
+          <td>2.2 GW under construction, 12 GW planned. Stargate UAE (5 GW). Sovereign AI strategies<a href="#src-29" class="cite">[29]</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout insight">
+      <div class="callout-title">The Middle East Outlier</div>
+      <p>The Middle East represents the most extreme growth trajectory: 12 GW planned against just 1 GW of existing capacity, per JLL.<a href="#src-29" class="cite">[29]</a> This is driven by sovereign AI mandates (Saudi Arabia's HUMAIN, UAE's G42/Stargate partnership) and abundant natural gas for power generation. The OpenAI Stargate UAE project alone targets up to 5 GW.<a href="#src-13" class="cite">[13]</a> This is geopolitically significant: these countries are positioning themselves as compute exporters.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 3: THE BOTTLENECK WALL -->
+  <div class="section">
+    <div class="section-number">Section 3</div>
+    <h2>The Bottleneck Wall: What Money Can't Buy (Yet)</h2>
+
+    <p>Capital is no longer the binding constraint on the compute buildout. The bottleneck has shifted to physical infrastructure — specifically, electrical grid capacity, transformer manufacturing, and the speed of interconnection. This is the most underappreciated risk in the entire AI capex cycle.</p>
+
+    <h3>The Grid Interconnection Crisis</h3>
+
+    <p>Average grid connection lead times now exceed <strong>four years</strong> in primary datacenter markets, according to JLL.<a href="#src-6" class="cite">[6]</a> The World Resources Institute found that power constraints are extending datacenter construction timelines by 24 to 72 months.<a href="#src-30" class="cite">[30]</a> Sightline Climate tracked 12 GW of US datacenter capacity announced for 2026, but found only 5 GW actually under construction — the remaining 7 GW (58%) sits in the "announced" stage with no physical progress.<a href="#src-31" class="cite">[31]</a></p>
+
+    <h3>The Transformer Crunch</h3>
+
+    <p>Substation transformer lead times averaged roughly 140 weeks in 2023, increased to 150 weeks in 2025, and now exceed <strong>160 weeks in 2026</strong> — more than three years from order to delivery.<a href="#src-4" class="cite">[4]</a> Bloomberg reported in April 2026 that more than half of US datacenters planned for 2026 are expected to be delayed due to transformer and electrical equipment shortages.<a href="#src-32" class="cite">[32]</a></p>
+
+    <p>The IEA documented a 70% surge in global gas turbine orders in 2025, highlighting chokepoints in energy technology supply chains.<a href="#src-1" class="cite">[1]</a> More than half of datacenter projects globally experienced construction delays of three months or more in 2025, with average equipment lead times at 33 weeks — a 50% increase from pre-2020 levels.<a href="#src-6" class="cite">[6]</a></p>
+
+    <h3>The "Bring Your Own Power" Response</h3>
+
+    <p>Constrained by grid delays, datacenter developers are increasingly building their own power generation:</p>
+
+    <ul style="color: var(--text-secondary); padding-left: 24px; margin-bottom: 20px;">
+      <li><strong>Onsite natural gas:</strong> The IEA projects 15–27 GW of onsite natural gas may power datacenters by 2030, mostly in the US. GE Vernova and Solar Turbines are deploying gas turbines for behind-the-meter generation. xAI's Colossus facility used gas turbines for initial power.<a href="#src-1" class="cite">[1]</a><a href="#src-33" class="cite">[33]</a></li>
+      <li><strong>Nuclear:</strong> TVA filed the first SMR construction permit for GE Vernova's BWRX-300 reactor, explicitly targeting datacenter customers.<a href="#src-34" class="cite">[34]</a> However, the IEA cautions that "significant new nuclear capacity is unlikely to be widely deployed before the 2030s."<a href="#src-6" class="cite">[6]</a></li>
+      <li><strong>Battery storage:</strong> The IEA projects 20–25 GW of battery storage could be installed in datacenters globally by 2030. AI workloads induce large, rapid power swings that make storage critical.<a href="#src-1" class="cite">[1]</a></li>
+      <li><strong>Overbuilding required:</strong> New IEA analysis shows that providing reliable onsite gas-fired electricity to meet critical and variable datacenter load requires <strong>overbuilding generation by 30–70%</strong> relative to demand.<a href="#src-1" class="cite">[1]</a></li>
+    </ul>
+
+    <div class="callout warning">
+      <div class="callout-title">The Overbuilding Paradox</div>
+      <p>Even with behind-the-meter power, the IEA notes that onsite gas generation does not necessarily offer a faster route to market than grid connection at scale — and requires 30-70% overbuilding to handle variable AI loads. The transformer crunch affects onsite generation too, since these facilities still need step-down transformers, switchgear, and distribution infrastructure. There is no shortcut around the electrical equipment supply chain.<a href="#src-1" class="cite">[1]</a></p>
+    </div>
+
+    <h3>High-Bandwidth Memory: The Silicon Bottleneck</h3>
+
+    <p>Beyond power, the IEA flagged a shortage of high-bandwidth memory (HBM) — integral to AI chip production — that has developed over the past six months and is anticipated to persist through at least the end of 2027.<a href="#src-1" class="cite">[1]</a> HBM is manufactured almost exclusively by Samsung, SK Hynix, and Micron, creating a three-company chokepoint for the entire AI hardware stack.</p>
+  </div>
+
+  <!-- SECTION 4: THE RECURSIVE HORIZON -->
+  <div class="section">
+    <div class="section-number">Section 4</div>
+    <h2>The Recursive Horizon: Why Demand Compounds</h2>
+
+    <p>The most important dynamic in the compute arms race is not the raw scale of buildout — it's the feedback loop between AI capability, efficiency, and demand. This is where the investment thesis either compounds or collapses.</p>
+
+    <h3>Jevons Paradox in Real-Time</h3>
+
+    <p>Dell Technologies COO Jeff Clarke, speaking at Dell's annual conference on May 19, 2026, quantified the paradox: <strong>token costs have fallen 80% in a single year, but token consumption for AI reasoning has surged 320 times.</strong><a href="#src-5" class="cite">[5]</a> Nvidia CEO Jensen Huang reported at Q1 FY2026 earnings that AI inference token generation surged tenfold in just one year.<a href="#src-19" class="cite">[19]</a></p>
+
+    <p>This is Jevons paradox — where making a resource more efficient increases rather than decreases total consumption — playing out at unprecedented speed. The math is simple but devastating for anyone hoping efficiency will cap demand:</p>
+
+    <div class="chart-container">
+      <div class="chart-title">The Jevons Gap: Token Cost vs. Token Consumption</div>
+      <div class="chart-subtitle">Illustrative — indexed to May 2025 baseline. Sources: Dell COO (May 2026), Nvidia (May 2025)</div>
+      <canvas id="jevonsChart" height="280"></canvas>
+    </div>
+
+    <h3>Three Layers of Recursive Demand</h3>
+
+    <p>The demand compounding is driven by three distinct but reinforcing dynamics:</p>
+
+    <p><span class="order-tag first">Layer 1</span> <strong>Reasoning Models:</strong> Modern AI systems use chain-of-thought reasoning that generates 10–100× more tokens per query than simple text completion. Models like Claude, GPT-o-series, and Gemini 3 "think" through problems step-by-step, consuming compute at every step. This isn't a temporary phase — it's the architecture of the future.<a href="#src-22" class="cite">[22]</a></p>
+
+    <p><span class="order-tag second">Layer 2</span> <strong>Agentic Workflows:</strong> AI agents that autonomously execute multi-step tasks generate continuous inference demand without human rate-limiting. As Dell's Clarke noted, these systems "do not sleep, pause between tasks, or wait for business hours."<a href="#src-5" class="cite">[5]</a> In agentic environments, KV caches — the memory state that models maintain — never reset. They accumulate continuously across multi-step reasoning chains, causing infrastructure demand to compound rather than scale linearly.<a href="#src-35" class="cite">[35]</a></p>
+
+    <p><span class="order-tag third">Layer 3</span> <strong>Media and Multimodal AI:</strong> Video generation, image creation, and speech synthesis consume orders of magnitude more compute than text. The IEA notes these "can consume hundreds or thousands of times more energy per query than simple text generation."<a href="#src-1" class="cite">[1]</a> As these capabilities become mainstream, per-user compute consumption rises dramatically.</p>
+
+    <div class="callout insight">
+      <div class="callout-title">The Inference Inflection</div>
+      <p>JLL projects a critical inflection point in 2027 when AI inference workloads will overtake training as the dominant requirement.<a href="#src-6" class="cite">[6]</a> This is seismic because inference demand is driven by end-users — it scales with adoption, not with model development cycles. Training is episodic and centralized; inference is continuous and distributed. The capex implications: the buildout doesn't stop when frontier models are trained. It accelerates as they're deployed.</p>
+    </div>
+
+    <h3>Hardware Response: The Annual Cadence Race</h3>
+
+    <p>Nvidia's response is an annual product cadence promising compounding performance gains:</p>
+
+    <table>
+      <thead>
+        <tr><th>Platform</th><th>Timeline</th><th>Key Advance</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Blackwell (B200/NVL72)</td><td>2025 (shipping)</td><td>Full production. 30× inference throughput vs. prior gen (MLPerf)<a href="#src-19" class="cite">[19]</a></td></tr>
+        <tr><td>Blackwell Ultra (GB300)</td><td>Late 2026</td><td>Sampling Q1 FY2027. Enhanced reasoning performance<a href="#src-19" class="cite">[19]</a></td></tr>
+        <tr><td>Vera Rubin</td><td>2027</td><td>10× lower cost per token vs. Blackwell. Train with 1/4 the GPUs<a href="#src-22" class="cite">[22]</a></td></tr>
+        <tr><td>Rubin Ultra</td><td>2028</td><td>Announced at GTC 2026. NVL576 rack-scale systems targeting "millions of GPUs"<a href="#src-22" class="cite">[22]</a></td></tr>
+      </tbody>
+    </table>
+
+    <p>Each generation improves efficiency per watt — but as established, efficiency gains at these magnitudes have historically increased, not decreased, total consumption. The Vera Rubin platform's 10× cost reduction per token will unlock use cases currently constrained by economics, driving another wave of demand.</p>
+  </div>
+
+  <!-- SECTION 5: INVESTMENT IMPLICATIONS -->
+  <div class="section">
+    <div class="section-number">Section 5</div>
+    <h2>Investment Implications</h2>
+
+    <h3>Where the Edge Lives</h3>
+
+    <p>The compute arms race creates a multi-layered opportunity set for seed investors, organized by where the binding constraints actually sit:</p>
+
+    <p><strong>1. Power delivery and grid modernization.</strong> The 160-week transformer lead time is the single most cited bottleneck. Companies building grid-enhancing technologies, modular substations, or novel transformer manufacturing capacity sit at the critical path. JLL projects modular datacenter systems reaching $48B in annual sales by 2030.<a href="#src-6" class="cite">[6]</a></p>
+
+    <p><strong>2. Onsite generation and energy storage.</strong> With 15–27 GW of onsite natural gas projected by 2030, and 20–25 GW of battery storage in datacenters, the market for behind-the-meter power systems is emerging at massive scale. Companies optimizing gas turbine deployment, long-duration storage, or fuel cell solutions for datacenter loads are well-positioned.<a href="#src-1" class="cite">[1]</a></p>
+
+    <p><strong>3. Cooling innovation.</strong> Server rack power density increased 11× between 2020 and 2025, with a further 4× increase expected by 2027. By 2027, a single rack could have peak demand equivalent to 65 households.<a href="#src-1" class="cite">[1]</a> Liquid cooling is now mandatory for AI workloads — Dell's PowerCool CDU C7000 and Lenovo's Neptune business (300% YoY growth) are early signals of a rapidly scaling market.<a href="#src-5" class="cite">[5]</a></p>
+
+    <p><strong>4. Inference optimization.</strong> As inference overtakes training, the software layer that maximizes token output per watt becomes critical. Nvidia's Dynamo open-source library, inference routing systems, and KV cache optimization are emerging categories. Dell projects $50B in AI server revenue for FY2027, with a $43B AI server backlog.<a href="#src-5" class="cite">[5]</a></p>
+
+    <p><strong>5. Custom silicon and chip supply chain.</strong> Amazon, Google, and Meta are all building custom silicon (Trainium, TPU, MTIA). The custom chip ecosystem — chip design (Marvell, Alchip), packaging (TSMC CoWoS), and HBM (SK Hynix, Samsung, Micron) — has become as critical as the GPU itself.</p>
+
+    <div class="callout insight">
+      <div class="callout-title">The "Power as Moat" Thesis</div>
+      <p><span class="order-tag second">Second-Order</span> The companies that secure power first will build the most capable AI. Power access is becoming a competitive moat for both hyperscalers and startups. This is why JLL characterizes the market as a "bring your own power" mandate in key markets including Dublin and Texas.<a href="#src-6" class="cite">[6]</a> <span class="order-tag third">Third-Order</span> As power becomes the binding constraint, <strong>energy cost becomes a structural part of AI product margins.</strong> Companies that innovate on power (efficiency, generation, procurement) gain a permanent cost advantage in serving AI workloads.</p>
+    </div>
+
+    <h3>What the Capital Markets Are Pricing</h3>
+
+    <p>The data center sector maintains remarkably healthy fundamentals despite the buildout scale. JLL reports 97% global occupancy and 77% of the construction pipeline pre-committed to tenants.<a href="#src-6" class="cite">[6]</a> AI-focused facilities command 60% lease rate premiums over traditional datacenters. Global datacenter core fund capital formation could top $50B in 2026, with ABS/CMBS issuance projected to reach $50B — roughly doubling every year since 2020.<a href="#src-6" class="cite">[6]</a></p>
+
+    <p>The IEA's analysis of AI and energy company share prices since the launch of ChatGPT found that AI demand has not provided a generalized uplift to the energy sector — it's too small in context. But manufacturers of gas turbines, electrical equipment, some nuclear companies, and energy startups have seen valuations become "more strongly linked to AI."<a href="#src-1" class="cite">[1]</a></p>
+  </div>
+
+  <!-- SECTION 6: KEY RISKS -->
+  <div class="section">
+    <div class="section-number">Section 6</div>
+    <h2>Key Risks & Open Questions</h2>
+
+    <div class="callout risk">
+      <div class="callout-title">Risk 1: The ROI Question</div>
+      <p>Goldman Sachs Research analysts are on "heightened alert for signs of market weakness" from a lack of ways to monetize AI or innovations that commoditize models.<a href="#src-23" class="cite">[23]</a> Meta's stock dropped 6% after raising capex guidance because Zuckerberg's ROI explanation — "build experiences that can get to billions of people and focus on monetizing them once you get to scale" — did not reassure investors.<a href="#src-10" class="cite">[10]</a> If revenue growth decelerates before capex cycles complete, the overcapacity risk is enormous.</p>
+    </div>
+
+    <div class="callout risk">
+      <div class="callout-title">Risk 2: Geopolitical Disruption</div>
+      <p>The IEA notes that datacenters have been "targeted in conflict zones, underscoring their role as critical infrastructure." Trade restrictions have targeted critical minerals for power electronics, batteries, and chips. China dominates supply chains for key components. Export controls (e.g., Nvidia's $4.5B H20 charge) demonstrate the fragility of the global chip supply chain.<a href="#src-1" class="cite">[1]</a><a href="#src-19" class="cite">[19]</a></p>
+    </div>
+
+    <div class="callout risk">
+      <div class="callout-title">Risk 3: Social and Regulatory Backlash</div>
+      <p>Community pushback against datacenter projects is a "growing issue" per the IEA, driven by concerns about affordability and environmental impact.<a href="#src-1" class="cite">[1]</a> Dublin has already implemented effective datacenter moratoriums. US grid stress could trigger similar responses in key datacenter markets like Northern Virginia or Texas.</p>
+    </div>
+
+    <div class="callout risk">
+      <div class="callout-title">Risk 4: The Efficiency Wildcard</div>
+      <p>Breakthroughs in model efficiency (like DeepSeek's R1 cost reductions in early 2025) could temporarily depress demand for new compute. Goldman Sachs explicitly models a downside scenario where demand growth CAGR falls to 14% (vs. 17% base case).<a href="#src-23" class="cite">[23]</a> However, history suggests efficiency breakthroughs ultimately expand the market rather than shrink it.</p>
+    </div>
+
+    <h3>Open Questions</h3>
+    <ul style="color: var(--text-secondary); padding-left: 24px; margin-bottom: 20px;">
+      <li>How much of the $725B in announced capex will actually be deployed on schedule, given grid and equipment constraints?</li>
+      <li>Will custom silicon (Trainium, TPU, MTIA) break Nvidia's de facto monopoly on AI training chips by 2028?</li>
+      <li>Does Anthropic's multi-cloud, multi-chip strategy represent the future of frontier lab compute procurement?</li>
+      <li>Can nuclear (SMRs) arrive fast enough to matter for the 2028-2030 buildout, or is natural gas the de facto bridge fuel?</li>
+      <li>At what point does the recursive demand loop saturate — or does agentic AI create genuinely unbounded compute demand?</li>
+    </ul>
+  </div>
+
+  <!-- SOURCES -->
+  <div class="sources" id="sources">
+    <h2>Sources</h2>
+    <ol>
+      <li id="src-1">IEA, "Key Questions on Energy and AI — Executive Summary," April 14, 2026. <a href="https://www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary">iea.org</a></li>
+      <li id="src-2">IEEE ComSoc Technology Blog, "Hyperscaler capex >$600bn in 2026, a 36% increase over 2025," December 22, 2025. <a href="https://techblog.comsoc.org/2025/12/22/hyperscaler-capex-600-bn-in-2026-a-36-increase-over-2025/">techblog.comsoc.org</a></li>
+      <li id="src-3">Goldman Sachs Research / MarketScreener, "US Data Center Power Demand Projected to Double by 2027," May 20, 2026. <a href="https://www.marketscreener.com/news/goldman-sachs-us-data-center-power-demand-projected-to-double-by-2027-ce7f5ad9d98bf12d">marketscreener.com</a></li>
+      <li id="src-4">Data Center Knowledge, "Why AI Data Center Projects Face Years of Delays After Approval," May 2026. <a href="https://www.datacenterknowledge.com/energy-power-supply/why-ai-data-center-projects-face-years-of-delays-after-approval">datacenterknowledge.com</a></li>
+      <li id="src-5">Forbes, "Dell COO Says Agentic AI Is Breaking Cloud Economics, Forcing Data Center Rebuild" (Jeff Clarke interview), May 19, 2026. <a href="https://www.forbes.com/sites/victordey/2026/05/19/dell-coo-says-agentic-ai-is-breaking-cloud-economics-forcing-data-center-rebuild/">forbes.com</a></li>
+      <li id="src-6">JLL, "2026 Global Data Center Outlook," January 6, 2026. <a href="https://www.jll.com/en-us/newsroom/global-data-center-sector-to-nearly-double-to-200gw-amid-ai-infrastructure-boom">jll.com</a></li>
+      <li id="src-7">Futurum Group, "AI Capex 2026: The $690B Infrastructure Sprint," February 12, 2026. <a href="https://futurumgroup.com/insights/ai-capex-2026-the-690b-infrastructure-sprint/">futurumgroup.com</a></li>
+      <li id="src-8">New York Times, "A.I. Spending Sets a Record, With No End in Sight," April 29, 2026. <a href="https://www.nytimes.com/2026/04/29/technology/ai-spending-tech-data-centers.html">nytimes.com</a></li>
+      <li id="src-9">CNBC / Andy Jassy annual letter, "Amazon plans approximately $200 billion in capex in 2026," April 2026. <a href="https://convergedigest.com/amazon-ties-200-billion-2026-capex-plan-to-ai-aws-and-custom-silicon/">convergedigest.com</a></li>
+      <li id="src-10">Fortune, "Microsoft, Meta, and Google just announced billions more in AI spending," April 29, 2026. <a href="https://fortune.com/2026/04/29/microsoft-meta-google-ai-capex-spending-billions/">fortune.com</a></li>
+      <li id="src-11">Futurum Group, "Oracle Q2 FY 2026: Cloud Grows; Capex Rises for AI Buildout," December 12, 2025. <a href="https://futurumgroup.com/insights/oracle-q2-fy-2026-cloud-grows-capex-rises-for-ai-buildout/">futurumgroup.com</a></li>
+      <li id="src-12">Reuters, "OpenAI, Oracle, SoftBank plan five new AI data centers for $500 billion Stargate project," September 23, 2025. <a href="https://www.reuters.com/business/media-telecom/openai-oracle-softbank-plan-five-new-ai-data-centers-500-billion-stargate-2025-09-23/">reuters.com</a></li>
+      <li id="src-13">Data Center Dynamics, "Building Stargate: Talking to OpenAI about its trillion-dollar data center vision," May 2026. <a href="https://www.datacenterdynamics.com/en/analysis/openai-building-stargate-nvidia-oracle-chatgpt/">datacenterdynamics.com</a></li>
+      <li id="src-14">Anthropic, "Anthropic and Amazon expand collaboration for up to 5 GW," April 2026. <a href="https://www.anthropic.com/news/anthropic-amazon-compute">anthropic.com</a></li>
+      <li id="src-15">Anthropic, "Expands partnership with Google and Broadcom for multiple gigawatts of capacity," April 6, 2026. <a href="https://www.anthropic.com/news/google-broadcom-partnership-compute">anthropic.com</a></li>
+      <li id="src-16">CNBC, "Amazon to invest up to another $25 billion in Anthropic as part of AI infrastructure deal," April 20, 2026. <a href="https://www.cnbc.com/2026/04/20/amazon-invest-up-to-25-billion-in-anthropic-part-of-ai-infrastructure.html">cnbc.com</a></li>
+      <li id="src-17">Introl Blog, "xAI Colossus Hits 2 GW: 555,000 GPUs, $18B, Largest AI Site," January 3, 2026. <a href="https://introl.com/blog/xai-colossus-2-gigawatt-expansion-555k-gpus-january-2026">introl.com</a></li>
+      <li id="src-18">Wikipedia / Memphis Chamber of Commerce, "Colossus (supercomputer)," May 2026. Note: As of May 6, 2026, Anthropic has agreed to rent all computing capacity at Colossus 1. <a href="https://en.wikipedia.org/wiki/Colossus_(supercomputer)">wikipedia.org</a></li>
+      <li id="src-19">Nvidia Newsroom, "Financial Results for First Quarter Fiscal 2026," May 28, 2025. <a href="https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-first-quarter-fiscal-2026">nvidianews.nvidia.com</a></li>
+      <li id="src-20">Nvidia Newsroom, "Financial Results for Third Quarter Fiscal 2026," November 2025. Revenue: $57.0B total, $51.2B Data Center. <a href="https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-third-quarter-fiscal-2026">nvidianews.nvidia.com</a></li>
+      <li id="src-21">HeyGoTrade, "Nvidia Q1 FY27 Earnings Preview," May 18, 2026. Consensus: ~$78B revenue, ~$73B data center. <a href="https://www.heygotrade.com/en/blog/nvidia-q1-fy27-earnings-preview-may-20-2026/">heygotrade.com</a></li>
+      <li id="src-22">Data Center Knowledge, "GTC 2026: Nvidia Unveils Vera Rubin AI Platform, Eyes $1T by 2027," May 2026. <a href="https://www.datacenterknowledge.com/data-center-chips/gtc-2026-nvidia-unveils-vera-rubin-ai-platform-eyes-1t-by-2027">datacenterknowledge.com</a></li>
+      <li id="src-23">Goldman Sachs Research, "How AI Is Transforming Data Centers and Ramping Up Power Demand," August 29, 2025. <a href="https://www.goldmansachs.com/insights/articles/how-ai-is-transforming-data-centers-and-ramping-up-power-demand">goldmansachs.com</a></li>
+      <li id="src-24">Goldman Sachs Research, "GS SUSTAIN: Data Center Power Demand: The 6 Ps Driving Growth and Constraints," November 10, 2025. <a href="https://www.goldmansachs.com/insights/goldman-sachs-research/data-center-power-demand-the-6-ps-driving-growth-and-constraints">goldmansachs.com</a></li>
+      <li id="src-25">Rigzone / IEA, "USA Data Center Electricity Demand Projected to Triple," November 27, 2025. <a href="https://www.rigzone.com/news/usa_data_center_electricity_demand_projected_to_triple-27-nov-2025-182400-article/">rigzone.com</a></li>
+      <li id="src-26">IEA, "Electricity 2026 — Demand," 2026. US electricity adds >420 TWh over 5 years; DCs = ~50% of growth. <a href="https://www.iea.org/reports/electricity-2026/demand">iea.org</a></li>
+      <li id="src-27">Avid Solutions, "13 Data Center Growth Projections That Will Shape 2026-2030," January 13, 2026. <a href="https://avidsolutionsinc.com/13-data-center-growth-projections-that-will-shape-2026-2030/">avidsolutionsinc.com</a></li>
+      <li id="src-28">JLL, "North America Data Center Report Year-end 2025," February 17, 2026. 35 GW under construction. <a href="https://www.jll.com/en-us/insights/market-dynamics/north-america-data-centers">jll.com</a></li>
+      <li id="src-29">JLL, "EMEA Year End Data Centre Report 2025," April 2, 2026. Middle East: 1 GW existing, 2.2 GW under construction, 12 GW planned. <a href="https://www.jll.com/en-uk/insights/emea-data-centre-report">jll.com</a></li>
+      <li id="src-30">World Resources Institute, "Powering the US Data Center Boom: The Challenge of Forecasting Electricity Needs," 2025. <a href="https://www.wri.org/insights/us-data-centers-electricity-demand">wri.org</a></li>
+      <li id="src-31">Tech Investments / Sightline Climate, "Power Bottlenecks & The AI Data Center," May 2026. <a href="https://www.techinvestments.io/p/power-bottlenecks-and-the-ai-data">techinvestments.io</a></li>
+      <li id="src-32">Bloomberg, "The US Data Center Boom Is Hitting a Transformer Crunch," April 1, 2026. <a href="https://www.bloomberg.com/news/newsletters/2026-04-01/us-data-center-boom-relies-on-hard-to-find-electrical-equipment">bloomberg.com</a></li>
+      <li id="src-33">Gas Turbine World, "Powering the Data Center Boom," November 2025. GE Vernova and Solar Turbines deploying onsite generation. <a href="https://gasturbineworld.com/powering-the-data-center-boom/">gasturbineworld.com</a></li>
+      <li id="src-34">Data Center Frontier, "TVA Files First SMR Permit for GE Vernova Reactor," June 2025. <a href="https://www.datacenterfrontier.com/energy/article/55293383/tva-files-first-smr-permit-for-ge-vernova-reactor-paving-path-to-nuclear-powered-data-centers">datacenterfrontier.com</a></li>
+      <li id="src-35">Ciena, "Agentic AI: Rewriting the Rules of Compute and Networking," March 25, 2026. <a href="https://www.ciena.com/insights/blog/2026/agentic-ai-rewriting-the-rules-of-compute-and-networking">ciena.com</a></li>
+    </ol>
+  </div>
+
+  <p class="generated">Generated by Galileo 🔭 · May 20, 2026</p>
+</div>
+
+<!-- CHARTS -->
+<script>
+// Chart 1: Hyperscaler Capex
+new Chart(document.getElementById('capexChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Amazon', 'Microsoft', 'Alphabet', 'Meta', 'Oracle'],
+    datasets: [
+      {
+        label: '2025 Capex ($B)',
+        data: [80, 90, 75, 72, 21],
+        backgroundColor: 'rgba(148, 163, 184, 0.6)',
+        borderColor: 'rgba(148, 163, 184, 1)',
+        borderWidth: 1
+      },
+      {
+        label: '2026 Capex Guidance ($B)',
+        data: [200, 190, 185, 135, 50],
+        backgroundColor: 'rgba(79, 70, 229, 0.7)',
+        borderColor: 'rgba(79, 70, 229, 1)',
+        borderWidth: 1
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'top', labels: { font: { family: 'Inter', size: 12 } } },
+      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': $' + ctx.raw + 'B' } }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: { display: true, text: '$ Billions', font: { family: 'Inter', size: 12 } },
+        grid: { color: 'rgba(0,0,0,0.05)' },
+        ticks: { font: { family: 'Inter', size: 11 } }
+      },
+      x: { ticks: { font: { family: 'Inter', size: 12, weight: '500' } }, grid: { display: false } }
+    }
+  }
+});
+
+// Chart 2: Nvidia Data Center Revenue
+new Chart(document.getElementById('nvidiaChart'), {
+  type: 'line',
+  data: {
+    labels: ['Q1 FY25\n(Apr 24)', 'Q2 FY25', 'Q3 FY25', 'Q4 FY25', 'Q1 FY26\n(Apr 25)', 'Q2 FY26', 'Q3 FY26', 'Q4 FY26', 'Q1 FY27\n(Apr 26) est.'],
+    datasets: [{
+      label: 'Data Center Revenue ($B)',
+      data: [22.6, 26.3, 30.8, 35.6, 39.1, 41.0, 51.2, 62.3, 73.0],
+      borderColor: '#059669',
+      backgroundColor: 'rgba(5, 150, 105, 0.1)',
+      fill: true,
+      tension: 0.3,
+      pointRadius: 4,
+      pointBackgroundColor: function(ctx) { return ctx.dataIndex === 8 ? '#d97706' : '#059669'; },
+      pointBorderColor: function(ctx) { return ctx.dataIndex === 8 ? '#d97706' : '#059669'; },
+      pointRadius: function(ctx) { return ctx.dataIndex === 8 ? 6 : 4; },
+      borderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => '$' + ctx.raw + 'B' + (ctx.dataIndex === 8 ? ' (consensus est.)' : '') } }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: { display: true, text: '$ Billions / Quarter', font: { family: 'Inter', size: 12 } },
+        grid: { color: 'rgba(0,0,0,0.05)' },
+        ticks: { font: { family: 'Inter', size: 11 } }
+      },
+      x: { ticks: { font: { family: 'Inter', size: 10 }, maxRotation: 0 }, grid: { display: false } }
+    }
+  }
+});
+
+// Chart 3: US Electricity Demand
+new Chart(document.getElementById('usElectricityChart'), {
+  type: 'bar',
+  data: {
+    labels: ['2024', '2025', '2026', '2027', '2028', '2029'],
+    datasets: [{
+      label: 'US DC Electricity Demand (TWh)',
+      data: [170, 210, 260, 310, 350, 400],
+      backgroundColor: function(ctx) {
+        return ctx.dataIndex === 0 ? 'rgba(79, 70, 229, 0.9)' : 'rgba(79, 70, 229, 0.5)';
+      },
+      borderColor: 'rgba(79, 70, 229, 1)',
+      borderWidth: 1,
+      borderRadius: 6
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ctx.raw + ' TWh' + (ctx.dataIndex > 0 ? ' (IEA projection)' : ' (actual est.)') } }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: { display: true, text: 'Terawatt-hours (TWh)', font: { family: 'Inter', size: 12 } },
+        grid: { color: 'rgba(0,0,0,0.05)' },
+        ticks: { font: { family: 'Inter', size: 11 } }
+      },
+      x: { ticks: { font: { family: 'Inter', size: 12, weight: '500' } }, grid: { display: false } }
+    }
+  }
+});
+
+// Chart 4: Global Capacity by Region
+new Chart(document.getElementById('globalChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Americas\n(US ~90%)', 'Asia-Pacific', 'EMEA\n(ex. Middle East)', 'Middle East'],
+    datasets: [
+      {
+        label: '2025 Capacity (GW)',
+        data: [50, 32, 19, 1],
+        backgroundColor: 'rgba(148, 163, 184, 0.6)',
+        borderColor: 'rgba(148, 163, 184, 1)',
+        borderWidth: 1,
+        borderRadius: 4
+      },
+      {
+        label: '2030 Projected (GW)',
+        data: [100, 57, 20, 15],
+        backgroundColor: 'rgba(79, 70, 229, 0.7)',
+        borderColor: 'rgba(79, 70, 229, 1)',
+        borderWidth: 1,
+        borderRadius: 4
+      },
+      {
+        label: 'Under Construction / Planned (GW)',
+        data: [35, null, null, 14.2],
+        backgroundColor: 'rgba(217, 119, 6, 0.5)',
+        borderColor: 'rgba(217, 119, 6, 1)',
+        borderWidth: 1,
+        borderRadius: 4
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'top', labels: { font: { family: 'Inter', size: 12 } } },
+      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.raw + ' GW' } }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: { display: true, text: 'Gigawatts (GW)', font: { family: 'Inter', size: 12 } },
+        grid: { color: 'rgba(0,0,0,0.05)' },
+        ticks: { font: { family: 'Inter', size: 11 } }
+      },
+      x: { ticks: { font: { family: 'Inter', size: 11 }, maxRotation: 0 }, grid: { display: false } }
+    }
+  }
+});
+
+// Chart 5: Jevons Paradox — Token Cost vs Consumption
+new Chart(document.getElementById('jevonsChart'), {
+  type: 'line',
+  data: {
+    labels: ['May 2025', 'Aug 2025', 'Nov 2025', 'Feb 2026', 'May 2026'],
+    datasets: [
+      {
+        label: 'Token Cost (indexed, May 2025 = 100)',
+        data: [100, 65, 40, 28, 20],
+        borderColor: '#059669',
+        backgroundColor: 'rgba(5, 150, 105, 0.1)',
+        fill: false,
+        tension: 0.3,
+        borderWidth: 2,
+        pointRadius: 4,
+        yAxisID: 'y'
+      },
+      {
+        label: 'Token Consumption (indexed, May 2025 = 1×)',
+        data: [1, 8, 40, 120, 320],
+        borderColor: '#dc2626',
+        backgroundColor: 'rgba(220, 38, 38, 0.1)',
+        fill: false,
+        tension: 0.3,
+        borderWidth: 2,
+        pointRadius: 4,
+        yAxisID: 'y1'
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { position: 'top', labels: { font: { family: 'Inter', size: 12 } } }
+    },
+    scales: {
+      y: {
+        type: 'linear',
+        display: true,
+        position: 'left',
+        title: { display: true, text: 'Cost Index (100 = May 2025)', font: { family: 'Inter', size: 11 }, color: '#059669' },
+        min: 0, max: 120,
+        grid: { color: 'rgba(0,0,0,0.05)' },
+        ticks: { font: { family: 'Inter', size: 11 }, color: '#059669' }
+      },
+      y1: {
+        type: 'linear',
+        display: true,
+        position: 'right',
+        title: { display: true, text: 'Consumption (×, May 2025 = 1)', font: { family: 'Inter', size: 11 }, color: '#dc2626' },
+        min: 0,
+        grid: { drawOnChartArea: false },
+        ticks: { font: { family: 'Inter', size: 11 }, color: '#dc2626', callback: v => v + '×' }
+      },
+      x: { ticks: { font: { family: 'Inter', size: 11 } }, grid: { display: false } }
+    }
+  }
+});
+</script>
+</body>
+</html>
