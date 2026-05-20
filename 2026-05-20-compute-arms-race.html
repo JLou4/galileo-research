@@ -760,6 +760,81 @@
       <li><strong>History of premature predictions</strong> — the AI community has a decades-long track record of predicting AGI "within 10 years."</li>
     </ul>
 
+    <h3>The Dual Dynamic: Demand Spike vs. Self-Optimization</h3>
+
+    <p>RSI creates two opposing forces on compute demand simultaneously:</p>
+
+    <p><strong>Force 1 — Demand explosion:</strong> RSI generates continuous, compounding training runs. Each improvement cycle requires a new training run on the full model — or more precisely, on a model that is already larger and more capable than its predecessor. A research survey of 25 leading AI researchers from DeepMind, OpenAI, Anthropic, Meta, UC Berkeley, Princeton, and Stanford (arXiv:2603.03338, February 2026) found that participants converged on predictions that AI agents will transition from "assistants" to "autonomous AI developers" — but after that point, predictions diverged sharply. The frontier lab researchers were more bullish on explosive growth than academics.<a href="#src-77" class="cite">[77]</a></p>
+
+    <p><strong>Force 2 — Efficiency improvement:</strong> A self-improving AI would also optimize its own architecture, training procedures, and inference efficiency. DeepSeek R1 demonstrated this in early 2025: algorithmic innovation achieved comparable performance at dramatically lower compute cost. An RSI system would discover such optimizations continuously. The paper "The Race to Efficiency" (arXiv:2501.02156) argues that classical scaling laws neglect time and efficiency, and that algorithmic improvements are compounding alongside hardware improvements.<a href="#src-78" class="cite">[78]</a></p>
+
+    <p><strong>Which force dominates?</strong> Historically, efficiency gains in computing have <em>always</em> been overwhelmed by demand expansion (Jevons paradox). But RSI introduces a genuinely novel dynamic: for the first time, the system generating demand is the same system optimizing efficiency. Deloitte's 2026 analysis explicitly concludes that "AI's next phase will likely demand more computational power, not less" — efficiency gains at the model level are consumed by the explosion in inference volume and the shift to more compute-intensive reasoning architectures.<a href="#src-79" class="cite">[79]</a> The academic evidence supports the view that <strong>demand dominates</strong>, but with meaningful efficiency offsets that prevent the curve from going truly vertical.</p>
+
+    <h3>Second-Order: Can AI Optimize Its Own Infrastructure?</h3>
+
+    <p>If AI can improve its own models, can it also optimize the physical infrastructure it runs on? Several mechanisms are already emerging:</p>
+
+    <ul style="color: var(--text-secondary); padding-left: 24px; margin-bottom: 20px;">
+      <li><strong>Chip design:</strong> Nvidia, Google, and startups already use AI to design next-generation chips. Google's TPU v6 used AI-assisted layout optimization. If AI can design dramatically more efficient chips, the effective compute per watt rises — but this takes 2-3 years to reach production silicon.</li>
+      <li><strong>Datacenter operations:</strong> Google's DeepMind reduced datacenter cooling energy by 40% using AI in 2016. AI-optimized power distribution, workload scheduling, and thermal management can extract 20-30% more compute from existing infrastructure.</li>
+      <li><strong>Grid optimization:</strong> The IEA notes AI is "an important tool to enhance energy security" — monitoring grids, reducing failures, and optimizing capacity. AI-driven grid-enhancing technologies help offset the grid bottleneck.<a href="#src-1" class="cite">[1]</a></li>
+      <li><strong>Model distillation:</strong> RSI systems could train more capable but smaller models, reducing inference compute per query while maintaining capability. This is already happening (Llama distillation, Phi-series).</li>
+    </ul>
+
+    <p>Net assessment: AI will meaningfully improve infrastructure efficiency (perhaps 2-3× over current levels by 2030). But this improvement is <strong>multiplicative on a base that is itself growing exponentially</strong>. A 3× efficiency gain on a 10× demand increase still means a 3.3× net increase in physical infrastructure needed.</p>
+
+    <h3>The Endgame: 2030-2033 If Both Trends Continue</h3>
+
+    <p>If forecast undershooting persists at the Goldman Sachs historical rate (~15-20% per annual revision) AND RSI accelerates demand on top of that, the math produces sobering numbers:</p>
+
+    <table>
+      <thead>
+        <tr><th>Parameter</th><th>2026 (Today)</th><th>2030 (Base + RSI)</th><th>2033 (Extrapolated)</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Global DC electricity demand</td>
+          <td>~550-600 TWh</td>
+          <td>1,500-2,000 TWh (IEA base + GS correction + RSI uplift)</td>
+          <td>3,000-5,000 TWh (est. — data is thin, labeled as extrapolation)</td>
+        </tr>
+        <tr>
+          <td>US share</td>
+          <td>~250-300 TWh (~6% of US electricity)</td>
+          <td>~900-1,200 TWh (~15-20% of US electricity)</td>
+          <td>~1,500-2,500 TWh (~25-35% of US electricity, est.)</td>
+        </tr>
+        <tr>
+          <td>Global DC capacity</td>
+          <td>~68 GW operational</td>
+          <td>200-350 GW</td>
+          <td>400-700 GW (est.)</td>
+        </tr>
+        <tr>
+          <td>Cumulative capex</td>
+          <td>~$1.5T (2024-2026)</td>
+          <td>$7-15T (2024-2030)</td>
+          <td>$15-30T (2024-2033, est.)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout warning">
+      <div class="callout-title">Data Integrity Note</div>
+      <p>The 2033 column is extrapolation, not forecast. No credible source publishes specific projections beyond 2030 for datacenter demand under RSI scenarios. These numbers are derived from: (1) Goldman's historical miss rate applied forward, (2) the token consumption growth rate documented by Dell/Nvidia, and (3) the assumption that RSI adds a 2-3× multiplier on top of baseline growth. They should be treated as directional, not precise. <strong>The honest answer: if RSI arrives circa 2028 and forecasts continue undershooting, the 2030 numbers in this report will look conservative in hindsight.</strong></p>
+    </div>
+
+    <h3>Academic Grounding</h3>
+
+    <p>The academic literature on RSI and compute scaling is thin but growing rapidly:</p>
+
+    <ul style="color: var(--text-secondary); padding-left: 24px; margin-bottom: 20px;">
+      <li><strong>Field et al. (2026)</strong> — "AI Researchers' Views on Automating AI R&D and Intelligence Explosions" (arXiv:2603.03338). Interviewed 25 leading researchers from frontier labs and academia. 20/25 identified automating AI research as among the most severe and urgent AI risks. Epistemic divide: lab researchers more bullish on explosive growth than academics. 17/25 expected advanced systems to be reserved for internal use.<a href="#src-77" class="cite">[77]</a></li>
+      <li><strong>ICLR 2026 Workshop on AI with Recursive Self-Improvement</strong> — The existence of a dedicated RSI workshop at a top ML venue signals mainstream academic engagement with the topic. Papers cover self-improving embodied models, Olympiad-level reasoning, and safety frameworks for recursive systems.<a href="#src-80" class="cite">[80]</a></li>
+      <li><strong>"The Race to Efficiency" (arXiv:2501.02156)</strong> — Proposes new scaling laws that incorporate time and efficiency alongside raw compute. Argues classical Kaplan/Chinchilla scaling laws are insufficient for predicting future compute needs because they ignore algorithmic improvement rates.<a href="#src-78" class="cite">[78]</a></li>
+      <li><strong>"Scaling Laws, Foundation Models, and the AI Singularity: A Critical Appraisal" (WJARR 2026)</strong> — Reviews 2023-2025 evidence on whether scaling laws support singularity claims. Concludes evidence is mixed: scaling delivers consistent improvement but the rate of capability gain shows signs of diminishing marginal returns at frontier scale.<a href="#src-81" class="cite">[81]</a></li>
+    </ul>
+
     <p>For investment purposes, the question isn't whether RSI arrives on schedule — it's whether the <em>belief</em> in near-term RSI sustains the capex cycle. As long as hyperscalers and sovereign governments believe AGI/ASI is 2-5 years away, the infrastructure buildout continues regardless of whether the timeline proves accurate. The capex is committed; the compute will be built; the only question is what runs on it.</p>
   </div>
 
@@ -1155,6 +1230,11 @@
       <li id="src-74">The Verge, "Demis Hassabis at Google I/O: foothills of the singularity," May 20, 2026. AGI 50% by 2030. <a href="https://www.theverge.com/tech/934260/google-io-ai-singularity-demis-hassabis">theverge.com</a></li>
       <li id="src-75">AI Core News, "Elon Musk AI 2026 Prediction," Jan 2026. AGI surpasses any human by end 2026, collective by 2027. <a href="https://aicorenews.com/industry-news/elon-musk-ai-2026-prediction-agi-surpass-humans/">aicorenews.com</a></li>
       <li id="src-76">ITP.net / Shane Legg, "Google DeepMind Co-Founder Predicts AGI by 2028," Dec 2025. 50% minimal AGI by 2028 (consistent since 2009). <a href="https://www.itp.net/ai-automation/google-deepmind-co-founder-shane-legg-agi-prediction">itp.net</a></li>
+      <li id="src-77">Field et al., "AI Researchers' Views on Automating AI R&D and Intelligence Explosions," arXiv:2603.03338, Feb 2026. 25 researchers from DeepMind, OpenAI, Anthropic, Meta, Berkeley, Princeton, Stanford. 20/25: automating AI research is most severe risk. <a href="https://arxiv.org/abs/2603.03338">arxiv.org</a></li>
+      <li id="src-78">"The Race to Efficiency: A New Perspective on AI Scaling Laws," arXiv:2501.02156, Jan 2025. New scaling laws incorporating time and algorithmic efficiency. <a href="https://arxiv.org/abs/2501.02156">arxiv.org</a></li>
+      <li id="src-79">Deloitte, "Why AI's next phase will likely demand more computational power, not less," Feb 2026. <a href="https://www.deloitte.com/us/en/insights/industry/technology/technology-media-and-telecom-predictions/2026/compute-power-ai.html">deloitte.com</a></li>
+      <li id="src-80">ICLR 2026 Workshop on AI with Recursive Self-Improvement. <a href="https://iclr.cc/virtual/2026/workshop/10000796">iclr.cc</a></li>
+      <li id="src-81">"Scaling Laws, Foundation Models, and the AI Singularity: A Critical Appraisal of 2023-2025 Evidence," WJARR 2026. <a href="https://journalwjarr.com/sites/default/files/fulltext_pdf/WJARR-2026-0011.pdf">journalwjarr.com</a></li>
       <li id="src-61">Evercore ISI, CoreWeave/AI Demand note, May 19, 2026 (via Investing.com). Token consumption: ~100 quadrillion (2026) → ~4 quintillion (2030), ~150% 4-year CAGR. Compute capacity demand: 250 GW by 2030. <a href="https://www.investing.com/news/analyst-ratings/evercore-isi-reiterates-coreweave-stock-rating-on-ai-demand-outlook-93CH-4699353">investing.com</a></li>
       <li id="src-62">@negligible_cap (X/Twitter), DC capacity deployment forecast chart, May 12, 2026. +25 GW by end 2026, +32 GW by end 2027, +34 GW by end 2028.</li>
     </ol>
