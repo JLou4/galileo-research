@@ -963,6 +963,102 @@
 
 <!-- CHARTS -->
 <script>
+// Chart: Prediction Gap - Goldman Sachs vintage forecasts vs IEA base case
+new Chart(document.getElementById('predictionGapChart'), {
+  type: 'line',
+  data: {
+    labels: ['2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030', '2031'],
+    datasets: [
+      {
+        label: 'Actual (IEA data)',
+        data: [400, 415, 460, 485, null, null, null, null, null, null],
+        borderColor: '#0f172a',
+        backgroundColor: '#0f172a',
+        borderWidth: 3,
+        pointRadius: 5,
+        pointBackgroundColor: '#0f172a',
+        tension: 0.2
+      },
+      {
+        label: 'GS May 2024 (+160%)',
+        data: [null, 415, null, null, null, null, null, null, 1079, null],
+        borderColor: 'rgba(148, 163, 184, 0.7)',
+        borderWidth: 2,
+        borderDash: [8, 4],
+        pointRadius: 4,
+        tension: 0.2,
+        spanGaps: true
+      },
+      {
+        label: 'GS Feb 2025 (+165%)',
+        data: [null, null, null, 485, null, null, null, null, 1100, null],
+        borderColor: 'rgba(99, 102, 241, 0.5)',
+        borderWidth: 2,
+        borderDash: [8, 4],
+        pointRadius: 4,
+        tension: 0.2,
+        spanGaps: true
+      },
+      {
+        label: 'GS Nov 2025 (+175%)',
+        data: [null, null, null, null, 540, null, null, null, 1141, null],
+        borderColor: 'rgba(99, 102, 241, 0.7)',
+        borderWidth: 2,
+        borderDash: [6, 3],
+        pointRadius: 4,
+        tension: 0.2,
+        spanGaps: true
+      },
+      {
+        label: 'GS Apr 2026 (+220%)',
+        data: [null, null, null, null, null, 620, null, null, 1350, null],
+        borderColor: '#4f46e5',
+        borderWidth: 2.5,
+        pointRadius: 5,
+        tension: 0.2,
+        spanGaps: true
+      },
+      {
+        label: 'GS Correction Band (+~270% if miss rate holds)',
+        data: [null, null, null, null, null, null, null, null, 1350, 1580],
+        borderColor: 'rgba(220, 38, 38, 0.5)',
+        borderWidth: 2,
+        borderDash: [4, 4],
+        pointRadius: 4,
+        fill: false,
+        tension: 0.2,
+        spanGaps: true
+      },
+      {
+        label: 'IEA Base Case (~950 TWh)',
+        data: [null, null, 460, 485, 550, 620, 700, 800, 950, null],
+        borderColor: '#059669',
+        borderWidth: 2.5,
+        pointRadius: 4,
+        pointBackgroundColor: '#059669',
+        tension: 0.3
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'bottom', labels: { font: { family: 'Inter', size: 11 }, boxWidth: 20, padding: 12 } },
+      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.raw + ' TWh' } }
+    },
+    scales: {
+      y: {
+        beginAtZero: false,
+        min: 300,
+        title: { display: true, text: 'Global DC Electricity Demand (TWh)', font: { family: 'Inter', size: 12 } },
+        grid: { color: 'rgba(0,0,0,0.05)' },
+        ticks: { font: { family: 'Inter', size: 11 } }
+      },
+      x: { ticks: { font: { family: 'Inter', size: 12, weight: '500' } }, grid: { display: false } }
+    }
+  }
+});
+
 // Chart 0: Stacked Capacity - Operational vs Contracted/Under-Construction (MW, all players combined)
 // Sources: JLL, Synergy Research, Microsoft earnings, company disclosures. Pre-2024 from Synergy; 2025-2026 from JLL/earnings.
 // Note: Total operational capacity (all hyperscalers globally) per Synergy/JLL. Under-construction from JLL North America report.
