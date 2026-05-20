@@ -1268,14 +1268,14 @@
 <script>
 function initChart(id, config) { try { var el = document.getElementById(id); if (!el) { console.warn('Chart canvas not found: ' + id); return; } new Chart(el, config); } catch(e) { console.error('Chart init failed for ' + id + ': ' + e.message); } }
 // Chart: Prediction Gap - Goldman Sachs vintage forecasts vs IEA base case
+// Using linear x-axis so GS forecast lines originate from correct publication dates
 initChart('predictionGapChart', {
   type: 'line',
   data: {
-    labels: ['2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030'],
     datasets: [
       {
         label: 'Actual (IEA data)',
-        data: [400, 415, 460, 485, null, null, null, null, null],
+        data: [{x:2022,y:400},{x:2023,y:415},{x:2024,y:460},{x:2025,y:485}],
         borderColor: '#0f172a',
         backgroundColor: '#0f172a',
         borderWidth: 3,
@@ -1284,63 +1284,63 @@ initChart('predictionGapChart', {
         tension: 0.2
       },
       {
-        label: 'GS May 2024 (+160%)',
-        data: [null, 415, null, null, null, null, null, null, 1079],
-        borderColor: 'rgba(148, 163, 184, 0.7)',
-        borderWidth: 2,
-        borderDash: [8, 4],
-        pointRadius: 4,
-        tension: 0.2,
-        spanGaps: true
-      },
-      {
-        label: 'GS Feb 2025 (+165%)',
-        data: [null, null, null, 485, null, null, null, null, 1100],
-        borderColor: 'rgba(99, 102, 241, 0.5)',
-        borderWidth: 2,
-        borderDash: [8, 4],
-        pointRadius: 4,
-        tension: 0.2,
-        spanGaps: true
-      },
-      {
-        label: 'GS Nov 2025 (+175%)',
-        data: [null, null, null, null, 540, null, null, null, 1141],
-        borderColor: 'rgba(99, 102, 241, 0.7)',
-        borderWidth: 2,
-        borderDash: [6, 3],
-        pointRadius: 4,
-        tension: 0.2,
-        spanGaps: true
-      },
-      {
-        label: 'GS Apr 2026 (+220%)',
-        data: [null, null, null, null, null, 620, null, null, 1350],
-        borderColor: '#4f46e5',
-        borderWidth: 2.5,
-        pointRadius: 5,
-        tension: 0.2,
-        spanGaps: true
-      },
-      {
-        label: 'GS Correction Band (~1,550-1,600 TWh if miss rate holds)',
-        data: [null, null, null, null, null, null, null, null, 1580],
-        borderColor: 'rgba(220, 38, 38, 0.5)',
-        borderWidth: 2,
-        borderDash: [4, 4],
-        pointRadius: 4,
-        fill: false,
-        tension: 0.2,
-        spanGaps: true
-      },
-      {
         label: 'IEA Base Case (~950 TWh)',
-        data: [null, null, 460, 485, 550, 620, 700, 800, 950],
+        data: [{x:2024,y:460},{x:2025,y:485},{x:2026,y:550},{x:2027,y:620},{x:2028,y:700},{x:2029,y:800},{x:2030,y:950}],
         borderColor: '#059669',
         borderWidth: 2.5,
         pointRadius: 4,
         pointBackgroundColor: '#059669',
         tension: 0.3
+      },
+      {
+        label: 'GS May 2024 (+160%)',
+        data: [{x:2024.33,y:468},{x:2030,y:1079}],
+        borderColor: 'rgba(148, 163, 184, 0.7)',
+        borderWidth: 2,
+        borderDash: [8, 4],
+        pointRadius: [0, 5],
+        pointBackgroundColor: 'rgba(148, 163, 184, 0.7)',
+        tension: 0
+      },
+      {
+        label: 'GS Feb 2025 (+165%)',
+        data: [{x:2025.08,y:490},{x:2030,y:1100}],
+        borderColor: 'rgba(99, 102, 241, 0.5)',
+        borderWidth: 2,
+        borderDash: [8, 4],
+        pointRadius: [0, 5],
+        pointBackgroundColor: 'rgba(99, 102, 241, 0.5)',
+        tension: 0
+      },
+      {
+        label: 'GS Nov 2025 (+175%)',
+        data: [{x:2025.83,y:539},{x:2030,y:1141}],
+        borderColor: 'rgba(99, 102, 241, 0.7)',
+        borderWidth: 2,
+        borderDash: [6, 3],
+        pointRadius: [0, 5],
+        pointBackgroundColor: 'rgba(99, 102, 241, 0.7)',
+        tension: 0
+      },
+      {
+        label: 'GS Apr 2026 (+220%)',
+        data: [{x:2026.25,y:568},{x:2030,y:1350}],
+        borderColor: '#4f46e5',
+        borderWidth: 2.5,
+        pointRadius: [0, 6],
+        pointBackgroundColor: '#4f46e5',
+        tension: 0
+      },
+      {
+        label: 'GS Correction Band (~1,550-1,600 TWh if miss rate holds)',
+        data: [{x:2027,y:620},{x:2030,y:1580}],
+        borderColor: 'rgba(220, 38, 38, 0.6)',
+        borderWidth: 2,
+        borderDash: [4, 4],
+        pointRadius: [0, 5],
+        pointBackgroundColor: 'rgba(220, 38, 38, 0.6)',
+        fill: false,
+        tension: 0
       }
     ]
   },
@@ -1348,7 +1348,7 @@ initChart('predictionGapChart', {
     responsive: true,
     plugins: {
       legend: { position: 'bottom', labels: { font: { family: 'Inter', size: 11 }, boxWidth: 20, padding: 12 } },
-      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.raw + ' TWh' } }
+      tooltip: { callbacks: { label: function(ctx) { return ctx.dataset.label + ': ' + (typeof ctx.raw === 'object' ? ctx.raw.y : ctx.raw) + ' TWh'; } } }
     },
     scales: {
       y: {
@@ -1358,7 +1358,17 @@ initChart('predictionGapChart', {
         grid: { color: 'rgba(0,0,0,0.05)' },
         ticks: { font: { family: 'Inter', size: 11 } }
       },
-      x: { ticks: { font: { family: 'Inter', size: 12, weight: '500' } }, grid: { display: false } }
+      x: {
+        type: 'linear',
+        min: 2022,
+        max: 2030,
+        ticks: {
+          stepSize: 1,
+          font: { family: 'Inter', size: 12, weight: '500' },
+          callback: function(v) { return v.toString(); }
+        },
+        grid: { display: false }
+      }
     }
   }
 });
