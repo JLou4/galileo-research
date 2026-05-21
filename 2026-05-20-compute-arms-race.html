@@ -355,6 +355,12 @@
       </tbody>
     </table>
 
+    <div class="chart-container">
+      <div class="chart-title">Who Commands vs. Who Owns the Compute</div>
+      <div class="chart-subtitle">Source: Roucher (2026) via Epoch AI data. GW includes owned + rented capacity. [89]</div>
+      <canvas id="userVsProviderChart" height="320"></canvas>
+    </div>
+
     <div class="callout insight">
       <div class="callout-title">The Demand vs. Supply Mismatch</div>
       <p><span class="order-tag second">Second-Order</span> The user-view reveals a structural asymmetry: the largest <em>consumers</em> of compute (OpenAI, Anthropic) own none of the physical infrastructure, while the largest <em>owners</em> (Microsoft, Amazon, Google) derive much of their value from serving these tenants. OpenAI commands 15.3 GW despite owning zero operational datacenters — it is the world's largest compute renter. <span class="order-tag third">Third-Order</span> This creates a power dynamic where infrastructure providers hold structural leverage over AI labs, and any disruption in these partnerships (as seen with the weakening Microsoft-OpenAI relationship) has immediate compute access implications. Labs that diversify their compute sources (Anthropic's multi-cloud strategy) are hedging this concentration risk.<a href="#src-89" class="cite">[89]</a></p>
@@ -1095,6 +1101,12 @@
       </tbody>
     </table>
 
+    <div class="chart-container">
+      <div class="chart-title">The Multipolar Compute Race: AI Power by Entity</div>
+      <div class="chart-subtitle">Source: Roucher (2026) via Epoch AI + curated estimates. GW of AI datacenter capacity (owned + rented). Chinese figures ±30-50%. [89]</div>
+      <canvas id="multipolarChart" height="400"></canvas>
+    </div>
+
     <div class="callout warning">
       <div class="callout-title">Data Quality Warning</div>
       <p>Chinese hyperscaler MW figures are chip-spend-derived, not satellite-verified. The conversion uses ~48 MW per $1B AI chip spend and per-GPU power estimates (A100 ~0.7 kW, H100/H800 ~1.4 kW, H20 ~0.9 kW, Ascend 910B/C ~3 kW). The ±30-50% uncertainty range is significant — ByteDance's actual capacity could be anywhere from ~1,750 MW to ~5,250 MW. Telco figures are more reliable (hard nameplate data). The 2030 projections are trend extrapolation, not announced plans.<a href="#src-89" class="cite">[89]</a></p>
@@ -1148,6 +1160,12 @@
         <tr><td><strong>OpenAI Stargate Abilene</strong></td><td>Oracle / OpenAI</td><td>July 2026</td><td>~2 years</td><td>—</td></tr>
       </tbody>
     </table>
+
+    <div class="chart-container">
+      <div class="chart-title">Race to 1 GW: Facility Build Timelines</div>
+      <div class="chart-subtitle">Source: Epoch AI Frontier Data Centers Hub (satellite-verified). Construction start → 1 GW facility power. [90][92]</div>
+      <canvas id="facilityTimelineChart" height="260"></canvas>
+    </div>
 
     <p>Construction-to-1-GW timelines range from 1 to 3.6 years across all tracked facilities, with xAI's Colossus 2 projecting the fastest at just 12 months. Epoch estimates power capacity with 80% confidence within a factor of 1.4×, and timing within 6 months — making this the most rigorous public dataset on actual datacenter build progress. Notably, their tracked facilities (13 large US campuses) account for approximately 2.5 million H100-equivalents, or ~15% of the global AI compute stock.<a href="#src-90" class="cite">[90]</a></p>
 
@@ -1466,6 +1484,18 @@ initChart('predictionGapChart', {
         pointBackgroundColor: 'rgba(220, 38, 38, 0.6)',
         fill: false,
         tension: 0
+      },
+      {
+        label: 'Epoch AI: AI-Specific Demand (~30 GW → TWh)',
+        data: [{x:2024,y:175},{x:2025,y:263},{x:2026,y:360},{x:2027,y:480},{x:2028,y:600},{x:2029,y:680},{x:2030,y:750}],
+        borderColor: '#d97706',
+        backgroundColor: 'rgba(217, 119, 6, 0.08)',
+        borderWidth: 2.5,
+        borderDash: [3, 2],
+        pointRadius: 4,
+        pointBackgroundColor: '#d97706',
+        fill: true,
+        tension: 0.3
       }
     ]
   },
@@ -1776,6 +1806,167 @@ initChart('scenarioChart', {
     scales: {
       y: { beginAtZero: false, min: 100, title: { display: true, text: 'US DC Electricity (TWh)', font: { family: 'Inter', size: 12 } }, grid: { color: 'rgba(0,0,0,0.05)' } },
       x: { ticks: { font: { family: 'Inter', size: 12 } }, grid: { display: false } }
+    }
+  }
+});
+
+// Chart: User vs Provider - Who Commands vs Who Owns Compute
+initChart('userVsProviderChart', {
+  type: 'bar',
+  data: {
+    labels: ['OpenAI', 'Google\nDeepMind', 'Anthropic', 'Meta', 'Microsoft', 'xAI'],
+    datasets: [
+      {
+        label: 'Compute Commanded (GW, user view)',
+        data: [15.3, 6.0, 5.1, 3.8, 2.0, 1.5],
+        backgroundColor: 'rgba(79, 70, 229, 0.8)',
+        borderColor: 'rgba(79, 70, 229, 1)',
+        borderWidth: 1,
+        borderRadius: 4
+      },
+      {
+        label: 'DC Capacity Owned (GW, provider view)',
+        data: [0, 6.0, 0, 3.8, 6.0, 2.0],
+        backgroundColor: 'rgba(148, 163, 184, 0.6)',
+        borderColor: 'rgba(148, 163, 184, 1)',
+        borderWidth: 1,
+        borderRadius: 4
+      }
+    ]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: {
+      legend: { position: 'top', labels: { font: { family: 'Inter', size: 12 } } },
+      tooltip: { callbacks: { label: function(ctx) { return ctx.dataset.label + ': ' + ctx.raw + ' GW'; } } }
+    },
+    scales: {
+      x: {
+        beginAtZero: true,
+        title: { display: true, text: 'Gigawatts (GW)', font: { family: 'Inter', size: 12 } },
+        grid: { color: 'rgba(0,0,0,0.05)' },
+        ticks: { font: { family: 'Inter', size: 11 } }
+      },
+      y: { ticks: { font: { family: 'Inter', size: 12, weight: '500' } }, grid: { display: false } }
+    }
+  }
+});
+
+// Chart: Facility Build Timeline - Race to 1 GW
+initChart('facilityTimelineChart', {
+  type: 'bar',
+  data: {
+    labels: ['Anthropic-Amazon\nNew Carlisle', 'xAI\nColossus 2', 'Microsoft\nFayetteville', 'Meta\nPrometheus', 'OpenAI Stargate\nAbilene'],
+    datasets: [
+      {
+        label: 'Construction Phase (months)',
+        data: [30, 12, 36, 24, 24],
+        backgroundColor: [
+          'rgba(79, 70, 229, 0.7)',
+          'rgba(220, 38, 38, 0.7)',
+          'rgba(79, 70, 229, 0.7)',
+          'rgba(79, 70, 229, 0.7)',
+          'rgba(79, 70, 229, 0.7)'
+        ],
+        borderColor: [
+          'rgba(79, 70, 229, 1)',
+          'rgba(220, 38, 38, 1)',
+          'rgba(79, 70, 229, 1)',
+          'rgba(79, 70, 229, 1)',
+          'rgba(79, 70, 229, 1)'
+        ],
+        borderWidth: 1,
+        borderRadius: 6
+      }
+    ]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: function(ctx) {
+            var dates = ['Jan 2026', 'Feb 2026', 'Mar 2026', 'May 2026', 'Jul 2026'];
+            return ctx.raw + ' months to 1 GW \u2192 ' + dates[ctx.dataIndex];
+          }
+        }
+      },
+      annotation: undefined
+    },
+    scales: {
+      x: {
+        beginAtZero: true,
+        max: 42,
+        title: { display: true, text: 'Months from Construction Start to 1 GW', font: { family: 'Inter', size: 12 } },
+        grid: { color: 'rgba(0,0,0,0.05)' },
+        ticks: { font: { family: 'Inter', size: 11 }, stepSize: 6 }
+      },
+      y: { ticks: { font: { family: 'Inter', size: 11, weight: '500' } }, grid: { display: false } }
+    }
+  }
+});
+
+// Chart: Multipolar Compute Race - Global AI Power by Entity
+initChart('multipolarChart', {
+  type: 'bar',
+  data: {
+    labels: [
+      'OpenAI', 'Google DeepMind', 'Anthropic', 'Meta', 'Microsoft', 'xAI',
+      'ByteDance', 'Alibaba', 'Huawei', 'Tencent', 'CN Telcos\n(combined)',
+      'Mistral'
+    ],
+    datasets: [{
+      label: 'AI Compute Capacity (GW)',
+      data: [15.3, 6.0, 5.1, 3.8, 2.0, 1.5, 3.5, 3.0, 2.0, 1.5, 3.7, 0.09],
+      backgroundColor: [
+        'rgba(79, 70, 229, 0.85)', 'rgba(79, 70, 229, 0.85)', 'rgba(79, 70, 229, 0.85)',
+        'rgba(79, 70, 229, 0.85)', 'rgba(79, 70, 229, 0.85)', 'rgba(79, 70, 229, 0.85)',
+        'rgba(220, 38, 38, 0.7)', 'rgba(220, 38, 38, 0.7)', 'rgba(220, 38, 38, 0.7)',
+        'rgba(220, 38, 38, 0.7)', 'rgba(220, 38, 38, 0.7)',
+        'rgba(217, 119, 6, 0.7)'
+      ],
+      borderColor: [
+        'rgba(79, 70, 229, 1)', 'rgba(79, 70, 229, 1)', 'rgba(79, 70, 229, 1)',
+        'rgba(79, 70, 229, 1)', 'rgba(79, 70, 229, 1)', 'rgba(79, 70, 229, 1)',
+        'rgba(220, 38, 38, 1)', 'rgba(220, 38, 38, 1)', 'rgba(220, 38, 38, 1)',
+        'rgba(220, 38, 38, 1)', 'rgba(220, 38, 38, 1)',
+        'rgba(217, 119, 6, 1)'
+      ],
+      borderWidth: 1,
+      borderRadius: 4
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: function(ctx) {
+            var regions = ['US', 'US', 'US', 'US', 'US', 'US', 'China', 'China', 'China', 'China', 'China', 'Europe'];
+            var note = ctx.dataIndex >= 6 && ctx.dataIndex <= 10 ? ' (±30-50%)' : '';
+            return regions[ctx.dataIndex] + ': ' + ctx.raw + ' GW' + note;
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        type: 'logarithmic',
+        min: 0.05,
+        max: 20,
+        title: { display: true, text: 'GW (log scale — note: Mistral at 0.09 GW vs OpenAI at 15.3 GW = 170× gap)', font: { family: 'Inter', size: 11 } },
+        grid: { color: 'rgba(0,0,0,0.05)' },
+        ticks: {
+          font: { family: 'Inter', size: 11 },
+          callback: function(v) { if ([0.1, 0.5, 1, 2, 5, 10, 15].indexOf(v) >= 0) return v + ' GW'; return ''; }
+        }
+      },
+      y: { ticks: { font: { family: 'Inter', size: 11, weight: '500' } }, grid: { display: false } }
     }
   }
 });
