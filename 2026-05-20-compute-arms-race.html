@@ -200,7 +200,7 @@
     <div class="header-label">Tomales Bay Capital - Research Memo</div>
     <h1>The Compute Arms Race</h1>
     <p class="subtitle">Capacity, Projections, and the Recursive Horizon - Mapping the $725B infrastructure buildout reshaping the global energy grid</p>
-    <div class="date">📅 May 20, 2026 · 🔭 Galileo Research</div>
+    <div class="date">📅 May 20, 2026 (Updated May 21) · 🔭 Galileo Research</div>
   </header>
 
   <!-- SNAPSHOT -->
@@ -218,7 +218,7 @@
     <div class="snapshot-card">
       <div class="label">Global DC Capacity</div>
       <div class="value">103 → 200 GW</div>
-      <div class="sub">By 2030 (JLL)</div>
+      <div class="sub">By 2030 (JLL); AI-specific: ~30 GW (Epoch AI)</div>
     </div>
     <div class="snapshot-card">
       <div class="label">Nvidia DC Revenue</div>
@@ -242,6 +242,7 @@
       <li><strong>Grid as binding constraint:</strong> Transformer lead times exceed 160 weeks; more than half of US datacenters planned for 2026 face delays<a href="#src-4" class="cite">[4]</a></li>
       <li><strong>The recursive horizon:</strong> Token consumption for AI reasoning surged 320× in one year while cost per token fell 80%<a href="#src-5" class="cite">[5]</a> - a Jevons paradox in real-time</li>
       <li><strong>Global race:</strong> Americas hold ~50% of global capacity; APAC grows from 32 GW to 57 GW; Middle East pipeline is 12× its current capacity<a href="#src-6" class="cite">[6]</a></li>
+      <li><strong>Multipolar reality:</strong> China's AI compute (~10-15 GW by 2030) approaches US scale. ByteDance (3.5 GW) is already at Meta-level capacity. Europe's Mistral trails OpenAI by 170×<a href="#src-89" class="cite">[89]</a></li>
     </ul>
     <p class="bottom-line">Bottom line: We are witnessing the largest infrastructure buildout since rural electrification, compressed into a decade. The binding constraint is not capital - it's watts. Every major player is now effectively in the power business. For seed investors, the opportunity set lies in the picks-and-shovels of power delivery: grid-enhancing technologies, onsite generation, battery storage, cooling, and the software layer that optimizes utilization of constrained compute.</p>
   </div>
@@ -334,6 +335,29 @@
     <div class="callout insight">
       <div class="callout-title">Key Insight</div>
       <p>AI margins are already better than early cloud margins were at a comparable stage, per Microsoft CFO Amy Hood.<a href="#src-10" class="cite">[10]</a> Microsoft's revenue per GW of datacenter capacity reached $6.2B annualized in Q3 FY2026, up from $4.8B a year earlier - AI extracts far more economic value per watt than traditional cloud.<a href="#src-52" class="cite">[52]</a> This is the single most important signal for sustainability of the capex cycle.</p>
+    </div>
+
+    <h3>Who Commands the Compute: User vs. Provider View</h3>
+
+    <p>The table above shows who <em>owns</em> datacenter infrastructure. But who actually <em>uses</em> the compute? An analysis by Aymeric Roucher, building on Epoch AI's Frontier Data Centers dataset and supplementary curated data, reveals a strikingly different picture when capacity is attributed to the tenant running the workloads rather than the facility owner:<a href="#src-89" class="cite">[89]</a><a href="#src-90" class="cite">[90]</a></p>
+
+    <table>
+      <thead>
+        <tr><th>Compute User</th><th>Total Capacity (GW)</th><th>Owns DCs?</th><th>Key Insight</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>OpenAI</strong></td><td><strong>15.3 GW</strong></td><td>No (Stargate under construction)</td><td>Largest compute consumer globally. Capacity via Oracle, Azure, SoftBank JVs</td></tr>
+        <tr><td><strong>Google DeepMind</strong></td><td><strong>6.0 GW</strong></td><td>Yes (Google-owned)</td><td>Vertically integrated: owns DCs, designs TPUs, trains models</td></tr>
+        <tr><td><strong>Anthropic</strong></td><td><strong>5.1 GW</strong></td><td>No</td><td>Most diversified: Google TPUs + AWS Trainium + xAI Colossus + Broadcom</td></tr>
+        <tr><td><strong>Meta</strong></td><td><strong>3.8 GW</strong></td><td>Yes</td><td>Fully self-hosted. Hyperion (2-5 GW) will make Meta the largest owner-operator</td></tr>
+        <tr><td><strong>Microsoft</strong></td><td><strong>2.0 GW</strong></td><td>Yes (~6 GW owned)</td><td>Owns 3× what it consumes for its own AI — the rest serves Azure tenants</td></tr>
+        <tr><td><strong>xAI</strong></td><td><strong>1.5 GW</strong></td><td>Yes (Colossus)</td><td>Colossus 1 now leased to Anthropic; building Colossus 2</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout insight">
+      <div class="callout-title">The Demand vs. Supply Mismatch</div>
+      <p><span class="order-tag second">Second-Order</span> The user-view reveals a structural asymmetry: the largest <em>consumers</em> of compute (OpenAI, Anthropic) own none of the physical infrastructure, while the largest <em>owners</em> (Microsoft, Amazon, Google) derive much of their value from serving these tenants. OpenAI commands 15.3 GW despite owning zero operational datacenters — it is the world's largest compute renter. <span class="order-tag third">Third-Order</span> This creates a power dynamic where infrastructure providers hold structural leverage over AI labs, and any disruption in these partnerships (as seen with the weakening Microsoft-OpenAI relationship) has immediate compute access implications. Labs that diversify their compute sources (Anthropic's multi-cloud strategy) are hedging this concentration risk.<a href="#src-89" class="cite">[89]</a></p>
     </div>
 
     <h3>GW Deployment Trajectory by Company (Wells Fargo / BNEF)</h3>
@@ -980,6 +1004,11 @@
       <p>The IEA notes that energy per individual AI task is "improving at a rate unprecedented in energy history" - dropping by at least an order of magnitude annually. Simple text queries now consume less electricity than running a television over the same period. But new use cases (video generation, reasoning, agentic workflows) consume <strong>hundreds to thousands of times more energy per query</strong> than simple text. The net effect: demand growth overwhelms efficiency gains.<a href="#src-1" class="cite">[1]</a></p>
     </div>
 
+    <div class="callout insight">
+      <div class="callout-title">AI vs. All Datacenter Capacity: The 30 GW Baseline</div>
+      <p>An important distinction: JLL's 103 GW figure (2025) represents <em>all</em> datacenter capacity globally — including traditional enterprise IT, cloud storage, and legacy workloads. Epoch AI independently estimates that <strong>AI-specific datacenter power reached approximately 30 GW in Q4 2025</strong>, based on cumulative chip sales multiplied by rated power and a 2.5× overhead multiplier for servers, cooling, and infrastructure. This means AI represents roughly 30% of total datacenter capacity today — but is driving approximately 80%+ of incremental growth. By 2030, AI's share of total DC power is projected to exceed 50%.<a href="#src-90" class="cite">[90]</a><a href="#src-91" class="cite">[91]</a></p>
+    </div>
+
     <h3>Global Comparison: Where the Buildout Is Most Acute</h3>
 
     <p>JLL's 2026 Global Data Center Outlook provides the most comprehensive regional breakdown of installed capacity and projected growth:<a href="#src-6" class="cite">[6]</a></p>
@@ -1030,6 +1059,70 @@
       <div class="callout-title">The Middle East Outlier</div>
       <p>The Middle East represents the most extreme growth trajectory: 12 GW planned against just 1 GW of existing capacity, per JLL.<a href="#src-29" class="cite">[29]</a> This is driven by sovereign AI mandates (Saudi Arabia's HUMAIN, UAE's G42/Stargate partnership) and abundant natural gas for power generation. The OpenAI Stargate UAE project alone targets up to 5 GW.<a href="#src-13" class="cite">[13]</a> This is geopolitically significant: these countries are positioning themselves as compute exporters.</p>
     </div>
+
+    <h3>China's Parallel Buildout: The Multipolar Compute Race</h3>
+
+    <p>Our analysis to this point has been US-centric — reflecting where the data is strongest. But China is building a parallel AI compute infrastructure at scale. Using chip-spend-derived estimates (with ±30-50% uncertainty on Chinese hyperscaler figures), Roucher's analysis provides the first comprehensive per-entity breakdown of Chinese AI compute capacity:<a href="#src-89" class="cite">[89]</a></p>
+
+    <table>
+      <thead>
+        <tr><th>Entity</th><th>Type</th><th>~2024 (MW)</th><th>~2026-27 (MW)</th><th>~2030 Target (MW)</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>ByteDance</strong></td><td>Hyperscaler</td><td>~300</td><td>~1,300</td><td>~3,500</td><td>Largest Chinese AI compute consumer. Seed, Doubao models</td></tr>
+        <tr><td><strong>Alibaba</strong></td><td>Hyperscaler</td><td>~400</td><td>~1,800</td><td>~3,000</td><td>Qwen models run on fleet. Largest cloud provider in China</td></tr>
+        <tr><td><strong>Huawei</strong></td><td>Chip maker + cloud</td><td>~300</td><td>~480</td><td>~2,000</td><td>Ascend 910B/C chips (~3 kW each). Building domestic alternative to Nvidia</td></tr>
+        <tr><td><strong>Tencent</strong></td><td>Hyperscaler</td><td>~250</td><td>—</td><td>~1,500</td><td>Hunyuan models. Cloud fleet</td></tr>
+        <tr><td><strong>China Mobile</strong></td><td>Telco</td><td>130→250</td><td>~600</td><td>~1,500</td><td>Hard MW nameplate data (more reliable). AIDC business</td></tr>
+        <tr><td><strong>China Telecom</strong></td><td>Telco</td><td>150→500</td><td>—</td><td>~1,500</td><td>Starfire models. Hard capacity data</td></tr>
+        <tr><td><strong>China Unicom</strong></td><td>Telco</td><td>~200</td><td>~700</td><td>—</td><td>Smallest of the three telcos</td></tr>
+        <tr><td><em>Subtotal: Chinese Giants + Telcos</em></td><td></td><td><em>~1,700-1,800</em></td><td><em>~5,000-6,000</em></td><td><em>~13,000-15,000</em></td><td></td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>Chinese pure-play AI labs</strong> operate at dramatically smaller scale, and almost all <em>rent</em> compute from the hyperscalers above:</p>
+
+    <table>
+      <thead>
+        <tr><th>Lab</th><th>Owns/Rents</th><th>~MW</th><th>Key Detail</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>DeepSeek</td><td><strong>Owns</strong></td><td>~90</td><td>Only Chinese lab owning hardware (Fire-Flyer cluster). ~10K A100 + 50K H800</td></tr>
+        <tr><td>Zhipu / Z.ai</td><td>Rents</td><td>~110</td><td>¥1.14B H1-25 cloud spend. $6.5B IPO</td></tr>
+        <tr><td>Moonshot (Kimi)</td><td>Rents</td><td>~90</td><td>$20B valuation. Long-context reasoning</td></tr>
+        <tr><td>MiniMax</td><td>Rents</td><td>~80</td><td>$6.5B IPO. Hailuo video generation</td></tr>
+        <tr><td>StepFun</td><td>Rents</td><td>~55</td><td>$718M raise. Multimodal/video</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout warning">
+      <div class="callout-title">Data Quality Warning</div>
+      <p>Chinese hyperscaler MW figures are chip-spend-derived, not satellite-verified. The conversion uses ~48 MW per $1B AI chip spend and per-GPU power estimates (A100 ~0.7 kW, H100/H800 ~1.4 kW, H20 ~0.9 kW, Ascend 910B/C ~3 kW). The ±30-50% uncertainty range is significant — ByteDance's actual capacity could be anywhere from ~1,750 MW to ~5,250 MW. Telco figures are more reliable (hard nameplate data). The 2030 projections are trend extrapolation, not announced plans.<a href="#src-89" class="cite">[89]</a></p>
+    </div>
+
+    <div class="callout insight">
+      <div class="callout-title">The Multipolar Reality</div>
+      <p><span class="order-tag second">Second-Order</span> China's combined AI compute (10-15 GW by 2030) approaches US hyperscaler scale. ByteDance at ~3.5 GW is already at Meta-scale (3.8 GW). This has three implications: (1) chip export controls have not prevented China from building substantial AI compute — Huawei's Ascend chips and stockpiled Nvidia hardware fill the gap; (2) global power demand projections that focus only on US/Europe are significantly underestimating total draw; (3) Chinese efficiency innovations (DeepSeek R1's cost breakthrough) emerge from a constrained compute environment where optimization is existential, not optional. <span class="order-tag third">Third-Order</span> If China reaches 15 GW by 2030, that's an additional ~130 TWh of annual electricity demand — roughly equal to all of Ireland's current consumption — on top of US/European projections. The global compute race is not US-dominated; it's multipolar.<a href="#src-89" class="cite">[89]</a></p>
+    </div>
+
+    <h3>Europe's Compute Deficit: The 170× Gap</h3>
+
+    <p>Europe's position in the frontier AI compute race is quantifiably dire. Mistral, the continent's leading frontier AI lab, operates approximately 90 MW of compute capacity today — compared to OpenAI's 15,300 MW. That's a <strong>170× gap</strong>.<a href="#src-89" class="cite">[89]</a></p>
+
+    <table>
+      <thead>
+        <tr><th>European Entity</th><th>Current (MW)</th><th>Planned</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Mistral</strong></td><td>~90</td><td>~200 MW by end-2027; ~1 GW aspiration by 2029</td><td>Rents from Azure + Scaleway. No owned DCs</td></tr>
+        <tr><td><strong>Campus IA</strong> (MGX-led JV)</td><td>0 (planning)</td><td>1.4 GW near Paris</td><td>Mistral is minority partner. 3+ years from full capacity</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout insight">
+      <div class="callout-title">Europe's Structural Disadvantage</div>
+      <p>The 170× compute gap between Mistral and OpenAI is not just a matter of funding — it reflects a structural disadvantage in power availability, regulatory environment, and infrastructure investment. Campus IA (1.4 GW) is the only project that could begin to narrow this gap, but even at full capacity it would bring Europe to roughly 1.5 GW of frontier AI compute — still 10× behind OpenAI alone. For investors evaluating European AI deals, this compute deficit is the single most important constraint on European labs' ability to compete at the frontier.<a href="#src-89" class="cite">[89]</a></p>
+    </div>
   </div>
 
   <!-- SECTION 6: THE BOTTLENECK WALL -->
@@ -1038,6 +1131,32 @@
     <h2>The Bottleneck Wall: What Money Can't Buy (Yet)</h2>
 
     <p>Capital is no longer the binding constraint on the compute buildout. The bottleneck has shifted to physical infrastructure - specifically, electrical grid capacity, transformer manufacturing, and the speed of interconnection. This is the most underappreciated risk in the entire AI capex cycle.</p>
+
+    <h3>Ground Truth: Satellite-Verified GW-Scale Crossings in 2026</h3>
+
+    <p>Epoch AI's Frontier Data Centers Hub provides independent, satellite-verified tracking of the largest AI datacenter builds — using high-resolution imagery of cooling infrastructure (chillers, cooling towers), cross-referenced with permits and public disclosures. Their data shows five facilities on track to cross 1 GW in 2026:<a href="#src-90" class="cite">[90]</a><a href="#src-92" class="cite">[92]</a></p>
+
+    <table>
+      <thead>
+        <tr><th>Facility</th><th>Owner / User</th><th>Projected 1 GW Date</th><th>Build Time to 1 GW</th><th>Peak Compute (H100e)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Anthropic-Amazon New Carlisle</strong></td><td>AWS / Anthropic</td><td>January 2026</td><td>~2.5 years</td><td>—</td></tr>
+        <tr><td><strong>xAI Colossus 2</strong></td><td>xAI</td><td>February 2026</td><td>~12 months (projected)</td><td>1.4M H100e</td></tr>
+        <tr><td><strong>Microsoft Fayetteville</strong></td><td>Microsoft</td><td>March 2026 (borderline)</td><td>~3 years</td><td>—</td></tr>
+        <tr><td><strong>Meta Prometheus</strong></td><td>Meta</td><td>May 2026</td><td>~2 years</td><td>—</td></tr>
+        <tr><td><strong>OpenAI Stargate Abilene</strong></td><td>Oracle / OpenAI</td><td>July 2026</td><td>~2 years</td><td>—</td></tr>
+      </tbody>
+    </table>
+
+    <p>Construction-to-1-GW timelines range from 1 to 3.6 years across all tracked facilities, with xAI's Colossus 2 projecting the fastest at just 12 months. Epoch estimates power capacity with 80% confidence within a factor of 1.4×, and timing within 6 months — making this the most rigorous public dataset on actual datacenter build progress. Notably, their tracked facilities (13 large US campuses) account for approximately 2.5 million H100-equivalents, or ~15% of the global AI compute stock.<a href="#src-90" class="cite">[90]</a></p>
+
+    <p>Looking further out, Epoch projects <strong>Meta Hyperion</strong> and <strong>Microsoft Fairwater</strong> will each reach 5 million H100-equivalents when fully complete — a 50× increase over the leading datacenter capacity of mid-2024 (100K H100e). Fairwater is forecasted to be the most expensive datacenter tracked: upwards of <strong>$100B</strong> in total capital cost upon completion.<a href="#src-92" class="cite">[92]</a></p>
+
+    <div class="callout insight">
+      <div class="callout-title">The $30B/GW Cost Anchor</div>
+      <p>Epoch's cost model provides a useful cross-check: <strong>$44B per GW of server power</strong> ($30B IT hardware + $14B other costs), or approximately <strong>$30B per GW of total facility power</strong> (since overheads reduce usable server capacity to ~70% of facility power). At JLL's 200 GW 2030 projection, this implies ~$6T in cumulative datacenter capital — consistent with McKinsey's $7T estimate (which includes non-AI workloads). Goldman's $7.6T projection for 2026-2031 AI capex alone suggests either higher per-GW costs or more aggressive capacity deployment than the base case.<a href="#src-90" class="cite">[90]</a><a href="#src-92" class="cite">[92]</a></p>
+    </div>
 
     <h3>The Grid Interconnection Crisis</h3>
 
@@ -1257,6 +1376,12 @@
       <li id="src-86">TechCrunch / Reuters / CNBC, "OpenAI co-founder Andrej Karpathy joins Anthropic pre-training team," May 19, 2026. "The next few years at the frontier of LLMs will be especially formative." <a href="https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/">techcrunch.com</a></li>
       <li id="src-87">@tmtlongshort, May 19, 2026. "This indicates we are close to RSI... the value of compute is going to explode." Market commentary on Karpathy/Anthropic move. <a href="https://x.com/tmtlongshort/status/2056814926312644892">x.com</a></li>
       <li id="src-88">GeekWire, "Data centers at sea: Panthalassa nets $140M led by Peter Thiel for wave-powered AI," May 2026. $140M Series B, ~$1B valuation. Autonomous floating DCs, wave-powered, seawater-cooled. Pilot facility near Portland. <a href="https://www.geekwire.com/2026/data-centers-at-sea-oregons-panthalassa-nets-140m-led-by-peter-thiel-for-wave-powered-ai/">geekwire.com</a></li>
+      <li id="src-89">Aymeric Roucher, "The 3 Tiers of the AI Compute Race," May 20, 2026. Interactive datacenter buildout tracker with per-entity GW breakdowns (user vs provider view), built on Epoch AI data + curated China/Europe lines. <a href="https://m-ric.com/blog/datacenter-buildout">m-ric.com</a></li>
+      <li id="src-90">Epoch AI, "Frontier Data Centers Hub," updated May 21, 2026. Independent database tracking major AI data centers via satellite imagery, permits, and public documents. 13 US campuses, ~2.5M H100e tracked (~15% of global AI compute stock). CC-BY license. <a href="https://epoch.ai/data/data-centers">epoch.ai</a></li>
+      <li id="src-91">Epoch AI Data Insight, "Global AI power capacity is now comparable to peak power usage of New York State," January 16, 2026. Total AI DC power ~30 GW (Q4 2025), based on chip sales × rated power × 2.5× overhead multiplier. <a href="https://epoch.ai/data-insights/ai-datacenter-power">epoch.ai</a></li>
+      <li id="src-92">Epoch AI, "Introducing the Frontier Data Centers Hub," November 4, 2025. Methodology: satellite imagery of cooling infrastructure, permits, hardware specs. Five DCs crossing 1 GW in 2026. Cost model: $44B/GW server power. Build times: 1-3.6 years to 1 GW. <a href="https://epoch.ai/blog/introducing-the-frontier-data-centers-hub/">epoch.ai</a></li>
+      <li id="src-93">Epoch AI, "What you need to know about AI data centers," November 2025. Explainer: US AI DCs need 20-30 GW by late 2027; power determines DC location; cooling infrastructure analysis methodology. <a href="https://epoch.ai/blog/what-you-need-to-know-about-ai-data-centers">epoch.ai</a></li>
+      <li id="src-94">Epoch AI Data Insight, "Build times for gigawatt-scale data centers," 2026. Construction milestone tracking via satellite imagery and permits. xAI Colossus 2: 12-month target. <a href="https://epoch.ai/data-insights/data-centers-buildout-speeds">epoch.ai</a></li>
 
     </ol>
   </div>
