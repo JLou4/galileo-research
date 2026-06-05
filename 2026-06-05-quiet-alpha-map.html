@@ -302,21 +302,28 @@
     tbody tr:nth-child(even) td,
     tbody tr:nth-child(even) td.num,
     tbody tr:nth-child(even) td.firmcell { background: #e7ecf3 !important; }
-    .col-theme { width: 19%; } .col-n { width: 4%; } .col-claim { width: 45%; } .col-maps { width: 10%; } .col-firms { width: 22%; }
-    /* thesis/sector tag pills, color-coded by family */
-    td.mapcell { line-height: 1.85; }
-    .tag { display: inline-block; font-size: 9.5px; font-weight: 600; border-radius: 4px; padding: 1px 6px; margin: 0 3px 3px 0; white-space: nowrap; border: 1px solid; }
-    .tag-none { background: transparent; border: none; color: #aaa; }
-    .legend { font-size: 12px; color: #444; margin: 4px 0 18px; padding: 9px 12px; background: #f6f7f9; border: 1px solid #e3e6ea; border-radius: 6px; }
-    .legend .tag { cursor: default; margin-left: 6px; }
-    /* AI cluster = blue */
-    .t-aiinfra,.t-aiapps,.t-data { color: #1e40af; background: #e7edfb; border-color: #c7d6f5; }
-    /* atoms cluster = slate/green */
-    .t-robotics,.t-energy,.t-defense,.t-deeptech { color: #166534; background: #e6f2ea; border-color: #c2ddcb; }
-    /* bio = teal */
-    .t-health { color: #0f766e; background: #e2f3f1; border-color: #bfe3df; }
-    /* market/biz/meta = amber */
-    .t-consumer,.t-fintech,.t-gtm,.t-macro,.t-vcmeta,.t-web { color: #92400e; background: #fbf0e0; border-color: #f0dcba; }
+    .col-theme { width: 18%; } .col-n { width: 4%; } .col-claim { width: 44%; } .col-maps { width: 12%; } .col-firms { width: 22%; }
+    /* small sector tag pills, color-coded by macro-family */
+    td.mapcell { line-height: 1.7; }
+    .tag { display: inline-block; font-size: 8.5px; font-weight: 600; border-radius: 3px; padding: 0px 4px; margin: 0 2px 2px 0; white-space: nowrap; border: 1px solid; letter-spacing: 0.1px; }
+    .legend { font-size: 11.5px; color: #444; margin: 4px 0 18px; padding: 11px 13px; background: #f6f7f9; border: 1px solid #e3e6ea; border-radius: 6px; }
+    .legend .legrow { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 4px 2px; margin: 8px 0 8px; }
+    .legend .leggrp { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 2px; }
+    .legend .legcap { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; color: #6b7280; margin-right: 5px; }
+    .legend .legsep { width: 1px; align-self: stretch; background: #d4d8df; margin: 0 9px; }
+    .legend .tag { cursor: default; font-size: 9px; }
+    /* AI / agents / software = blue family */
+    .t-agent,.t-aiapps,.t-ailabs,.t-sw { color: #1d4ed8; background: #dde7fc; border-color: #b4c8f3; }
+    /* atoms: robotics / energy / defense / natural resources = green family */
+    .t-robo,.t-energy,.t-def,.t-nat { color: #15803d; background: #dcefe2; border-color: #b2d4be; }
+    /* healthcare/bio = teal */
+    .t-health { color: #0d9488; background: #d4eeeb; border-color: #a9ddd7; }
+    /* money/market/meta: fintech / consumer / macro / vc / moats / services = amber */
+    .t-fin,.t-con,.t-macro,.t-vc,.t-moat,.t-svc { color: #b45309; background: #fbe9cf; border-color: #f0cf9c; }
+    /* crypto = purple */
+    .t-crypto { color: #7e22ce; background: #eedcfb; border-color: #d6b3ef; }
+    /* other = gray */
+    .t-other { color: #555; background: #e7e7e7; border-color: #d2d2d2; }
     td.num { text-align: center; font-weight: 800; color: #2563eb; font-size: 17px; line-height: 1.2; }
     td.firmcell { font-size: 11px; color: #777; line-height: 1.65; }
     td.firmcell sup a, .firmcell sup a { color: #9aa3b2; text-decoration: none; font-size: 8px; }
@@ -324,8 +331,16 @@
     ol.contra li { margin-bottom: 12px; font-size: 13px; line-height: 1.5; }
     .method p { font-size: 12.5px; color: var(--text-secondary); margin-bottom: 10px; }
     .backref { text-decoration: none; color: var(--text-secondary); font-size: 11px; }
-    .sources { font-size: 12px; } .sources li { margin-bottom: 5px; }
+    /* smaller, alphabetised sources */
+    .sources { font-size: 11px; column-count: 2; column-gap: 28px; } @media (max-width:760px){ .sources { column-count: 1; } }
+    .sources li { margin-bottom: 4px; line-height: 1.4; break-inside: avoid; }
     .sources h2 { font-size: 15px; color: #1a2238; }
+    .src-n { color: #9aa3b2; font-weight: 600; font-size: 10px; }
+    /* firm index table */
+    table.firmindex { font-size: 12px; }
+    table.firmindex td.fi-firm { font-weight: 600; color: #1a2238; }
+    .fi-col-firm { width: 22%; } .fi-col-n { width: 9%; } .fi-col-tags { width: 60%; }
+    table.firmindex td.num { font-size: 14px; }
 
   </style>
 </head>
@@ -362,7 +377,7 @@
     </div>
 
     <!-- MAIN CONTENT SECTIONS -->
-    <div class="legend"><strong>“Maps to” colour key:</strong> <span class="tag t-aiapps">AI / software</span><span class="tag t-deeptech">Atoms · robotics · energy · defense · deep-tech</span><span class="tag t-health">Healthcare / bio</span><span class="tag t-gtm">Market · business-model · VC-meta</span> <span style="color:#888;">— tags are auto-derived from each claim; treat them as a glance aid, not a ranking.</span></div>
+    <div class="legend"><strong>“Maps to” sector key</strong> <span style="color:#888;">&mdash; pills are grouped into colour families:</span><div class="legrow"><span class="leggrp"><span class="legcap">Digital / AI</span><span class="tag t-aiapps">Agents</span><span class="tag t-aiapps">AI apps</span><span class="tag t-aiapps">AI labs</span><span class="tag t-aiapps">Software</span></span><span class="legsep"></span><span class="leggrp"><span class="legcap">Physical / atoms</span><span class="tag t-robo">Robotics</span><span class="tag t-robo">Energy</span><span class="tag t-robo">Defense</span><span class="tag t-robo">Natural Resources</span></span><span class="legsep"></span><span class="leggrp"><span class="legcap">Health</span><span class="tag t-health">Healthcare</span></span><span class="legsep"></span><span class="leggrp"><span class="legcap">Money / market / meta</span><span class="tag t-fin">Fintech</span><span class="tag t-fin">Consumer</span><span class="tag t-fin">Services</span><span class="tag t-fin">Macro</span><span class="tag t-fin">VC model</span><span class="tag t-fin">Moats</span></span><span class="legsep"></span><span class="leggrp"><span class="legcap">Crypto</span><span class="tag t-crypto">Crypto</span></span><span class="legsep"></span><span class="leggrp"><span class="legcap">Unmatched</span><span class="tag t-other">Other</span></span></div><span style="color:#888;font-size:10.5px;">Auto-derived from each claim by keyword — a glance aid for cross-referencing sectors, not a ranking.</span></div>
 <div class="section"><div class="section-title">① Consensus Forming — the priced-in orthodoxy (26+ firms)</div>
 <p class="band-blurb">What the field has collectively decided. These are real and large — but if you're hearing it from 30 firms, it's in the price. Useful as the baseline to measure everything else against.</p>
 <table><thead><tr><th class="col-theme">Theme</th><th class="col-n">Firms</th><th class="col-claim">The claim, distilled &mdash; and why it matters</th><th class="col-maps">Maps to</th><th class="col-firms">Voiced by</th></tr></thead><tbody>
@@ -370,70 +385,70 @@
 <td><strong>Embodied AI is the next platform</strong></td>
 <td class="num">37</td>
 <td>The single most crowded bet in venture. Robotics, humanoids, and "physical AI" are treated as the inevitable second act once language is solved. The framing has shifted from <em>if</em> to <em>which form factor</em> — and the capital is already moving.</td>
-<td class="mapcell"><span class="tag t-robotics">Robotics</span></td>
+<td class="mapcell"><span class="tag t-robo">Robotics</span></td>
 <td class="firmcell">a16z<sup><a href="#s1" id="r1">1</a></sup>, Khosla<sup><a href="#s2" id="r2">2</a></sup>, Eniac<sup><a href="#s3" id="r3">3</a></sup>, 8VC<sup><a href="#s4" id="r4">4</a></sup>, Conviction<sup><a href="#s5" id="r5">5</a></sup>, DCVC<sup><a href="#s6" id="r6">6</a></sup>, Riot<sup><a href="#s7" id="r7">7</a></sup>, Fusion Fund<sup><a href="#s8" id="r8">8</a></sup>, General Catalyst<sup><a href="#s9" id="r9">9</a></sup>, Bessemer<sup><a href="#s10" id="r10">10</a></sup>, 8090<sup><a href="#s11" id="r11">11</a></sup></td>
 </tr>
 <tr>
 <td><strong>Healthcare is AI's first trillion-dollar vertical</strong></td>
 <td class="num">34</td>
 <td>Near-universal conviction that healthcare's labor budget — not its software budget — is the prize. The disagreement is only on the wedge: clinical documentation, diagnostics, or owning the delivery entity outright.</td>
-<td class="mapcell"><span class="tag t-aiapps">AI Apps</span><span class="tag t-health">Healthcare/Bio</span></td>
+<td class="mapcell"><span class="tag t-sw">Software</span><span class="tag t-health">Healthcare</span></td>
 <td class="firmcell">a16z<sup><a href="#s12" id="r12">12</a></sup>, General Catalyst<sup><a href="#s13" id="r13">13</a></sup>, Bessemer<sup><a href="#s14" id="r14">14</a></sup>, Thrive<sup><a href="#s15" id="r15">15</a></sup>, Conviction<sup><a href="#s5" id="r5">5</a></sup>, DCVC<sup><a href="#s16" id="r16">16</a></sup>, Initialized<sup><a href="#s17" id="r17">17</a></sup></td>
 </tr>
 <tr>
 <td><strong>Incumbents win / the labs move up-stack</strong></td>
 <td class="num">34</td>
 <td>A sober counter to startup romanticism: distribution, data, and capital advantage the incumbents, while frontier labs march up the stack into applications. The consensus is that the model layer is not where most startups should plant a flag.</td>
-<td class="mapcell"><span class="tag t-aiinfra">AI Infra</span><span class="tag t-aiapps">AI Apps</span></td>
+<td class="mapcell"><span class="tag t-ailabs">AI labs</span><span class="tag t-moat">Moats</span></td>
 <td class="firmcell">Sequoia<sup><a href="#s18" id="r18">18</a></sup>, Greylock<sup><a href="#s19" id="r19">19</a></sup>, SPC<sup><a href="#s20" id="r20">20</a></sup>, Spark<sup><a href="#s21" id="r21">21</a></sup>, Soma<sup><a href="#s22" id="r22">22</a></sup>, Thrive<sup><a href="#s23" id="r23">23</a></sup>, Index<sup><a href="#s24" id="r24">24</a></sup></td>
 </tr>
 <tr>
 <td><strong>Software is commoditizing — value moves up-stack</strong></td>
 <td class="num">32</td>
 <td>If a competent model can generate the interface on demand, the UI moat erodes. The crowded conclusion: defensibility migrates to workflow ownership, proprietary context, and the business model — not the software itself.</td>
-<td class="mapcell"><span class="tag t-aiapps">AI Apps</span><span class="tag t-data">Data/Moat</span></td>
+<td class="mapcell"><span class="tag t-sw">Software</span><span class="tag t-aiapps">AI apps</span><span class="tag t-ailabs">AI labs</span><span class="tag t-moat">Moats</span></td>
 <td class="firmcell">Slow<sup><a href="#s25" id="r25">25</a></sup>, SPC<sup><a href="#s26" id="r26">26</a></sup>, Floodgate<sup><a href="#s27" id="r27">27</a></sup>, FirstRound<sup><a href="#s28" id="r28">28</a></sup>, CRV<sup><a href="#s29" id="r29">29</a></sup>, NfX<sup><a href="#s30" id="r30">30</a></sup>, Headline<sup><a href="#s31" id="r31">31</a></sup></td>
 </tr>
 <tr>
 <td><strong>Defense and dual-use go mainstream</strong></td>
 <td class="num">30</td>
 <td>American Dynamism graduated from thesis to consensus. Counter-UAS, autonomy, and a software-defined industrial base are now table-stakes venture categories rather than contrarian bets.</td>
-<td class="mapcell"><span class="tag t-defense">Defense</span></td>
+<td class="mapcell"><span class="tag t-sw">Software</span><span class="tag t-def">Defense</span></td>
 <td class="firmcell">Founders Fund<sup><a href="#s32" id="r32">32</a></sup>, 8VC<sup><a href="#s33" id="r33">33</a></sup>, a16z<sup><a href="#s1" id="r1">1</a></sup>, Riot<sup><a href="#s7" id="r7">7</a></sup>, DCVC<sup><a href="#s16" id="r16">16</a></sup>, General Catalyst<sup><a href="#s34" id="r34">34</a></sup>, 8090<sup><a href="#s11" id="r11">11</a></sup></td>
 </tr>
 <tr>
 <td><strong>Consumer AI: proactive, voice-first, context-aware</strong></td>
 <td class="num">30</td>
 <td>The "death of the prompt box": consumer AI that observes, anticipates, and acts rather than waiting to be asked. Passive context capture is the agreed-upon unlock; the open question is who owns the context.</td>
-<td class="mapcell"><span class="tag t-consumer">Consumer</span><span class="tag t-data">Data/Moat</span></td>
+<td class="mapcell"><span class="tag t-con">Consumer</span></td>
 <td class="firmcell">a16z<sup><a href="#s1" id="r1">1</a></sup>, Forerunner<sup><a href="#s35" id="r35">35</a></sup>, Maveron<sup><a href="#s36" id="r36">36</a></sup>, USV<sup><a href="#s37" id="r37">37</a></sup>, Khosla<sup><a href="#s38" id="r38">38</a></sup>, SPC<sup><a href="#s39" id="r39">39</a></sup>, Greylock<sup><a href="#s40" id="r40">40</a></sup></td>
 </tr>
 <tr>
 <td><strong>Coding is the killer app</strong></td>
 <td class="num">29</td>
 <td>The one application everyone agrees has crossed the threshold. The frontier has moved from autocomplete to autonomous background agents — and coding is the proving ground for everything agentic that follows.</td>
-<td class="mapcell"><span class="tag t-aiapps">AI Apps</span></td>
+<td class="mapcell"><span class="tag t-agent">Agents</span><span class="tag t-aiapps">AI apps</span></td>
 <td class="firmcell">Redpoint<sup><a href="#s41" id="r41">41</a></sup>, Sequoia<sup><a href="#s42" id="r42">42</a></sup>, a16z<sup><a href="#s1" id="r1">1</a></sup>, SPC<sup><a href="#s39" id="r39">39</a></sup>, Greylock<sup><a href="#s19" id="r19">19</a></sup>, Conviction<sup><a href="#s5" id="r5">5</a></sup>, Index<sup><a href="#s43" id="r43">43</a></sup></td>
 </tr>
 <tr>
 <td><strong>Agent infrastructure is the new middleware</strong></td>
 <td class="num">28</td>
 <td>Picks-and-shovels for agents: orchestration, eval, memory, auth, observability. The bet is that today's agents are fragile, and the durable opportunity is the unglamorous tooling that makes them reliable in production.</td>
-<td class="mapcell"><span class="tag t-aiinfra">AI Infra</span><span class="tag t-aiapps">AI Apps</span></td>
+<td class="mapcell"><span class="tag t-sw">Software</span><span class="tag t-agent">Agents</span></td>
 <td class="firmcell">Redpoint<sup><a href="#s44" id="r44">44</a></sup>, WorkBench<sup><a href="#s45" id="r45">45</a></sup>, Bessemer<sup><a href="#s46" id="r46">46</a></sup>, NfX<sup><a href="#s47" id="r47">47</a></sup>, Greylock<sup><a href="#s48" id="r48">48</a></sup>, SPC<sup><a href="#s26" id="r26">26</a></sup>, Paradigm<sup><a href="#s49" id="r49">49</a></sup></td>
 </tr>
 <tr>
 <td><strong>Reindustrialization and the industrial base</strong></td>
 <td class="num">26</td>
 <td>Onshoring, supply-chain sovereignty, and the "machine that makes the machine." A macro-political tailwind that has become a default lens for hard-tech investing across the field.</td>
-<td class="mapcell"><span class="tag t-defense">Defense</span></td>
+<td class="mapcell"><span class="tag t-def">Defense</span><span class="tag t-nat">Natural Resources</span><span class="tag t-macro">Macro</span></td>
 <td class="firmcell">Founders Fund<sup><a href="#s32" id="r32">32</a></sup>, 8VC<sup><a href="#s4" id="r4">4</a></sup>, 8090<sup><a href="#s11" id="r11">11</a></sup>, DCVC<sup><a href="#s16" id="r16">16</a></sup>, General Catalyst<sup><a href="#s34" id="r34">34</a></sup>, Eniac<sup><a href="#s50" id="r50">50</a></sup></td>
 </tr>
 <tr>
 <td><strong>Energy is the binding constraint on AI</strong></td>
 <td class="num">26</td>
 <td>Compute is gated by power. The consensus has fully absorbed that data-center demand collides with grid reality, making generation, transmission, and efficiency first-order AI investments rather than adjacent ones.</td>
-<td class="mapcell"><span class="tag t-aiinfra">AI Infra</span><span class="tag t-energy">Energy</span></td>
+<td class="mapcell"><span class="tag t-energy">Energy</span></td>
 <td class="firmcell">DCVC<sup><a href="#s16" id="r16">16</a></sup>, Khosla<sup><a href="#s38" id="r38">38</a></sup>, 8VC<sup><a href="#s4" id="r4">4</a></sup>, Fusion Fund<sup><a href="#s8" id="r8">8</a></sup>, 8090<sup><a href="#s51" id="r51">51</a></sup>, General Catalyst<sup><a href="#s52" id="r52">52</a></sup></td>
 </tr>
 </tbody></table>
@@ -445,70 +460,70 @@
 <td><strong>Outcome pricing is killing the seat-based model</strong></td>
 <td class="num">12</td>
 <td>A fast-forming and falsifiable bet: AI monetization shifts from per-seat to output- and outcome-based pricing, dragging gross margins from 80-90% toward 50-60%. The contrarian wrinkle (WorkBench, via Ev Randle): stop valuing these companies on <em>margin</em> and value them on absolute <strong>gross-profit dollars per customer</strong> — a labor-budget TAM that can be 4-5x a SaaS seat. "AI is worse than SaaS" may be measuring the wrong thing.</td>
-<td class="mapcell"><span class="tag t-gtm">GTM/Biz Model</span></td>
+<td class="mapcell"><span class="tag t-sw">Software</span></td>
 <td class="firmcell">Bessemer<sup><a href="#s53" id="r53">53</a></sup>, FounderCollective<sup><a href="#s54" id="r54">54</a></sup>, WorkBench<sup><a href="#s55" id="r55">55</a></sup>, Emergence<sup><a href="#s56" id="r56">56</a></sup>, General Catalyst<sup><a href="#s57" id="r57">57</a></sup>, Contrary<sup><a href="#s58" id="r58">58</a></sup>, CRV<sup><a href="#s59" id="r59">59</a></sup>, Notable<sup><a href="#s60" id="r60">60</a></sup>, Felicis<sup><a href="#s61" id="r61">61</a></sup>, a16z<sup><a href="#s12" id="r12">12</a></sup>, Maveron<sup><a href="#s62" id="r62">62</a></sup>, Index<sup><a href="#s63" id="r63">63</a></sup></td>
 </tr>
 <tr>
 <td><strong>Proprietary data and feedback loops are the real moat</strong></td>
 <td class="num">21</td>
 <td>As models commoditize, the defensible asset is data nobody else has. Greylock sharpens it: not <em>input</em> data (commoditizing) but <strong>human-in-the-loop feedback</strong> — which outputs users accept, reject, or override — producing a hard-to-copy "reasoning graph" of how an organization thinks.</td>
-<td class="mapcell"><span class="tag t-data">Data/Moat</span></td>
+<td class="mapcell"><span class="tag t-moat">Moats</span></td>
 <td class="firmcell">Greylock<sup><a href="#s19" id="r19">19</a></sup>, a16z<sup><a href="#s64" id="r64">64</a></sup>, Emergence<sup><a href="#s65" id="r65">65</a></sup>, BasisSet<sup><a href="#s66" id="r66">66</a></sup>, General Catalyst<sup><a href="#s52" id="r52">52</a></sup>, Initialized<sup><a href="#s67" id="r67">67</a></sup>, Index<sup><a href="#s68" id="r68">68</a></sup></td>
 </tr>
 <tr>
 <td><strong>The realness premium: AI floods content, authenticity gets scarce</strong></td>
 <td class="num">8</td>
 <td>If generation cost goes to zero, the scarce good is what can't be generated: live sports, real community, verified-human creativity. A consumer-side scarcity thesis that inverts the abundance narrative — and quietly predicts a backlash market.</td>
-<td class="mapcell"><span class="tag t-consumer">Consumer</span></td>
+<td class="mapcell"><span class="tag t-con">Consumer</span></td>
 <td class="firmcell">Lightspeed<sup><a href="#s69" id="r69">69</a></sup>, USV<sup><a href="#s70" id="r70">70</a></sup>, IAVentures<sup><a href="#s71" id="r71">71</a></sup>, Maveron<sup><a href="#s62" id="r62">62</a></sup>, Haystack<sup><a href="#s72" id="r72">72</a></sup>, Slow<sup><a href="#s25" id="r25">25</a></sup>, Forerunner<sup><a href="#s35" id="r35">35</a></sup>, DayOne<sup><a href="#s73" id="r73">73</a></sup></td>
 </tr>
 <tr>
 <td><strong>Talent and judgment become the scarce inputs</strong></td>
 <td class="num">19</td>
 <td>As AI commoditizes execution, the bottleneck moves to taste, judgment, and the rare people who have them. Floodgate's framing: AI "empowers order-makers and threatens order-takers." Felicis extends it to investing itself — when the herd outsources thinking to LLMs, contrarian human judgment <em>appreciates</em>.</td>
-<td class="mapcell"><span class="tag t-consumer">Consumer</span><span class="tag t-data">Data/Moat</span></td>
+<td class="mapcell"><span class="tag t-con">Consumer</span><span class="tag t-moat">Moats</span></td>
 <td class="firmcell">CRV<sup><a href="#s74" id="r74">74</a></sup>, Haystack<sup><a href="#s72" id="r72">72</a></sup>, Floodgate<sup><a href="#s75" id="r75">75</a></sup>, Felicis<sup><a href="#s76" id="r76">76</a></sup>, Spark<sup><a href="#s77" id="r77">77</a></sup>, SVAngel<sup><a href="#s78" id="r78">78</a></sup>, NfX<sup><a href="#s79" id="r79">79</a></sup></td>
 </tr>
 <tr>
 <td><strong>This is a bubble — and it will reprice</strong></td>
 <td class="num">19</td>
 <td>A surprisingly broad skeptic caucus. Redpoint's analogy is the sharpest: AI adoption is moving an order of magnitude faster than cloud, which makes it look more like the internet era — complete with Cisco-style "air pockets" where eyeballs don't convert to revenue, and where today's leaders may not be the eventual giants.</td>
-<td class="mapcell"><span class="tag t-macro">Macro/Market</span></td>
+<td class="mapcell"><span class="tag t-macro">Macro</span></td>
 <td class="firmcell">Thiel Capital<sup><a href="#s80" id="r80">80</a></sup>, Contrary<sup><a href="#s81" id="r81">81</a></sup>, Anthology<sup><a href="#s82" id="r82">82</a></sup>, HustleFund<sup><a href="#s83" id="r83">83</a></sup>, BasisSet<sup><a href="#s66" id="r66">66</a></sup>, Slow<sup><a href="#s25" id="r25">25</a></sup>, Redpoint<sup><a href="#s44" id="r44">44</a></sup></td>
 </tr>
 <tr>
 <td><strong>Capital is commoditized; judgment and trust are the VC moat</strong></td>
 <td class="num">10</td>
 <td>The field turning the lens on itself. Haystack states it flatly: capital is no longer a differentiator; trust, listening, and selection are. A reflexive admission that the mega-fund "capital-as-a-weapon" playbook may be self-defeating in a world of abundant money.</td>
-<td class="mapcell"><span class="tag t-data">Data/Moat</span><span class="tag t-vcmeta">VC Meta</span></td>
+<td class="mapcell"><span class="tag t-vc">VC model</span><span class="tag t-moat">Moats</span></td>
 <td class="firmcell">CRV<sup><a href="#s84" id="r84">84</a></sup>, Haystack<sup><a href="#s85" id="r85">85</a></sup>, Abstract<sup><a href="#s86" id="r86">86</a></sup>, BoxGroup<sup><a href="#s87" id="r87">87</a></sup>, IAVentures<sup><a href="#s88" id="r88">88</a></sup>, Caffeinated<sup><a href="#s89" id="r89">89</a></sup>, SVAngel<sup><a href="#s78" id="r78">78</a></sup>, Spark<sup><a href="#s77" id="r77">77</a></sup>, 500Global<sup><a href="#s90" id="r90">90</a></sup>, Browder<sup><a href="#s91" id="r91">91</a></sup></td>
 </tr>
 <tr>
 <td><strong>Agentic commerce and machine-speed payments</strong></td>
 <td class="num">9</td>
 <td>A standards war nobody's pricing: UCP vs. ACP vs. x402, with TenOneTen betting the real volume is unglamorous <strong>B2B back-office execution</strong> (logistics, procurement, construction) — not consumer checkout — and that the "protocol-agnostic Switzerland" of agent payments captures value precisely because the standards stay fragmented.</td>
-<td class="mapcell"><span class="tag t-aiapps">AI Apps</span><span class="tag t-consumer">Consumer</span><span class="tag t-fintech">Fintech/Pay</span><span class="tag t-gtm">GTM/Biz Model</span></td>
+<td class="mapcell"><span class="tag t-crypto">Crypto</span><span class="tag t-fin">Fintech</span><span class="tag t-con">Consumer</span><span class="tag t-agent">Agents</span></td>
 <td class="firmcell">TenOneTen<sup><a href="#s92" id="r92">92</a></sup>, USV<sup><a href="#s93" id="r93">93</a></sup>, Paradigm<sup><a href="#s94" id="r94">94</a></sup>, Pebblebed<sup><a href="#s95" id="r95">95</a></sup>, Redpoint<sup><a href="#s96" id="r96">96</a></sup>, General Catalyst<sup><a href="#s52" id="r52">52</a></sup>, Interplay<sup><a href="#s97" id="r97">97</a></sup>, Browder<sup><a href="#s98" id="r98">98</a></sup>, Sequoia<sup><a href="#s99" id="r99">99</a></sup></td>
 </tr>
 <tr>
 <td><strong>Non-AI fundamentals still win deals</strong></td>
 <td class="num">16</td>
 <td>A quiet contrarian steadiness: distribution, retention, unit economics and survival still decide outcomes. Haystack's two-rubric market — "native AI" companies judged on speed vs. everyone else needing an explicit reason to exist — is the sharpest articulation.</td>
-<td class="mapcell"><span class="tag t-gtm">GTM/Biz Model</span></td>
+<td class="mapcell"><span class="tag t-moat">Moats</span></td>
 <td class="firmcell">Haystack<sup><a href="#s72" id="r72">72</a></sup>, FounderCollective<sup><a href="#s100" id="r100">100</a></sup>, Eniac<sup><a href="#s3" id="r3">3</a></sup>, BoxGroup<sup><a href="#s87" id="r87">87</a></sup>, First Round<sup><a href="#s101" id="r101">101</a></sup>, Cowboy<sup><a href="#s102" id="r102">102</a></sup>, Susa<sup><a href="#s103" id="r103">103</a></sup></td>
 </tr>
 <tr>
 <td><strong>Inference is the runtime; value migrates to deployment</strong></td>
 <td class="num">15</td>
 <td>The bet that the action moves from training to serving: edge deployment, KV-cache economics, throughput-first clouds, and small specialized models that out-economize frontier models on unit cost. 8090's version: value accrues to whoever <em>deploys</em>, not whoever builds.</td>
-<td class="mapcell"><span class="tag t-aiinfra">AI Infra</span><span class="tag t-deeptech">Deep Tech</span></td>
+<td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-ailabs">AI labs</span></td>
 <td class="firmcell">8090<sup><a href="#s51" id="r51">51</a></sup>, Fusion Fund<sup><a href="#s8" id="r8">8</a></sup>, Emergence<sup><a href="#s104" id="r104">104</a></sup>, Initialized<sup><a href="#s105" id="r105">105</a></sup>, BasisSet<sup><a href="#s106" id="r106">106</a></sup>, Redpoint<sup><a href="#s44" id="r44">44</a></sup>, BOND<sup><a href="#s107" id="r107">107</a></sup></td>
 </tr>
 <tr>
 <td><strong>Agents as doers, not copilots</strong></td>
 <td class="num">15</td>
 <td>The copilot-to-autopilot migration as the real value frontier. General Catalyst's framing: outcome-delivery builds a learning-by-doing flywheel that point-solutions can't match — defensibility lives in accumulated execution data, not the model.</td>
-<td class="mapcell"><span class="tag t-aiapps">AI Apps</span><span class="tag t-gtm">GTM/Biz Model</span><span class="tag t-data">Data/Moat</span></td>
+<td class="mapcell"><span class="tag t-agent">Agents</span><span class="tag t-moat">Moats</span></td>
 <td class="firmcell">General Catalyst<sup><a href="#s13" id="r13">13</a></sup>, Emergence<sup><a href="#s65" id="r65">65</a></sup>, SPC<sup><a href="#s20" id="r20">20</a></sup>, NfX<sup><a href="#s30" id="r30">30</a></sup>, USV<sup><a href="#s93" id="r93">93</a></sup>, Sequoia<sup><a href="#s42" id="r42">42</a></sup>, WorkBench<sup><a href="#s45" id="r45">45</a></sup></td>
 </tr>
 </tbody></table>
@@ -520,70 +535,70 @@
 <td><strong>The GTM is going services-heavy (FDE / outcome delivery)</strong></td>
 <td class="num">8</td>
 <td>Forward-deployed engineers, owned service entities, AI-native BPOs. FirstRound's data: FDE job listings up 800% in nine months because capability is no longer the constraint — steering and last-mile integration are. The next enterprise winners may look services-heavy and "un-SaaS-like."</td>
-<td class="mapcell"><span class="tag t-aiapps">AI Apps</span><span class="tag t-gtm">GTM/Biz Model</span></td>
+<td class="mapcell"><span class="tag t-sw">Software</span><span class="tag t-svc">Services</span></td>
 <td class="firmcell">FirstRound<sup><a href="#s28" id="r28">28</a></sup>, Index<sup><a href="#s63" id="r63">63</a></sup>, Emergence<sup><a href="#s108" id="r108">108</a></sup>, General Catalyst<sup><a href="#s13" id="r13">13</a></sup>, Interplay<sup><a href="#s97" id="r97">97</a></sup>, Headline<sup><a href="#s109" id="r109">109</a></sup>, Contrary<sup><a href="#s58" id="r58">58</a></sup>, 8090<sup><a href="#s110" id="r110">110</a></sup></td>
 </tr>
 <tr>
 <td><strong>Legacy experience is now a liability</strong></td>
 <td class="num">6</td>
 <td>Sharper than "young founders are cool": several firms argue domain experience is <em>actively disadvantageous</em> in a regime-change market, because incumbic intuition mis-predicts a world that no longer follows the old rules. AStar is moving allocation toward founders in their teens.</td>
-<td class="mapcell"><span class="tag t-vcmeta">VC Meta</span></td>
+<td class="mapcell"><span class="tag t-vc">VC model</span></td>
 <td class="firmcell">AStar<sup><a href="#s111" id="r111">111</a></sup>, 1517<sup><a href="#s112" id="r112">112</a></sup>, Browder<sup><a href="#s91" id="r91">91</a></sup>, Slow<sup><a href="#s113" id="r113">113</a></sup>, Neo<sup><a href="#s114" id="r114">114</a></sup>, BasisSet<sup><a href="#s66" id="r66">66</a></sup></td>
 </tr>
 <tr>
 <td><strong>The self-improving, agent-native firm</strong></td>
 <td class="num">7</td>
 <td>Org design as the product. Sequoia's "$0-to-$1B-revenue club" of companies running agents internally for legal, recruiting and sales; Pebblebed running its own fund as a tech company. The bet: headcount decouples from revenue, and the firm itself becomes software.</td>
-<td class="mapcell"><span class="tag t-aiapps">AI Apps</span><span class="tag t-vcmeta">VC Meta</span></td>
+<td class="mapcell"><span class="tag t-sw">Software</span><span class="tag t-agent">Agents</span><span class="tag t-vc">VC model</span></td>
 <td class="firmcell">Pebblebed<sup><a href="#s95" id="r95">95</a></sup>, BasisSet<sup><a href="#s115" id="r115">115</a></sup>, NfX<sup><a href="#s116" id="r116">116</a></sup>, Sequoia<sup><a href="#s18" id="r18">18</a></sup>, USV<sup><a href="#s37" id="r37">37</a></sup>, FounderCollective<sup><a href="#s117" id="r117">117</a></sup>, Greylock<sup><a href="#s48" id="r48">48</a></sup></td>
 </tr>
 <tr>
 <td><strong>Inference chips and compute move to the edge</strong></td>
 <td class="num">7</td>
 <td>On-device, low-power, close-to-the-data. A bet against the cloud-hyperscaler-only narrative, favoring embedded inference and efficient silicon — with YC taking the extreme tail (chips in space).</td>
-<td class="mapcell"><span class="tag t-aiinfra">AI Infra</span><span class="tag t-deeptech">Deep Tech</span></td>
+<td class="mapcell"><span class="tag t-other">Other</span></td>
 <td class="firmcell">Fusion Fund<sup><a href="#s8" id="r8">8</a></sup>, 8090<sup><a href="#s11" id="r11">11</a></sup>, Initialized<sup><a href="#s118" id="r118">118</a></sup>, BasisSet<sup><a href="#s119" id="r119">119</a></sup>, Redpoint<sup><a href="#s120" id="r120">120</a></sup>, Emergence<sup><a href="#s104" id="r104">104</a></sup>, YC<sup><a href="#s121" id="r121">121</a></sup></td>
 </tr>
 <tr>
 <td><strong>The open web is dying → a closed, licensed, agent-readable internet</strong></td>
 <td class="num">6</td>
 <td>Flybridge's leading indicator: scrape-to-referral ratios of 2,000:1 (OpenAI) and 71,000:1 (Anthropic) are collapsing the ad/SEO-funded link economy. The next internet is monetized through data licensing, navigated by agents, and optimized for "machine legibility" rather than human eyes.</td>
-<td class="mapcell"><span class="tag t-aiapps">AI Apps</span><span class="tag t-web">Web/Internet</span></td>
+<td class="mapcell"><span class="tag t-agent">Agents</span></td>
 <td class="firmcell">Flybridge<sup><a href="#s122" id="r122">122</a></sup>, Lightspeed<sup><a href="#s123" id="r123">123</a></sup>, a16z<sup><a href="#s12" id="r12">12</a></sup>, USV<sup><a href="#s124" id="r124">124</a></sup>, Khosla<sup><a href="#s125" id="r125">125</a></sup>, Maveron<sup><a href="#s126" id="r126">126</a></sup></td>
 </tr>
 <tr>
 <td><strong>Brand, taste and trust as the durable moat</strong></td>
 <td class="num">19</td>
 <td>As capability converges across models, the differentiator becomes intangible: brand, taste, emotional attachment. Spark's "muse vs. faster-horse" thesis — products that raise the ceiling earn loyalty; commodity efficiency wrappers don't — is the cleanest statement of where consumer defensibility goes.</td>
-<td class="mapcell"><span class="tag t-consumer">Consumer</span><span class="tag t-data">Data/Moat</span></td>
+<td class="mapcell"><span class="tag t-con">Consumer</span><span class="tag t-moat">Moats</span></td>
 <td class="firmcell">Lightspeed<sup><a href="#s127" id="r127">127</a></sup>, Spark<sup><a href="#s128" id="r128">128</a></sup>, Maveron<sup><a href="#s129" id="r129">129</a></sup>, Forerunner<sup><a href="#s130" id="r130">130</a></sup>, Index<sup><a href="#s131" id="r131">131</a></sup>, CRV<sup><a href="#s132" id="r132">132</a></sup>, Felicis<sup><a href="#s61" id="r61">61</a></sup></td>
 </tr>
 <tr>
 <td><strong>Biology is the next AI substrate</strong></td>
 <td class="num">20</td>
 <td>AI-x-bio as a generational platform: protein design, AI-run wet labs, and an "AlphaFold moment" for engineering simulation (Conviction). Crowded enough to be real, novel enough that the winning form factor is still contested.</td>
-<td class="mapcell"><span class="tag t-health">Healthcare/Bio</span><span class="tag t-deeptech">Deep Tech</span></td>
+<td class="mapcell"><span class="tag t-health">Healthcare</span></td>
 <td class="firmcell">Conviction<sup><a href="#s5" id="r5">5</a></sup>, DCVC<sup><a href="#s6" id="r6">6</a></sup>, Khosla<sup><a href="#s38" id="r38">38</a></sup>, Pebblebed<sup><a href="#s133" id="r133">133</a></sup>, a16z<sup><a href="#s12" id="r12">12</a></sup>, Initialized<sup><a href="#s134" id="r134">134</a></sup></td>
 </tr>
 <tr>
 <td><strong>Seed and stage compression / the barbell</strong></td>
 <td class="num">13</td>
 <td>Series A bifurcating into $50M "native-AI" rounds vs. $10M everything-else (Haystack). The middle hollows out; capital barbells toward category-defining bets and lean survivors, with the old "raise lean and predict the next round" framework breaking.</td>
-<td class="mapcell"><span class="tag t-macro">Macro/Market</span></td>
+<td class="mapcell"><span class="tag t-macro">Macro</span><span class="tag t-vc">VC model</span></td>
 <td class="firmcell">Haystack<sup><a href="#s135" id="r135">135</a></sup>, Pear<sup><a href="#s136" id="r136">136</a></sup>, Initialized<sup><a href="#s134" id="r134">134</a></sup>, NfX<sup><a href="#s137" id="r137">137</a></sup>, BoxGroup<sup><a href="#s87" id="r87">87</a></sup>, Conviction<sup><a href="#s138" id="r138">138</a></sup>, Abstract<sup><a href="#s86" id="r86">86</a></sup></td>
 </tr>
 <tr>
 <td><strong>Permanent capital, rollups and AI-enabled buyouts</strong></td>
 <td class="num">13</td>
 <td>Buy the boring business, install AI, expand the margin. The PE-venture convergence: own-and-operate service businesses and roll up fragmented verticals where AI is the operational alpha rather than a product feature.</td>
-<td class="mapcell"><span class="tag t-aiapps">AI Apps</span><span class="tag t-gtm">GTM/Biz Model</span></td>
+<td class="mapcell"><span class="tag t-svc">Services</span></td>
 <td class="firmcell">General Catalyst<sup><a href="#s57" id="r57">57</a></sup>, Thrive<sup><a href="#s139" id="r139">139</a></sup>, 8VC<sup><a href="#s33" id="r33">33</a></sup>, Khosla<sup><a href="#s125" id="r125">125</a></sup>, DCVC<sup><a href="#s16" id="r16">16</a></sup>, Conviction<sup><a href="#s5" id="r5">5</a></sup></td>
 </tr>
 <tr>
 <td><strong>Emerging markets and international as the under-priced lane</strong></td>
 <td class="num">10</td>
 <td>While US capital crowds into horizontal AI, several firms point at lower-competition international and vertical markets. HustleFund's steer: durable returns come from verticals with workflow moats and geographies with far less competition.</td>
-<td class="mapcell"><span class="tag t-aiapps">AI Apps</span><span class="tag t-data">Data/Moat</span><span class="tag t-macro">Macro/Market</span></td>
+<td class="mapcell"><span class="tag t-sw">Software</span><span class="tag t-aiapps">AI apps</span><span class="tag t-macro">Macro</span><span class="tag t-moat">Moats</span></td>
 <td class="firmcell">HustleFund<sup><a href="#s83" id="r83">83</a></sup>, Endeavor<sup><a href="#s140" id="r140">140</a></sup>, 500Global<sup><a href="#s90" id="r90">90</a></sup>, Tuesday<sup><a href="#s141" id="r141">141</a></sup>, Goodwater<sup><a href="#s142" id="r142">142</a></sup>, Pantera<sup><a href="#s143" id="r143">143</a></sup></td>
 </tr>
 </tbody></table>
@@ -595,56 +610,56 @@
 <td><strong>Adoption is plateauing — the hype is mistimed</strong></td>
 <td class="num">6</td>
 <td>The bear spine. Contrary cites usage slipping 46%→37% and 42% of enterprise AI initiatives killed; Anthology measures real productivity gains at 0.6-1.2pp; HustleFund puts a 1-2 year clock on the apps gold rush before a sudden white-collar shock. The dissent isn't "AI is fake" — it's "the timing and magnitude are wrong."</td>
-<td class="mapcell"><span class="tag t-aiapps">AI Apps</span><span class="tag t-macro">Macro/Market</span></td>
+<td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-macro">Macro</span></td>
 <td class="firmcell">Contrary<sup><a href="#s81" id="r81">81</a></sup>, Anthology<sup><a href="#s144" id="r144">144</a></sup>, HustleFund<sup><a href="#s83" id="r83">83</a></sup>, Redpoint<sup><a href="#s44" id="r44">44</a></sup>, BasisSet<sup><a href="#s66" id="r66">66</a></sup>, Thiel Capital<sup><a href="#s80" id="r80">80</a></sup></td>
 </tr>
 <tr>
 <td><strong>78% of AI failures are invisible and model-immune</strong></td>
 <td class="num">2</td>
 <td>Susa's striking claim: most production AI failures generate no complaint, no rating, no escalation — and ~94% would persist even with a much better model, because they're driven by interaction dynamics, not capability. If true, "scale fixes everything" is wrong, and an entire AI-supervision/observability category is needed now.</td>
-<td class="mapcell"><span class="tag t-aiinfra">AI Infra</span></td>
+<td class="mapcell"><span class="tag t-sw">Software</span></td>
 <td class="firmcell">Susa<sup><a href="#s145" id="r145">145</a></sup>, WorkBench<sup><a href="#s146" id="r146">146</a></sup></td>
 </tr>
 <tr>
 <td><strong>Real-time compliance becomes its own software category</strong></td>
 <td class="num">3</td>
 <td>Embedding enforcement into the workflow — validate-as-you-act, auto-log, escalate only edge cases — rather than auditing after the fact. A specific, less-crowded bet tied directly to governing autonomous agent actions.</td>
-<td class="mapcell"><span class="tag t-aiapps">AI Apps</span><span class="tag t-deeptech">Deep Tech</span></td>
+<td class="mapcell"><span class="tag t-sw">Software</span><span class="tag t-agent">Agents</span><span class="tag t-aiapps">AI apps</span></td>
 <td class="firmcell">WorkBench<sup><a href="#s147" id="r147">147</a></sup>, Susa<sup><a href="#s148" id="r148">148</a></sup>, TenOneTen<sup><a href="#s92" id="r92">92</a></sup></td>
 </tr>
 <tr>
 <td><strong>Prediction markets / radical financialization as civic infrastructure</strong></td>
 <td class="num">4</td>
 <td>Paradigm's political-index work and Slow's "fork in the road" both bet that prediction markets either get regulated into the ground or explode into core infrastructure for expressing views. A genuinely two-sided, high-variance macro bet.</td>
-<td class="mapcell"><span class="tag t-fintech">Fintech/Pay</span></td>
+<td class="mapcell"><span class="tag t-fin">Fintech</span><span class="tag t-macro">Macro</span></td>
 <td class="firmcell">Paradigm<sup><a href="#s49" id="r49">49</a></sup>, Slow<sup><a href="#s25" id="r25">25</a></sup>, Pantera<sup><a href="#s149" id="r149">149</a></sup>, DayOne<sup><a href="#s150" id="r150">150</a></sup></td>
 </tr>
 <tr>
 <td><strong>Agent identity, KYA, and the security of autonomous action</strong></td>
 <td class="num">6</td>
 <td>As agents transact, "know-your-agent" and spend controls (session caps, transaction limits, human escalation) become the differentiator. TenOneTen predicts an embarrassing agent-spend blow-up sorts the market — safety rails as moat, not feature.</td>
-<td class="mapcell"><span class="tag t-aiapps">AI Apps</span><span class="tag t-data">Data/Moat</span></td>
+<td class="mapcell"><span class="tag t-agent">Agents</span><span class="tag t-moat">Moats</span></td>
 <td class="firmcell">TenOneTen<sup><a href="#s92" id="r92">92</a></sup>, WorkBench<sup><a href="#s147" id="r147">147</a></sup>, Pebblebed<sup><a href="#s151" id="r151">151</a></sup>, Susa<sup><a href="#s152" id="r152">152</a></sup>, a16z<sup><a href="#s153" id="r153">153</a></sup>, Browder<sup><a href="#s154" id="r154">154</a></sup></td>
 </tr>
 <tr>
 <td><strong>Skilled trades and the physical-labor premium</strong></td>
 <td class="num">6</td>
 <td>As knowledge work commoditizes, the un-automatable physical trades gain economic and cultural value. An under-explored corollary of the embodiment thesis — the humans who work with atoms get more valuable, not less.</td>
-<td class="mapcell"><span class="tag t-robotics">Robotics</span><span class="tag t-deeptech">Deep Tech</span></td>
+<td class="mapcell"><span class="tag t-robo">Robotics</span></td>
 <td class="firmcell">a16z<sup><a href="#s64" id="r64">64</a></sup>, 8VC<sup><a href="#s4" id="r4">4</a></sup>, DayOne<sup><a href="#s155" id="r155">155</a></sup>, Eniac<sup><a href="#s3" id="r3">3</a></sup>, Khosla<sup><a href="#s156" id="r156">156</a></sup>, DCVC<sup><a href="#s16" id="r16">16</a></sup></td>
 </tr>
 <tr>
 <td><strong>Science institutions are broken — fund the heterodox</strong></td>
 <td class="num">9</td>
 <td>A conviction that academia and grant science are structurally failing, opening room for privately-funded, heterodox research (focused research orgs, independent labs). 1517 takes it furthest — risk culture itself, not capital, is the binding constraint on breakthroughs.</td>
-<td class="mapcell"><span class="tag t-deeptech">Deep Tech</span></td>
+<td class="mapcell"><span class="tag t-other">Other</span></td>
 <td class="firmcell">1517<sup><a href="#s157" id="r157">157</a></sup>, DayOne<sup><a href="#s158" id="r158">158</a></sup>, Conviction<sup><a href="#s5" id="r5">5</a></sup>, Initialized<sup><a href="#s134" id="r134">134</a></sup>, Khosla<sup><a href="#s38" id="r38">38</a></sup>, DCVC<sup><a href="#s16" id="r16">16</a></sup></td>
 </tr>
 <tr>
 <td><strong>AI-vs-AI commerce: machines selling to machines</strong></td>
 <td class="num">9</td>
 <td>When the buyer is an agent, the entire funnel — marketing, SEO, pricing, negotiation — re-architects for a non-human customer. Maveron: "ask-and-decide" agents kill the consumer funnel. A structural reframe most commerce companies haven't priced.</td>
-<td class="mapcell"><span class="tag t-aiapps">AI Apps</span><span class="tag t-consumer">Consumer</span><span class="tag t-fintech">Fintech/Pay</span><span class="tag t-gtm">GTM/Biz Model</span></td>
+<td class="mapcell"><span class="tag t-con">Consumer</span><span class="tag t-agent">Agents</span></td>
 <td class="firmcell">TenOneTen<sup><a href="#s92" id="r92">92</a></sup>, USV<sup><a href="#s93" id="r93">93</a></sup>, Paradigm<sup><a href="#s94" id="r94">94</a></sup>, Maveron<sup><a href="#s126" id="r126">126</a></sup>, Redpoint<sup><a href="#s96" id="r96">96</a></sup>, Browder<sup><a href="#s98" id="r98">98</a></sup>, Sequoia<sup><a href="#s42" id="r42">42</a></sup></td>
 </tr>
 <tr>
@@ -658,7 +673,7 @@
 <td><strong>Domestic resource extraction and material sovereignty</strong></td>
 <td class="num">3</td>
 <td>USV's domestic-brine lithium (extract without new mining), plus a broader bet on securing battery-material and critical-mineral supply chains onshore. A specific, physical, supply-chain wager riding the reindustrialization wave.</td>
-<td class="mapcell"><span class="tag t-energy">Energy</span><span class="tag t-defense">Defense</span><span class="tag t-deeptech">Deep Tech</span></td>
+<td class="mapcell"><span class="tag t-def">Defense</span><span class="tag t-nat">Natural Resources</span></td>
 <td class="firmcell">USV<sup><a href="#s159" id="r159">159</a></sup>, 8090<sup><a href="#s11" id="r11">11</a></sup>, DCVC<sup><a href="#s16" id="r16">16</a></sup></td>
 </tr>
 </tbody></table>
@@ -670,35 +685,35 @@
 <td><strong>AI breaks GDP and dissolves mineral scarcity</strong></td>
 <td class="num">Khosla</td>
 <td>Khosla's maximalist tail: AI-driven productivity makes conventional GDP measurement meaningless and pushes toward $1M-per-capita output, while advanced extraction dissolves the notion of mineral scarcity entirely. Civilizational abundance as an investable base case.</td>
-<td class="mapcell"><span class="tag t-deeptech">Deep Tech</span><span class="tag t-macro">Macro/Market</span></td>
+<td class="mapcell"><span class="tag t-nat">Natural Resources</span><span class="tag t-macro">Macro</span></td>
 <td class="firmcell">Khosla<sup><a href="#s38" id="r38">38</a></sup></td>
 </tr>
 <tr>
 <td><strong>"Stagnation still holds — AI alone won't end it"</strong></td>
 <td class="num">Thiel Capital</td>
 <td>Against the entire productivity-supercycle narrative: outside the world of bits, progress remains stuck. AI is one fast vertical in an otherwise stagnant landscape — and the revealed-preference proof is the firm's reported full Nvidia exit into mega-cap diversification.</td>
-<td class="mapcell"><span class="tag t-aiapps">AI Apps</span><span class="tag t-macro">Macro/Market</span></td>
+<td class="mapcell"><span class="tag t-macro">Macro</span></td>
 <td class="firmcell">Thiel Capital<sup><a href="#s80" id="r80">80</a></sup></td>
 </tr>
 <tr>
 <td><strong>Venture capital for <em>people</em>, not companies</strong></td>
 <td class="num">Slow</td>
 <td>Slow's signature heterodoxy: finance individuals directly — a percentage of a person's 30-year future earnings or a holding company over their output — rather than single companies. Legally novel, productized into a dedicated Creator Fund.</td>
-<td class="mapcell"><span class="tag t-deeptech">Deep Tech</span><span class="tag t-vcmeta">VC Meta</span></td>
+<td class="mapcell"><span class="tag t-vc">VC model</span></td>
 <td class="firmcell">Slow<sup><a href="#s160" id="r160">160</a></sup></td>
 </tr>
 <tr>
 <td><strong>Restaurants are mis-priced entertainment-fintech assets</strong></td>
 <td class="num">USV</td>
 <td>A genuinely strange reframe: restaurants as premium entertainment venues that will support native loyalty and payments layers — paired with USV's decade-old bet that credit-card interchange economics finally die.</td>
-<td class="mapcell"><span class="tag t-consumer">Consumer</span><span class="tag t-fintech">Fintech/Pay</span></td>
+<td class="mapcell"><span class="tag t-fin">Fintech</span><span class="tag t-con">Consumer</span></td>
 <td class="firmcell">USV<sup><a href="#s161" id="r161">161</a></sup></td>
 </tr>
 <tr>
 <td><strong>Engineering simulation's "AlphaFold moment"</strong></td>
 <td class="num">Conviction</td>
 <td>A single-firm conviction that physical-world simulation (fluids, structures, materials) is about to undergo the same step-change AlphaFold gave biology — collapsing R&D cycles across every atoms-based industry.</td>
-<td class="mapcell"><span class="tag t-health">Healthcare/Bio</span><span class="tag t-deeptech">Deep Tech</span></td>
+<td class="mapcell"><span class="tag t-health">Healthcare</span></td>
 <td class="firmcell">Conviction<sup><a href="#s5" id="r5">5</a></sup></td>
 </tr>
 <tr>
@@ -712,28 +727,28 @@
 <td><strong>Gen Alpha rewrites consumer: "Sephora Kids" and shitposting-as-marketing</strong></td>
 <td class="num">Maveron</td>
 <td>Maveron's bet that Gen Alpha's behavior — early brand fluency, performance-native culture, shitposting as legitimate performance marketing — reshapes consumer company-building well before the cohort has income.</td>
-<td class="mapcell"><span class="tag t-consumer">Consumer</span></td>
+<td class="mapcell"><span class="tag t-con">Consumer</span><span class="tag t-moat">Moats</span></td>
 <td class="firmcell">Maveron<sup><a href="#s62" id="r62">62</a></sup></td>
 </tr>
 <tr>
 <td><strong>The deflationary wealth-transfer — short friction and junk fees</strong></td>
 <td class="num">Browder</td>
 <td>Browder frames AI as a deflationary force that strips margin from friction-based and junk-fee businesses, transferring wealth to consumers — an explicitly short thesis on the businesses that monetize hassle.</td>
-<td class="mapcell"><span class="tag t-consumer">Consumer</span><span class="tag t-fintech">Fintech/Pay</span><span class="tag t-macro">Macro/Market</span></td>
+<td class="mapcell"><span class="tag t-fin">Fintech</span><span class="tag t-con">Consumer</span><span class="tag t-macro">Macro</span></td>
 <td class="firmcell">Browder<sup><a href="#s162" id="r162">162</a></sup></td>
 </tr>
 <tr>
 <td><strong>A "company brain" skills file as the missing automation layer</strong></td>
 <td class="num">YC</td>
 <td>YC's primitive: every company needs a living, executable skills file that extracts scattered domain knowledge — distinct from enterprise search or RAG — as the precondition for reliable business automation.</td>
-<td class="mapcell"><span class="tag t-aiapps">AI Apps</span></td>
+<td class="mapcell"><span class="tag t-aiapps">AI apps</span></td>
 <td class="firmcell">YC<sup><a href="#s121" id="r121">121</a></sup></td>
 </tr>
 <tr>
 <td><strong>Cryonics, longevity and culture as adoption infrastructure</strong></td>
 <td class="num">DayOne</td>
 <td>DayOne's tail bets: cryonics as a fundable category, and art/culture as the real infrastructure of technology adoption — the soft layer that determines whether hard tech gets used at all.</td>
-<td class="mapcell"><span class="tag t-health">Healthcare/Bio</span><span class="tag t-macro">Macro/Market</span></td>
+<td class="mapcell"><span class="tag t-health">Healthcare</span><span class="tag t-macro">Macro</span></td>
 <td class="firmcell">DayOne<sup><a href="#s150" id="r150">150</a></sup></td>
 </tr>
 </tbody></table>
@@ -747,12 +762,17 @@
 <li><strong>Open or closed?</strong> <strong>USV</strong> and <strong>a16z</strong> (crypto) bet permissionless, composable protocols beat closed frontier labs over time. The <strong>Incumbents-win</strong> consensus bets the opposite. This is the defining structural disagreement of the cycle.</li>
 <li><strong>Is adoption inexorable or plateauing?</strong> The <strong>Consensus</strong> bands assume relentless adoption. <strong>Contrary</strong>, <strong>Anthology</strong>, and <strong>HustleFund</strong> present data that usage is slipping, productivity gains are small, and a timing air-pocket is near. Both can't be right about 2026-27.</li>
 </ol></div>
-<div class="section"><div class="section-title">🛸 Off the Deep End — three bets from the far tail</div>
+<div class="section"><div class="section-title">🛸 Off the Deep End — bets from the far tail</div>
 <p class="band-blurb">Pulled out for their own spotlight: the strangest single-firm theses in the corpus. We make no claim they're right. We note only that genuinely non-consensus returns, by definition, start out sounding like these.</p>
 <table><thead><tr><th class="col-theme">The bet</th><th class="col-n">Firm</th><th class="col-claim">Why it earns a spotlight</th><th class="col-maps">Maps to</th></tr></thead><tbody>
-<tr><td><strong>Inference chips deployed in space</strong></td><td class="firmcell">YC<sup><a href="#s121" id="r121">121</a></sup></td><td>Cheap reusable launch (SpaceX, Stoke) creates a market for inference compute in orbit — optimized for mass, thermal dissipation, and radiation tolerance. Solar power is free and cooling is the void. The most literally far-out bet in the corpus, and a pure strangeness signal.</td><td class="mapcell"><span class="tag t-aiinfra">AI Infra</span><span class="tag t-deeptech">Deep Tech</span></td></tr>
-<tr><td><strong>"Yes, we are at risk of apocalypse — and that is good"</strong></td><td class="firmcell">Founders Fund<sup><a href="#s163" id="r163">163</a></sup></td><td>Founders Fund's accelerationist tail: catastrophic-risk technologies are inseparable from their inverse upside — climate doom implies weather control, pandemic risk implies nanobot immunity, AGI risk implies abundance. The rational posture is to accelerate <em>into</em> apocalyptic-grade technology. About as far from mainstream risk-management as a thesis gets.</td><td class="mapcell"><span class="tag tag-none">—</span></td></tr>
-<tr><td><strong>P≠NP imposes a permanent ceiling on AI</strong></td><td class="firmcell">Pebblebed<sup><a href="#s164" id="r164">164</a></sup></td><td>A structural anti-doom argument from computational complexity: if P≠NP, there are hard limits no amount of scaling transcends, bounding what AI can ever do. A rare thesis that uses theoretical computer science to argue the superintelligence runaway is mathematically constrained.</td><td class="mapcell"><span class="tag t-aiinfra">AI Infra</span><span class="tag t-deeptech">Deep Tech</span></td></tr>
+<tr><td><strong>Inference chips deployed in space</strong></td><td class="firmcell">YC<sup><a href="#s121" id="r121">121</a></sup></td><td>Cheap reusable launch (SpaceX, Stoke) creates a market for inference compute in orbit — optimized for mass, thermal dissipation, and radiation tolerance. Solar power is free and cooling is the void. The most literally far-out bet in the corpus, and a pure strangeness signal.</td><td class="mapcell"><span class="tag t-other">Other</span></td></tr>
+<tr><td><strong>"Yes, we are at risk of apocalypse — and that is good"</strong></td><td class="firmcell">Founders Fund<sup><a href="#s163" id="r163">163</a></sup></td><td>Founders Fund's accelerationist tail: catastrophic-risk technologies are inseparable from their inverse upside — climate doom implies weather control, pandemic risk implies nanobot immunity, AGI risk implies abundance. The rational posture is to accelerate <em>into</em> apocalyptic-grade technology. About as far from mainstream risk-management as a thesis gets.</td><td class="mapcell"><span class="tag t-ailabs">AI labs</span></td></tr>
+<tr><td><strong>P≠NP imposes a permanent ceiling on AI</strong></td><td class="firmcell">Pebblebed<sup><a href="#s164" id="r164">164</a></sup></td><td>A structural anti-doom argument from computational complexity: if P≠NP, there are hard limits no amount of scaling transcends, bounding what AI can ever do. A rare thesis that uses theoretical computer science to argue the superintelligence runaway is mathematically constrained.</td><td class="mapcell"><span class="tag t-ailabs">AI labs</span></td></tr>
+<tr><td><strong>Agents will outnumber humans on the internet</strong></td><td class="firmcell">Pebblebed<sup><a href="#s151" id="r151">151</a></sup></td><td>Within venture timelines, the agent population online exceeds the human population — the internet flips from humans-using-software to agents-transacting-with-agents. Follow the thread and the entire stack (identity, payments, trust, SEO, ad models) gets rebuilt for a non-human majority. A quietly civilizational reframe hiding inside an infra thesis.</td><td class="mapcell"><span class="tag t-sw">Software</span><span class="tag t-fin">Fintech</span><span class="tag t-agent">Agents</span><span class="tag t-moat">Moats</span></td></tr>
+<tr><td><strong>In-space manufacturing and asteroid-belt energy are seed-stage <em>today</em></strong></td><td class="firmcell">Caffeinated<sup><a href="#s89" id="r89">89</a></sup></td><td>Not a 2050 bet — Caffeinated argues microgravity manufacturing (Varda) and energy ‘abundant from Earth to the asteroid belt’ (Antares) are category-defining seed/Series A markets to lead <em>now</em>. The strangeness isn’t the destination, it’s the claimed timing: orbital industry as a current venture stage, not a moonshot.</td><td class="mapcell"><span class="tag t-energy">Energy</span><span class="tag t-macro">Macro</span><span class="tag t-vc">VC model</span></td></tr>
+<tr><td><strong>‘The next 100 years will run on nuclear’</strong></td><td class="firmcell">BoostVC<sup><a href="#s165" id="r165">165</a></sup></td><td>A century-scale energy call with a near-term trigger: BoostVC bets the first new US reactor design in 50+ years (Radiant’s portable micro-reactor) goes live in 2026, and that portable fission — not solar, not fusion — is the default power source of the next century. Unusual for the explicit 100-year framing and the single-company leading indicator.</td><td class="mapcell"><span class="tag t-energy">Energy</span></td></tr>
+<tr><td><strong>Progress is bottlenecked by the rate of ‘better explanations’</strong></td><td class="firmcell">Floodgate<sup><a href="#s166" id="r166">166</a></sup></td><td>A Deutsch/Popperian epistemology applied to venture: civilizational and economic progress is gated not by capital or compute but by knowledge-creation — the rate at which humans generate <em>better explanations</em>. The investable corollary: value accrues to whoever can generate and act on new explanations fastest. Philosophy-of-science as an investment thesis.</td><td class="mapcell"><span class="tag t-other">Other</span></td></tr>
+<tr><td><strong>‘Opportunity markets’ — private prediction markets for scouts</strong></td><td class="firmcell">Paradigm<sup><a href="#s167" id="r167">167</a></sup></td><td>Paradigm’s new financial primitive: private prediction markets where scouts who spot unsigned bands, breakthrough research, or athletic talent get paid by institutions that can act — with prices kept secret during an ‘opportunity window.’ A genuinely novel market structure that doesn’t map onto any existing asset class.</td><td class="mapcell"><span class="tag t-fin">Fintech</span></td></tr>
 </tbody></table></div>
 
 <div class="section"><div class="section-title">Methodology</div>
@@ -762,175 +782,247 @@
 <p>This is a map of <em>what credible investors are saying</em>, not an endorsement of any claim. Every thesis is attributed to its source below.</p>
 </div></div>
 
+<div class="section"><div class="section-title">📇 Firm Index — who shows up, how often, and where</div><p class="band-blurb">Every firm in the write-up, alphabetical. <strong>Themes</strong> = how many distinct convergence themes the firm appears in. <strong>Articles</strong> = distinct source essays/posts cited for that firm. <strong>Sectors touched</strong> = the union of sector tags across the themes it voices.</p><table class="firmindex"><thead><tr><th class="fi-col-firm">Firm</th><th class="fi-col-n">Themes</th><th class="fi-col-n">Articles</th><th class="fi-col-tags">Sectors touched</th></tr></thead><tbody><tr><td class="fi-firm">1517</td><td class="num">2</td><td class="num">7</td><td class="mapcell"><span class="tag t-vc">VC model</span></td></tr>
+<tr><td class="fi-firm">500Global</td><td class="num">2</td><td class="num">5</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-macro">Macro</span><span class="tag t-moat">Moats</span><span class="tag t-sw">Software</span><span class="tag t-vc">VC model</span></td></tr>
+<tr><td class="fi-firm">8090</td><td class="num">8</td><td class="num">4</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-ailabs">AI labs</span><span class="tag t-def">Defense</span><span class="tag t-energy">Energy</span><span class="tag t-macro">Macro</span><span class="tag t-nat">Natural Resources</span><span class="tag t-robo">Robotics</span><span class="tag t-svc">Services</span><span class="tag t-sw">Software</span></td></tr>
+<tr><td class="fi-firm">8VC</td><td class="num">7</td><td class="num">4</td><td class="mapcell"><span class="tag t-def">Defense</span><span class="tag t-energy">Energy</span><span class="tag t-macro">Macro</span><span class="tag t-nat">Natural Resources</span><span class="tag t-robo">Robotics</span><span class="tag t-svc">Services</span><span class="tag t-sw">Software</span></td></tr>
+<tr><td class="fi-firm">a16z</td><td class="num">11</td><td class="num">4</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-agent">Agents</span><span class="tag t-con">Consumer</span><span class="tag t-def">Defense</span><span class="tag t-health">Healthcare</span><span class="tag t-moat">Moats</span><span class="tag t-robo">Robotics</span><span class="tag t-sw">Software</span></td></tr>
+<tr><td class="fi-firm">Abstract</td><td class="num">2</td><td class="num">2</td><td class="mapcell"><span class="tag t-macro">Macro</span><span class="tag t-moat">Moats</span><span class="tag t-vc">VC model</span></td></tr>
+<tr><td class="fi-firm">Anthology</td><td class="num">2</td><td class="num">5</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-macro">Macro</span></td></tr>
+<tr><td class="fi-firm">AStar</td><td class="num">1</td><td class="num">3</td><td class="mapcell"><span class="tag t-vc">VC model</span></td></tr>
+<tr><td class="fi-firm">BasisSet</td><td class="num">7</td><td class="num">4</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-ailabs">AI labs</span><span class="tag t-agent">Agents</span><span class="tag t-macro">Macro</span><span class="tag t-moat">Moats</span><span class="tag t-sw">Software</span><span class="tag t-vc">VC model</span></td></tr>
+<tr><td class="fi-firm">Bessemer</td><td class="num">4</td><td class="num">6</td><td class="mapcell"><span class="tag t-agent">Agents</span><span class="tag t-health">Healthcare</span><span class="tag t-robo">Robotics</span><span class="tag t-sw">Software</span></td></tr>
+<tr><td class="fi-firm">BOND</td><td class="num">1</td><td class="num">1</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-ailabs">AI labs</span></td></tr>
+<tr><td class="fi-firm">BoostVC</td><td class="num">1</td><td class="num">5</td><td class="mapcell"><span class="tag t-energy">Energy</span></td></tr>
+<tr><td class="fi-firm">BoxGroup</td><td class="num">3</td><td class="num">4</td><td class="mapcell"><span class="tag t-macro">Macro</span><span class="tag t-moat">Moats</span><span class="tag t-vc">VC model</span></td></tr>
+<tr><td class="fi-firm">Browder</td><td class="num">6</td><td class="num">6</td><td class="mapcell"><span class="tag t-agent">Agents</span><span class="tag t-con">Consumer</span><span class="tag t-crypto">Crypto</span><span class="tag t-fin">Fintech</span><span class="tag t-macro">Macro</span><span class="tag t-moat">Moats</span><span class="tag t-vc">VC model</span></td></tr>
+<tr><td class="fi-firm">Caffeinated</td><td class="num">2</td><td class="num">1</td><td class="mapcell"><span class="tag t-energy">Energy</span><span class="tag t-macro">Macro</span><span class="tag t-moat">Moats</span><span class="tag t-vc">VC model</span></td></tr>
+<tr><td class="fi-firm">Contrary</td><td class="num">4</td><td class="num">7</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-macro">Macro</span><span class="tag t-svc">Services</span><span class="tag t-sw">Software</span></td></tr>
+<tr><td class="fi-firm">Conviction</td><td class="num">8</td><td class="num">2</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-agent">Agents</span><span class="tag t-health">Healthcare</span><span class="tag t-macro">Macro</span><span class="tag t-robo">Robotics</span><span class="tag t-svc">Services</span><span class="tag t-sw">Software</span><span class="tag t-vc">VC model</span></td></tr>
+<tr><td class="fi-firm">Cowboy</td><td class="num">1</td><td class="num">6</td><td class="mapcell"><span class="tag t-moat">Moats</span></td></tr>
+<tr><td class="fi-firm">CRV</td><td class="num">5</td><td class="num">6</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-ailabs">AI labs</span><span class="tag t-con">Consumer</span><span class="tag t-moat">Moats</span><span class="tag t-sw">Software</span><span class="tag t-vc">VC model</span></td></tr>
+<tr><td class="fi-firm">DayOne</td><td class="num">5</td><td class="num">6</td><td class="mapcell"><span class="tag t-con">Consumer</span><span class="tag t-fin">Fintech</span><span class="tag t-health">Healthcare</span><span class="tag t-macro">Macro</span><span class="tag t-robo">Robotics</span></td></tr>
+<tr><td class="fi-firm">DCVC</td><td class="num">11</td><td class="num">3</td><td class="mapcell"><span class="tag t-def">Defense</span><span class="tag t-energy">Energy</span><span class="tag t-health">Healthcare</span><span class="tag t-macro">Macro</span><span class="tag t-nat">Natural Resources</span><span class="tag t-robo">Robotics</span><span class="tag t-svc">Services</span><span class="tag t-sw">Software</span></td></tr>
+<tr><td class="fi-firm">Emergence</td><td class="num">6</td><td class="num">6</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-ailabs">AI labs</span><span class="tag t-agent">Agents</span><span class="tag t-moat">Moats</span><span class="tag t-svc">Services</span><span class="tag t-sw">Software</span></td></tr>
+<tr><td class="fi-firm">Endeavor</td><td class="num">1</td><td class="num">4</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-macro">Macro</span><span class="tag t-moat">Moats</span><span class="tag t-sw">Software</span></td></tr>
+<tr><td class="fi-firm">Eniac</td><td class="num">4</td><td class="num">6</td><td class="mapcell"><span class="tag t-def">Defense</span><span class="tag t-macro">Macro</span><span class="tag t-moat">Moats</span><span class="tag t-nat">Natural Resources</span><span class="tag t-robo">Robotics</span></td></tr>
+<tr><td class="fi-firm">Felicis</td><td class="num">3</td><td class="num">6</td><td class="mapcell"><span class="tag t-con">Consumer</span><span class="tag t-moat">Moats</span><span class="tag t-sw">Software</span></td></tr>
+<tr><td class="fi-firm">First Round</td><td class="num">1</td><td class="num">7</td><td class="mapcell"><span class="tag t-moat">Moats</span></td></tr>
+<tr><td class="fi-firm">FirstRound</td><td class="num">2</td><td class="num">7</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-ailabs">AI labs</span><span class="tag t-moat">Moats</span><span class="tag t-svc">Services</span><span class="tag t-sw">Software</span></td></tr>
+<tr><td class="fi-firm">Floodgate</td><td class="num">3</td><td class="num">7</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-ailabs">AI labs</span><span class="tag t-con">Consumer</span><span class="tag t-moat">Moats</span><span class="tag t-sw">Software</span></td></tr>
+<tr><td class="fi-firm">Flybridge</td><td class="num">1</td><td class="num">7</td><td class="mapcell"><span class="tag t-agent">Agents</span></td></tr>
+<tr><td class="fi-firm">Forerunner</td><td class="num">3</td><td class="num">3</td><td class="mapcell"><span class="tag t-con">Consumer</span><span class="tag t-moat">Moats</span></td></tr>
+<tr><td class="fi-firm">FounderCollective</td><td class="num">3</td><td class="num">10</td><td class="mapcell"><span class="tag t-agent">Agents</span><span class="tag t-moat">Moats</span><span class="tag t-sw">Software</span><span class="tag t-vc">VC model</span></td></tr>
+<tr><td class="fi-firm">Founders Fund</td><td class="num">3</td><td class="num">4</td><td class="mapcell"><span class="tag t-ailabs">AI labs</span><span class="tag t-def">Defense</span><span class="tag t-macro">Macro</span><span class="tag t-nat">Natural Resources</span><span class="tag t-sw">Software</span></td></tr>
+<tr><td class="fi-firm">Fusion Fund</td><td class="num">4</td><td class="num">1</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-ailabs">AI labs</span><span class="tag t-energy">Energy</span><span class="tag t-robo">Robotics</span></td></tr>
+<tr><td class="fi-firm">General Catalyst</td><td class="num">12</td><td class="num">5</td><td class="mapcell"><span class="tag t-agent">Agents</span><span class="tag t-con">Consumer</span><span class="tag t-crypto">Crypto</span><span class="tag t-def">Defense</span><span class="tag t-energy">Energy</span><span class="tag t-fin">Fintech</span><span class="tag t-health">Healthcare</span><span class="tag t-macro">Macro</span><span class="tag t-moat">Moats</span><span class="tag t-nat">Natural Resources</span><span class="tag t-robo">Robotics</span><span class="tag t-svc">Services</span><span class="tag t-sw">Software</span></td></tr>
+<tr><td class="fi-firm">Goodwater</td><td class="num">1</td><td class="num">4</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-macro">Macro</span><span class="tag t-moat">Moats</span><span class="tag t-sw">Software</span></td></tr>
+<tr><td class="fi-firm">Greylock</td><td class="num">6</td><td class="num">5</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-ailabs">AI labs</span><span class="tag t-agent">Agents</span><span class="tag t-con">Consumer</span><span class="tag t-moat">Moats</span><span class="tag t-sw">Software</span><span class="tag t-vc">VC model</span></td></tr>
+<tr><td class="fi-firm">Haystack</td><td class="num">5</td><td class="num">7</td><td class="mapcell"><span class="tag t-con">Consumer</span><span class="tag t-macro">Macro</span><span class="tag t-moat">Moats</span><span class="tag t-vc">VC model</span></td></tr>
+<tr><td class="fi-firm">Headline</td><td class="num">2</td><td class="num">3</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-ailabs">AI labs</span><span class="tag t-moat">Moats</span><span class="tag t-svc">Services</span><span class="tag t-sw">Software</span></td></tr>
+<tr><td class="fi-firm">HustleFund</td><td class="num">3</td><td class="num">4</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-macro">Macro</span><span class="tag t-moat">Moats</span><span class="tag t-sw">Software</span></td></tr>
+<tr><td class="fi-firm">IAVentures</td><td class="num">2</td><td class="num">6</td><td class="mapcell"><span class="tag t-con">Consumer</span><span class="tag t-moat">Moats</span><span class="tag t-vc">VC model</span></td></tr>
+<tr><td class="fi-firm">Index</td><td class="num">6</td><td class="num">9</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-ailabs">AI labs</span><span class="tag t-agent">Agents</span><span class="tag t-con">Consumer</span><span class="tag t-moat">Moats</span><span class="tag t-svc">Services</span><span class="tag t-sw">Software</span></td></tr>
+<tr><td class="fi-firm">Initialized</td><td class="num">8</td><td class="num">12</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-ailabs">AI labs</span><span class="tag t-energy">Energy</span><span class="tag t-health">Healthcare</span><span class="tag t-macro">Macro</span><span class="tag t-moat">Moats</span><span class="tag t-sw">Software</span><span class="tag t-vc">VC model</span></td></tr>
+<tr><td class="fi-firm">Interplay</td><td class="num">2</td><td class="num">6</td><td class="mapcell"><span class="tag t-agent">Agents</span><span class="tag t-con">Consumer</span><span class="tag t-crypto">Crypto</span><span class="tag t-fin">Fintech</span><span class="tag t-svc">Services</span><span class="tag t-sw">Software</span></td></tr>
+<tr><td class="fi-firm">Khosla</td><td class="num">10</td><td class="num">7</td><td class="mapcell"><span class="tag t-agent">Agents</span><span class="tag t-con">Consumer</span><span class="tag t-energy">Energy</span><span class="tag t-health">Healthcare</span><span class="tag t-macro">Macro</span><span class="tag t-nat">Natural Resources</span><span class="tag t-robo">Robotics</span><span class="tag t-svc">Services</span></td></tr>
+<tr><td class="fi-firm">Lightspeed</td><td class="num">3</td><td class="num">11</td><td class="mapcell"><span class="tag t-agent">Agents</span><span class="tag t-con">Consumer</span><span class="tag t-moat">Moats</span></td></tr>
+<tr><td class="fi-firm">Maveron</td><td class="num">7</td><td class="num">6</td><td class="mapcell"><span class="tag t-agent">Agents</span><span class="tag t-con">Consumer</span><span class="tag t-moat">Moats</span><span class="tag t-sw">Software</span></td></tr>
+<tr><td class="fi-firm">Neo</td><td class="num">1</td><td class="num">3</td><td class="mapcell"><span class="tag t-vc">VC model</span></td></tr>
+<tr><td class="fi-firm">NfX</td><td class="num">6</td><td class="num">8</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-ailabs">AI labs</span><span class="tag t-agent">Agents</span><span class="tag t-con">Consumer</span><span class="tag t-macro">Macro</span><span class="tag t-moat">Moats</span><span class="tag t-sw">Software</span><span class="tag t-vc">VC model</span></td></tr>
+<tr><td class="fi-firm">Notable</td><td class="num">1</td><td class="num">9</td><td class="mapcell"><span class="tag t-sw">Software</span></td></tr>
+<tr><td class="fi-firm">Pantera</td><td class="num">2</td><td class="num">4</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-fin">Fintech</span><span class="tag t-macro">Macro</span><span class="tag t-moat">Moats</span><span class="tag t-sw">Software</span></td></tr>
+<tr><td class="fi-firm">Paradigm</td><td class="num">5</td><td class="num">12</td><td class="mapcell"><span class="tag t-agent">Agents</span><span class="tag t-con">Consumer</span><span class="tag t-crypto">Crypto</span><span class="tag t-fin">Fintech</span><span class="tag t-macro">Macro</span><span class="tag t-sw">Software</span></td></tr>
+<tr><td class="fi-firm">Pear</td><td class="num">1</td><td class="num">3</td><td class="mapcell"><span class="tag t-macro">Macro</span><span class="tag t-vc">VC model</span></td></tr>
+<tr><td class="fi-firm">Pebblebed</td><td class="num">6</td><td class="num">6</td><td class="mapcell"><span class="tag t-ailabs">AI labs</span><span class="tag t-agent">Agents</span><span class="tag t-con">Consumer</span><span class="tag t-crypto">Crypto</span><span class="tag t-fin">Fintech</span><span class="tag t-health">Healthcare</span><span class="tag t-moat">Moats</span><span class="tag t-sw">Software</span><span class="tag t-vc">VC model</span></td></tr>
+<tr><td class="fi-firm">Redpoint</td><td class="num">8</td><td class="num">4</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-ailabs">AI labs</span><span class="tag t-agent">Agents</span><span class="tag t-con">Consumer</span><span class="tag t-crypto">Crypto</span><span class="tag t-fin">Fintech</span><span class="tag t-macro">Macro</span><span class="tag t-sw">Software</span></td></tr>
+<tr><td class="fi-firm">Riot</td><td class="num">2</td><td class="num">1</td><td class="mapcell"><span class="tag t-def">Defense</span><span class="tag t-robo">Robotics</span><span class="tag t-sw">Software</span></td></tr>
+<tr><td class="fi-firm">Sequoia</td><td class="num">6</td><td class="num">7</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-ailabs">AI labs</span><span class="tag t-agent">Agents</span><span class="tag t-con">Consumer</span><span class="tag t-crypto">Crypto</span><span class="tag t-fin">Fintech</span><span class="tag t-moat">Moats</span><span class="tag t-sw">Software</span><span class="tag t-vc">VC model</span></td></tr>
+<tr><td class="fi-firm">Slow</td><td class="num">6</td><td class="num">9</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-ailabs">AI labs</span><span class="tag t-con">Consumer</span><span class="tag t-fin">Fintech</span><span class="tag t-macro">Macro</span><span class="tag t-moat">Moats</span><span class="tag t-sw">Software</span><span class="tag t-vc">VC model</span></td></tr>
+<tr><td class="fi-firm">Soma</td><td class="num">1</td><td class="num">2</td><td class="mapcell"><span class="tag t-ailabs">AI labs</span><span class="tag t-moat">Moats</span></td></tr>
+<tr><td class="fi-firm">Spark</td><td class="num">4</td><td class="num">7</td><td class="mapcell"><span class="tag t-ailabs">AI labs</span><span class="tag t-con">Consumer</span><span class="tag t-moat">Moats</span><span class="tag t-vc">VC model</span></td></tr>
+<tr><td class="fi-firm">SPC</td><td class="num">6</td><td class="num">7</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-ailabs">AI labs</span><span class="tag t-agent">Agents</span><span class="tag t-con">Consumer</span><span class="tag t-moat">Moats</span><span class="tag t-sw">Software</span></td></tr>
+<tr><td class="fi-firm">Susa</td><td class="num">4</td><td class="num">6</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-agent">Agents</span><span class="tag t-moat">Moats</span><span class="tag t-sw">Software</span></td></tr>
+<tr><td class="fi-firm">SVAngel</td><td class="num">2</td><td class="num">3</td><td class="mapcell"><span class="tag t-con">Consumer</span><span class="tag t-moat">Moats</span><span class="tag t-vc">VC model</span></td></tr>
+<tr><td class="fi-firm">TenOneTen</td><td class="num">4</td><td class="num">1</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-agent">Agents</span><span class="tag t-con">Consumer</span><span class="tag t-crypto">Crypto</span><span class="tag t-fin">Fintech</span><span class="tag t-moat">Moats</span><span class="tag t-sw">Software</span></td></tr>
+<tr><td class="fi-firm">Thiel Capital</td><td class="num">3</td><td class="num">4</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-macro">Macro</span></td></tr>
+<tr><td class="fi-firm">Thrive</td><td class="num">3</td><td class="num">10</td><td class="mapcell"><span class="tag t-ailabs">AI labs</span><span class="tag t-health">Healthcare</span><span class="tag t-moat">Moats</span><span class="tag t-svc">Services</span><span class="tag t-sw">Software</span></td></tr>
+<tr><td class="fi-firm">Tuesday</td><td class="num">1</td><td class="num">2</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-macro">Macro</span><span class="tag t-moat">Moats</span><span class="tag t-sw">Software</span></td></tr>
+<tr><td class="fi-firm">USV</td><td class="num">9</td><td class="num">10</td><td class="mapcell"><span class="tag t-agent">Agents</span><span class="tag t-con">Consumer</span><span class="tag t-crypto">Crypto</span><span class="tag t-def">Defense</span><span class="tag t-fin">Fintech</span><span class="tag t-moat">Moats</span><span class="tag t-nat">Natural Resources</span><span class="tag t-sw">Software</span><span class="tag t-vc">VC model</span></td></tr>
+<tr><td class="fi-firm">WorkBench</td><td class="num">6</td><td class="num">7</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span><span class="tag t-agent">Agents</span><span class="tag t-moat">Moats</span><span class="tag t-sw">Software</span></td></tr>
+<tr><td class="fi-firm">YC</td><td class="num">3</td><td class="num">1</td><td class="mapcell"><span class="tag t-aiapps">AI apps</span></td></tr></tbody></table></div>
 
     <!-- SOURCES -->
     <div class="sources">
       <h2>Sources</h2>
       <ol>
-        <li id="s1"><a href="https://a16z.com/newsletter/big-ideas-2026-part-2/" target="_blank" rel="noopener">a16z — <em>Big Ideas 2026: Part 2</em></a>. <a href="#r1" class="backref">↩</a></li>
-<li id="s2"><a href="https://podcast.newcomer.co/episode/vinod-khosla-on-the-end-of-jobs-and-the-future-of-capitalism" target="_blank" rel="noopener">Khosla — <em>Vinod Khosla on the End of Jobs and the Future of Capitalism (Newcomer)</em></a>. <a href="#r2" class="backref">↩</a></li>
-<li id="s3"><a href="https://www.youtube.com/watch?v=vw8QDQ--ys4" target="_blank" rel="noopener">Eniac — <em>Nihal Mehta investor interview (April 2025)</em></a>. <a href="#r3" class="backref">↩</a></li>
-<li id="s4"><a href="https://8vc.com/resources/top-tech-investors-this-ai-wave-is-10x-bigger-than-saas" target="_blank" rel="noopener">8VC — <em>Top Tech Investors: This AI Wave Is 10X Bigger Than SaaS (8VC podcast, Alex Kolicich &amp; Jack Moshkovich)</em></a>. <a href="#r4" class="backref">↩</a></li>
-<li id="s5"><a href="https://www.conviction.com/startups.html" target="_blank" rel="noopener">Conviction — <em>Startup Ideas — The Year of Cheap, Bespoke Code</em></a>. <a href="#r5" class="backref">↩</a></li>
-<li id="s6"><a href="https://www.dcvc.com/news-insights/how-the-quantum-race-will-be-won-on-the-factory-floor" target="_blank" rel="noopener">DCVC — <em>How the Quantum Race Will Be Won on the Factory Floor</em></a>. <a href="#r6" class="backref">↩</a></li>
-<li id="s7"><a href="https://bankwithstifel.com/insights/how-riot-ventures-scaled-to-1b-in-deep-tech-vc/" target="_blank" rel="noopener">Riot — <em>From Generalist to Deep Tech Specialist: A Conversation with Will Coffield (Stifel Forge Series)</em></a>. <a href="#r7" class="backref">↩</a></li>
-<li id="s8"><a href="https://fintech.tv/fusion-fund-says-ais-next-phase-is-infrastructure-not-models/" target="_blank" rel="noopener">Fusion Fund — <em>Next phase for AI value: infrastructure, not models (Lu Zhang interview)</em></a>. <a href="#r8" class="backref">↩</a></li>
-<li id="s9"><a href="https://www.generalcatalyst.com/stories/realizing-resilience" target="_blank" rel="noopener">General Catalyst — <em>Realizing Resilience</em></a>. <a href="#r9" class="backref">↩</a></li>
-<li id="s10"><a href="https://www.bvp.com/atlas/defense-tech-roadmap-five-frontiers-for-2026" target="_blank" rel="noopener">Bessemer — <em>Defense tech roadmap: Five frontiers for 2026</em></a>. <a href="#r10" class="backref">↩</a></li>
-<li id="s11"><a href="https://infinitefrontiers.io/conversations/reindustrialization-and-deep-tech-investing-with-8090-industries-grant-brown/" target="_blank" rel="noopener">8090 — <em>Reindustrialization and Deep Tech Investing with 8090 Industries&#x27; Grant Brown</em></a>. <a href="#r11" class="backref">↩</a></li>
-<li id="s12"><a href="https://a16z.com/newsletter/big-ideas-2026-part-1/" target="_blank" rel="noopener">a16z — <em>Big Ideas 2026: Part 1</em></a>. <a href="#r12" class="backref">↩</a></li>
-<li id="s13"><a href="https://www.generalcatalyst.com/stories/europes-ai-transformation-in-services" target="_blank" rel="noopener">General Catalyst — <em>Europe&#x27;s AI Transformation in Services</em></a>. <a href="#r13" class="backref">↩</a></li>
-<li id="s14"><a href="https://www.bvp.com/atlas/state-of-health-ai-2026" target="_blank" rel="noopener">Bessemer — <em>State of Health AI 2026</em></a>. <a href="#r14" class="backref">↩</a></li>
-<li id="s15"><a href="https://colossus.com/article/joshua-kushner-thrive-new-world/" target="_blank" rel="noopener">Thrive — <em>Invest Like the Best (Josh Kushner): Concentration and Conviction / Thrive in a New World</em></a>. <a href="#r15" class="backref">↩</a></li>
-<li id="s16"><a href="https://www.dcvc.com/news-insights/dcvc-publishes-the-2025-deep-tech-opportunities-report-an-american-industrial-renaissance" target="_blank" rel="noopener">DCVC — <em>2025 Deep Tech Opportunities Report: An American Industrial Renaissance</em></a>. <a href="#r16" class="backref">↩</a></li>
-<li id="s17"><a href="https://blog.initialized.com/2025/08/agents-at-work/" target="_blank" rel="noopener">Initialized — <em>Agents at Work</em></a>. <a href="#r17" class="backref">↩</a></li>
-<li id="s18"><a href="https://sequoiacap.com/article/ai-in-2026-the-tale-of-two-ais/" target="_blank" rel="noopener">Sequoia — <em>AI in 2026: The Tale of Two AIs</em></a>. <a href="#r18" class="backref">↩</a></li>
-<li id="s19"><a href="https://greylock.com/greymatter/the-new-new-moats/" target="_blank" rel="noopener">Greylock — <em>The New New Moats</em></a>. <a href="#r19" class="backref">↩</a></li>
-<li id="s20"><a href="https://blog.southparkcommons.com/p/silicon-valleys-most-dangerous-startup" target="_blank" rel="noopener">SPC — <em>The Silicon Valley Playbook is Broken (with Elad Gil)</em></a>. <a href="#r20" class="backref">↩</a></li>
-<li id="s21"><a href="https://www.forbes.com/sites/iainmartin/2026/05/27/investing-superstar-yasmin-razavi-turned-a-75-million-check-into-a-3-billion-ai-windfall/" target="_blank" rel="noopener">Spark — <em>Yasmin Razavi turned a $75M check into a $3B AI windfall (Forbes Midas)</em></a>. <a href="#r21" class="backref">↩</a></li>
-<li id="s22"><a href="https://somacap.com" target="_blank" rel="noopener">Soma — <em>Soma Capital homepage (mission / portfolio framing)</em></a>. <a href="#r22" class="backref">↩</a></li>
-<li id="s23"><a href="https://www.sourcery.vc/p/josh-kushner-on-building-thrive" target="_blank" rel="noopener">Thrive — <em>Invest Like the Best (Josh Kushner): Disruption from the inside out</em></a>. <a href="#r23" class="backref">↩</a></li>
-<li id="s24"><a href="https://www.indexventures.com/team/erin-price-wright/" target="_blank" rel="noopener">Index — <em>Erin Price-Wright thesis — human-shaped vs computer-shaped tasks</em></a>. <a href="#r24" class="backref">↩</a></li>
-<li id="s25"><a href="https://snailmail.slow.co/p/6-predictions-for-2026" target="_blank" rel="noopener">Slow — <em>6 Predictions For 2026</em></a>. <a href="#r25" class="backref">↩</a></li>
-<li id="s26"><a href="https://blog.southparkcommons.com/p/avoiding-the-eye-of-sauron" target="_blank" rel="noopener">SPC — <em>Avoiding The Eye of Sauron</em></a>. <a href="#r26" class="backref">↩</a></li>
-<li id="s27"><a href="https://www.floodgate.com/insights/languaging-the-software-of-belief" target="_blank" rel="noopener">Floodgate — <em>Languaging: The Software of Belief</em></a>. <a href="#r27" class="backref">↩</a></li>
-<li id="s28"><a href="https://review.firstround.com/so-you-want-to-hire-a-forward-deployed-engineer/" target="_blank" rel="noopener">FirstRound — <em>So You Want to Hire a Forward Deployed Engineer</em></a>. <a href="#r28" class="backref">↩</a></li>
-<li id="s29"><a href="https://www.crv.com/content/series-a-metrics-vcs-expect" target="_blank" rel="noopener">CRV — <em>Series A Metrics VCs Expect in 2026</em></a>. <a href="#r29" class="backref">↩</a></li>
-<li id="s30"><a href="https://www.nfx.com/post/generative-ai-tech-5-layers" target="_blank" rel="noopener">NfX — <em>Generative AI Market Map and 5-Layer Tech Stack</em></a>. <a href="#r30" class="backref">↩</a></li>
-<li id="s31"><a href="https://headline.com/blog-latest/article-latest/vertical-saas-50-2025" target="_blank" rel="noopener">Headline — <em>Introducing the Top 50 Vertical SaaS Companies to Watch in 2025</em></a>. <a href="#r31" class="backref">↩</a></li>
-<li id="s32"><a href="https://americanaffairsjournal.org/2025/11/no-solvency-no-security/" target="_blank" rel="noopener">Founders Fund — <em>No Solvency, No Security</em></a>. <a href="#r32" class="backref">↩</a></li>
-<li id="s33"><a href="https://www.youtube.com/watch?v=R4DaDZ_lq08" target="_blank" rel="noopener">8VC — <em>The Future of AI, Defense &amp; America — Joe Lonsdale (Global Alts Miami 2026)</em></a>. <a href="#r33" class="backref">↩</a></li>
-<li id="s34"><a href="https://www.generalcatalyst.com/stories/built-to-endure" target="_blank" rel="noopener">General Catalyst — <em>Built to Endure</em></a>. <a href="#r34" class="backref">↩</a></li>
-<li id="s35"><a href="https://www.forerunnerventures.com/perspectives/proactive-measures" target="_blank" rel="noopener">Forerunner — <em>Proactive Measures: Be the CEO of Your Own Life</em></a>. <a href="#r35" class="backref">↩</a></li>
-<li id="s36"><a href="https://www.maveron.com/insights" target="_blank" rel="noopener">Maveron — <em>AI Is Transforming CPG Distribution</em></a>. <a href="#r36" class="backref">↩</a></li>
-<li id="s37"><a href="https://blog.usv.com/suno" target="_blank" rel="noopener">USV — <em>Suno</em></a>. <a href="#r37" class="backref">↩</a></li>
-<li id="s38"><a href="https://www.khoslaventures.com/posts/a-roadmap-to-ai-utopia" target="_blank" rel="noopener">Khosla — <em>A Roadmap to AI Utopia (Khosla Ventures / TIME)</em></a>. <a href="#r38" class="backref">↩</a></li>
-<li id="s39"><a href="https://blog.southparkcommons.com/p/entering-the-post-prompting-world" target="_blank" rel="noopener">SPC — <em>Entering the Post-Prompting World</em></a>. <a href="#r39" class="backref">↩</a></li>
-<li id="s40"><a href="https://news.greylock.com/the-intelligent-future-conversations-about-the-state-of-ai-with-reid-hoffman-and-saam-motamedi-2ef854793716" target="_blank" rel="noopener">Greylock — <em>The Intelligent Future (Reid Hoffman &amp; Saam Motamedi)</em></a>. <a href="#r40" class="backref">↩</a></li>
-<li id="s41"><a href="https://www.redpoint.com/content-hub/written/2026-outlook/" target="_blank" rel="noopener">Redpoint — <em>From Pilots to Platforms: Picks for &#x27;26</em></a>. <a href="#r41" class="backref">↩</a></li>
-<li id="s42"><a href="https://sequoiacap.com/article/2026-this-is-agi/" target="_blank" rel="noopener">Sequoia — <em>2026: This is AGI</em></a>. <a href="#r42" class="backref">↩</a></li>
-<li id="s43"><a href="https://www.indexventures.com/perspectives/acts-of-claude-building-with-agents-a-work-in-progress/" target="_blank" rel="noopener">Index — <em>Acts of Claude: Building with Agents, a &#x27;Work in Progress&#x27;</em></a>. <a href="#r43" class="backref">↩</a></li>
-<li id="s44"><a href="https://www.redpoint.com/content-hub/written/ai-update-2025-infrared-report/" target="_blank" rel="noopener">Redpoint — <em>AI Update: 2025 InfraRed Report</em></a>. <a href="#r44" class="backref">↩</a></li>
-<li id="s45"><a href="https://workbench.substack.com/p/announcing-our-investment-in-flock" target="_blank" rel="noopener">WorkBench — <em>[Work-Bench Research] Exploring the Future Compute Stack for AI Agents</em></a>. <a href="#r45" class="backref">↩</a></li>
-<li id="s46"><a href="https://www.bvp.com/atlas/the-state-of-ai-2025" target="_blank" rel="noopener">Bessemer — <em>The State of AI 2025</em></a>. <a href="#r46" class="backref">↩</a></li>
-<li id="s47"><a href="https://www.nfx.com/post/venture-capital-3" target="_blank" rel="noopener">NfX — <em>How &#x27;Venture Capital 3.0&#x27; Impacts Founders in the AI Age</em></a>. <a href="#r47" class="backref">↩</a></li>
-<li id="s48"><a href="https://every.to/podcast/reid-hoffman-makes-five-predictions-about-ai-in-2026" target="_blank" rel="noopener">Greylock — <em>Reid Hoffman: Five Predictions About AI in 2026 (AI &amp; I)</em></a>. <a href="#r48" class="backref">↩</a></li>
-<li id="s49"><a href="https://www.paradigm.xyz/2026/02/introducing-paradigm-predictions" target="_blank" rel="noopener">Paradigm — <em>Introducing Paradigm Predictions</em></a>. <a href="#r49" class="backref">↩</a></li>
-<li id="s50"><a href="https://www.eniac.vc/stories" target="_blank" rel="noopener">Eniac — <em>Eniac portfolio signal: Origin Lab / world-model data (firm stories page, 2025)</em></a>. <a href="#r50" class="backref">↩</a></li>
-<li id="s51"><a href="https://www.linkedin.com/posts/rayyanislam_boom-the-future-of-ai-compute-isnt-built-activity-7354545450516951040-UZ1P" target="_blank" rel="noopener">8090 — <em>Armada $131M round announcement — &#x27;The future of AI compute isn&#x27;t built, it&#x27;s deployed&#x27;</em></a>. <a href="#r51" class="backref">↩</a></li>
-<li id="s52"><a href="https://www.generalcatalyst.com/stories/the-agentic-commerce-opportunity" target="_blank" rel="noopener">General Catalyst — <em>The Agentic Commerce Opportunity</em></a>. <a href="#r52" class="backref">↩</a></li>
-<li id="s53"><a href="https://www.bvp.com/atlas/the-ai-pricing-and-monetization-playbook" target="_blank" rel="noopener">Bessemer — <em>The AI pricing and monetization playbook</em></a>. <a href="#r53" class="backref">↩</a></li>
-<li id="s54"><a href="https://foundercollective.com/blog/6-takeaways-from-collective-future-nyc/" target="_blank" rel="noopener">FounderCollective — <em>6 Takeaways from Collective Future NYC</em></a>. <a href="#r54" class="backref">↩</a></li>
-<li id="s55"><a href="https://workbench.substack.com/p/enterprise-weekly-538-the-new-economics" target="_blank" rel="noopener">WorkBench — <em>Enterprise Weekly #538: The New Economics of AI Applications</em></a>. <a href="#r55" class="backref">↩</a></li>
-<li id="s56"><a href="https://www.emcap.com/thoughts/should-your-saas-company-become-a-services-business" target="_blank" rel="noopener">Emergence — <em>Should Your SaaS Company Become a Services Business?</em></a>. <a href="#r56" class="backref">↩</a></li>
-<li id="s57"><a href="https://www.generalcatalyst.com/stories/the-future-of-services" target="_blank" rel="noopener">General Catalyst — <em>The Future of Services</em></a>. <a href="#r57" class="backref">↩</a></li>
-<li id="s58"><a href="https://research.contrary.com/report/the-vertical-ai-playbook" target="_blank" rel="noopener">Contrary — <em>The Vertical AI Playbook</em></a>. <a href="#r58" class="backref">↩</a></li>
-<li id="s59"><a href="https://www.crv.com/content/net-revenue-retention" target="_blank" rel="noopener">CRV — <em>What Is NRR? Complete Guide to Net Revenue Retention</em></a>. <a href="#r59" class="backref">↩</a></li>
-<li id="s60"><a href="https://www.notablecap.com/blog/the-future-of-voice-ai-how-standalone-companies-can-thrive-in-a-speech-to-speech-world" target="_blank" rel="noopener">Notable — <em>The Future of Voice AI: How Standalone Companies Can Thrive in a Speech-to-Speech World</em></a>. <a href="#r60" class="backref">↩</a></li>
-<li id="s61"><a href="https://www.generativevalue.com/p/q4-25-cloud-update-whats-going-on" target="_blank" rel="noopener">Felicis — <em>Q4 &#x27;25 Cloud Update (What&#x27;s going on with software?)</em></a>. <a href="#r61" class="backref">↩</a></li>
-<li id="s62"><a href="https://maveronvc.substack.com/p/the-next-cultural-powerhouse-why" target="_blank" rel="noopener">Maveron — <em>The Next Cultural Powerhouse: Why Gen Alpha Can&#x27;t Be Ignored</em></a>. <a href="#r62" class="backref">↩</a></li>
-<li id="s63"><a href="https://www.wonderful.ai/blog-articles/the-execution-gap-no-model-can-close" target="_blank" rel="noopener">Index — <em>The Execution Gap No Model Can Close (Wonderful, Index-backed)</em></a>. <a href="#r63" class="backref">↩</a></li>
-<li id="s64"><a href="https://a16z.com/humans-are-for-ideas-ai-is-for-execution/" target="_blank" rel="noopener">a16z — <em>Humans Are for Ideas, AI Is for Execution</em></a>. <a href="#r64" class="backref">↩</a></li>
-<li id="s65"><a href="https://www.emcap.com/thoughts/adaptable-ai-for-an-adapting-world" target="_blank" rel="noopener">Emergence — <em>Adaptable AI for an Adapting World</em></a>. <a href="#r65" class="backref">↩</a></li>
-<li id="s66"><a href="https://www.basisset.com/insights/you-dont-need-to-be-first" target="_blank" rel="noopener">BasisSet — <em>You Don&#x27;t Need to be First</em></a>. <a href="#r66" class="backref">↩</a></li>
-<li id="s67"><a href="https://blog.initialized.com/2025/08/backing-garage-transforming-how-americas-critical-equipment-is-bought-and-sold/" target="_blank" rel="noopener">Initialized — <em>Backing Garage: Transforming How America&#x27;s Critical Equipment Is Bought and Sold</em></a>. <a href="#r67" class="backref">↩</a></li>
-<li id="s68"><a href="https://www.indexventures.com/perspectives/from-300b-to-10-trillion-how-moment-became-the-ai-operating-system-for-investment-management/" target="_blank" rel="noopener">Index — <em>From $300B to $10 Trillion: How Moment Became the AI Operating System for Investment Management</em></a>. <a href="#r68" class="backref">↩</a></li>
-<li id="s69"><a href="https://www.backgroundnoise.blog/p/the-realness-of-live-sports-in-an" target="_blank" rel="noopener">Lightspeed — <em>The Realness of Live Sports in an AI Generated World</em></a>. <a href="#r69" class="backref">↩</a></li>
-<li id="s70"><a href="https://www.usv.com/writing/2026/04/glif/" target="_blank" rel="noopener">USV — <em>Glif</em></a>. <a href="#r70" class="backref">↩</a></li>
-<li id="s71"><a href="https://www.thespl.it/p/inside-roger-ehrenbergs-new-firm" target="_blank" rel="noopener">IAVentures — <em>Inside Roger Ehrenberg&#x27;s new firm (INTERVIEW/profile)</em></a>. <a href="#r71" class="backref">↩</a></li>
-<li id="s72"><a href="https://www.sierraventures.com/ascend/the-new-rules-of-early-stage-venture-in-the-ai-era-with-semil-shah" target="_blank" rel="noopener">Haystack — <em>The New Rules of Early-Stage Venture in the AI Era (with Semil Shah)</em></a>. <a href="#r72" class="backref">↩</a></li>
-<li id="s73"><a href="https://www.linkedin.com/posts/josephhellerstudio_day-one-ventures-just-launched-a-150m-anti-ai-activity-7462204111598321664-ungQ" target="_blank" rel="noopener">DayOne — <em>Day One Ventures $150M &#x27;Anti-AI&#x27; framing (Fund III, secondary coverage)</em></a>. <a href="#r73" class="backref">↩</a></li>
-<li id="s74"><a href="https://www.linkedin.com/posts/reidchristian_venture-has-never-been-more-crowdedormore-activity-7401703309847539712-lTY7" target="_blank" rel="noopener">CRV — <em>Venture has never been more crowded, or more complacent (Reid Christian)</em></a>. <a href="#r74" class="backref">↩</a></li>
-<li id="s75"><a href="https://www.floodgate.com/insights/era-of-mass-cognition" target="_blank" rel="noopener">Floodgate — <em>Era of Mass Cognition</em></a>. <a href="#r75" class="backref">↩</a></li>
-<li id="s76"><a href="https://www.generativevalue.com/p/2025-annual-letter" target="_blank" rel="noopener">Felicis — <em>2025 Annual Letter: An Estimation of Underestimations</em></a>. <a href="#r76" class="backref">↩</a></li>
-<li id="s77"><a href="https://www.businessinsider.com/spark-capital-vc-nabeel-hyatt-robotics-reshaping-gig-economy-2026-4" target="_blank" rel="noopener">Spark — <em>Spark Capital VC Nabeel Hyatt sees robotics reshaping the gig economy</em></a>. <a href="#r77" class="backref">↩</a></li>
-<li id="s78"><a href="https://openletter.svangel.com/" target="_blank" rel="noopener">SVAngel — <em>AI Open Letter — Build AI for a Better Future</em></a>. <a href="#r78" class="backref">↩</a></li>
-<li id="s79"><a href="https://www.nfx.com/post/3-waves-generative-ai-startups" target="_blank" rel="noopener">NfX — <em>3 Waves of Successful Generative AI Startups</em></a>. <a href="#r79" class="backref">↩</a></li>
-<li id="s80"><a href="https://www.nytimes.com/2025/07/11/podcasts/interesting-times-a-mind-bending-conversation-with-peter-thiel.html" target="_blank" rel="noopener">Thiel Capital — <em>A Mind-Bending Conversation with Peter Thiel (NYT &#x27;Interesting Times&#x27; / &#x27;A.I., Mars and Immortality&#x27;)</em></a>. <a href="#r80" class="backref">↩</a></li>
-<li id="s81"><a href="https://research.contrary.com/report/the-case-for-specialized-ai" target="_blank" rel="noopener">Contrary — <em>The Case for Specialized AI</em></a>. <a href="#r81" class="backref">↩</a></li>
-<li id="s82"><a href="https://menlovc.com/perspective/2025-the-state-of-generative-ai-in-the-enterprise/" target="_blank" rel="noopener">Anthology — <em>2025: The State of Generative AI in the Enterprise</em></a>. <a href="#r82" class="backref">↩</a></li>
-<li id="s83"><a href="https://elizabethyin.com/2026/04/24/the-wide-path-why-most-current-valuation-dynamics-are-not-here-to-stay-and-what-will/" target="_blank" rel="noopener">HustleFund — <em>The wide path: Why most current valuation dynamics are not here to stay (and what will)</em></a>. <a href="#r83" class="backref">↩</a></li>
-<li id="s84"><a href="https://www.linkedin.com/posts/reidchristian_a-venture-capital-firm-does-something-rare-activity-7247243582254825473-6uSs" target="_blank" rel="noopener">CRV — <em>Give Money Back (Reid Christian)</em></a>. <a href="#r84" class="backref">↩</a></li>
-<li id="s85"><a href="https://semilshah.com/2026/04/26/new-funds-for-haystack/" target="_blank" rel="noopener">Haystack — <em>New Funds for Haystack</em></a>. <a href="#r85" class="backref">↩</a></li>
-<li id="s86"><a href="https://podcasts.apple.com/us/podcast/ramtin-naimi-building-abstract/id1154105909?i=1000719610113" target="_blank" rel="noopener">Abstract — <em>Ramtin Naimi - Building Abstract (Invest Like the Best EP.435) [interview, non-publisher]</em></a>. <a href="#r86" class="backref">↩</a></li>
-<li id="s87"><a href="https://www.youtube.com/watch?v=tzXfrp_nBCo" target="_blank" rel="noopener">BoxGroup — <em>Raising Your Seed Round (David Tisch talk)</em></a>. <a href="#r87" class="backref">↩</a></li>
-<li id="s88"><a href="https://www.youtube.com/watch?v=LNJn_xIm2Dk" target="_blank" rel="noopener">IAVentures — <em>Roger Ehrenberg interview: Why VC Returns Will Get Worse (INTERVIEW, not firm essay)</em></a>. <a href="#r88" class="backref">↩</a></li>
-<li id="s89"><a href="https://www.caffeinated.com/" target="_blank" rel="noopener">Caffeinated — <em>Our Philosophy (firm site)</em></a>. <a href="#r89" class="backref">↩</a></li>
-<li id="s90"><a href="https://500.co/content/the-vc-playbook-needs-to-be-rebuilt-not-refreshed" target="_blank" rel="noopener">500Global — <em>Rewriting the Venture Capital Playbook for the AI Era</em></a>. <a href="#r90" class="backref">↩</a></li>
-<li id="s91"><a href="https://www.youtube.com/watch?v=5CtT6p2HaCI" target="_blank" rel="noopener">Browder — <em>20VC: Turning Peter Thiel&#x27;s $100K into a $10M Angel Portfolio + AI&#x27;s Winners and Losers (Joshua Browder)</em></a>. <a href="#r91" class="backref">↩</a></li>
-<li id="s92"><a href="https://www.tenoneten.com/latest/money-at-machine-speed" target="_blank" rel="noopener">TenOneTen — <em>Money at Machine Speed</em></a>. <a href="#r92" class="backref">↩</a></li>
-<li id="s93"><a href="https://blog.usv.com/history-rhymes" target="_blank" rel="noopener">USV — <em>History Rhymes?</em></a>. <a href="#r93" class="backref">↩</a></li>
-<li id="s94"><a href="https://www.paradigm.xyz/2026/04/introducing-the-2026-paradigm-fellowship" target="_blank" rel="noopener">Paradigm — <em>Introducing the 2026 Paradigm Fellowship</em></a>. <a href="#r94" class="backref">↩</a></li>
-<li id="s95"><a href="https://www.pebblebed.com/blog/per-seat-saas" target="_blank" rel="noopener">Pebblebed — <em>The End of Per-seat SaaS</em></a>. <a href="#r95" class="backref">↩</a></li>
-<li id="s96"><a href="https://www.redpoint.com/content-hub/written/25-for-25/" target="_blank" rel="noopener">Redpoint — <em>25 for &#x27;25: The App Renaissance Arrives</em></a>. <a href="#r96" class="backref">↩</a></li>
-<li id="s97"><a href="https://www.interplay.vc/blog/the-future-of-commerce-agents-are-rebuilding-b2b-procurement-from-the-ground-up" target="_blank" rel="noopener">Interplay — <em>The Future of Commerce: Agents are Rebuilding B2B Procurement from the Ground Up</em></a>. <a href="#r97" class="backref">↩</a></li>
-<li id="s98"><a href="https://www.newcomer.co/p/the-ai-personal-stack-with-joshua" target="_blank" rel="noopener">Browder — <em>The AI Personal Stack (Newcomer / Cerebral Valley)</em></a>. <a href="#r98" class="backref">↩</a></li>
-<li id="s99"><a href="https://www.sequoiacap.com/article/ai-retail-opportunity/" target="_blank" rel="noopener">Sequoia — <em>AI Retail Opportunity</em></a>. <a href="#r99" class="backref">↩</a></li>
-<li id="s100"><a href="https://foundercollective.com/blog/the-buy-window/" target="_blank" rel="noopener">FounderCollective — <em>The Buy Window</em></a>. <a href="#r100" class="backref">↩</a></li>
-<li id="s101"><a href="https://review.firstround.com/inside-artemis-ai-vs-ai-war-shachar-hirshberg-dan-shiebler-co-founders-artemis/" target="_blank" rel="noopener">First Round — <em>Inside Artemis&#x27; &quot;AI vs AI&quot; War (Josh Kopelman interview)</em></a>. <a href="#r101" class="backref">↩</a></li>
-<li id="s102"><a href="https://www.cowboy.vc/news/where-were-looking-to-invest-ai-powered-professional-services-a-3t-opportunity" target="_blank" rel="noopener">Cowboy — <em>Where we&#x27;re looking to invest: AI-powered professional services, a $3T opportunity</em></a>. <a href="#r102" class="backref">↩</a></li>
-<li id="s103"><a href="https://www.codingvc.com/p/deep-tech-companies-are-built-different" target="_blank" rel="noopener">Susa — <em>Deep Tech Companies Are Built Different</em></a>. <a href="#r103" class="backref">↩</a></li>
-<li id="s104"><a href="https://www.emcap.com/thoughts/the-next-token-supercycle-opportunities-in-long-horizon-inference" target="_blank" rel="noopener">Emergence — <em>The Next Token Supercycle: Opportunities in Long-Horizon Inference</em></a>. <a href="#r104" class="backref">↩</a></li>
-<li id="s105"><a href="https://blog.initialized.com/2025/02/initialized-backs-valar-atomics-to-build-nuclear-gigasites/" target="_blank" rel="noopener">Initialized — <em>Initialized Backs Valar Atomics to Build Nuclear Gigasites</em></a>. <a href="#r105" class="backref">↩</a></li>
-<li id="s106"><a href="https://www.basisset.com/insights/our-favorite-ai-workflows-of-2025" target="_blank" rel="noopener">BasisSet — <em>Our Favorite AI Workflows of 2025</em></a>. <a href="#r106" class="backref">↩</a></li>
-<li id="s107"><a href="https://www.bondcap.com/reports/tai" target="_blank" rel="noopener">BOND — <em>Trends — Artificial Intelligence</em></a>. <a href="#r107" class="backref">↩</a></li>
-<li id="s108"><a href="https://www.emcap.com/thoughts/why-ai-native-services-and-why-now" target="_blank" rel="noopener">Emergence — <em>Why AI-Native Services, and Why Now</em></a>. <a href="#r108" class="backref">↩</a></li>
-<li id="s109"><a href="https://headline.com/blog-latest/article-latest/the-infra-stack-reset" target="_blank" rel="noopener">Headline — <em>The Infra Stack Reset: 10 Trends Reshaping Spend in 2025</em></a>. <a href="#r109" class="backref">↩</a></li>
-<li id="s110"><a href="https://www.fa-mag.com/news/world-s-rich-bet-on-vc-firm-with-275--gains-that-shuns-ai-78625.html" target="_blank" rel="noopener">8090 — <em>World&#x27;s Rich Bet On VC Firm With 275% Gains That Shuns AI (standing signature thesis)</em></a>. <a href="#r110" class="backref">↩</a></li>
-<li id="s111"><a href="https://uncappedpod.com/p/how-ai-is-rewriting-seed-stage-investing" target="_blank" rel="noopener">AStar — <em>How AI Is Rewriting Seed Stage Investing (Uncapped Ep. 49 transcript)</em></a>. <a href="#r111" class="backref">↩</a></li>
-<li id="s112"><a href="https://1517.substack.com/p/inside-v-outside-context-problems" target="_blank" rel="noopener">1517 — <em>Inside v. Outside Context Problems</em></a>. <a href="#r112" class="backref">↩</a></li>
-<li id="s113"><a href="https://slow.co/conviction/" target="_blank" rel="noopener">Slow — <em>Slow Conviction (Should I vs Can I)</em></a>. <a href="#r113" class="backref">↩</a></li>
-<li id="s114"><a href="https://www.forbes.com/sites/richardnieva/2025/04/16/this-tech-incubator-is-harder-to-get-into-than-harvard/" target="_blank" rel="noopener">Neo — <em>Y Combinator Rival Neo Is Harder To Get Into Than Harvard</em></a>. <a href="#r114" class="backref">↩</a></li>
-<li id="s115"><a href="https://www.basisset.com/" target="_blank" rel="noopener">BasisSet — <em>Scaling human potential with artificial intelligence (firm thesis page)</em></a>. <a href="#r115" class="backref">↩</a></li>
-<li id="s116"><a href="https://www.nfx.com/post/3-person-unicorn-startup" target="_blank" rel="noopener">NfX — <em>The 3-Person Unicorn Startup</em></a>. <a href="#r116" class="backref">↩</a></li>
-<li id="s117"><a href="https://foundercollective.com/blog/not-every-company-is-built-for-the-big-leagues/" target="_blank" rel="noopener">FounderCollective — <em>Not Every Company Is Built for the Big Leagues</em></a>. <a href="#r117" class="backref">↩</a></li>
-<li id="s118"><a href="https://blog.initialized.com/2026/05/initialized-leads-7m-round-for-enhanced-radar/" target="_blank" rel="noopener">Initialized — <em>Initialized Leads $7M Round for Enhanced Radar</em></a>. <a href="#r118" class="backref">↩</a></li>
-<li id="s119"><a href="https://www.basisset.com/insights/announcing-our-250m-fund-iv" target="_blank" rel="noopener">BasisSet — <em>Announcing Our $250M Fund IV</em></a>. <a href="#r119" class="backref">↩</a></li>
-<li id="s120"><a href="https://www.redpoint.com/content-hub/written/from-middlemen-to-machines/" target="_blank" rel="noopener">Redpoint — <em>From Middlemen to Machines: The New Economic Order</em></a>. <a href="#r120" class="backref">↩</a></li>
-<li id="s121"><a href="https://www.ycombinator.com/rfs" target="_blank" rel="noopener">YC — <em>RFS Summer 2026: AI-Powered Agriculture</em></a>. <a href="#r121" class="backref">↩</a></li>
-<li id="s122"><a href="https://www.flybridge.com/ideas/the-bow/the-internet-is-closing" target="_blank" rel="noopener">Flybridge — <em>The Internet is Closing</em></a>. <a href="#r122" class="backref">↩</a></li>
-<li id="s123"><a href="https://lsvp.com/stories/remarkably-rapid-rollout-of-foundational-ai-models-at-the-enterprise-level-a-survey/" target="_blank" rel="noopener">Lightspeed — <em>The Remarkably Rapid Rollout of Foundational AI Models at the Enterprise Level: A Survey</em></a>. <a href="#r123" class="backref">↩</a></li>
-<li id="s124"><a href="https://blog.usv.com/our-investment-in-anon" target="_blank" rel="noopener">USV — <em>Our Investment in Anon</em></a>. <a href="#r124" class="backref">↩</a></li>
-<li id="s125"><a href="https://www.businessinsider.com/vinod-khosla-5-year-olds-wont-need-job-2026-3" target="_blank" rel="noopener">Khosla — <em>Vinod Khosla: today&#x27;s 5-year-olds won&#x27;t need a job (Business Insider)</em></a>. <a href="#r125" class="backref">↩</a></li>
-<li id="s126"><a href="https://maveronvc.substack.com/p/what-consumers-are-doing-now-and" target="_blank" rel="noopener">Maveron — <em>What Consumers Are Doing Now And What Comes Next (Consumer 2026 report)</em></a>. <a href="#r126" class="backref">↩</a></li>
-<li id="s127"><a href="https://whoisnnamdi.substack.com/p/tokens-arent-fungible" target="_blank" rel="noopener">Lightspeed — <em>Tokens Aren&#x27;t Fungible</em></a>. <a href="#r127" class="backref">↩</a></li>
-<li id="s128"><a href="https://www.hallwaychat.co/personality-humanism-poke-and-raising-the-ceiling/" target="_blank" rel="noopener">Spark — <em>Personality, humanism, Poke, and raising the ceiling (Hallway Chat)</em></a>. <a href="#r128" class="backref">↩</a></li>
-<li id="s129"><a href="https://maveronvc.substack.com/p/the-invisible-rebuild-how-ai-is-quietly" target="_blank" rel="noopener">Maveron — <em>The Invisible Rebuild: How AI Is Quietly Reshaping the Backbone of CPG</em></a>. <a href="#r129" class="backref">↩</a></li>
-<li id="s130"><a href="https://www.forerunnerventures.com/perspectives/human-insight-in-the-age-of-ai-announcing-fund-vii" target="_blank" rel="noopener">Forerunner — <em>Human Insight in the Age of AI (Announcing Fund VII)</em></a>. <a href="#r130" class="backref">↩</a></li>
-<li id="s131"><a href="https://www.indexventures.com/perspectives/" target="_blank" rel="noopener">Index — <em>Index Perspectives — Infrastructure &amp; AI positioning (&#x27;inference is the new runtime&#x27;)</em></a>. <a href="#r131" class="backref">↩</a></li>
-<li id="s132"><a href="https://www.newcomer.co/p/consumer-investors-say-their-category" target="_blank" rel="noopener">CRV — <em>Consumer investors say their category isn&#x27;t dead, it&#x27;s different (panel, Saar Gur cited)</em></a>. <a href="#r132" class="backref">↩</a></li>
-<li id="s133"><a href="https://www.pebblebed.com/blog/software-is-dead" target="_blank" rel="noopener">Pebblebed — <em>Software is dead. Long live software</em></a>. <a href="#r133" class="backref">↩</a></li>
-<li id="s134"><a href="https://blog.initialized.com/2026/02/the-next-great-food-infrastructure-company-wont-be-built-around-a-single-ingredient/" target="_blank" rel="noopener">Initialized — <em>The Next Great Food Infrastructure Company Won&#x27;t Be Built Around a Single Ingredient</em></a>. <a href="#r134" class="backref">↩</a></li>
-<li id="s135"><a href="https://www.youtube.com/watch?v=NckiOGIJwH8" target="_blank" rel="noopener">Haystack — <em>Lightspeed Generative Now: Venture Capital Trends in the Age of AI (with Michael Mignano)</em></a>. <a href="#r135" class="backref">↩</a></li>
-<li id="s136"><a href="https://pear.vc/request-for-startups/" target="_blank" rel="noopener">Pear — <em>Pear&#x27;s Request for Startups — Plan mode for every knowledge worker (Shravan Reddy)</em></a>. <a href="#r136" class="backref">↩</a></li>
-<li id="s137"><a href="https://www.nfx.com/post/ai-zen" target="_blank" rel="noopener">NfX — <em>AI Zen</em></a>. <a href="#r137" class="backref">↩</a></li>
-<li id="s138"><a href="https://www.youtube.com/watch?v=3MZS5gNElZM" target="_blank" rel="noopener">Conviction — <em>State of Startups and AI 2025 (Sarah Guo, Conviction)</em></a>. <a href="#r138" class="backref">↩</a></li>
-<li id="s139"><a href="https://time.com/collections/time100-ai-2025/7305809/joshua-kushner/" target="_blank" rel="noopener">Thrive — <em>TIME100 AI 2025 — Joshua Kushner / Thrive Holdings thesis</em></a>. <a href="#r139" class="backref">↩</a></li>
-<li id="s140"><a href="https://endeavor.org/stories/400-investment-endeavor-catalyst/" target="_blank" rel="noopener">Endeavor — <em>Silicon Valley got crowded again. Here are 400 reasons why we&#x27;re staying Elsewhere.</em></a>. <a href="#r140" class="backref">↩</a></li>
-<li id="s141"><a href="https://www.prnewswire.com/news-releases/tuesday-capital-adds-ethan-imboden-as-partner-expanding-investment-reach--founder-support-302333301.html" target="_blank" rel="noopener">Tuesday — <em>Tuesday Capital Adds Ethan Imboden as Partner (press release)</em></a>. <a href="#r141" class="backref">↩</a></li>
-<li id="s142"><a href="https://www.goodwatercap.com/insights/" target="_blank" rel="noopener">Goodwater — <em>Goodwater consumer AI thesis (insights hub synthesis)</em></a>. <a href="#r142" class="backref">↩</a></li>
-<li id="s143"><a href="https://panteracapital.com/blockchain-letter/fund-v-closing-october-31st/" target="_blank" rel="noopener">Pantera — <em>Forward Outlook on the Opportunity Set for Fund V</em></a>. <a href="#r143" class="backref">↩</a></li>
-<li id="s144"><a href="https://menlovc.com/perspective/2025-mid-year-llm-market-update/" target="_blank" rel="noopener">Anthology — <em>2025 Mid-Year LLM Market Update</em></a>. <a href="#r144" class="backref">↩</a></li>
-<li id="s145"><a href="https://susaventures.substack.com/p/the-ai-blind-spot-that-gets-bigger" target="_blank" rel="noopener">Susa — <em>The AI Blind Spot That Gets Bigger as AI Takes On More</em></a>. <a href="#r145" class="backref">↩</a></li>
-<li id="s146"><a href="https://workbench.substack.com/p/the-rise-of-the-agent-runtime" target="_blank" rel="noopener">WorkBench — <em>The Rise of the Agent Runtime</em></a>. <a href="#r146" class="backref">↩</a></li>
-<li id="s147"><a href="https://workbench.substack.com/p/enterprise-weekly-543-what-were-excited" target="_blank" rel="noopener">WorkBench — <em>Enterprise Weekly #543: What We&#x27;re Excited About Going into 2026</em></a>. <a href="#r147" class="backref">↩</a></li>
-<li id="s148"><a href="https://pratyushbuddiga.substack.com/p/compounding-competitive-advantage-229" target="_blank" rel="noopener">Susa — <em>Compounding Competitive Advantage, Part II: Scale Economies Shared</em></a>. <a href="#r148" class="backref">↩</a></li>
-<li id="s149"><a href="https://panteracapital.com/blockchain-letter/navigating-crypto-in-2026/" target="_blank" rel="noopener">Pantera — <em>Market Outlook for 2026 + Nine Predictions for 2026</em></a>. <a href="#r149" class="backref">↩</a></li>
-<li id="s150"><a href="https://techfundingnews.com/masha-buchers-day-one-ventures-secures-150m-fund-iii-aims-to-redefine-future-of-human/" target="_blank" rel="noopener">DayOne — <em>Day One Ventures secures $150M Fund III: Aims to redefine future of human</em></a>. <a href="#r150" class="backref">↩</a></li>
-<li id="s151"><a href="https://www.pebblebed.com/blog/operational-autonomy" target="_blank" rel="noopener">Pebblebed — <em>The Internet Will Have More Agents Than Humans</em></a>. <a href="#r151" class="backref">↩</a></li>
-<li id="s152"><a href="https://pratyushbuddiga.substack.com/p/the-ai-moment-part-iv-lightning-round" target="_blank" rel="noopener">Susa — <em>The AI Moment, Part IV: Lightning Round</em></a>. <a href="#r152" class="backref">↩</a></li>
-<li id="s153"><a href="https://a16z.com/newsletter/big-ideas-2026-part-3/" target="_blank" rel="noopener">a16z — <em>Big Ideas 2026: Part 3</em></a>. <a href="#r153" class="backref">↩</a></li>
-<li id="s154"><a href="https://app.swapcard.com/widget/event/ai4-2025/planning/UGxhbm5pbmdfMjU4ODg2NA==" target="_blank" rel="noopener">Browder — <em>AI4 2025 talk: 5 Key Lessons From Building and Investing in Billion-Dollar AI Companies</em></a>. <a href="#r154" class="backref">↩</a></li>
-<li id="s155"><a href="https://finance.yahoo.com/markets/stocks/articles/masha-bucher-2025-investment-review-184242493.html" target="_blank" rel="noopener">DayOne — <em>Masha Bucher 2025 Investment Review</em></a>. <a href="#r155" class="backref">↩</a></li>
-<li id="s156"><a href="https://fortune.com/2025/07/01/silicon-valley-investor-vinod-khosla-ai-job-prediction-interview/" target="_blank" rel="noopener">Khosla — <em>Vinod Khosla AI job prediction interview (Fortune)</em></a>. <a href="#r156" class="backref">↩</a></li>
-<li id="s157"><a href="https://1517.substack.com/p/flux-capacitor-2026-applications" target="_blank" rel="noopener">1517 — <em>Flux Capacitor 2026: Applications Open for 1517 Angel Check Program</em></a>. <a href="#r157" class="backref">↩</a></li>
-<li id="s158"><a href="https://techcrunch.com/2025/12/04/why-day-one-ventures-masha-bucher-thinks-vcs-and-storytelling-go-hand-in-hand/" target="_blank" rel="noopener">DayOne — <em>Why Day One Ventures&#x27; Masha Bucher thinks VCs and storytelling go hand-in-hand</em></a>. <a href="#r158" class="backref">↩</a></li>
-<li id="s159"><a href="https://blog.usv.com/electroflow" target="_blank" rel="noopener">USV — <em>Electroflow</em></a>. <a href="#r159" class="backref">↩</a></li>
-<li id="s160"><a href="https://wlessin.com/p/7228970" target="_blank" rel="noopener">Slow — <em>Investing Directly in People Is the Future of VC</em></a>. <a href="#r160" class="backref">↩</a></li>
-<li id="s161"><a href="https://blog.usv.com/2025-annual-meeting" target="_blank" rel="noopener">USV — <em>10 Highlights from USV&#x27;s 2025 Annual Meeting</em></a>. <a href="#r161" class="backref">↩</a></li>
-<li id="s162"><a href="https://www.cognitiverevolution.ai/the-consumer-rights-revolution-with-joshua-browder-of-donotpay/" target="_blank" rel="noopener">Browder — <em>The Consumer Rights Revolution (Joshua Browder, DoNotPay)</em></a>. <a href="#r162" class="backref">↩</a></li>
-<li id="s163"><a href="https://foundersfund.com/2017/01/manifesto/" target="_blank" rel="noopener">Founders Fund — <em>What Happened to the Future? (Hereticon II — End of the World&#x27;s Fair)</em></a>. <a href="#r163" class="backref">↩</a></li>
-<li id="s164"><a href="https://www.pebblebed.com/blog/intelligence" target="_blank" rel="noopener">Pebblebed — <em>&quot;Intelligence&quot; is not a technical term. Hardness is.</em></a>. <a href="#r164" class="backref">↩</a></li>
+        <li id="s157"><span class="src-n">[157]</span> <a href="https://1517.substack.com/p/flux-capacitor-2026-applications" target="_blank" rel="noopener"><strong>1517</strong> — <em>Flux Capacitor 2026: Applications Open for 1517 Angel Check Program</em></a> <a href="#r157" class="backref">↩</a></li>
+<li id="s112"><span class="src-n">[112]</span> <a href="https://1517.substack.com/p/inside-v-outside-context-problems" target="_blank" rel="noopener"><strong>1517</strong> — <em>Inside v. Outside Context Problems</em></a> <a href="#r112" class="backref">↩</a></li>
+<li id="s90"><span class="src-n">[90]</span> <a href="https://500.co/content/the-vc-playbook-needs-to-be-rebuilt-not-refreshed" target="_blank" rel="noopener"><strong>500Global</strong> — <em>Rewriting the Venture Capital Playbook for the AI Era</em></a> <a href="#r90" class="backref">↩</a></li>
+<li id="s51"><span class="src-n">[51]</span> <a href="https://www.linkedin.com/posts/rayyanislam_boom-the-future-of-ai-compute-isnt-built-activity-7354545450516951040-UZ1P" target="_blank" rel="noopener"><strong>8090</strong> — <em>Armada $131M round announcement — &#x27;The future of AI compute isn&#x27;t built, it&#x27;s deployed&#x27;</em></a> <a href="#r51" class="backref">↩</a></li>
+<li id="s11"><span class="src-n">[11]</span> <a href="https://infinitefrontiers.io/conversations/reindustrialization-and-deep-tech-investing-with-8090-industries-grant-brown/" target="_blank" rel="noopener"><strong>8090</strong> — <em>Reindustrialization and Deep Tech Investing with 8090 Industries&#x27; Grant Brown</em></a> <a href="#r11" class="backref">↩</a></li>
+<li id="s110"><span class="src-n">[110]</span> <a href="https://www.fa-mag.com/news/world-s-rich-bet-on-vc-firm-with-275--gains-that-shuns-ai-78625.html" target="_blank" rel="noopener"><strong>8090</strong> — <em>World&#x27;s Rich Bet On VC Firm With 275% Gains That Shuns AI (standing signature thesis)</em></a> <a href="#r110" class="backref">↩</a></li>
+<li id="s33"><span class="src-n">[33]</span> <a href="https://www.youtube.com/watch?v=R4DaDZ_lq08" target="_blank" rel="noopener"><strong>8VC</strong> — <em>The Future of AI, Defense &amp; America — Joe Lonsdale (Global Alts Miami 2026)</em></a> <a href="#r33" class="backref">↩</a></li>
+<li id="s4"><span class="src-n">[4]</span> <a href="https://8vc.com/resources/top-tech-investors-this-ai-wave-is-10x-bigger-than-saas" target="_blank" rel="noopener"><strong>8VC</strong> — <em>Top Tech Investors: This AI Wave Is 10X Bigger Than SaaS (8VC podcast, Alex Kolicich &amp; Jack Moshkovich)</em></a> <a href="#r4" class="backref">↩</a></li>
+<li id="s12"><span class="src-n">[12]</span> <a href="https://a16z.com/newsletter/big-ideas-2026-part-1/" target="_blank" rel="noopener"><strong>a16z</strong> — <em>Big Ideas 2026: Part 1</em></a> <a href="#r12" class="backref">↩</a></li>
+<li id="s1"><span class="src-n">[1]</span> <a href="https://a16z.com/newsletter/big-ideas-2026-part-2/" target="_blank" rel="noopener"><strong>a16z</strong> — <em>Big Ideas 2026: Part 2</em></a> <a href="#r1" class="backref">↩</a></li>
+<li id="s153"><span class="src-n">[153]</span> <a href="https://a16z.com/newsletter/big-ideas-2026-part-3/" target="_blank" rel="noopener"><strong>a16z</strong> — <em>Big Ideas 2026: Part 3</em></a> <a href="#r153" class="backref">↩</a></li>
+<li id="s64"><span class="src-n">[64]</span> <a href="https://a16z.com/humans-are-for-ideas-ai-is-for-execution/" target="_blank" rel="noopener"><strong>a16z</strong> — <em>Humans Are for Ideas, AI Is for Execution</em></a> <a href="#r64" class="backref">↩</a></li>
+<li id="s86"><span class="src-n">[86]</span> <a href="https://podcasts.apple.com/us/podcast/ramtin-naimi-building-abstract/id1154105909?i=1000719610113" target="_blank" rel="noopener"><strong>Abstract</strong> — <em>Ramtin Naimi - Building Abstract (Invest Like the Best EP.435) [interview, non-publisher]</em></a> <a href="#r86" class="backref">↩</a></li>
+<li id="s144"><span class="src-n">[144]</span> <a href="https://menlovc.com/perspective/2025-mid-year-llm-market-update/" target="_blank" rel="noopener"><strong>Anthology</strong> — <em>2025 Mid-Year LLM Market Update</em></a> <a href="#r144" class="backref">↩</a></li>
+<li id="s82"><span class="src-n">[82]</span> <a href="https://menlovc.com/perspective/2025-the-state-of-generative-ai-in-the-enterprise/" target="_blank" rel="noopener"><strong>Anthology</strong> — <em>2025: The State of Generative AI in the Enterprise</em></a> <a href="#r82" class="backref">↩</a></li>
+<li id="s111"><span class="src-n">[111]</span> <a href="https://uncappedpod.com/p/how-ai-is-rewriting-seed-stage-investing" target="_blank" rel="noopener"><strong>AStar</strong> — <em>How AI Is Rewriting Seed Stage Investing (Uncapped Ep. 49 transcript)</em></a> <a href="#r111" class="backref">↩</a></li>
+<li id="s119"><span class="src-n">[119]</span> <a href="https://www.basisset.com/insights/announcing-our-250m-fund-iv" target="_blank" rel="noopener"><strong>BasisSet</strong> — <em>Announcing Our $250M Fund IV</em></a> <a href="#r119" class="backref">↩</a></li>
+<li id="s106"><span class="src-n">[106]</span> <a href="https://www.basisset.com/insights/our-favorite-ai-workflows-of-2025" target="_blank" rel="noopener"><strong>BasisSet</strong> — <em>Our Favorite AI Workflows of 2025</em></a> <a href="#r106" class="backref">↩</a></li>
+<li id="s115"><span class="src-n">[115]</span> <a href="https://www.basisset.com/" target="_blank" rel="noopener"><strong>BasisSet</strong> — <em>Scaling human potential with artificial intelligence (firm thesis page)</em></a> <a href="#r115" class="backref">↩</a></li>
+<li id="s66"><span class="src-n">[66]</span> <a href="https://www.basisset.com/insights/you-dont-need-to-be-first" target="_blank" rel="noopener"><strong>BasisSet</strong> — <em>You Don&#x27;t Need to be First</em></a> <a href="#r66" class="backref">↩</a></li>
+<li id="s10"><span class="src-n">[10]</span> <a href="https://www.bvp.com/atlas/defense-tech-roadmap-five-frontiers-for-2026" target="_blank" rel="noopener"><strong>Bessemer</strong> — <em>Defense tech roadmap: Five frontiers for 2026</em></a> <a href="#r10" class="backref">↩</a></li>
+<li id="s14"><span class="src-n">[14]</span> <a href="https://www.bvp.com/atlas/state-of-health-ai-2026" target="_blank" rel="noopener"><strong>Bessemer</strong> — <em>State of Health AI 2026</em></a> <a href="#r14" class="backref">↩</a></li>
+<li id="s53"><span class="src-n">[53]</span> <a href="https://www.bvp.com/atlas/the-ai-pricing-and-monetization-playbook" target="_blank" rel="noopener"><strong>Bessemer</strong> — <em>The AI pricing and monetization playbook</em></a> <a href="#r53" class="backref">↩</a></li>
+<li id="s46"><span class="src-n">[46]</span> <a href="https://www.bvp.com/atlas/the-state-of-ai-2025" target="_blank" rel="noopener"><strong>Bessemer</strong> — <em>The State of AI 2025</em></a> <a href="#r46" class="backref">↩</a></li>
+<li id="s107"><span class="src-n">[107]</span> <a href="https://www.bondcap.com/reports/tai" target="_blank" rel="noopener"><strong>BOND</strong> — <em>Trends — Artificial Intelligence</em></a> <a href="#r107" class="backref">↩</a></li>
+<li id="s165"><span class="src-n">[165]</span> <a href="https://www.adamdraper.vc/p/why-were-leading-radiants-300m-series" target="_blank" rel="noopener"><strong>BoostVC</strong> — <em>Why We&#x27;re Leading Radiant&#x27;s $300m Series D</em></a> <a href="#r165" class="backref">↩</a></li>
+<li id="s87"><span class="src-n">[87]</span> <a href="https://www.youtube.com/watch?v=tzXfrp_nBCo" target="_blank" rel="noopener"><strong>BoxGroup</strong> — <em>Raising Your Seed Round (David Tisch talk)</em></a> <a href="#r87" class="backref">↩</a></li>
+<li id="s91"><span class="src-n">[91]</span> <a href="https://www.youtube.com/watch?v=5CtT6p2HaCI" target="_blank" rel="noopener"><strong>Browder</strong> — <em>20VC: Turning Peter Thiel&#x27;s $100K into a $10M Angel Portfolio + AI&#x27;s Winners and Losers (Joshua Browder)</em></a> <a href="#r91" class="backref">↩</a></li>
+<li id="s154"><span class="src-n">[154]</span> <a href="https://app.swapcard.com/widget/event/ai4-2025/planning/UGxhbm5pbmdfMjU4ODg2NA==" target="_blank" rel="noopener"><strong>Browder</strong> — <em>AI4 2025 talk: 5 Key Lessons From Building and Investing in Billion-Dollar AI Companies</em></a> <a href="#r154" class="backref">↩</a></li>
+<li id="s98"><span class="src-n">[98]</span> <a href="https://www.newcomer.co/p/the-ai-personal-stack-with-joshua" target="_blank" rel="noopener"><strong>Browder</strong> — <em>The AI Personal Stack (Newcomer / Cerebral Valley)</em></a> <a href="#r98" class="backref">↩</a></li>
+<li id="s162"><span class="src-n">[162]</span> <a href="https://www.cognitiverevolution.ai/the-consumer-rights-revolution-with-joshua-browder-of-donotpay/" target="_blank" rel="noopener"><strong>Browder</strong> — <em>The Consumer Rights Revolution (Joshua Browder, DoNotPay)</em></a> <a href="#r162" class="backref">↩</a></li>
+<li id="s89"><span class="src-n">[89]</span> <a href="https://www.caffeinated.com/" target="_blank" rel="noopener"><strong>Caffeinated</strong> — <em>Our Philosophy (firm site)</em></a> <a href="#r89" class="backref">↩</a></li>
+<li id="s81"><span class="src-n">[81]</span> <a href="https://research.contrary.com/report/the-case-for-specialized-ai" target="_blank" rel="noopener"><strong>Contrary</strong> — <em>The Case for Specialized AI</em></a> <a href="#r81" class="backref">↩</a></li>
+<li id="s58"><span class="src-n">[58]</span> <a href="https://research.contrary.com/report/the-vertical-ai-playbook" target="_blank" rel="noopener"><strong>Contrary</strong> — <em>The Vertical AI Playbook</em></a> <a href="#r58" class="backref">↩</a></li>
+<li id="s5"><span class="src-n">[5]</span> <a href="https://www.conviction.com/startups.html" target="_blank" rel="noopener"><strong>Conviction</strong> — <em>Startup Ideas — The Year of Cheap, Bespoke Code</em></a> <a href="#r5" class="backref">↩</a></li>
+<li id="s138"><span class="src-n">[138]</span> <a href="https://www.youtube.com/watch?v=3MZS5gNElZM" target="_blank" rel="noopener"><strong>Conviction</strong> — <em>State of Startups and AI 2025 (Sarah Guo, Conviction)</em></a> <a href="#r138" class="backref">↩</a></li>
+<li id="s102"><span class="src-n">[102]</span> <a href="https://www.cowboy.vc/news/where-were-looking-to-invest-ai-powered-professional-services-a-3t-opportunity" target="_blank" rel="noopener"><strong>Cowboy</strong> — <em>Where we&#x27;re looking to invest: AI-powered professional services, a $3T opportunity</em></a> <a href="#r102" class="backref">↩</a></li>
+<li id="s132"><span class="src-n">[132]</span> <a href="https://www.newcomer.co/p/consumer-investors-say-their-category" target="_blank" rel="noopener"><strong>CRV</strong> — <em>Consumer investors say their category isn&#x27;t dead, it&#x27;s different (panel, Saar Gur cited)</em></a> <a href="#r132" class="backref">↩</a></li>
+<li id="s84"><span class="src-n">[84]</span> <a href="https://www.linkedin.com/posts/reidchristian_a-venture-capital-firm-does-something-rare-activity-7247243582254825473-6uSs" target="_blank" rel="noopener"><strong>CRV</strong> — <em>Give Money Back (Reid Christian)</em></a> <a href="#r84" class="backref">↩</a></li>
+<li id="s29"><span class="src-n">[29]</span> <a href="https://www.crv.com/content/series-a-metrics-vcs-expect" target="_blank" rel="noopener"><strong>CRV</strong> — <em>Series A Metrics VCs Expect in 2026</em></a> <a href="#r29" class="backref">↩</a></li>
+<li id="s74"><span class="src-n">[74]</span> <a href="https://www.linkedin.com/posts/reidchristian_venture-has-never-been-more-crowdedormore-activity-7401703309847539712-lTY7" target="_blank" rel="noopener"><strong>CRV</strong> — <em>Venture has never been more crowded, or more complacent (Reid Christian)</em></a> <a href="#r74" class="backref">↩</a></li>
+<li id="s59"><span class="src-n">[59]</span> <a href="https://www.crv.com/content/net-revenue-retention" target="_blank" rel="noopener"><strong>CRV</strong> — <em>What Is NRR? Complete Guide to Net Revenue Retention</em></a> <a href="#r59" class="backref">↩</a></li>
+<li id="s73"><span class="src-n">[73]</span> <a href="https://www.linkedin.com/posts/josephhellerstudio_day-one-ventures-just-launched-a-150m-anti-ai-activity-7462204111598321664-ungQ" target="_blank" rel="noopener"><strong>DayOne</strong> — <em>Day One Ventures $150M &#x27;Anti-AI&#x27; framing (Fund III, secondary coverage)</em></a> <a href="#r73" class="backref">↩</a></li>
+<li id="s150"><span class="src-n">[150]</span> <a href="https://techfundingnews.com/masha-buchers-day-one-ventures-secures-150m-fund-iii-aims-to-redefine-future-of-human/" target="_blank" rel="noopener"><strong>DayOne</strong> — <em>Day One Ventures secures $150M Fund III: Aims to redefine future of human</em></a> <a href="#r150" class="backref">↩</a></li>
+<li id="s155"><span class="src-n">[155]</span> <a href="https://finance.yahoo.com/markets/stocks/articles/masha-bucher-2025-investment-review-184242493.html" target="_blank" rel="noopener"><strong>DayOne</strong> — <em>Masha Bucher 2025 Investment Review</em></a> <a href="#r155" class="backref">↩</a></li>
+<li id="s158"><span class="src-n">[158]</span> <a href="https://techcrunch.com/2025/12/04/why-day-one-ventures-masha-bucher-thinks-vcs-and-storytelling-go-hand-in-hand/" target="_blank" rel="noopener"><strong>DayOne</strong> — <em>Why Day One Ventures&#x27; Masha Bucher thinks VCs and storytelling go hand-in-hand</em></a> <a href="#r158" class="backref">↩</a></li>
+<li id="s16"><span class="src-n">[16]</span> <a href="https://www.dcvc.com/news-insights/dcvc-publishes-the-2025-deep-tech-opportunities-report-an-american-industrial-renaissance" target="_blank" rel="noopener"><strong>DCVC</strong> — <em>2025 Deep Tech Opportunities Report: An American Industrial Renaissance</em></a> <a href="#r16" class="backref">↩</a></li>
+<li id="s6"><span class="src-n">[6]</span> <a href="https://www.dcvc.com/news-insights/how-the-quantum-race-will-be-won-on-the-factory-floor" target="_blank" rel="noopener"><strong>DCVC</strong> — <em>How the Quantum Race Will Be Won on the Factory Floor</em></a> <a href="#r6" class="backref">↩</a></li>
+<li id="s65"><span class="src-n">[65]</span> <a href="https://www.emcap.com/thoughts/adaptable-ai-for-an-adapting-world" target="_blank" rel="noopener"><strong>Emergence</strong> — <em>Adaptable AI for an Adapting World</em></a> <a href="#r65" class="backref">↩</a></li>
+<li id="s56"><span class="src-n">[56]</span> <a href="https://www.emcap.com/thoughts/should-your-saas-company-become-a-services-business" target="_blank" rel="noopener"><strong>Emergence</strong> — <em>Should Your SaaS Company Become a Services Business?</em></a> <a href="#r56" class="backref">↩</a></li>
+<li id="s104"><span class="src-n">[104]</span> <a href="https://www.emcap.com/thoughts/the-next-token-supercycle-opportunities-in-long-horizon-inference" target="_blank" rel="noopener"><strong>Emergence</strong> — <em>The Next Token Supercycle: Opportunities in Long-Horizon Inference</em></a> <a href="#r104" class="backref">↩</a></li>
+<li id="s108"><span class="src-n">[108]</span> <a href="https://www.emcap.com/thoughts/why-ai-native-services-and-why-now" target="_blank" rel="noopener"><strong>Emergence</strong> — <em>Why AI-Native Services, and Why Now</em></a> <a href="#r108" class="backref">↩</a></li>
+<li id="s140"><span class="src-n">[140]</span> <a href="https://endeavor.org/stories/400-investment-endeavor-catalyst/" target="_blank" rel="noopener"><strong>Endeavor</strong> — <em>Silicon Valley got crowded again. Here are 400 reasons why we&#x27;re staying Elsewhere.</em></a> <a href="#r140" class="backref">↩</a></li>
+<li id="s50"><span class="src-n">[50]</span> <a href="https://www.eniac.vc/stories" target="_blank" rel="noopener"><strong>Eniac</strong> — <em>Eniac portfolio signal: Origin Lab / world-model data (firm stories page, 2025)</em></a> <a href="#r50" class="backref">↩</a></li>
+<li id="s3"><span class="src-n">[3]</span> <a href="https://www.youtube.com/watch?v=vw8QDQ--ys4" target="_blank" rel="noopener"><strong>Eniac</strong> — <em>Nihal Mehta investor interview (April 2025)</em></a> <a href="#r3" class="backref">↩</a></li>
+<li id="s76"><span class="src-n">[76]</span> <a href="https://www.generativevalue.com/p/2025-annual-letter" target="_blank" rel="noopener"><strong>Felicis</strong> — <em>2025 Annual Letter: An Estimation of Underestimations</em></a> <a href="#r76" class="backref">↩</a></li>
+<li id="s61"><span class="src-n">[61]</span> <a href="https://www.generativevalue.com/p/q4-25-cloud-update-whats-going-on" target="_blank" rel="noopener"><strong>Felicis</strong> — <em>Q4 &#x27;25 Cloud Update (What&#x27;s going on with software?)</em></a> <a href="#r61" class="backref">↩</a></li>
+<li id="s101"><span class="src-n">[101]</span> <a href="https://review.firstround.com/inside-artemis-ai-vs-ai-war-shachar-hirshberg-dan-shiebler-co-founders-artemis/" target="_blank" rel="noopener"><strong>First Round</strong> — <em>Inside Artemis&#x27; &quot;AI vs AI&quot; War (Josh Kopelman interview)</em></a> <a href="#r101" class="backref">↩</a></li>
+<li id="s28"><span class="src-n">[28]</span> <a href="https://review.firstround.com/so-you-want-to-hire-a-forward-deployed-engineer/" target="_blank" rel="noopener"><strong>FirstRound</strong> — <em>So You Want to Hire a Forward Deployed Engineer</em></a> <a href="#r28" class="backref">↩</a></li>
+<li id="s75"><span class="src-n">[75]</span> <a href="https://www.floodgate.com/insights/era-of-mass-cognition" target="_blank" rel="noopener"><strong>Floodgate</strong> — <em>Era of Mass Cognition</em></a> <a href="#r75" class="backref">↩</a></li>
+<li id="s27"><span class="src-n">[27]</span> <a href="https://www.floodgate.com/insights/languaging-the-software-of-belief" target="_blank" rel="noopener"><strong>Floodgate</strong> — <em>Languaging: The Software of Belief</em></a> <a href="#r27" class="backref">↩</a></li>
+<li id="s166"><span class="src-n">[166]</span> <a href="https://patternbreakers.substack.com/p/why-im-supporting-the-conjecture" target="_blank" rel="noopener"><strong>Floodgate</strong> — <em>Why I&#x27;m Supporting the Conjecture Institute</em></a> <a href="#r166" class="backref">↩</a></li>
+<li id="s122"><span class="src-n">[122]</span> <a href="https://www.flybridge.com/ideas/the-bow/the-internet-is-closing" target="_blank" rel="noopener"><strong>Flybridge</strong> — <em>The Internet is Closing</em></a> <a href="#r122" class="backref">↩</a></li>
+<li id="s130"><span class="src-n">[130]</span> <a href="https://www.forerunnerventures.com/perspectives/human-insight-in-the-age-of-ai-announcing-fund-vii" target="_blank" rel="noopener"><strong>Forerunner</strong> — <em>Human Insight in the Age of AI (Announcing Fund VII)</em></a> <a href="#r130" class="backref">↩</a></li>
+<li id="s35"><span class="src-n">[35]</span> <a href="https://www.forerunnerventures.com/perspectives/proactive-measures" target="_blank" rel="noopener"><strong>Forerunner</strong> — <em>Proactive Measures: Be the CEO of Your Own Life</em></a> <a href="#r35" class="backref">↩</a></li>
+<li id="s54"><span class="src-n">[54]</span> <a href="https://foundercollective.com/blog/6-takeaways-from-collective-future-nyc/" target="_blank" rel="noopener"><strong>FounderCollective</strong> — <em>6 Takeaways from Collective Future NYC</em></a> <a href="#r54" class="backref">↩</a></li>
+<li id="s117"><span class="src-n">[117]</span> <a href="https://foundercollective.com/blog/not-every-company-is-built-for-the-big-leagues/" target="_blank" rel="noopener"><strong>FounderCollective</strong> — <em>Not Every Company Is Built for the Big Leagues</em></a> <a href="#r117" class="backref">↩</a></li>
+<li id="s100"><span class="src-n">[100]</span> <a href="https://foundercollective.com/blog/the-buy-window/" target="_blank" rel="noopener"><strong>FounderCollective</strong> — <em>The Buy Window</em></a> <a href="#r100" class="backref">↩</a></li>
+<li id="s32"><span class="src-n">[32]</span> <a href="https://americanaffairsjournal.org/2025/11/no-solvency-no-security/" target="_blank" rel="noopener"><strong>Founders Fund</strong> — <em>No Solvency, No Security</em></a> <a href="#r32" class="backref">↩</a></li>
+<li id="s163"><span class="src-n">[163]</span> <a href="https://foundersfund.com/2017/01/manifesto/" target="_blank" rel="noopener"><strong>Founders Fund</strong> — <em>What Happened to the Future? (Hereticon II — End of the World&#x27;s Fair)</em></a> <a href="#r163" class="backref">↩</a></li>
+<li id="s8"><span class="src-n">[8]</span> <a href="https://fintech.tv/fusion-fund-says-ais-next-phase-is-infrastructure-not-models/" target="_blank" rel="noopener"><strong>Fusion Fund</strong> — <em>Next phase for AI value: infrastructure, not models (Lu Zhang interview)</em></a> <a href="#r8" class="backref">↩</a></li>
+<li id="s34"><span class="src-n">[34]</span> <a href="https://www.generalcatalyst.com/stories/built-to-endure" target="_blank" rel="noopener"><strong>General Catalyst</strong> — <em>Built to Endure</em></a> <a href="#r34" class="backref">↩</a></li>
+<li id="s13"><span class="src-n">[13]</span> <a href="https://www.generalcatalyst.com/stories/europes-ai-transformation-in-services" target="_blank" rel="noopener"><strong>General Catalyst</strong> — <em>Europe&#x27;s AI Transformation in Services</em></a> <a href="#r13" class="backref">↩</a></li>
+<li id="s9"><span class="src-n">[9]</span> <a href="https://www.generalcatalyst.com/stories/realizing-resilience" target="_blank" rel="noopener"><strong>General Catalyst</strong> — <em>Realizing Resilience</em></a> <a href="#r9" class="backref">↩</a></li>
+<li id="s52"><span class="src-n">[52]</span> <a href="https://www.generalcatalyst.com/stories/the-agentic-commerce-opportunity" target="_blank" rel="noopener"><strong>General Catalyst</strong> — <em>The Agentic Commerce Opportunity</em></a> <a href="#r52" class="backref">↩</a></li>
+<li id="s57"><span class="src-n">[57]</span> <a href="https://www.generalcatalyst.com/stories/the-future-of-services" target="_blank" rel="noopener"><strong>General Catalyst</strong> — <em>The Future of Services</em></a> <a href="#r57" class="backref">↩</a></li>
+<li id="s142"><span class="src-n">[142]</span> <a href="https://www.goodwatercap.com/insights/" target="_blank" rel="noopener"><strong>Goodwater</strong> — <em>Goodwater consumer AI thesis (insights hub synthesis)</em></a> <a href="#r142" class="backref">↩</a></li>
+<li id="s48"><span class="src-n">[48]</span> <a href="https://every.to/podcast/reid-hoffman-makes-five-predictions-about-ai-in-2026" target="_blank" rel="noopener"><strong>Greylock</strong> — <em>Reid Hoffman: Five Predictions About AI in 2026 (AI &amp; I)</em></a> <a href="#r48" class="backref">↩</a></li>
+<li id="s40"><span class="src-n">[40]</span> <a href="https://news.greylock.com/the-intelligent-future-conversations-about-the-state-of-ai-with-reid-hoffman-and-saam-motamedi-2ef854793716" target="_blank" rel="noopener"><strong>Greylock</strong> — <em>The Intelligent Future (Reid Hoffman &amp; Saam Motamedi)</em></a> <a href="#r40" class="backref">↩</a></li>
+<li id="s19"><span class="src-n">[19]</span> <a href="https://greylock.com/greymatter/the-new-new-moats/" target="_blank" rel="noopener"><strong>Greylock</strong> — <em>The New New Moats</em></a> <a href="#r19" class="backref">↩</a></li>
+<li id="s135"><span class="src-n">[135]</span> <a href="https://www.youtube.com/watch?v=NckiOGIJwH8" target="_blank" rel="noopener"><strong>Haystack</strong> — <em>Lightspeed Generative Now: Venture Capital Trends in the Age of AI (with Michael Mignano)</em></a> <a href="#r135" class="backref">↩</a></li>
+<li id="s85"><span class="src-n">[85]</span> <a href="https://semilshah.com/2026/04/26/new-funds-for-haystack/" target="_blank" rel="noopener"><strong>Haystack</strong> — <em>New Funds for Haystack</em></a> <a href="#r85" class="backref">↩</a></li>
+<li id="s72"><span class="src-n">[72]</span> <a href="https://www.sierraventures.com/ascend/the-new-rules-of-early-stage-venture-in-the-ai-era-with-semil-shah" target="_blank" rel="noopener"><strong>Haystack</strong> — <em>The New Rules of Early-Stage Venture in the AI Era (with Semil Shah)</em></a> <a href="#r72" class="backref">↩</a></li>
+<li id="s31"><span class="src-n">[31]</span> <a href="https://headline.com/blog-latest/article-latest/vertical-saas-50-2025" target="_blank" rel="noopener"><strong>Headline</strong> — <em>Introducing the Top 50 Vertical SaaS Companies to Watch in 2025</em></a> <a href="#r31" class="backref">↩</a></li>
+<li id="s109"><span class="src-n">[109]</span> <a href="https://headline.com/blog-latest/article-latest/the-infra-stack-reset" target="_blank" rel="noopener"><strong>Headline</strong> — <em>The Infra Stack Reset: 10 Trends Reshaping Spend in 2025</em></a> <a href="#r109" class="backref">↩</a></li>
+<li id="s83"><span class="src-n">[83]</span> <a href="https://elizabethyin.com/2026/04/24/the-wide-path-why-most-current-valuation-dynamics-are-not-here-to-stay-and-what-will/" target="_blank" rel="noopener"><strong>HustleFund</strong> — <em>The wide path: Why most current valuation dynamics are not here to stay (and what will)</em></a> <a href="#r83" class="backref">↩</a></li>
+<li id="s71"><span class="src-n">[71]</span> <a href="https://www.thespl.it/p/inside-roger-ehrenbergs-new-firm" target="_blank" rel="noopener"><strong>IAVentures</strong> — <em>Inside Roger Ehrenberg&#x27;s new firm (INTERVIEW/profile)</em></a> <a href="#r71" class="backref">↩</a></li>
+<li id="s88"><span class="src-n">[88]</span> <a href="https://www.youtube.com/watch?v=LNJn_xIm2Dk" target="_blank" rel="noopener"><strong>IAVentures</strong> — <em>Roger Ehrenberg interview: Why VC Returns Will Get Worse (INTERVIEW, not firm essay)</em></a> <a href="#r88" class="backref">↩</a></li>
+<li id="s43"><span class="src-n">[43]</span> <a href="https://www.indexventures.com/perspectives/acts-of-claude-building-with-agents-a-work-in-progress/" target="_blank" rel="noopener"><strong>Index</strong> — <em>Acts of Claude: Building with Agents, a &#x27;Work in Progress&#x27;</em></a> <a href="#r43" class="backref">↩</a></li>
+<li id="s24"><span class="src-n">[24]</span> <a href="https://www.indexventures.com/team/erin-price-wright/" target="_blank" rel="noopener"><strong>Index</strong> — <em>Erin Price-Wright thesis — human-shaped vs computer-shaped tasks</em></a> <a href="#r24" class="backref">↩</a></li>
+<li id="s68"><span class="src-n">[68]</span> <a href="https://www.indexventures.com/perspectives/from-300b-to-10-trillion-how-moment-became-the-ai-operating-system-for-investment-management/" target="_blank" rel="noopener"><strong>Index</strong> — <em>From $300B to $10 Trillion: How Moment Became the AI Operating System for Investment Management</em></a> <a href="#r68" class="backref">↩</a></li>
+<li id="s131"><span class="src-n">[131]</span> <a href="https://www.indexventures.com/perspectives/" target="_blank" rel="noopener"><strong>Index</strong> — <em>Index Perspectives — Infrastructure &amp; AI positioning (&#x27;inference is the new runtime&#x27;)</em></a> <a href="#r131" class="backref">↩</a></li>
+<li id="s63"><span class="src-n">[63]</span> <a href="https://www.wonderful.ai/blog-articles/the-execution-gap-no-model-can-close" target="_blank" rel="noopener"><strong>Index</strong> — <em>The Execution Gap No Model Can Close (Wonderful, Index-backed)</em></a> <a href="#r63" class="backref">↩</a></li>
+<li id="s17"><span class="src-n">[17]</span> <a href="https://blog.initialized.com/2025/08/agents-at-work/" target="_blank" rel="noopener"><strong>Initialized</strong> — <em>Agents at Work</em></a> <a href="#r17" class="backref">↩</a></li>
+<li id="s67"><span class="src-n">[67]</span> <a href="https://blog.initialized.com/2025/08/backing-garage-transforming-how-americas-critical-equipment-is-bought-and-sold/" target="_blank" rel="noopener"><strong>Initialized</strong> — <em>Backing Garage: Transforming How America&#x27;s Critical Equipment Is Bought and Sold</em></a> <a href="#r67" class="backref">↩</a></li>
+<li id="s105"><span class="src-n">[105]</span> <a href="https://blog.initialized.com/2025/02/initialized-backs-valar-atomics-to-build-nuclear-gigasites/" target="_blank" rel="noopener"><strong>Initialized</strong> — <em>Initialized Backs Valar Atomics to Build Nuclear Gigasites</em></a> <a href="#r105" class="backref">↩</a></li>
+<li id="s118"><span class="src-n">[118]</span> <a href="https://blog.initialized.com/2026/05/initialized-leads-7m-round-for-enhanced-radar/" target="_blank" rel="noopener"><strong>Initialized</strong> — <em>Initialized Leads $7M Round for Enhanced Radar</em></a> <a href="#r118" class="backref">↩</a></li>
+<li id="s134"><span class="src-n">[134]</span> <a href="https://blog.initialized.com/2026/02/the-next-great-food-infrastructure-company-wont-be-built-around-a-single-ingredient/" target="_blank" rel="noopener"><strong>Initialized</strong> — <em>The Next Great Food Infrastructure Company Won&#x27;t Be Built Around a Single Ingredient</em></a> <a href="#r134" class="backref">↩</a></li>
+<li id="s97"><span class="src-n">[97]</span> <a href="https://www.interplay.vc/blog/the-future-of-commerce-agents-are-rebuilding-b2b-procurement-from-the-ground-up" target="_blank" rel="noopener"><strong>Interplay</strong> — <em>The Future of Commerce: Agents are Rebuilding B2B Procurement from the Ground Up</em></a> <a href="#r97" class="backref">↩</a></li>
+<li id="s38"><span class="src-n">[38]</span> <a href="https://www.khoslaventures.com/posts/a-roadmap-to-ai-utopia" target="_blank" rel="noopener"><strong>Khosla</strong> — <em>A Roadmap to AI Utopia (Khosla Ventures / TIME)</em></a> <a href="#r38" class="backref">↩</a></li>
+<li id="s156"><span class="src-n">[156]</span> <a href="https://fortune.com/2025/07/01/silicon-valley-investor-vinod-khosla-ai-job-prediction-interview/" target="_blank" rel="noopener"><strong>Khosla</strong> — <em>Vinod Khosla AI job prediction interview (Fortune)</em></a> <a href="#r156" class="backref">↩</a></li>
+<li id="s2"><span class="src-n">[2]</span> <a href="https://podcast.newcomer.co/episode/vinod-khosla-on-the-end-of-jobs-and-the-future-of-capitalism" target="_blank" rel="noopener"><strong>Khosla</strong> — <em>Vinod Khosla on the End of Jobs and the Future of Capitalism (Newcomer)</em></a> <a href="#r2" class="backref">↩</a></li>
+<li id="s125"><span class="src-n">[125]</span> <a href="https://www.businessinsider.com/vinod-khosla-5-year-olds-wont-need-job-2026-3" target="_blank" rel="noopener"><strong>Khosla</strong> — <em>Vinod Khosla: today&#x27;s 5-year-olds won&#x27;t need a job (Business Insider)</em></a> <a href="#r125" class="backref">↩</a></li>
+<li id="s69"><span class="src-n">[69]</span> <a href="https://www.backgroundnoise.blog/p/the-realness-of-live-sports-in-an" target="_blank" rel="noopener"><strong>Lightspeed</strong> — <em>The Realness of Live Sports in an AI Generated World</em></a> <a href="#r69" class="backref">↩</a></li>
+<li id="s123"><span class="src-n">[123]</span> <a href="https://lsvp.com/stories/remarkably-rapid-rollout-of-foundational-ai-models-at-the-enterprise-level-a-survey/" target="_blank" rel="noopener"><strong>Lightspeed</strong> — <em>The Remarkably Rapid Rollout of Foundational AI Models at the Enterprise Level: A Survey</em></a> <a href="#r123" class="backref">↩</a></li>
+<li id="s127"><span class="src-n">[127]</span> <a href="https://whoisnnamdi.substack.com/p/tokens-arent-fungible" target="_blank" rel="noopener"><strong>Lightspeed</strong> — <em>Tokens Aren&#x27;t Fungible</em></a> <a href="#r127" class="backref">↩</a></li>
+<li id="s36"><span class="src-n">[36]</span> <a href="https://www.maveron.com/insights" target="_blank" rel="noopener"><strong>Maveron</strong> — <em>AI Is Transforming CPG Distribution</em></a> <a href="#r36" class="backref">↩</a></li>
+<li id="s129"><span class="src-n">[129]</span> <a href="https://maveronvc.substack.com/p/the-invisible-rebuild-how-ai-is-quietly" target="_blank" rel="noopener"><strong>Maveron</strong> — <em>The Invisible Rebuild: How AI Is Quietly Reshaping the Backbone of CPG</em></a> <a href="#r129" class="backref">↩</a></li>
+<li id="s62"><span class="src-n">[62]</span> <a href="https://maveronvc.substack.com/p/the-next-cultural-powerhouse-why" target="_blank" rel="noopener"><strong>Maveron</strong> — <em>The Next Cultural Powerhouse: Why Gen Alpha Can&#x27;t Be Ignored</em></a> <a href="#r62" class="backref">↩</a></li>
+<li id="s126"><span class="src-n">[126]</span> <a href="https://maveronvc.substack.com/p/what-consumers-are-doing-now-and" target="_blank" rel="noopener"><strong>Maveron</strong> — <em>What Consumers Are Doing Now And What Comes Next (Consumer 2026 report)</em></a> <a href="#r126" class="backref">↩</a></li>
+<li id="s114"><span class="src-n">[114]</span> <a href="https://www.forbes.com/sites/richardnieva/2025/04/16/this-tech-incubator-is-harder-to-get-into-than-harvard/" target="_blank" rel="noopener"><strong>Neo</strong> — <em>Y Combinator Rival Neo Is Harder To Get Into Than Harvard</em></a> <a href="#r114" class="backref">↩</a></li>
+<li id="s79"><span class="src-n">[79]</span> <a href="https://www.nfx.com/post/3-waves-generative-ai-startups" target="_blank" rel="noopener"><strong>NfX</strong> — <em>3 Waves of Successful Generative AI Startups</em></a> <a href="#r79" class="backref">↩</a></li>
+<li id="s137"><span class="src-n">[137]</span> <a href="https://www.nfx.com/post/ai-zen" target="_blank" rel="noopener"><strong>NfX</strong> — <em>AI Zen</em></a> <a href="#r137" class="backref">↩</a></li>
+<li id="s30"><span class="src-n">[30]</span> <a href="https://www.nfx.com/post/generative-ai-tech-5-layers" target="_blank" rel="noopener"><strong>NfX</strong> — <em>Generative AI Market Map and 5-Layer Tech Stack</em></a> <a href="#r30" class="backref">↩</a></li>
+<li id="s47"><span class="src-n">[47]</span> <a href="https://www.nfx.com/post/venture-capital-3" target="_blank" rel="noopener"><strong>NfX</strong> — <em>How &#x27;Venture Capital 3.0&#x27; Impacts Founders in the AI Age</em></a> <a href="#r47" class="backref">↩</a></li>
+<li id="s116"><span class="src-n">[116]</span> <a href="https://www.nfx.com/post/3-person-unicorn-startup" target="_blank" rel="noopener"><strong>NfX</strong> — <em>The 3-Person Unicorn Startup</em></a> <a href="#r116" class="backref">↩</a></li>
+<li id="s60"><span class="src-n">[60]</span> <a href="https://www.notablecap.com/blog/the-future-of-voice-ai-how-standalone-companies-can-thrive-in-a-speech-to-speech-world" target="_blank" rel="noopener"><strong>Notable</strong> — <em>The Future of Voice AI: How Standalone Companies Can Thrive in a Speech-to-Speech World</em></a> <a href="#r60" class="backref">↩</a></li>
+<li id="s143"><span class="src-n">[143]</span> <a href="https://panteracapital.com/blockchain-letter/fund-v-closing-october-31st/" target="_blank" rel="noopener"><strong>Pantera</strong> — <em>Forward Outlook on the Opportunity Set for Fund V</em></a> <a href="#r143" class="backref">↩</a></li>
+<li id="s149"><span class="src-n">[149]</span> <a href="https://panteracapital.com/blockchain-letter/navigating-crypto-in-2026/" target="_blank" rel="noopener"><strong>Pantera</strong> — <em>Market Outlook for 2026 + Nine Predictions for 2026</em></a> <a href="#r149" class="backref">↩</a></li>
+<li id="s49"><span class="src-n">[49]</span> <a href="https://www.paradigm.xyz/2026/02/introducing-paradigm-predictions" target="_blank" rel="noopener"><strong>Paradigm</strong> — <em>Introducing Paradigm Predictions</em></a> <a href="#r49" class="backref">↩</a></li>
+<li id="s94"><span class="src-n">[94]</span> <a href="https://www.paradigm.xyz/2026/04/introducing-the-2026-paradigm-fellowship" target="_blank" rel="noopener"><strong>Paradigm</strong> — <em>Introducing the 2026 Paradigm Fellowship</em></a> <a href="#r94" class="backref">↩</a></li>
+<li id="s167"><span class="src-n">[167]</span> <a href="https://www.paradigm.xyz/2025/08/opportunity-markets" target="_blank" rel="noopener"><strong>Paradigm</strong> — <em>Opportunity Markets</em></a> <a href="#r167" class="backref">↩</a></li>
+<li id="s136"><span class="src-n">[136]</span> <a href="https://pear.vc/request-for-startups/" target="_blank" rel="noopener"><strong>Pear</strong> — <em>Pear&#x27;s Request for Startups — Plan mode for every knowledge worker (Shravan Reddy)</em></a> <a href="#r136" class="backref">↩</a></li>
+<li id="s164"><span class="src-n">[164]</span> <a href="https://www.pebblebed.com/blog/intelligence" target="_blank" rel="noopener"><strong>Pebblebed</strong> — <em>&quot;Intelligence&quot; is not a technical term. Hardness is.</em></a> <a href="#r164" class="backref">↩</a></li>
+<li id="s133"><span class="src-n">[133]</span> <a href="https://www.pebblebed.com/blog/software-is-dead" target="_blank" rel="noopener"><strong>Pebblebed</strong> — <em>Software is dead. Long live software</em></a> <a href="#r133" class="backref">↩</a></li>
+<li id="s95"><span class="src-n">[95]</span> <a href="https://www.pebblebed.com/blog/per-seat-saas" target="_blank" rel="noopener"><strong>Pebblebed</strong> — <em>The End of Per-seat SaaS</em></a> <a href="#r95" class="backref">↩</a></li>
+<li id="s151"><span class="src-n">[151]</span> <a href="https://www.pebblebed.com/blog/operational-autonomy" target="_blank" rel="noopener"><strong>Pebblebed</strong> — <em>The Internet Will Have More Agents Than Humans</em></a> <a href="#r151" class="backref">↩</a></li>
+<li id="s96"><span class="src-n">[96]</span> <a href="https://www.redpoint.com/content-hub/written/25-for-25/" target="_blank" rel="noopener"><strong>Redpoint</strong> — <em>25 for &#x27;25: The App Renaissance Arrives</em></a> <a href="#r96" class="backref">↩</a></li>
+<li id="s44"><span class="src-n">[44]</span> <a href="https://www.redpoint.com/content-hub/written/ai-update-2025-infrared-report/" target="_blank" rel="noopener"><strong>Redpoint</strong> — <em>AI Update: 2025 InfraRed Report</em></a> <a href="#r44" class="backref">↩</a></li>
+<li id="s120"><span class="src-n">[120]</span> <a href="https://www.redpoint.com/content-hub/written/from-middlemen-to-machines/" target="_blank" rel="noopener"><strong>Redpoint</strong> — <em>From Middlemen to Machines: The New Economic Order</em></a> <a href="#r120" class="backref">↩</a></li>
+<li id="s41"><span class="src-n">[41]</span> <a href="https://www.redpoint.com/content-hub/written/2026-outlook/" target="_blank" rel="noopener"><strong>Redpoint</strong> — <em>From Pilots to Platforms: Picks for &#x27;26</em></a> <a href="#r41" class="backref">↩</a></li>
+<li id="s7"><span class="src-n">[7]</span> <a href="https://bankwithstifel.com/insights/how-riot-ventures-scaled-to-1b-in-deep-tech-vc/" target="_blank" rel="noopener"><strong>Riot</strong> — <em>From Generalist to Deep Tech Specialist: A Conversation with Will Coffield (Stifel Forge Series)</em></a> <a href="#r7" class="backref">↩</a></li>
+<li id="s42"><span class="src-n">[42]</span> <a href="https://sequoiacap.com/article/2026-this-is-agi/" target="_blank" rel="noopener"><strong>Sequoia</strong> — <em>2026: This is AGI</em></a> <a href="#r42" class="backref">↩</a></li>
+<li id="s18"><span class="src-n">[18]</span> <a href="https://sequoiacap.com/article/ai-in-2026-the-tale-of-two-ais/" target="_blank" rel="noopener"><strong>Sequoia</strong> — <em>AI in 2026: The Tale of Two AIs</em></a> <a href="#r18" class="backref">↩</a></li>
+<li id="s99"><span class="src-n">[99]</span> <a href="https://www.sequoiacap.com/article/ai-retail-opportunity/" target="_blank" rel="noopener"><strong>Sequoia</strong> — <em>AI Retail Opportunity</em></a> <a href="#r99" class="backref">↩</a></li>
+<li id="s25"><span class="src-n">[25]</span> <a href="https://snailmail.slow.co/p/6-predictions-for-2026" target="_blank" rel="noopener"><strong>Slow</strong> — <em>6 Predictions For 2026</em></a> <a href="#r25" class="backref">↩</a></li>
+<li id="s160"><span class="src-n">[160]</span> <a href="https://wlessin.com/p/7228970" target="_blank" rel="noopener"><strong>Slow</strong> — <em>Investing Directly in People Is the Future of VC</em></a> <a href="#r160" class="backref">↩</a></li>
+<li id="s113"><span class="src-n">[113]</span> <a href="https://slow.co/conviction/" target="_blank" rel="noopener"><strong>Slow</strong> — <em>Slow Conviction (Should I vs Can I)</em></a> <a href="#r113" class="backref">↩</a></li>
+<li id="s22"><span class="src-n">[22]</span> <a href="https://somacap.com" target="_blank" rel="noopener"><strong>Soma</strong> — <em>Soma Capital homepage (mission / portfolio framing)</em></a> <a href="#r22" class="backref">↩</a></li>
+<li id="s128"><span class="src-n">[128]</span> <a href="https://www.hallwaychat.co/personality-humanism-poke-and-raising-the-ceiling/" target="_blank" rel="noopener"><strong>Spark</strong> — <em>Personality, humanism, Poke, and raising the ceiling (Hallway Chat)</em></a> <a href="#r128" class="backref">↩</a></li>
+<li id="s77"><span class="src-n">[77]</span> <a href="https://www.businessinsider.com/spark-capital-vc-nabeel-hyatt-robotics-reshaping-gig-economy-2026-4" target="_blank" rel="noopener"><strong>Spark</strong> — <em>Spark Capital VC Nabeel Hyatt sees robotics reshaping the gig economy</em></a> <a href="#r77" class="backref">↩</a></li>
+<li id="s21"><span class="src-n">[21]</span> <a href="https://www.forbes.com/sites/iainmartin/2026/05/27/investing-superstar-yasmin-razavi-turned-a-75-million-check-into-a-3-billion-ai-windfall/" target="_blank" rel="noopener"><strong>Spark</strong> — <em>Yasmin Razavi turned a $75M check into a $3B AI windfall (Forbes Midas)</em></a> <a href="#r21" class="backref">↩</a></li>
+<li id="s26"><span class="src-n">[26]</span> <a href="https://blog.southparkcommons.com/p/avoiding-the-eye-of-sauron" target="_blank" rel="noopener"><strong>SPC</strong> — <em>Avoiding The Eye of Sauron</em></a> <a href="#r26" class="backref">↩</a></li>
+<li id="s39"><span class="src-n">[39]</span> <a href="https://blog.southparkcommons.com/p/entering-the-post-prompting-world" target="_blank" rel="noopener"><strong>SPC</strong> — <em>Entering the Post-Prompting World</em></a> <a href="#r39" class="backref">↩</a></li>
+<li id="s20"><span class="src-n">[20]</span> <a href="https://blog.southparkcommons.com/p/silicon-valleys-most-dangerous-startup" target="_blank" rel="noopener"><strong>SPC</strong> — <em>The Silicon Valley Playbook is Broken (with Elad Gil)</em></a> <a href="#r20" class="backref">↩</a></li>
+<li id="s148"><span class="src-n">[148]</span> <a href="https://pratyushbuddiga.substack.com/p/compounding-competitive-advantage-229" target="_blank" rel="noopener"><strong>Susa</strong> — <em>Compounding Competitive Advantage, Part II: Scale Economies Shared</em></a> <a href="#r148" class="backref">↩</a></li>
+<li id="s103"><span class="src-n">[103]</span> <a href="https://www.codingvc.com/p/deep-tech-companies-are-built-different" target="_blank" rel="noopener"><strong>Susa</strong> — <em>Deep Tech Companies Are Built Different</em></a> <a href="#r103" class="backref">↩</a></li>
+<li id="s145"><span class="src-n">[145]</span> <a href="https://susaventures.substack.com/p/the-ai-blind-spot-that-gets-bigger" target="_blank" rel="noopener"><strong>Susa</strong> — <em>The AI Blind Spot That Gets Bigger as AI Takes On More</em></a> <a href="#r145" class="backref">↩</a></li>
+<li id="s152"><span class="src-n">[152]</span> <a href="https://pratyushbuddiga.substack.com/p/the-ai-moment-part-iv-lightning-round" target="_blank" rel="noopener"><strong>Susa</strong> — <em>The AI Moment, Part IV: Lightning Round</em></a> <a href="#r152" class="backref">↩</a></li>
+<li id="s78"><span class="src-n">[78]</span> <a href="https://openletter.svangel.com/" target="_blank" rel="noopener"><strong>SVAngel</strong> — <em>AI Open Letter — Build AI for a Better Future</em></a> <a href="#r78" class="backref">↩</a></li>
+<li id="s92"><span class="src-n">[92]</span> <a href="https://www.tenoneten.com/latest/money-at-machine-speed" target="_blank" rel="noopener"><strong>TenOneTen</strong> — <em>Money at Machine Speed</em></a> <a href="#r92" class="backref">↩</a></li>
+<li id="s80"><span class="src-n">[80]</span> <a href="https://www.nytimes.com/2025/07/11/podcasts/interesting-times-a-mind-bending-conversation-with-peter-thiel.html" target="_blank" rel="noopener"><strong>Thiel Capital</strong> — <em>A Mind-Bending Conversation with Peter Thiel (NYT &#x27;Interesting Times&#x27; / &#x27;A.I., Mars and Immortality&#x27;)</em></a> <a href="#r80" class="backref">↩</a></li>
+<li id="s15"><span class="src-n">[15]</span> <a href="https://colossus.com/article/joshua-kushner-thrive-new-world/" target="_blank" rel="noopener"><strong>Thrive</strong> — <em>Invest Like the Best (Josh Kushner): Concentration and Conviction / Thrive in a New World</em></a> <a href="#r15" class="backref">↩</a></li>
+<li id="s23"><span class="src-n">[23]</span> <a href="https://www.sourcery.vc/p/josh-kushner-on-building-thrive" target="_blank" rel="noopener"><strong>Thrive</strong> — <em>Invest Like the Best (Josh Kushner): Disruption from the inside out</em></a> <a href="#r23" class="backref">↩</a></li>
+<li id="s139"><span class="src-n">[139]</span> <a href="https://time.com/collections/time100-ai-2025/7305809/joshua-kushner/" target="_blank" rel="noopener"><strong>Thrive</strong> — <em>TIME100 AI 2025 — Joshua Kushner / Thrive Holdings thesis</em></a> <a href="#r139" class="backref">↩</a></li>
+<li id="s141"><span class="src-n">[141]</span> <a href="https://www.prnewswire.com/news-releases/tuesday-capital-adds-ethan-imboden-as-partner-expanding-investment-reach--founder-support-302333301.html" target="_blank" rel="noopener"><strong>Tuesday</strong> — <em>Tuesday Capital Adds Ethan Imboden as Partner (press release)</em></a> <a href="#r141" class="backref">↩</a></li>
+<li id="s161"><span class="src-n">[161]</span> <a href="https://blog.usv.com/2025-annual-meeting" target="_blank" rel="noopener"><strong>USV</strong> — <em>10 Highlights from USV&#x27;s 2025 Annual Meeting</em></a> <a href="#r161" class="backref">↩</a></li>
+<li id="s159"><span class="src-n">[159]</span> <a href="https://blog.usv.com/electroflow" target="_blank" rel="noopener"><strong>USV</strong> — <em>Electroflow</em></a> <a href="#r159" class="backref">↩</a></li>
+<li id="s70"><span class="src-n">[70]</span> <a href="https://www.usv.com/writing/2026/04/glif/" target="_blank" rel="noopener"><strong>USV</strong> — <em>Glif</em></a> <a href="#r70" class="backref">↩</a></li>
+<li id="s93"><span class="src-n">[93]</span> <a href="https://blog.usv.com/history-rhymes" target="_blank" rel="noopener"><strong>USV</strong> — <em>History Rhymes?</em></a> <a href="#r93" class="backref">↩</a></li>
+<li id="s124"><span class="src-n">[124]</span> <a href="https://blog.usv.com/our-investment-in-anon" target="_blank" rel="noopener"><strong>USV</strong> — <em>Our Investment in Anon</em></a> <a href="#r124" class="backref">↩</a></li>
+<li id="s37"><span class="src-n">[37]</span> <a href="https://blog.usv.com/suno" target="_blank" rel="noopener"><strong>USV</strong> — <em>Suno</em></a> <a href="#r37" class="backref">↩</a></li>
+<li id="s45"><span class="src-n">[45]</span> <a href="https://workbench.substack.com/p/announcing-our-investment-in-flock" target="_blank" rel="noopener"><strong>WorkBench</strong> — <em>[Work-Bench Research] Exploring the Future Compute Stack for AI Agents</em></a> <a href="#r45" class="backref">↩</a></li>
+<li id="s55"><span class="src-n">[55]</span> <a href="https://workbench.substack.com/p/enterprise-weekly-538-the-new-economics" target="_blank" rel="noopener"><strong>WorkBench</strong> — <em>Enterprise Weekly #538: The New Economics of AI Applications</em></a> <a href="#r55" class="backref">↩</a></li>
+<li id="s147"><span class="src-n">[147]</span> <a href="https://workbench.substack.com/p/enterprise-weekly-543-what-were-excited" target="_blank" rel="noopener"><strong>WorkBench</strong> — <em>Enterprise Weekly #543: What We&#x27;re Excited About Going into 2026</em></a> <a href="#r147" class="backref">↩</a></li>
+<li id="s146"><span class="src-n">[146]</span> <a href="https://workbench.substack.com/p/the-rise-of-the-agent-runtime" target="_blank" rel="noopener"><strong>WorkBench</strong> — <em>The Rise of the Agent Runtime</em></a> <a href="#r146" class="backref">↩</a></li>
+<li id="s121"><span class="src-n">[121]</span> <a href="https://www.ycombinator.com/rfs" target="_blank" rel="noopener"><strong>YC</strong> — <em>RFS Summer 2026: AI-Powered Agriculture</em></a> <a href="#r121" class="backref">↩</a></li>
       </ol>
     </div>
 
