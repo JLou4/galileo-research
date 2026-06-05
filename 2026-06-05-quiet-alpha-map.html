@@ -3,10 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <title>The Quiet Alpha Map — Galileo Research</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
     :root {
       --bg: #ffffff;
       --bg-secondary: #f8f9fa;
@@ -21,7 +19,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.7;
@@ -287,18 +285,33 @@
       .data-table th, .data-table td { padding: 6px 8px; }
     }
   
-    .band-blurb { color: var(--text-secondary); font-size: 15px; margin-bottom: 20px; font-style: italic; }
-    .theme { margin-bottom: 22px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
-    .theme:last-child { border-bottom: none; }
-    .theme h3 { font-size: 18px; font-weight: 650; margin-bottom: 8px; line-height: 1.35; }
-    .theme .count { font-size: 12px; font-weight: 600; color: var(--accent); background: #eff4ff; padding: 2px 8px; border-radius: 12px; margin-left: 6px; white-space: nowrap; }
-    .theme.deep .count { color: #7c3aed; background: #f3eeff; }
-    .firms { font-size: 13px; color: var(--text-secondary); margin-top: 8px; }
-    .firms-label { font-weight: 600; color: var(--text); }
-    .firms sup a { color: var(--accent); text-decoration: none; }
-    .method p { font-size: 14px; color: var(--text-secondary); margin-bottom: 12px; }
-    .backref { text-decoration: none; color: var(--text-secondary); font-size: 12px; }
-    .sources li { margin-bottom: 6px; font-size: 13px; }
+    /* wider, denser layout */
+    .container { max-width: 1040px !important; padding: 28px 28px !important; }
+    body { font-size: 14px !important; line-height: 1.5 !important; }
+    .report-header h1 { font-size: 26px; }
+    .report-header .subtitle { font-size: 15px; }
+    .exec-summary { background: var(--bg-secondary); border-left: 3px solid #1a2238; padding: 16px 20px; border-radius: 6px; margin-bottom: 28px; }
+    .exec-summary h2 { font-size: 16px; color: #1a2238; margin-bottom: 10px; }
+    .exec-summary p { font-size: 13.5px; margin-bottom: 10px; }
+    .section-title { font-size: 15px; font-weight: 700; text-transform: none; letter-spacing: 0; color: #1a2238; border-bottom: 2px solid #1a2238; padding-bottom: 4px; margin-bottom: 6px; }
+    .band-blurb { color: var(--text-secondary); font-size: 13px; margin: 6px 0 12px; font-style: italic; }
+    /* dense tables */
+    table { border-collapse: collapse; width: 100%; margin: 12px 0 8px; font-size: 12.5px; }
+    thead th { background: #1a2238; color: #fff; text-align: left; padding: 7px 9px; vertical-align: top; font-weight: 600; line-height: 1.3; }
+    td { border: 1px solid #d3d7de; padding: 6px 9px; vertical-align: top; background: #ffffff; }
+    tbody tr:nth-child(even) td,
+    tbody tr:nth-child(even) td.num,
+    tbody tr:nth-child(even) td.firmcell { background: #e7ecf3 !important; }
+    .col-theme { width: 22%; } .col-n { width: 5%; } .col-claim { width: 53%; } .col-firms { width: 20%; }
+    td.num { text-align: center; font-weight: 800; color: #2563eb; font-size: 17px; line-height: 1.2; }
+    td.firmcell { font-size: 11px; color: #777; line-height: 1.65; }
+    td.firmcell sup a, .firmcell sup a { color: #9aa3b2; text-decoration: none; font-size: 8px; }
+    ol.contra { padding-left: 20px; }
+    ol.contra li { margin-bottom: 12px; font-size: 13px; line-height: 1.5; }
+    .method p { font-size: 12.5px; color: var(--text-secondary); margin-bottom: 10px; }
+    .backref { text-decoration: none; color: var(--text-secondary); font-size: 11px; }
+    .sources { font-size: 12px; } .sources li { margin-bottom: 5px; }
+    .sources h2 { font-size: 15px; color: #1a2238; }
 
   </style>
 </head>
@@ -322,289 +335,360 @@
 <p>We read <strong>906 forward-looking market claims</strong> published over the last twelve months by <strong>80 of the most credible venture firms</strong> — from Sequoia, a16z, Founders Fund and Bessemer to specialist voices like Paradigm, NfX, Emergence and Pebblebed — and mapped where they converge and where they break apart.</p>
 <p>The method is deliberately simple: a claim's <em>signal</em> is inversely proportional to how many firms already hold it. We sort every thesis by <strong>distinct-firm convergence</strong> into five bands — from <strong>Consensus</strong> (priced-in orthodoxy) down to <strong>Lone Signals</strong> (a single firm willing to say it out loud). The crowded top tells you what's already in the water. The sparse bottom is where edge, if it exists, is hiding.</p>
 <p>Three things stand out. First, the <strong>consensus has hardened around atoms</strong>: robotics, defense, healthcare, reindustrialization — the field has collectively decided the next decade is physical. Second, a quiet but rapidly-forming bet that <strong>the SaaS business model itself is breaking</strong> — outcome pricing, services-heavy delivery, and "labor-budget" economics replacing the seat-based playbook. Third, the most interesting disagreements are no longer about <em>whether</em> AI matters but about <strong>where the value settles</strong>: apps vs. infrastructure, open vs. closed, capability vs. trust — and whether the whole thing is mistimed.</p>
+<p style="margin-top:14px;font-weight:600;color:#1a2238;">The five-second version:</p>
+<ul style="margin:6px 0 0;padding-left:20px;font-size:13px;line-height:1.55;">
+<li><strong>Don't pay up for the obvious:</strong> robotics (37 firms), healthcare-AI (34), incumbents-win (34), software-commoditizing (32), defense (30). Necessary to believe, insufficient to back.</li>
+<li><strong>The fastest-forming buildable bet</strong> is that the SaaS model breaks — <strong>outcome pricing kills the seat</strong> (~12 firms), and the right way to value AI apps is gross-profit-dollars-per-customer, not margin.</li>
+<li><strong>Cleanest non-consensus structural call:</strong> capital is commoditized; <strong>judgment/trust is the scarce moat</strong> (~10 firms turning the lens on their own industry).</li>
+<li><strong>Sharpest single disagreement:</strong> the forward-deployed-engineer model — the default GTM (FirstRound) or a 95%-failure trap (Flybridge).</li>
+<li><strong>Best intellectually-honest bear case:</strong> the plateau cluster (Contrary/Anthology/HustleFund) + Pebblebed's P&ne;NP ceiling — the under-priced downside.</li>
+<li><strong>Strangest tail worth watching:</strong> inference chips in space (YC), "apocalypse is good" accelerationism (Founders Fund), complexity-theory limits on AI (Pebblebed).</li>
+</ul>
 
     </div>
 
     <!-- MAIN CONTENT SECTIONS -->
     <div class="section"><div class="section-title">① Consensus Forming — the priced-in orthodoxy (26+ firms)</div>
 <p class="band-blurb">What the field has collectively decided. These are real and large — but if you're hearing it from 30 firms, it's in the price. Useful as the baseline to measure everything else against.</p>
-<div class="theme">
-<h3>Embodied AI is the next platform <span class="count">37 firms</span></h3>
-<p>The single most crowded bet in venture. Robotics, humanoids, and "physical AI" are treated as the inevitable second act once language is solved. The framing has shifted from <em>if</em> to <em>which form factor</em> — and the capital is already moving.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> a16z<sup><a href="#s1" id="r1">1</a></sup>, Khosla<sup><a href="#s2" id="r2">2</a></sup>, Eniac<sup><a href="#s3" id="r3">3</a></sup>, 8VC<sup><a href="#s4" id="r4">4</a></sup>, Conviction<sup><a href="#s5" id="r5">5</a></sup>, DCVC<sup><a href="#s6" id="r6">6</a></sup>, Riot<sup><a href="#s7" id="r7">7</a></sup>, Fusion Fund<sup><a href="#s8" id="r8">8</a></sup>, General Catalyst<sup><a href="#s9" id="r9">9</a></sup>, Bessemer<sup><a href="#s10" id="r10">10</a></sup>, 8090<sup><a href="#s11" id="r11">11</a></sup></p>
-</div>
-<div class="theme">
-<h3>Healthcare is AI's first trillion-dollar vertical <span class="count">34 firms</span></h3>
-<p>Near-universal conviction that healthcare's labor budget — not its software budget — is the prize. The disagreement is only on the wedge: clinical documentation, diagnostics, or owning the delivery entity outright.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> a16z<sup><a href="#s12" id="r12">12</a></sup>, General Catalyst<sup><a href="#s13" id="r13">13</a></sup>, Bessemer<sup><a href="#s14" id="r14">14</a></sup>, Thrive<sup><a href="#s15" id="r15">15</a></sup>, Conviction<sup><a href="#s5" id="r5">5</a></sup>, DCVC<sup><a href="#s16" id="r16">16</a></sup>, Initialized<sup><a href="#s17" id="r17">17</a></sup></p>
-</div>
-<div class="theme">
-<h3>Incumbents win / the labs move up-stack <span class="count">34 firms</span></h3>
-<p>A sober counter to startup romanticism: distribution, data, and capital advantage the incumbents, while frontier labs march up the stack into applications. The consensus is that the model layer is not where most startups should plant a flag.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> Sequoia<sup><a href="#s18" id="r18">18</a></sup>, Greylock<sup><a href="#s19" id="r19">19</a></sup>, SPC<sup><a href="#s20" id="r20">20</a></sup>, Spark<sup><a href="#s21" id="r21">21</a></sup>, Soma<sup><a href="#s22" id="r22">22</a></sup>, Thrive<sup><a href="#s23" id="r23">23</a></sup>, Index<sup><a href="#s24" id="r24">24</a></sup></p>
-</div>
-<div class="theme">
-<h3>Software is commoditizing — value moves up-stack <span class="count">32 firms</span></h3>
-<p>If a competent model can generate the interface on demand, the UI moat erodes. The crowded conclusion: defensibility migrates to workflow ownership, proprietary context, and the business model — not the software itself.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> Slow<sup><a href="#s25" id="r25">25</a></sup>, SPC<sup><a href="#s26" id="r26">26</a></sup>, Floodgate<sup><a href="#s27" id="r27">27</a></sup>, FirstRound<sup><a href="#s28" id="r28">28</a></sup>, CRV<sup><a href="#s29" id="r29">29</a></sup>, NfX<sup><a href="#s30" id="r30">30</a></sup>, Headline<sup><a href="#s31" id="r31">31</a></sup></p>
-</div>
-<div class="theme">
-<h3>Defense and dual-use go mainstream <span class="count">30 firms</span></h3>
-<p>American Dynamism graduated from thesis to consensus. Counter-UAS, autonomy, and a software-defined industrial base are now table-stakes venture categories rather than contrarian bets.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> Founders Fund<sup><a href="#s32" id="r32">32</a></sup>, 8VC<sup><a href="#s33" id="r33">33</a></sup>, a16z<sup><a href="#s1" id="r1">1</a></sup>, Riot<sup><a href="#s7" id="r7">7</a></sup>, DCVC<sup><a href="#s16" id="r16">16</a></sup>, General Catalyst<sup><a href="#s34" id="r34">34</a></sup>, 8090<sup><a href="#s11" id="r11">11</a></sup></p>
-</div>
-<div class="theme">
-<h3>Consumer AI: proactive, voice-first, context-aware <span class="count">30 firms</span></h3>
-<p>The "death of the prompt box": consumer AI that observes, anticipates, and acts rather than waiting to be asked. Passive context capture is the agreed-upon unlock; the open question is who owns the context.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> a16z<sup><a href="#s1" id="r1">1</a></sup>, Forerunner<sup><a href="#s35" id="r35">35</a></sup>, Maveron<sup><a href="#s36" id="r36">36</a></sup>, USV<sup><a href="#s37" id="r37">37</a></sup>, Khosla<sup><a href="#s38" id="r38">38</a></sup>, SPC<sup><a href="#s39" id="r39">39</a></sup>, Greylock<sup><a href="#s40" id="r40">40</a></sup></p>
-</div>
-<div class="theme">
-<h3>Coding is the killer app <span class="count">29 firms</span></h3>
-<p>The one application everyone agrees has crossed the threshold. The frontier has moved from autocomplete to autonomous background agents — and coding is the proving ground for everything agentic that follows.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> Redpoint<sup><a href="#s41" id="r41">41</a></sup>, Sequoia<sup><a href="#s42" id="r42">42</a></sup>, a16z<sup><a href="#s1" id="r1">1</a></sup>, SPC<sup><a href="#s39" id="r39">39</a></sup>, Greylock<sup><a href="#s19" id="r19">19</a></sup>, Conviction<sup><a href="#s5" id="r5">5</a></sup>, Index<sup><a href="#s43" id="r43">43</a></sup></p>
-</div>
-<div class="theme">
-<h3>Agent infrastructure is the new middleware <span class="count">28 firms</span></h3>
-<p>Picks-and-shovels for agents: orchestration, eval, memory, auth, observability. The bet is that today's agents are fragile, and the durable opportunity is the unglamorous tooling that makes them reliable in production.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> Redpoint<sup><a href="#s44" id="r44">44</a></sup>, WorkBench<sup><a href="#s45" id="r45">45</a></sup>, Bessemer<sup><a href="#s46" id="r46">46</a></sup>, NfX<sup><a href="#s47" id="r47">47</a></sup>, Greylock<sup><a href="#s48" id="r48">48</a></sup>, SPC<sup><a href="#s26" id="r26">26</a></sup>, Paradigm<sup><a href="#s49" id="r49">49</a></sup></p>
-</div>
-<div class="theme">
-<h3>Reindustrialization and the industrial base <span class="count">26 firms</span></h3>
-<p>Onshoring, supply-chain sovereignty, and the "machine that makes the machine." A macro-political tailwind that has become a default lens for hard-tech investing across the field.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> Founders Fund<sup><a href="#s32" id="r32">32</a></sup>, 8VC<sup><a href="#s4" id="r4">4</a></sup>, 8090<sup><a href="#s11" id="r11">11</a></sup>, DCVC<sup><a href="#s16" id="r16">16</a></sup>, General Catalyst<sup><a href="#s34" id="r34">34</a></sup>, Eniac<sup><a href="#s50" id="r50">50</a></sup></p>
-</div>
-<div class="theme">
-<h3>Energy is the binding constraint on AI <span class="count">26 firms</span></h3>
-<p>Compute is gated by power. The consensus has fully absorbed that data-center demand collides with grid reality, making generation, transmission, and efficiency first-order AI investments rather than adjacent ones.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> DCVC<sup><a href="#s16" id="r16">16</a></sup>, Khosla<sup><a href="#s38" id="r38">38</a></sup>, 8VC<sup><a href="#s4" id="r4">4</a></sup>, Fusion Fund<sup><a href="#s8" id="r8">8</a></sup>, 8090<sup><a href="#s51" id="r51">51</a></sup>, General Catalyst<sup><a href="#s52" id="r52">52</a></sup></p>
-</div>
+<table><thead><tr><th class="col-theme">Theme</th><th class="col-n">Firms</th><th class="col-claim">The claim, distilled &mdash; and why it matters</th><th class="col-firms">Voiced by</th></tr></thead><tbody>
+<tr>
+<td><strong>Embodied AI is the next platform</strong></td>
+<td class="num">37</td>
+<td>The single most crowded bet in venture. Robotics, humanoids, and "physical AI" are treated as the inevitable second act once language is solved. The framing has shifted from <em>if</em> to <em>which form factor</em> — and the capital is already moving.</td>
+<td class="firmcell">a16z<sup><a href="#s1" id="r1">1</a></sup>, Khosla<sup><a href="#s2" id="r2">2</a></sup>, Eniac<sup><a href="#s3" id="r3">3</a></sup>, 8VC<sup><a href="#s4" id="r4">4</a></sup>, Conviction<sup><a href="#s5" id="r5">5</a></sup>, DCVC<sup><a href="#s6" id="r6">6</a></sup>, Riot<sup><a href="#s7" id="r7">7</a></sup>, Fusion Fund<sup><a href="#s8" id="r8">8</a></sup>, General Catalyst<sup><a href="#s9" id="r9">9</a></sup>, Bessemer<sup><a href="#s10" id="r10">10</a></sup>, 8090<sup><a href="#s11" id="r11">11</a></sup></td>
+</tr>
+<tr>
+<td><strong>Healthcare is AI's first trillion-dollar vertical</strong></td>
+<td class="num">34</td>
+<td>Near-universal conviction that healthcare's labor budget — not its software budget — is the prize. The disagreement is only on the wedge: clinical documentation, diagnostics, or owning the delivery entity outright.</td>
+<td class="firmcell">a16z<sup><a href="#s12" id="r12">12</a></sup>, General Catalyst<sup><a href="#s13" id="r13">13</a></sup>, Bessemer<sup><a href="#s14" id="r14">14</a></sup>, Thrive<sup><a href="#s15" id="r15">15</a></sup>, Conviction<sup><a href="#s5" id="r5">5</a></sup>, DCVC<sup><a href="#s16" id="r16">16</a></sup>, Initialized<sup><a href="#s17" id="r17">17</a></sup></td>
+</tr>
+<tr>
+<td><strong>Incumbents win / the labs move up-stack</strong></td>
+<td class="num">34</td>
+<td>A sober counter to startup romanticism: distribution, data, and capital advantage the incumbents, while frontier labs march up the stack into applications. The consensus is that the model layer is not where most startups should plant a flag.</td>
+<td class="firmcell">Sequoia<sup><a href="#s18" id="r18">18</a></sup>, Greylock<sup><a href="#s19" id="r19">19</a></sup>, SPC<sup><a href="#s20" id="r20">20</a></sup>, Spark<sup><a href="#s21" id="r21">21</a></sup>, Soma<sup><a href="#s22" id="r22">22</a></sup>, Thrive<sup><a href="#s23" id="r23">23</a></sup>, Index<sup><a href="#s24" id="r24">24</a></sup></td>
+</tr>
+<tr>
+<td><strong>Software is commoditizing — value moves up-stack</strong></td>
+<td class="num">32</td>
+<td>If a competent model can generate the interface on demand, the UI moat erodes. The crowded conclusion: defensibility migrates to workflow ownership, proprietary context, and the business model — not the software itself.</td>
+<td class="firmcell">Slow<sup><a href="#s25" id="r25">25</a></sup>, SPC<sup><a href="#s26" id="r26">26</a></sup>, Floodgate<sup><a href="#s27" id="r27">27</a></sup>, FirstRound<sup><a href="#s28" id="r28">28</a></sup>, CRV<sup><a href="#s29" id="r29">29</a></sup>, NfX<sup><a href="#s30" id="r30">30</a></sup>, Headline<sup><a href="#s31" id="r31">31</a></sup></td>
+</tr>
+<tr>
+<td><strong>Defense and dual-use go mainstream</strong></td>
+<td class="num">30</td>
+<td>American Dynamism graduated from thesis to consensus. Counter-UAS, autonomy, and a software-defined industrial base are now table-stakes venture categories rather than contrarian bets.</td>
+<td class="firmcell">Founders Fund<sup><a href="#s32" id="r32">32</a></sup>, 8VC<sup><a href="#s33" id="r33">33</a></sup>, a16z<sup><a href="#s1" id="r1">1</a></sup>, Riot<sup><a href="#s7" id="r7">7</a></sup>, DCVC<sup><a href="#s16" id="r16">16</a></sup>, General Catalyst<sup><a href="#s34" id="r34">34</a></sup>, 8090<sup><a href="#s11" id="r11">11</a></sup></td>
+</tr>
+<tr>
+<td><strong>Consumer AI: proactive, voice-first, context-aware</strong></td>
+<td class="num">30</td>
+<td>The "death of the prompt box": consumer AI that observes, anticipates, and acts rather than waiting to be asked. Passive context capture is the agreed-upon unlock; the open question is who owns the context.</td>
+<td class="firmcell">a16z<sup><a href="#s1" id="r1">1</a></sup>, Forerunner<sup><a href="#s35" id="r35">35</a></sup>, Maveron<sup><a href="#s36" id="r36">36</a></sup>, USV<sup><a href="#s37" id="r37">37</a></sup>, Khosla<sup><a href="#s38" id="r38">38</a></sup>, SPC<sup><a href="#s39" id="r39">39</a></sup>, Greylock<sup><a href="#s40" id="r40">40</a></sup></td>
+</tr>
+<tr>
+<td><strong>Coding is the killer app</strong></td>
+<td class="num">29</td>
+<td>The one application everyone agrees has crossed the threshold. The frontier has moved from autocomplete to autonomous background agents — and coding is the proving ground for everything agentic that follows.</td>
+<td class="firmcell">Redpoint<sup><a href="#s41" id="r41">41</a></sup>, Sequoia<sup><a href="#s42" id="r42">42</a></sup>, a16z<sup><a href="#s1" id="r1">1</a></sup>, SPC<sup><a href="#s39" id="r39">39</a></sup>, Greylock<sup><a href="#s19" id="r19">19</a></sup>, Conviction<sup><a href="#s5" id="r5">5</a></sup>, Index<sup><a href="#s43" id="r43">43</a></sup></td>
+</tr>
+<tr>
+<td><strong>Agent infrastructure is the new middleware</strong></td>
+<td class="num">28</td>
+<td>Picks-and-shovels for agents: orchestration, eval, memory, auth, observability. The bet is that today's agents are fragile, and the durable opportunity is the unglamorous tooling that makes them reliable in production.</td>
+<td class="firmcell">Redpoint<sup><a href="#s44" id="r44">44</a></sup>, WorkBench<sup><a href="#s45" id="r45">45</a></sup>, Bessemer<sup><a href="#s46" id="r46">46</a></sup>, NfX<sup><a href="#s47" id="r47">47</a></sup>, Greylock<sup><a href="#s48" id="r48">48</a></sup>, SPC<sup><a href="#s26" id="r26">26</a></sup>, Paradigm<sup><a href="#s49" id="r49">49</a></sup></td>
+</tr>
+<tr>
+<td><strong>Reindustrialization and the industrial base</strong></td>
+<td class="num">26</td>
+<td>Onshoring, supply-chain sovereignty, and the "machine that makes the machine." A macro-political tailwind that has become a default lens for hard-tech investing across the field.</td>
+<td class="firmcell">Founders Fund<sup><a href="#s32" id="r32">32</a></sup>, 8VC<sup><a href="#s4" id="r4">4</a></sup>, 8090<sup><a href="#s11" id="r11">11</a></sup>, DCVC<sup><a href="#s16" id="r16">16</a></sup>, General Catalyst<sup><a href="#s34" id="r34">34</a></sup>, Eniac<sup><a href="#s50" id="r50">50</a></sup></td>
+</tr>
+<tr>
+<td><strong>Energy is the binding constraint on AI</strong></td>
+<td class="num">26</td>
+<td>Compute is gated by power. The consensus has fully absorbed that data-center demand collides with grid reality, making generation, transmission, and efficiency first-order AI investments rather than adjacent ones.</td>
+<td class="firmcell">DCVC<sup><a href="#s16" id="r16">16</a></sup>, Khosla<sup><a href="#s38" id="r38">38</a></sup>, 8VC<sup><a href="#s4" id="r4">4</a></sup>, Fusion Fund<sup><a href="#s8" id="r8">8</a></sup>, 8090<sup><a href="#s51" id="r51">51</a></sup>, General Catalyst<sup><a href="#s52" id="r52">52</a></sup></td>
+</tr>
+</tbody></table>
 </div>
 <div class="section"><div class="section-title">② Interesting — conviction forming, not yet crowded (16–25 firms)</div>
 <p class="band-blurb">Enough independent firms to be more than noise, few enough that the trade isn't done. This is where a thesis is becoming actionable before it becomes obvious.</p>
-<div class="theme">
-<h3>Outcome pricing is killing the seat-based model <span class="count">12 firms</span></h3>
-<p>A fast-forming and falsifiable bet: AI monetization shifts from per-seat to output- and outcome-based pricing, dragging gross margins from 80-90% toward 50-60%. The contrarian wrinkle (WorkBench, via Ev Randle): stop valuing these companies on <em>margin</em> and value them on absolute <strong>gross-profit dollars per customer</strong> — a labor-budget TAM that can be 4-5x a SaaS seat. "AI is worse than SaaS" may be measuring the wrong thing.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> Bessemer<sup><a href="#s53" id="r53">53</a></sup>, FounderCollective<sup><a href="#s54" id="r54">54</a></sup>, WorkBench<sup><a href="#s55" id="r55">55</a></sup>, Emergence<sup><a href="#s56" id="r56">56</a></sup>, General Catalyst<sup><a href="#s57" id="r57">57</a></sup>, Contrary<sup><a href="#s58" id="r58">58</a></sup>, CRV<sup><a href="#s59" id="r59">59</a></sup>, Notable<sup><a href="#s60" id="r60">60</a></sup>, Felicis<sup><a href="#s61" id="r61">61</a></sup>, a16z<sup><a href="#s12" id="r12">12</a></sup>, Maveron<sup><a href="#s62" id="r62">62</a></sup>, Index<sup><a href="#s63" id="r63">63</a></sup></p>
-</div>
-<div class="theme">
-<h3>Proprietary data and feedback loops are the real moat <span class="count">21 firms</span></h3>
-<p>As models commoditize, the defensible asset is data nobody else has. Greylock sharpens it: not <em>input</em> data (commoditizing) but <strong>human-in-the-loop feedback</strong> — which outputs users accept, reject, or override — producing a hard-to-copy "reasoning graph" of how an organization thinks.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> Greylock<sup><a href="#s19" id="r19">19</a></sup>, a16z<sup><a href="#s64" id="r64">64</a></sup>, Emergence<sup><a href="#s65" id="r65">65</a></sup>, BasisSet<sup><a href="#s66" id="r66">66</a></sup>, General Catalyst<sup><a href="#s52" id="r52">52</a></sup>, Initialized<sup><a href="#s67" id="r67">67</a></sup>, Index<sup><a href="#s68" id="r68">68</a></sup></p>
-</div>
-<div class="theme">
-<h3>The realness premium: AI floods content, authenticity gets scarce <span class="count">8 firms</span></h3>
-<p>If generation cost goes to zero, the scarce good is what can't be generated: live sports, real community, verified-human creativity. A consumer-side scarcity thesis that inverts the abundance narrative — and quietly predicts a backlash market.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> Lightspeed<sup><a href="#s69" id="r69">69</a></sup>, USV<sup><a href="#s70" id="r70">70</a></sup>, IAVentures<sup><a href="#s71" id="r71">71</a></sup>, Maveron<sup><a href="#s62" id="r62">62</a></sup>, Haystack<sup><a href="#s72" id="r72">72</a></sup>, Slow<sup><a href="#s25" id="r25">25</a></sup>, Forerunner<sup><a href="#s35" id="r35">35</a></sup>, DayOne<sup><a href="#s73" id="r73">73</a></sup></p>
-</div>
-<div class="theme">
-<h3>Talent and judgment become the scarce inputs <span class="count">19 firms</span></h3>
-<p>As AI commoditizes execution, the bottleneck moves to taste, judgment, and the rare people who have them. Floodgate's framing: AI "empowers order-makers and threatens order-takers." Felicis extends it to investing itself — when the herd outsources thinking to LLMs, contrarian human judgment <em>appreciates</em>.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> CRV<sup><a href="#s74" id="r74">74</a></sup>, Haystack<sup><a href="#s72" id="r72">72</a></sup>, Floodgate<sup><a href="#s75" id="r75">75</a></sup>, Felicis<sup><a href="#s76" id="r76">76</a></sup>, Spark<sup><a href="#s77" id="r77">77</a></sup>, SVAngel<sup><a href="#s78" id="r78">78</a></sup>, NfX<sup><a href="#s79" id="r79">79</a></sup></p>
-</div>
-<div class="theme">
-<h3>This is a bubble — and it will reprice <span class="count">19 firms</span></h3>
-<p>A surprisingly broad skeptic caucus. Redpoint's analogy is the sharpest: AI adoption is moving an order of magnitude faster than cloud, which makes it look more like the internet era — complete with Cisco-style "air pockets" where eyeballs don't convert to revenue, and where today's leaders may not be the eventual giants.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> Thiel Capital<sup><a href="#s80" id="r80">80</a></sup>, Contrary<sup><a href="#s81" id="r81">81</a></sup>, Anthology<sup><a href="#s82" id="r82">82</a></sup>, HustleFund<sup><a href="#s83" id="r83">83</a></sup>, BasisSet<sup><a href="#s66" id="r66">66</a></sup>, Slow<sup><a href="#s25" id="r25">25</a></sup>, Redpoint<sup><a href="#s44" id="r44">44</a></sup></p>
-</div>
-<div class="theme">
-<h3>Capital is commoditized; judgment and trust are the VC moat <span class="count">10 firms</span></h3>
-<p>The field turning the lens on itself. Haystack states it flatly: capital is no longer a differentiator; trust, listening, and selection are. A reflexive admission that the mega-fund "capital-as-a-weapon" playbook may be self-defeating in a world of abundant money.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> CRV<sup><a href="#s84" id="r84">84</a></sup>, Haystack<sup><a href="#s85" id="r85">85</a></sup>, Abstract<sup><a href="#s86" id="r86">86</a></sup>, BoxGroup<sup><a href="#s87" id="r87">87</a></sup>, IAVentures<sup><a href="#s88" id="r88">88</a></sup>, Caffeinated<sup><a href="#s89" id="r89">89</a></sup>, SVAngel<sup><a href="#s78" id="r78">78</a></sup>, Spark<sup><a href="#s77" id="r77">77</a></sup>, 500Global<sup><a href="#s90" id="r90">90</a></sup>, Browder<sup><a href="#s91" id="r91">91</a></sup></p>
-</div>
-<div class="theme">
-<h3>Agentic commerce and machine-speed payments <span class="count">9 firms</span></h3>
-<p>A standards war nobody's pricing: UCP vs. ACP vs. x402, with TenOneTen betting the real volume is unglamorous <strong>B2B back-office execution</strong> (logistics, procurement, construction) — not consumer checkout — and that the "protocol-agnostic Switzerland" of agent payments captures value precisely because the standards stay fragmented.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> TenOneTen<sup><a href="#s92" id="r92">92</a></sup>, USV<sup><a href="#s93" id="r93">93</a></sup>, Paradigm<sup><a href="#s94" id="r94">94</a></sup>, Pebblebed<sup><a href="#s95" id="r95">95</a></sup>, Redpoint<sup><a href="#s96" id="r96">96</a></sup>, General Catalyst<sup><a href="#s52" id="r52">52</a></sup>, Interplay<sup><a href="#s97" id="r97">97</a></sup>, Browder<sup><a href="#s98" id="r98">98</a></sup>, Sequoia<sup><a href="#s99" id="r99">99</a></sup></p>
-</div>
-<div class="theme">
-<h3>Non-AI fundamentals still win deals <span class="count">16 firms</span></h3>
-<p>A quiet contrarian steadiness: distribution, retention, unit economics and survival still decide outcomes. Haystack's two-rubric market — "native AI" companies judged on speed vs. everyone else needing an explicit reason to exist — is the sharpest articulation.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> Haystack<sup><a href="#s72" id="r72">72</a></sup>, FounderCollective<sup><a href="#s100" id="r100">100</a></sup>, Eniac<sup><a href="#s3" id="r3">3</a></sup>, BoxGroup<sup><a href="#s87" id="r87">87</a></sup>, First Round<sup><a href="#s101" id="r101">101</a></sup>, Cowboy<sup><a href="#s102" id="r102">102</a></sup>, Susa<sup><a href="#s103" id="r103">103</a></sup></p>
-</div>
-<div class="theme">
-<h3>Inference is the runtime; value migrates to deployment <span class="count">15 firms</span></h3>
-<p>The bet that the action moves from training to serving: edge deployment, KV-cache economics, throughput-first clouds, and small specialized models that out-economize frontier models on unit cost. 8090's version: value accrues to whoever <em>deploys</em>, not whoever builds.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> 8090<sup><a href="#s51" id="r51">51</a></sup>, Fusion Fund<sup><a href="#s8" id="r8">8</a></sup>, Emergence<sup><a href="#s104" id="r104">104</a></sup>, Initialized<sup><a href="#s105" id="r105">105</a></sup>, BasisSet<sup><a href="#s106" id="r106">106</a></sup>, Redpoint<sup><a href="#s44" id="r44">44</a></sup>, BOND<sup><a href="#s107" id="r107">107</a></sup></p>
-</div>
-<div class="theme">
-<h3>Agents as doers, not copilots <span class="count">15 firms</span></h3>
-<p>The copilot-to-autopilot migration as the real value frontier. General Catalyst's framing: outcome-delivery builds a learning-by-doing flywheel that point-solutions can't match — defensibility lives in accumulated execution data, not the model.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> General Catalyst<sup><a href="#s13" id="r13">13</a></sup>, Emergence<sup><a href="#s65" id="r65">65</a></sup>, SPC<sup><a href="#s20" id="r20">20</a></sup>, NfX<sup><a href="#s30" id="r30">30</a></sup>, USV<sup><a href="#s93" id="r93">93</a></sup>, Sequoia<sup><a href="#s42" id="r42">42</a></sup>, WorkBench<sup><a href="#s45" id="r45">45</a></sup></p>
-</div>
+<table><thead><tr><th class="col-theme">Theme</th><th class="col-n">Firms</th><th class="col-claim">The claim, distilled &mdash; and why it matters</th><th class="col-firms">Voiced by</th></tr></thead><tbody>
+<tr>
+<td><strong>Outcome pricing is killing the seat-based model</strong></td>
+<td class="num">12</td>
+<td>A fast-forming and falsifiable bet: AI monetization shifts from per-seat to output- and outcome-based pricing, dragging gross margins from 80-90% toward 50-60%. The contrarian wrinkle (WorkBench, via Ev Randle): stop valuing these companies on <em>margin</em> and value them on absolute <strong>gross-profit dollars per customer</strong> — a labor-budget TAM that can be 4-5x a SaaS seat. "AI is worse than SaaS" may be measuring the wrong thing.</td>
+<td class="firmcell">Bessemer<sup><a href="#s53" id="r53">53</a></sup>, FounderCollective<sup><a href="#s54" id="r54">54</a></sup>, WorkBench<sup><a href="#s55" id="r55">55</a></sup>, Emergence<sup><a href="#s56" id="r56">56</a></sup>, General Catalyst<sup><a href="#s57" id="r57">57</a></sup>, Contrary<sup><a href="#s58" id="r58">58</a></sup>, CRV<sup><a href="#s59" id="r59">59</a></sup>, Notable<sup><a href="#s60" id="r60">60</a></sup>, Felicis<sup><a href="#s61" id="r61">61</a></sup>, a16z<sup><a href="#s12" id="r12">12</a></sup>, Maveron<sup><a href="#s62" id="r62">62</a></sup>, Index<sup><a href="#s63" id="r63">63</a></sup></td>
+</tr>
+<tr>
+<td><strong>Proprietary data and feedback loops are the real moat</strong></td>
+<td class="num">21</td>
+<td>As models commoditize, the defensible asset is data nobody else has. Greylock sharpens it: not <em>input</em> data (commoditizing) but <strong>human-in-the-loop feedback</strong> — which outputs users accept, reject, or override — producing a hard-to-copy "reasoning graph" of how an organization thinks.</td>
+<td class="firmcell">Greylock<sup><a href="#s19" id="r19">19</a></sup>, a16z<sup><a href="#s64" id="r64">64</a></sup>, Emergence<sup><a href="#s65" id="r65">65</a></sup>, BasisSet<sup><a href="#s66" id="r66">66</a></sup>, General Catalyst<sup><a href="#s52" id="r52">52</a></sup>, Initialized<sup><a href="#s67" id="r67">67</a></sup>, Index<sup><a href="#s68" id="r68">68</a></sup></td>
+</tr>
+<tr>
+<td><strong>The realness premium: AI floods content, authenticity gets scarce</strong></td>
+<td class="num">8</td>
+<td>If generation cost goes to zero, the scarce good is what can't be generated: live sports, real community, verified-human creativity. A consumer-side scarcity thesis that inverts the abundance narrative — and quietly predicts a backlash market.</td>
+<td class="firmcell">Lightspeed<sup><a href="#s69" id="r69">69</a></sup>, USV<sup><a href="#s70" id="r70">70</a></sup>, IAVentures<sup><a href="#s71" id="r71">71</a></sup>, Maveron<sup><a href="#s62" id="r62">62</a></sup>, Haystack<sup><a href="#s72" id="r72">72</a></sup>, Slow<sup><a href="#s25" id="r25">25</a></sup>, Forerunner<sup><a href="#s35" id="r35">35</a></sup>, DayOne<sup><a href="#s73" id="r73">73</a></sup></td>
+</tr>
+<tr>
+<td><strong>Talent and judgment become the scarce inputs</strong></td>
+<td class="num">19</td>
+<td>As AI commoditizes execution, the bottleneck moves to taste, judgment, and the rare people who have them. Floodgate's framing: AI "empowers order-makers and threatens order-takers." Felicis extends it to investing itself — when the herd outsources thinking to LLMs, contrarian human judgment <em>appreciates</em>.</td>
+<td class="firmcell">CRV<sup><a href="#s74" id="r74">74</a></sup>, Haystack<sup><a href="#s72" id="r72">72</a></sup>, Floodgate<sup><a href="#s75" id="r75">75</a></sup>, Felicis<sup><a href="#s76" id="r76">76</a></sup>, Spark<sup><a href="#s77" id="r77">77</a></sup>, SVAngel<sup><a href="#s78" id="r78">78</a></sup>, NfX<sup><a href="#s79" id="r79">79</a></sup></td>
+</tr>
+<tr>
+<td><strong>This is a bubble — and it will reprice</strong></td>
+<td class="num">19</td>
+<td>A surprisingly broad skeptic caucus. Redpoint's analogy is the sharpest: AI adoption is moving an order of magnitude faster than cloud, which makes it look more like the internet era — complete with Cisco-style "air pockets" where eyeballs don't convert to revenue, and where today's leaders may not be the eventual giants.</td>
+<td class="firmcell">Thiel Capital<sup><a href="#s80" id="r80">80</a></sup>, Contrary<sup><a href="#s81" id="r81">81</a></sup>, Anthology<sup><a href="#s82" id="r82">82</a></sup>, HustleFund<sup><a href="#s83" id="r83">83</a></sup>, BasisSet<sup><a href="#s66" id="r66">66</a></sup>, Slow<sup><a href="#s25" id="r25">25</a></sup>, Redpoint<sup><a href="#s44" id="r44">44</a></sup></td>
+</tr>
+<tr>
+<td><strong>Capital is commoditized; judgment and trust are the VC moat</strong></td>
+<td class="num">10</td>
+<td>The field turning the lens on itself. Haystack states it flatly: capital is no longer a differentiator; trust, listening, and selection are. A reflexive admission that the mega-fund "capital-as-a-weapon" playbook may be self-defeating in a world of abundant money.</td>
+<td class="firmcell">CRV<sup><a href="#s84" id="r84">84</a></sup>, Haystack<sup><a href="#s85" id="r85">85</a></sup>, Abstract<sup><a href="#s86" id="r86">86</a></sup>, BoxGroup<sup><a href="#s87" id="r87">87</a></sup>, IAVentures<sup><a href="#s88" id="r88">88</a></sup>, Caffeinated<sup><a href="#s89" id="r89">89</a></sup>, SVAngel<sup><a href="#s78" id="r78">78</a></sup>, Spark<sup><a href="#s77" id="r77">77</a></sup>, 500Global<sup><a href="#s90" id="r90">90</a></sup>, Browder<sup><a href="#s91" id="r91">91</a></sup></td>
+</tr>
+<tr>
+<td><strong>Agentic commerce and machine-speed payments</strong></td>
+<td class="num">9</td>
+<td>A standards war nobody's pricing: UCP vs. ACP vs. x402, with TenOneTen betting the real volume is unglamorous <strong>B2B back-office execution</strong> (logistics, procurement, construction) — not consumer checkout — and that the "protocol-agnostic Switzerland" of agent payments captures value precisely because the standards stay fragmented.</td>
+<td class="firmcell">TenOneTen<sup><a href="#s92" id="r92">92</a></sup>, USV<sup><a href="#s93" id="r93">93</a></sup>, Paradigm<sup><a href="#s94" id="r94">94</a></sup>, Pebblebed<sup><a href="#s95" id="r95">95</a></sup>, Redpoint<sup><a href="#s96" id="r96">96</a></sup>, General Catalyst<sup><a href="#s52" id="r52">52</a></sup>, Interplay<sup><a href="#s97" id="r97">97</a></sup>, Browder<sup><a href="#s98" id="r98">98</a></sup>, Sequoia<sup><a href="#s99" id="r99">99</a></sup></td>
+</tr>
+<tr>
+<td><strong>Non-AI fundamentals still win deals</strong></td>
+<td class="num">16</td>
+<td>A quiet contrarian steadiness: distribution, retention, unit economics and survival still decide outcomes. Haystack's two-rubric market — "native AI" companies judged on speed vs. everyone else needing an explicit reason to exist — is the sharpest articulation.</td>
+<td class="firmcell">Haystack<sup><a href="#s72" id="r72">72</a></sup>, FounderCollective<sup><a href="#s100" id="r100">100</a></sup>, Eniac<sup><a href="#s3" id="r3">3</a></sup>, BoxGroup<sup><a href="#s87" id="r87">87</a></sup>, First Round<sup><a href="#s101" id="r101">101</a></sup>, Cowboy<sup><a href="#s102" id="r102">102</a></sup>, Susa<sup><a href="#s103" id="r103">103</a></sup></td>
+</tr>
+<tr>
+<td><strong>Inference is the runtime; value migrates to deployment</strong></td>
+<td class="num">15</td>
+<td>The bet that the action moves from training to serving: edge deployment, KV-cache economics, throughput-first clouds, and small specialized models that out-economize frontier models on unit cost. 8090's version: value accrues to whoever <em>deploys</em>, not whoever builds.</td>
+<td class="firmcell">8090<sup><a href="#s51" id="r51">51</a></sup>, Fusion Fund<sup><a href="#s8" id="r8">8</a></sup>, Emergence<sup><a href="#s104" id="r104">104</a></sup>, Initialized<sup><a href="#s105" id="r105">105</a></sup>, BasisSet<sup><a href="#s106" id="r106">106</a></sup>, Redpoint<sup><a href="#s44" id="r44">44</a></sup>, BOND<sup><a href="#s107" id="r107">107</a></sup></td>
+</tr>
+<tr>
+<td><strong>Agents as doers, not copilots</strong></td>
+<td class="num">15</td>
+<td>The copilot-to-autopilot migration as the real value frontier. General Catalyst's framing: outcome-delivery builds a learning-by-doing flywheel that point-solutions can't match — defensibility lives in accumulated execution data, not the model.</td>
+<td class="firmcell">General Catalyst<sup><a href="#s13" id="r13">13</a></sup>, Emergence<sup><a href="#s65" id="r65">65</a></sup>, SPC<sup><a href="#s20" id="r20">20</a></sup>, NfX<sup><a href="#s30" id="r30">30</a></sup>, USV<sup><a href="#s93" id="r93">93</a></sup>, Sequoia<sup><a href="#s42" id="r42">42</a></sup>, WorkBench<sup><a href="#s45" id="r45">45</a></sup></td>
+</tr>
+</tbody></table>
 </div>
 <div class="section"><div class="section-title">③ Novel — early clusters worth tracking (10–15 firms)</div>
 <p class="band-blurb">Emerging structure. A handful of credible firms converging on something the broader field hasn't named yet.</p>
-<div class="theme">
-<h3>The GTM is going services-heavy (FDE / outcome delivery) <span class="count">8 firms</span></h3>
-<p>Forward-deployed engineers, owned service entities, AI-native BPOs. FirstRound's data: FDE job listings up 800% in nine months because capability is no longer the constraint — steering and last-mile integration are. The next enterprise winners may look services-heavy and "un-SaaS-like."</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> FirstRound<sup><a href="#s28" id="r28">28</a></sup>, Index<sup><a href="#s63" id="r63">63</a></sup>, Emergence<sup><a href="#s108" id="r108">108</a></sup>, General Catalyst<sup><a href="#s13" id="r13">13</a></sup>, Interplay<sup><a href="#s97" id="r97">97</a></sup>, Headline<sup><a href="#s109" id="r109">109</a></sup>, Contrary<sup><a href="#s58" id="r58">58</a></sup>, 8090<sup><a href="#s110" id="r110">110</a></sup></p>
-</div>
-<div class="theme">
-<h3>Legacy experience is now a liability <span class="count">6 firms</span></h3>
-<p>Sharper than "young founders are cool": several firms argue domain experience is <em>actively disadvantageous</em> in a regime-change market, because incumbic intuition mis-predicts a world that no longer follows the old rules. AStar is moving allocation toward founders in their teens.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> AStar<sup><a href="#s111" id="r111">111</a></sup>, 1517<sup><a href="#s112" id="r112">112</a></sup>, Browder<sup><a href="#s91" id="r91">91</a></sup>, Slow<sup><a href="#s113" id="r113">113</a></sup>, Neo<sup><a href="#s114" id="r114">114</a></sup>, BasisSet<sup><a href="#s66" id="r66">66</a></sup></p>
-</div>
-<div class="theme">
-<h3>The self-improving, agent-native firm <span class="count">7 firms</span></h3>
-<p>Org design as the product. Sequoia's "$0-to-$1B-revenue club" of companies running agents internally for legal, recruiting and sales; Pebblebed running its own fund as a tech company. The bet: headcount decouples from revenue, and the firm itself becomes software.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> Pebblebed<sup><a href="#s95" id="r95">95</a></sup>, BasisSet<sup><a href="#s115" id="r115">115</a></sup>, NfX<sup><a href="#s116" id="r116">116</a></sup>, Sequoia<sup><a href="#s18" id="r18">18</a></sup>, USV<sup><a href="#s37" id="r37">37</a></sup>, FounderCollective<sup><a href="#s117" id="r117">117</a></sup>, Greylock<sup><a href="#s48" id="r48">48</a></sup></p>
-</div>
-<div class="theme">
-<h3>Inference chips and compute move to the edge <span class="count">7 firms</span></h3>
-<p>On-device, low-power, close-to-the-data. A bet against the cloud-hyperscaler-only narrative, favoring embedded inference and efficient silicon — with YC taking the extreme tail (chips in space).</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> Fusion Fund<sup><a href="#s8" id="r8">8</a></sup>, 8090<sup><a href="#s11" id="r11">11</a></sup>, Initialized<sup><a href="#s118" id="r118">118</a></sup>, BasisSet<sup><a href="#s119" id="r119">119</a></sup>, Redpoint<sup><a href="#s120" id="r120">120</a></sup>, Emergence<sup><a href="#s104" id="r104">104</a></sup>, YC<sup><a href="#s121" id="r121">121</a></sup></p>
-</div>
-<div class="theme">
-<h3>The open web is dying → a closed, licensed, agent-readable internet <span class="count">6 firms</span></h3>
-<p>Flybridge's leading indicator: scrape-to-referral ratios of 2,000:1 (OpenAI) and 71,000:1 (Anthropic) are collapsing the ad/SEO-funded link economy. The next internet is monetized through data licensing, navigated by agents, and optimized for "machine legibility" rather than human eyes.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> Flybridge<sup><a href="#s122" id="r122">122</a></sup>, Lightspeed<sup><a href="#s123" id="r123">123</a></sup>, a16z<sup><a href="#s12" id="r12">12</a></sup>, USV<sup><a href="#s124" id="r124">124</a></sup>, Khosla<sup><a href="#s125" id="r125">125</a></sup>, Maveron<sup><a href="#s126" id="r126">126</a></sup></p>
-</div>
-<div class="theme">
-<h3>Brand, taste and trust as the durable moat <span class="count">19 firms</span></h3>
-<p>As capability converges across models, the differentiator becomes intangible: brand, taste, emotional attachment. Spark's "muse vs. faster-horse" thesis — products that raise the ceiling earn loyalty; commodity efficiency wrappers don't — is the cleanest statement of where consumer defensibility goes.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> Lightspeed<sup><a href="#s127" id="r127">127</a></sup>, Spark<sup><a href="#s128" id="r128">128</a></sup>, Maveron<sup><a href="#s129" id="r129">129</a></sup>, Forerunner<sup><a href="#s130" id="r130">130</a></sup>, Index<sup><a href="#s131" id="r131">131</a></sup>, CRV<sup><a href="#s132" id="r132">132</a></sup>, Felicis<sup><a href="#s61" id="r61">61</a></sup></p>
-</div>
-<div class="theme">
-<h3>Biology is the next AI substrate <span class="count">20 firms</span></h3>
-<p>AI-x-bio as a generational platform: protein design, AI-run wet labs, and an "AlphaFold moment" for engineering simulation (Conviction). Crowded enough to be real, novel enough that the winning form factor is still contested.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> Conviction<sup><a href="#s5" id="r5">5</a></sup>, DCVC<sup><a href="#s6" id="r6">6</a></sup>, Khosla<sup><a href="#s38" id="r38">38</a></sup>, Pebblebed<sup><a href="#s133" id="r133">133</a></sup>, a16z<sup><a href="#s12" id="r12">12</a></sup>, Initialized<sup><a href="#s134" id="r134">134</a></sup></p>
-</div>
-<div class="theme">
-<h3>Seed and stage compression / the barbell <span class="count">13 firms</span></h3>
-<p>Series A bifurcating into $50M "native-AI" rounds vs. $10M everything-else (Haystack). The middle hollows out; capital barbells toward category-defining bets and lean survivors, with the old "raise lean and predict the next round" framework breaking.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> Haystack<sup><a href="#s135" id="r135">135</a></sup>, Pear<sup><a href="#s136" id="r136">136</a></sup>, Initialized<sup><a href="#s134" id="r134">134</a></sup>, NfX<sup><a href="#s137" id="r137">137</a></sup>, BoxGroup<sup><a href="#s87" id="r87">87</a></sup>, Conviction<sup><a href="#s138" id="r138">138</a></sup>, Abstract<sup><a href="#s86" id="r86">86</a></sup></p>
-</div>
-<div class="theme">
-<h3>Permanent capital, rollups and AI-enabled buyouts <span class="count">13 firms</span></h3>
-<p>Buy the boring business, install AI, expand the margin. The PE-venture convergence: own-and-operate service businesses and roll up fragmented verticals where AI is the operational alpha rather than a product feature.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> General Catalyst<sup><a href="#s57" id="r57">57</a></sup>, Thrive<sup><a href="#s139" id="r139">139</a></sup>, 8VC<sup><a href="#s33" id="r33">33</a></sup>, Khosla<sup><a href="#s125" id="r125">125</a></sup>, DCVC<sup><a href="#s16" id="r16">16</a></sup>, Conviction<sup><a href="#s5" id="r5">5</a></sup></p>
-</div>
-<div class="theme">
-<h3>Emerging markets and international as the under-priced lane <span class="count">10 firms</span></h3>
-<p>While US capital crowds into horizontal AI, several firms point at lower-competition international and vertical markets. HustleFund's steer: durable returns come from verticals with workflow moats and geographies with far less competition.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> HustleFund<sup><a href="#s83" id="r83">83</a></sup>, Endeavor<sup><a href="#s140" id="r140">140</a></sup>, 500Global<sup><a href="#s90" id="r90">90</a></sup>, Tuesday<sup><a href="#s141" id="r141">141</a></sup>, Goodwater<sup><a href="#s142" id="r142">142</a></sup>, Pantera<sup><a href="#s143" id="r143">143</a></sup></p>
-</div>
+<table><thead><tr><th class="col-theme">Theme</th><th class="col-n">Firms</th><th class="col-claim">The claim, distilled &mdash; and why it matters</th><th class="col-firms">Voiced by</th></tr></thead><tbody>
+<tr>
+<td><strong>The GTM is going services-heavy (FDE / outcome delivery)</strong></td>
+<td class="num">8</td>
+<td>Forward-deployed engineers, owned service entities, AI-native BPOs. FirstRound's data: FDE job listings up 800% in nine months because capability is no longer the constraint — steering and last-mile integration are. The next enterprise winners may look services-heavy and "un-SaaS-like."</td>
+<td class="firmcell">FirstRound<sup><a href="#s28" id="r28">28</a></sup>, Index<sup><a href="#s63" id="r63">63</a></sup>, Emergence<sup><a href="#s108" id="r108">108</a></sup>, General Catalyst<sup><a href="#s13" id="r13">13</a></sup>, Interplay<sup><a href="#s97" id="r97">97</a></sup>, Headline<sup><a href="#s109" id="r109">109</a></sup>, Contrary<sup><a href="#s58" id="r58">58</a></sup>, 8090<sup><a href="#s110" id="r110">110</a></sup></td>
+</tr>
+<tr>
+<td><strong>Legacy experience is now a liability</strong></td>
+<td class="num">6</td>
+<td>Sharper than "young founders are cool": several firms argue domain experience is <em>actively disadvantageous</em> in a regime-change market, because incumbic intuition mis-predicts a world that no longer follows the old rules. AStar is moving allocation toward founders in their teens.</td>
+<td class="firmcell">AStar<sup><a href="#s111" id="r111">111</a></sup>, 1517<sup><a href="#s112" id="r112">112</a></sup>, Browder<sup><a href="#s91" id="r91">91</a></sup>, Slow<sup><a href="#s113" id="r113">113</a></sup>, Neo<sup><a href="#s114" id="r114">114</a></sup>, BasisSet<sup><a href="#s66" id="r66">66</a></sup></td>
+</tr>
+<tr>
+<td><strong>The self-improving, agent-native firm</strong></td>
+<td class="num">7</td>
+<td>Org design as the product. Sequoia's "$0-to-$1B-revenue club" of companies running agents internally for legal, recruiting and sales; Pebblebed running its own fund as a tech company. The bet: headcount decouples from revenue, and the firm itself becomes software.</td>
+<td class="firmcell">Pebblebed<sup><a href="#s95" id="r95">95</a></sup>, BasisSet<sup><a href="#s115" id="r115">115</a></sup>, NfX<sup><a href="#s116" id="r116">116</a></sup>, Sequoia<sup><a href="#s18" id="r18">18</a></sup>, USV<sup><a href="#s37" id="r37">37</a></sup>, FounderCollective<sup><a href="#s117" id="r117">117</a></sup>, Greylock<sup><a href="#s48" id="r48">48</a></sup></td>
+</tr>
+<tr>
+<td><strong>Inference chips and compute move to the edge</strong></td>
+<td class="num">7</td>
+<td>On-device, low-power, close-to-the-data. A bet against the cloud-hyperscaler-only narrative, favoring embedded inference and efficient silicon — with YC taking the extreme tail (chips in space).</td>
+<td class="firmcell">Fusion Fund<sup><a href="#s8" id="r8">8</a></sup>, 8090<sup><a href="#s11" id="r11">11</a></sup>, Initialized<sup><a href="#s118" id="r118">118</a></sup>, BasisSet<sup><a href="#s119" id="r119">119</a></sup>, Redpoint<sup><a href="#s120" id="r120">120</a></sup>, Emergence<sup><a href="#s104" id="r104">104</a></sup>, YC<sup><a href="#s121" id="r121">121</a></sup></td>
+</tr>
+<tr>
+<td><strong>The open web is dying → a closed, licensed, agent-readable internet</strong></td>
+<td class="num">6</td>
+<td>Flybridge's leading indicator: scrape-to-referral ratios of 2,000:1 (OpenAI) and 71,000:1 (Anthropic) are collapsing the ad/SEO-funded link economy. The next internet is monetized through data licensing, navigated by agents, and optimized for "machine legibility" rather than human eyes.</td>
+<td class="firmcell">Flybridge<sup><a href="#s122" id="r122">122</a></sup>, Lightspeed<sup><a href="#s123" id="r123">123</a></sup>, a16z<sup><a href="#s12" id="r12">12</a></sup>, USV<sup><a href="#s124" id="r124">124</a></sup>, Khosla<sup><a href="#s125" id="r125">125</a></sup>, Maveron<sup><a href="#s126" id="r126">126</a></sup></td>
+</tr>
+<tr>
+<td><strong>Brand, taste and trust as the durable moat</strong></td>
+<td class="num">19</td>
+<td>As capability converges across models, the differentiator becomes intangible: brand, taste, emotional attachment. Spark's "muse vs. faster-horse" thesis — products that raise the ceiling earn loyalty; commodity efficiency wrappers don't — is the cleanest statement of where consumer defensibility goes.</td>
+<td class="firmcell">Lightspeed<sup><a href="#s127" id="r127">127</a></sup>, Spark<sup><a href="#s128" id="r128">128</a></sup>, Maveron<sup><a href="#s129" id="r129">129</a></sup>, Forerunner<sup><a href="#s130" id="r130">130</a></sup>, Index<sup><a href="#s131" id="r131">131</a></sup>, CRV<sup><a href="#s132" id="r132">132</a></sup>, Felicis<sup><a href="#s61" id="r61">61</a></sup></td>
+</tr>
+<tr>
+<td><strong>Biology is the next AI substrate</strong></td>
+<td class="num">20</td>
+<td>AI-x-bio as a generational platform: protein design, AI-run wet labs, and an "AlphaFold moment" for engineering simulation (Conviction). Crowded enough to be real, novel enough that the winning form factor is still contested.</td>
+<td class="firmcell">Conviction<sup><a href="#s5" id="r5">5</a></sup>, DCVC<sup><a href="#s6" id="r6">6</a></sup>, Khosla<sup><a href="#s38" id="r38">38</a></sup>, Pebblebed<sup><a href="#s133" id="r133">133</a></sup>, a16z<sup><a href="#s12" id="r12">12</a></sup>, Initialized<sup><a href="#s134" id="r134">134</a></sup></td>
+</tr>
+<tr>
+<td><strong>Seed and stage compression / the barbell</strong></td>
+<td class="num">13</td>
+<td>Series A bifurcating into $50M "native-AI" rounds vs. $10M everything-else (Haystack). The middle hollows out; capital barbells toward category-defining bets and lean survivors, with the old "raise lean and predict the next round" framework breaking.</td>
+<td class="firmcell">Haystack<sup><a href="#s135" id="r135">135</a></sup>, Pear<sup><a href="#s136" id="r136">136</a></sup>, Initialized<sup><a href="#s134" id="r134">134</a></sup>, NfX<sup><a href="#s137" id="r137">137</a></sup>, BoxGroup<sup><a href="#s87" id="r87">87</a></sup>, Conviction<sup><a href="#s138" id="r138">138</a></sup>, Abstract<sup><a href="#s86" id="r86">86</a></sup></td>
+</tr>
+<tr>
+<td><strong>Permanent capital, rollups and AI-enabled buyouts</strong></td>
+<td class="num">13</td>
+<td>Buy the boring business, install AI, expand the margin. The PE-venture convergence: own-and-operate service businesses and roll up fragmented verticals where AI is the operational alpha rather than a product feature.</td>
+<td class="firmcell">General Catalyst<sup><a href="#s57" id="r57">57</a></sup>, Thrive<sup><a href="#s139" id="r139">139</a></sup>, 8VC<sup><a href="#s33" id="r33">33</a></sup>, Khosla<sup><a href="#s125" id="r125">125</a></sup>, DCVC<sup><a href="#s16" id="r16">16</a></sup>, Conviction<sup><a href="#s5" id="r5">5</a></sup></td>
+</tr>
+<tr>
+<td><strong>Emerging markets and international as the under-priced lane</strong></td>
+<td class="num">10</td>
+<td>While US capital crowds into horizontal AI, several firms point at lower-competition international and vertical markets. HustleFund's steer: durable returns come from verticals with workflow moats and geographies with far less competition.</td>
+<td class="firmcell">HustleFund<sup><a href="#s83" id="r83">83</a></sup>, Endeavor<sup><a href="#s140" id="r140">140</a></sup>, 500Global<sup><a href="#s90" id="r90">90</a></sup>, Tuesday<sup><a href="#s141" id="r141">141</a></sup>, Goodwater<sup><a href="#s142" id="r142">142</a></sup>, Pantera<sup><a href="#s143" id="r143">143</a></sup></td>
+</tr>
+</tbody></table>
 </div>
 <div class="section"><div class="section-title">④ Sharp — the almost-nobody bets (2–9 firms)</div>
 <p class="band-blurb">Two or three serious firms looking at something everyone else is ignoring. Highest risk, highest potential edge — and where the most falsifiable, specific claims live.</p>
-<div class="theme">
-<h3>Adoption is plateauing — the hype is mistimed <span class="count">6 firms</span></h3>
-<p>The bear spine. Contrary cites usage slipping 46%→37% and 42% of enterprise AI initiatives killed; Anthology measures real productivity gains at 0.6-1.2pp; HustleFund puts a 1-2 year clock on the apps gold rush before a sudden white-collar shock. The dissent isn't "AI is fake" — it's "the timing and magnitude are wrong."</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> Contrary<sup><a href="#s81" id="r81">81</a></sup>, Anthology<sup><a href="#s144" id="r144">144</a></sup>, HustleFund<sup><a href="#s83" id="r83">83</a></sup>, Redpoint<sup><a href="#s44" id="r44">44</a></sup>, BasisSet<sup><a href="#s66" id="r66">66</a></sup>, Thiel Capital<sup><a href="#s80" id="r80">80</a></sup></p>
-</div>
-<div class="theme">
-<h3>78% of AI failures are invisible and model-immune <span class="count">2 firms</span></h3>
-<p>Susa's striking claim: most production AI failures generate no complaint, no rating, no escalation — and ~94% would persist even with a much better model, because they're driven by interaction dynamics, not capability. If true, "scale fixes everything" is wrong, and an entire AI-supervision/observability category is needed now.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> Susa<sup><a href="#s145" id="r145">145</a></sup>, WorkBench<sup><a href="#s146" id="r146">146</a></sup></p>
-</div>
-<div class="theme">
-<h3>Real-time compliance becomes its own software category <span class="count">3 firms</span></h3>
-<p>Embedding enforcement into the workflow — validate-as-you-act, auto-log, escalate only edge cases — rather than auditing after the fact. A specific, less-crowded bet tied directly to governing autonomous agent actions.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> WorkBench<sup><a href="#s147" id="r147">147</a></sup>, Susa<sup><a href="#s148" id="r148">148</a></sup>, TenOneTen<sup><a href="#s92" id="r92">92</a></sup></p>
-</div>
-<div class="theme">
-<h3>Prediction markets / radical financialization as civic infrastructure <span class="count">4 firms</span></h3>
-<p>Paradigm's political-index work and Slow's "fork in the road" both bet that prediction markets either get regulated into the ground or explode into core infrastructure for expressing views. A genuinely two-sided, high-variance macro bet.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> Paradigm<sup><a href="#s49" id="r49">49</a></sup>, Slow<sup><a href="#s25" id="r25">25</a></sup>, Pantera<sup><a href="#s149" id="r149">149</a></sup>, DayOne<sup><a href="#s150" id="r150">150</a></sup></p>
-</div>
-<div class="theme">
-<h3>Agent identity, KYA, and the security of autonomous action <span class="count">6 firms</span></h3>
-<p>As agents transact, "know-your-agent" and spend controls (session caps, transaction limits, human escalation) become the differentiator. TenOneTen predicts an embarrassing agent-spend blow-up sorts the market — safety rails as moat, not feature.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> TenOneTen<sup><a href="#s92" id="r92">92</a></sup>, WorkBench<sup><a href="#s147" id="r147">147</a></sup>, Pebblebed<sup><a href="#s151" id="r151">151</a></sup>, Susa<sup><a href="#s152" id="r152">152</a></sup>, a16z<sup><a href="#s153" id="r153">153</a></sup>, Browder<sup><a href="#s154" id="r154">154</a></sup></p>
-</div>
-<div class="theme">
-<h3>Skilled trades and the physical-labor premium <span class="count">6 firms</span></h3>
-<p>As knowledge work commoditizes, the un-automatable physical trades gain economic and cultural value. An under-explored corollary of the embodiment thesis — the humans who work with atoms get more valuable, not less.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> a16z<sup><a href="#s64" id="r64">64</a></sup>, 8VC<sup><a href="#s4" id="r4">4</a></sup>, DayOne<sup><a href="#s155" id="r155">155</a></sup>, Eniac<sup><a href="#s3" id="r3">3</a></sup>, Khosla<sup><a href="#s156" id="r156">156</a></sup>, DCVC<sup><a href="#s16" id="r16">16</a></sup></p>
-</div>
-<div class="theme">
-<h3>Science institutions are broken — fund the heterodox <span class="count">9 firms</span></h3>
-<p>A conviction that academia and grant science are structurally failing, opening room for privately-funded, heterodox research (focused research orgs, independent labs). 1517 takes it furthest — risk culture itself, not capital, is the binding constraint on breakthroughs.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> 1517<sup><a href="#s157" id="r157">157</a></sup>, DayOne<sup><a href="#s158" id="r158">158</a></sup>, Conviction<sup><a href="#s5" id="r5">5</a></sup>, Initialized<sup><a href="#s134" id="r134">134</a></sup>, Khosla<sup><a href="#s38" id="r38">38</a></sup>, DCVC<sup><a href="#s16" id="r16">16</a></sup></p>
-</div>
-<div class="theme">
-<h3>AI-vs-AI commerce: machines selling to machines <span class="count">9 firms</span></h3>
-<p>When the buyer is an agent, the entire funnel — marketing, SEO, pricing, negotiation — re-architects for a non-human customer. Maveron: "ask-and-decide" agents kill the consumer funnel. A structural reframe most commerce companies haven't priced.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> TenOneTen<sup><a href="#s92" id="r92">92</a></sup>, USV<sup><a href="#s93" id="r93">93</a></sup>, Paradigm<sup><a href="#s94" id="r94">94</a></sup>, Maveron<sup><a href="#s126" id="r126">126</a></sup>, Redpoint<sup><a href="#s96" id="r96">96</a></sup>, Browder<sup><a href="#s98" id="r98">98</a></sup>, Sequoia<sup><a href="#s42" id="r42">42</a></sup></p>
-</div>
-<div class="theme">
-<h3>Permitting and interconnection as the real energy bottleneck <span class="count">4 firms</span></h3>
-<p>Not generation — <em>connection</em>. The unsexy regulatory and grid-interconnection queue is the actual constraint on powering AI, making the investable opportunity political and infrastructural rather than purely technological.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> DCVC<sup><a href="#s16" id="r16">16</a></sup>, 8VC<sup><a href="#s33" id="r33">33</a></sup>, Khosla<sup><a href="#s38" id="r38">38</a></sup>, General Catalyst<sup><a href="#s52" id="r52">52</a></sup></p>
-</div>
-<div class="theme">
-<h3>Domestic resource extraction and material sovereignty <span class="count">3 firms</span></h3>
-<p>USV's domestic-brine lithium (extract without new mining), plus a broader bet on securing battery-material and critical-mineral supply chains onshore. A specific, physical, supply-chain wager riding the reindustrialization wave.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> USV<sup><a href="#s159" id="r159">159</a></sup>, 8090<sup><a href="#s11" id="r11">11</a></sup>, DCVC<sup><a href="#s16" id="r16">16</a></sup></p>
-</div>
+<table><thead><tr><th class="col-theme">Theme</th><th class="col-n">Firms</th><th class="col-claim">The claim, distilled &mdash; and why it matters</th><th class="col-firms">Voiced by</th></tr></thead><tbody>
+<tr>
+<td><strong>Adoption is plateauing — the hype is mistimed</strong></td>
+<td class="num">6</td>
+<td>The bear spine. Contrary cites usage slipping 46%→37% and 42% of enterprise AI initiatives killed; Anthology measures real productivity gains at 0.6-1.2pp; HustleFund puts a 1-2 year clock on the apps gold rush before a sudden white-collar shock. The dissent isn't "AI is fake" — it's "the timing and magnitude are wrong."</td>
+<td class="firmcell">Contrary<sup><a href="#s81" id="r81">81</a></sup>, Anthology<sup><a href="#s144" id="r144">144</a></sup>, HustleFund<sup><a href="#s83" id="r83">83</a></sup>, Redpoint<sup><a href="#s44" id="r44">44</a></sup>, BasisSet<sup><a href="#s66" id="r66">66</a></sup>, Thiel Capital<sup><a href="#s80" id="r80">80</a></sup></td>
+</tr>
+<tr>
+<td><strong>78% of AI failures are invisible and model-immune</strong></td>
+<td class="num">2</td>
+<td>Susa's striking claim: most production AI failures generate no complaint, no rating, no escalation — and ~94% would persist even with a much better model, because they're driven by interaction dynamics, not capability. If true, "scale fixes everything" is wrong, and an entire AI-supervision/observability category is needed now.</td>
+<td class="firmcell">Susa<sup><a href="#s145" id="r145">145</a></sup>, WorkBench<sup><a href="#s146" id="r146">146</a></sup></td>
+</tr>
+<tr>
+<td><strong>Real-time compliance becomes its own software category</strong></td>
+<td class="num">3</td>
+<td>Embedding enforcement into the workflow — validate-as-you-act, auto-log, escalate only edge cases — rather than auditing after the fact. A specific, less-crowded bet tied directly to governing autonomous agent actions.</td>
+<td class="firmcell">WorkBench<sup><a href="#s147" id="r147">147</a></sup>, Susa<sup><a href="#s148" id="r148">148</a></sup>, TenOneTen<sup><a href="#s92" id="r92">92</a></sup></td>
+</tr>
+<tr>
+<td><strong>Prediction markets / radical financialization as civic infrastructure</strong></td>
+<td class="num">4</td>
+<td>Paradigm's political-index work and Slow's "fork in the road" both bet that prediction markets either get regulated into the ground or explode into core infrastructure for expressing views. A genuinely two-sided, high-variance macro bet.</td>
+<td class="firmcell">Paradigm<sup><a href="#s49" id="r49">49</a></sup>, Slow<sup><a href="#s25" id="r25">25</a></sup>, Pantera<sup><a href="#s149" id="r149">149</a></sup>, DayOne<sup><a href="#s150" id="r150">150</a></sup></td>
+</tr>
+<tr>
+<td><strong>Agent identity, KYA, and the security of autonomous action</strong></td>
+<td class="num">6</td>
+<td>As agents transact, "know-your-agent" and spend controls (session caps, transaction limits, human escalation) become the differentiator. TenOneTen predicts an embarrassing agent-spend blow-up sorts the market — safety rails as moat, not feature.</td>
+<td class="firmcell">TenOneTen<sup><a href="#s92" id="r92">92</a></sup>, WorkBench<sup><a href="#s147" id="r147">147</a></sup>, Pebblebed<sup><a href="#s151" id="r151">151</a></sup>, Susa<sup><a href="#s152" id="r152">152</a></sup>, a16z<sup><a href="#s153" id="r153">153</a></sup>, Browder<sup><a href="#s154" id="r154">154</a></sup></td>
+</tr>
+<tr>
+<td><strong>Skilled trades and the physical-labor premium</strong></td>
+<td class="num">6</td>
+<td>As knowledge work commoditizes, the un-automatable physical trades gain economic and cultural value. An under-explored corollary of the embodiment thesis — the humans who work with atoms get more valuable, not less.</td>
+<td class="firmcell">a16z<sup><a href="#s64" id="r64">64</a></sup>, 8VC<sup><a href="#s4" id="r4">4</a></sup>, DayOne<sup><a href="#s155" id="r155">155</a></sup>, Eniac<sup><a href="#s3" id="r3">3</a></sup>, Khosla<sup><a href="#s156" id="r156">156</a></sup>, DCVC<sup><a href="#s16" id="r16">16</a></sup></td>
+</tr>
+<tr>
+<td><strong>Science institutions are broken — fund the heterodox</strong></td>
+<td class="num">9</td>
+<td>A conviction that academia and grant science are structurally failing, opening room for privately-funded, heterodox research (focused research orgs, independent labs). 1517 takes it furthest — risk culture itself, not capital, is the binding constraint on breakthroughs.</td>
+<td class="firmcell">1517<sup><a href="#s157" id="r157">157</a></sup>, DayOne<sup><a href="#s158" id="r158">158</a></sup>, Conviction<sup><a href="#s5" id="r5">5</a></sup>, Initialized<sup><a href="#s134" id="r134">134</a></sup>, Khosla<sup><a href="#s38" id="r38">38</a></sup>, DCVC<sup><a href="#s16" id="r16">16</a></sup></td>
+</tr>
+<tr>
+<td><strong>AI-vs-AI commerce: machines selling to machines</strong></td>
+<td class="num">9</td>
+<td>When the buyer is an agent, the entire funnel — marketing, SEO, pricing, negotiation — re-architects for a non-human customer. Maveron: "ask-and-decide" agents kill the consumer funnel. A structural reframe most commerce companies haven't priced.</td>
+<td class="firmcell">TenOneTen<sup><a href="#s92" id="r92">92</a></sup>, USV<sup><a href="#s93" id="r93">93</a></sup>, Paradigm<sup><a href="#s94" id="r94">94</a></sup>, Maveron<sup><a href="#s126" id="r126">126</a></sup>, Redpoint<sup><a href="#s96" id="r96">96</a></sup>, Browder<sup><a href="#s98" id="r98">98</a></sup>, Sequoia<sup><a href="#s42" id="r42">42</a></sup></td>
+</tr>
+<tr>
+<td><strong>Permitting and interconnection as the real energy bottleneck</strong></td>
+<td class="num">4</td>
+<td>Not generation — <em>connection</em>. The unsexy regulatory and grid-interconnection queue is the actual constraint on powering AI, making the investable opportunity political and infrastructural rather than purely technological.</td>
+<td class="firmcell">DCVC<sup><a href="#s16" id="r16">16</a></sup>, 8VC<sup><a href="#s33" id="r33">33</a></sup>, Khosla<sup><a href="#s38" id="r38">38</a></sup>, General Catalyst<sup><a href="#s52" id="r52">52</a></sup></td>
+</tr>
+<tr>
+<td><strong>Domestic resource extraction and material sovereignty</strong></td>
+<td class="num">3</td>
+<td>USV's domestic-brine lithium (extract without new mining), plus a broader bet on securing battery-material and critical-mineral supply chains onshore. A specific, physical, supply-chain wager riding the reindustrialization wave.</td>
+<td class="firmcell">USV<sup><a href="#s159" id="r159">159</a></sup>, 8090<sup><a href="#s11" id="r11">11</a></sup>, DCVC<sup><a href="#s16" id="r16">16</a></sup></td>
+</tr>
+</tbody></table>
 </div>
 <div class="section"><div class="section-title">⑤ Lone Signals — a single firm willing to say it (1 firm)</div>
 <p class="band-blurb">One firm, on the record, against the grain. Most will be wrong. The ones that aren't are where outsized returns come from.</p>
-<div class="theme">
-<h3>AI breaks GDP and dissolves mineral scarcity <span class="count">Khosla</span></h3>
-<p>Khosla's maximalist tail: AI-driven productivity makes conventional GDP measurement meaningless and pushes toward $1M-per-capita output, while advanced extraction dissolves the notion of mineral scarcity entirely. Civilizational abundance as an investable base case.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> Khosla<sup><a href="#s38" id="r38">38</a></sup></p>
-</div>
-<div class="theme">
-<h3>"Stagnation still holds — AI alone won't end it" <span class="count">Thiel Capital</span></h3>
-<p>Against the entire productivity-supercycle narrative: outside the world of bits, progress remains stuck. AI is one fast vertical in an otherwise stagnant landscape — and the revealed-preference proof is the firm's reported full Nvidia exit into mega-cap diversification.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> Thiel Capital<sup><a href="#s80" id="r80">80</a></sup></p>
-</div>
-<div class="theme">
-<h3>Venture capital for <em>people</em>, not companies <span class="count">Slow</span></h3>
-<p>Slow's signature heterodoxy: finance individuals directly — a percentage of a person's 30-year future earnings or a holding company over their output — rather than single companies. Legally novel, productized into a dedicated Creator Fund.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> Slow<sup><a href="#s160" id="r160">160</a></sup></p>
-</div>
-<div class="theme">
-<h3>Restaurants are mis-priced entertainment-fintech assets <span class="count">USV</span></h3>
-<p>A genuinely strange reframe: restaurants as premium entertainment venues that will support native loyalty and payments layers — paired with USV's decade-old bet that credit-card interchange economics finally die.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> USV<sup><a href="#s161" id="r161">161</a></sup></p>
-</div>
-<div class="theme">
-<h3>Engineering simulation's "AlphaFold moment" <span class="count">Conviction</span></h3>
-<p>A single-firm conviction that physical-world simulation (fluids, structures, materials) is about to undergo the same step-change AlphaFold gave biology — collapsing R&D cycles across every atoms-based industry.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> Conviction<sup><a href="#s5" id="r5">5</a></sup></p>
-</div>
-<div class="theme">
-<h3>AI inside legacy physical infrastructure — for safety, not speed <span class="count">Initialized</span></h3>
-<p>Embedding AI into airspace, the grid, and critical systems where the value is <em>reliability and safety</em>, not throughput — an inversion of the move-fast framing in the highest-stakes physical domains.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> Initialized<sup><a href="#s118" id="r118">118</a></sup></p>
-</div>
-<div class="theme">
-<h3>Gen Alpha rewrites consumer: "Sephora Kids" and shitposting-as-marketing <span class="count">Maveron</span></h3>
-<p>Maveron's bet that Gen Alpha's behavior — early brand fluency, performance-native culture, shitposting as legitimate performance marketing — reshapes consumer company-building well before the cohort has income.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> Maveron<sup><a href="#s62" id="r62">62</a></sup></p>
-</div>
-<div class="theme">
-<h3>The deflationary wealth-transfer — short friction and junk fees <span class="count">Browder</span></h3>
-<p>Browder frames AI as a deflationary force that strips margin from friction-based and junk-fee businesses, transferring wealth to consumers — an explicitly short thesis on the businesses that monetize hassle.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> Browder<sup><a href="#s162" id="r162">162</a></sup></p>
-</div>
-<div class="theme">
-<h3>A "company brain" skills file as the missing automation layer <span class="count">YC</span></h3>
-<p>YC's primitive: every company needs a living, executable skills file that extracts scattered domain knowledge — distinct from enterprise search or RAG — as the precondition for reliable business automation.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> YC<sup><a href="#s121" id="r121">121</a></sup></p>
-</div>
-<div class="theme">
-<h3>Cryonics, longevity and culture as adoption infrastructure <span class="count">DayOne</span></h3>
-<p>DayOne's tail bets: cryonics as a fundable category, and art/culture as the real infrastructure of technology adoption — the soft layer that determines whether hard tech gets used at all.</p>
-<p class="firms"><span class="firms-label">Voiced by:</span> DayOne<sup><a href="#s150" id="r150">150</a></sup></p>
-</div>
+<table><thead><tr><th class="col-theme">Theme</th><th class="col-n">Firms</th><th class="col-claim">The claim, distilled &mdash; and why it matters</th><th class="col-firms">Voiced by</th></tr></thead><tbody>
+<tr>
+<td><strong>AI breaks GDP and dissolves mineral scarcity</strong></td>
+<td class="num">Khosla</td>
+<td>Khosla's maximalist tail: AI-driven productivity makes conventional GDP measurement meaningless and pushes toward $1M-per-capita output, while advanced extraction dissolves the notion of mineral scarcity entirely. Civilizational abundance as an investable base case.</td>
+<td class="firmcell">Khosla<sup><a href="#s38" id="r38">38</a></sup></td>
+</tr>
+<tr>
+<td><strong>"Stagnation still holds — AI alone won't end it"</strong></td>
+<td class="num">Thiel Capital</td>
+<td>Against the entire productivity-supercycle narrative: outside the world of bits, progress remains stuck. AI is one fast vertical in an otherwise stagnant landscape — and the revealed-preference proof is the firm's reported full Nvidia exit into mega-cap diversification.</td>
+<td class="firmcell">Thiel Capital<sup><a href="#s80" id="r80">80</a></sup></td>
+</tr>
+<tr>
+<td><strong>Venture capital for <em>people</em>, not companies</strong></td>
+<td class="num">Slow</td>
+<td>Slow's signature heterodoxy: finance individuals directly — a percentage of a person's 30-year future earnings or a holding company over their output — rather than single companies. Legally novel, productized into a dedicated Creator Fund.</td>
+<td class="firmcell">Slow<sup><a href="#s160" id="r160">160</a></sup></td>
+</tr>
+<tr>
+<td><strong>Restaurants are mis-priced entertainment-fintech assets</strong></td>
+<td class="num">USV</td>
+<td>A genuinely strange reframe: restaurants as premium entertainment venues that will support native loyalty and payments layers — paired with USV's decade-old bet that credit-card interchange economics finally die.</td>
+<td class="firmcell">USV<sup><a href="#s161" id="r161">161</a></sup></td>
+</tr>
+<tr>
+<td><strong>Engineering simulation's "AlphaFold moment"</strong></td>
+<td class="num">Conviction</td>
+<td>A single-firm conviction that physical-world simulation (fluids, structures, materials) is about to undergo the same step-change AlphaFold gave biology — collapsing R&D cycles across every atoms-based industry.</td>
+<td class="firmcell">Conviction<sup><a href="#s5" id="r5">5</a></sup></td>
+</tr>
+<tr>
+<td><strong>AI inside legacy physical infrastructure — for safety, not speed</strong></td>
+<td class="num">Initialized</td>
+<td>Embedding AI into airspace, the grid, and critical systems where the value is <em>reliability and safety</em>, not throughput — an inversion of the move-fast framing in the highest-stakes physical domains.</td>
+<td class="firmcell">Initialized<sup><a href="#s118" id="r118">118</a></sup></td>
+</tr>
+<tr>
+<td><strong>Gen Alpha rewrites consumer: "Sephora Kids" and shitposting-as-marketing</strong></td>
+<td class="num">Maveron</td>
+<td>Maveron's bet that Gen Alpha's behavior — early brand fluency, performance-native culture, shitposting as legitimate performance marketing — reshapes consumer company-building well before the cohort has income.</td>
+<td class="firmcell">Maveron<sup><a href="#s62" id="r62">62</a></sup></td>
+</tr>
+<tr>
+<td><strong>The deflationary wealth-transfer — short friction and junk fees</strong></td>
+<td class="num">Browder</td>
+<td>Browder frames AI as a deflationary force that strips margin from friction-based and junk-fee businesses, transferring wealth to consumers — an explicitly short thesis on the businesses that monetize hassle.</td>
+<td class="firmcell">Browder<sup><a href="#s162" id="r162">162</a></sup></td>
+</tr>
+<tr>
+<td><strong>A "company brain" skills file as the missing automation layer</strong></td>
+<td class="num">YC</td>
+<td>YC's primitive: every company needs a living, executable skills file that extracts scattered domain knowledge — distinct from enterprise search or RAG — as the precondition for reliable business automation.</td>
+<td class="firmcell">YC<sup><a href="#s121" id="r121">121</a></sup></td>
+</tr>
+<tr>
+<td><strong>Cryonics, longevity and culture as adoption infrastructure</strong></td>
+<td class="num">DayOne</td>
+<td>DayOne's tail bets: cryonics as a fundable category, and art/culture as the real infrastructure of technology adoption — the soft layer that determines whether hard tech gets used at all.</td>
+<td class="firmcell">DayOne<sup><a href="#s150" id="r150">150</a></sup></td>
+</tr>
+</tbody></table>
 </div>
 <div class="section"><div class="section-title">⚔️ Sharp Contradictions — where serious firms directly disagree</div>
 <p class="band-blurb">The highest-value reading in the report. When credible firms reach opposite conclusions from the same evidence, the disagreement itself is the signal — it marks the questions still genuinely open.</p>
-<div class="theme"><h3>Is the forward-deployed-engineer model the future or a trap?</h3><p><strong>FirstRound</strong> calls FDE the emerging default GTM (listings +800%). <strong>Flybridge</strong> calls it an expensive mistake for 95%+ of startups that destroys unit economics. Both are looking at the same motion and reaching opposite conclusions.</p></div>
-<div class="theme"><h3>Does value accrue to apps or to infrastructure?</h3><p><strong>Floodgate</strong> and <strong>Fusion Fund</strong> bet value migrates to the application/intent layer (the "Netscapes and Nokias" of infra lose). <strong>Spark</strong> bets the opposite — concentrate into the deepest infra layers (models, datacenters, chips, lithography), where a few platforms absorb most of the value.</p></div>
-<div class="theme"><h3>Is capital a weapon or a commodity?</h3><p><strong>Haystack</strong> sees $50M native-AI rounds as mega-funds using capital as an offensive weapon. Also <strong>Haystack</strong> (and <strong>CRV</strong>) argue capital is now a non-differentiator and judgment is the scarce edge. The same firms hold both — a real tension about whether money still buys advantage.</p></div>
-<div class="theme"><h3>Open or closed?</h3><p><strong>USV</strong> and <strong>a16z</strong> (crypto) bet permissionless, composable protocols beat closed frontier labs over time. The <strong>Incumbents-win</strong> consensus bets the opposite. This is the defining structural disagreement of the cycle.</p></div>
-<div class="theme"><h3>Is adoption inexorable or plateauing?</h3><p>The <strong>Consensus</strong> bands assume relentless adoption. <strong>Contrary</strong>, <strong>Anthology</strong>, and <strong>HustleFund</strong> present data that usage is slipping, productivity gains are small, and a timing air-pocket is near. Both can't be right about 2026-27.</p></div>
-</div>
+<ol class="contra">
+<li><strong>Is the forward-deployed-engineer model the future or a trap?</strong> <strong>FirstRound</strong> calls FDE the emerging default GTM (listings +800%). <strong>Flybridge</strong> calls it an expensive mistake for 95%+ of startups that destroys unit economics. Both are looking at the same motion and reaching opposite conclusions.</li>
+<li><strong>Does value accrue to apps or to infrastructure?</strong> <strong>Floodgate</strong> and <strong>Fusion Fund</strong> bet value migrates to the application/intent layer (the "Netscapes and Nokias" of infra lose). <strong>Spark</strong> bets the opposite — concentrate into the deepest infra layers (models, datacenters, chips, lithography), where a few platforms absorb most of the value.</li>
+<li><strong>Is capital a weapon or a commodity?</strong> <strong>Haystack</strong> sees $50M native-AI rounds as mega-funds using capital as an offensive weapon. Also <strong>Haystack</strong> (and <strong>CRV</strong>) argue capital is now a non-differentiator and judgment is the scarce edge. The same firms hold both — a real tension about whether money still buys advantage.</li>
+<li><strong>Open or closed?</strong> <strong>USV</strong> and <strong>a16z</strong> (crypto) bet permissionless, composable protocols beat closed frontier labs over time. The <strong>Incumbents-win</strong> consensus bets the opposite. This is the defining structural disagreement of the cycle.</li>
+<li><strong>Is adoption inexorable or plateauing?</strong> The <strong>Consensus</strong> bands assume relentless adoption. <strong>Contrary</strong>, <strong>Anthology</strong>, and <strong>HustleFund</strong> present data that usage is slipping, productivity gains are small, and a timing air-pocket is near. Both can't be right about 2026-27.</li>
+</ol></div>
 <div class="section"><div class="section-title">🛸 Off the Deep End — three bets from the far tail</div>
 <p class="band-blurb">Pulled out for their own spotlight: the strangest single-firm theses in the corpus. We make no claim they're right. We note only that genuinely non-consensus returns, by definition, start out sounding like these.</p>
-<div class="theme deep"><h3>Inference chips deployed in space <span class="count">YC</span></h3><p>Cheap reusable launch (SpaceX, Stoke) creates a market for inference compute in orbit — optimized for mass, thermal dissipation, and radiation tolerance. Solar power is free and cooling is the void. The most literally far-out bet in the corpus, and a pure strangeness signal.</p><p class="firms"><span class="firms-label">Voiced by:</span> YC<sup><a href="#s121" id="r121">121</a></sup></p></div>
-<div class="theme deep"><h3>"Yes, we are at risk of apocalypse — and that is good" <span class="count">Founders Fund</span></h3><p>Founders Fund's accelerationist tail: catastrophic-risk technologies are inseparable from their inverse upside — climate doom implies weather control, pandemic risk implies nanobot immunity, AGI risk implies abundance. The rational posture is to accelerate <em>into</em> apocalyptic-grade technology. About as far from mainstream risk-management as a thesis gets.</p><p class="firms"><span class="firms-label">Voiced by:</span> Founders Fund<sup><a href="#s163" id="r163">163</a></sup></p></div>
-<div class="theme deep"><h3>P≠NP imposes a permanent ceiling on AI <span class="count">Pebblebed</span></h3><p>A structural anti-doom argument from computational complexity: if P≠NP, there are hard limits no amount of scaling transcends, bounding what AI can ever do. A rare thesis that uses theoretical computer science to argue the superintelligence runaway is mathematically constrained.</p><p class="firms"><span class="firms-label">Voiced by:</span> Pebblebed<sup><a href="#s164" id="r164">164</a></sup></p></div>
-</div>
+<table><thead><tr><th class="col-theme">The bet</th><th class="col-n">Firm</th><th class="col-claim">Why it earns a spotlight</th></tr></thead><tbody>
+<tr><td><strong>Inference chips deployed in space</strong></td><td class="firmcell">YC<sup><a href="#s121" id="r121">121</a></sup></td><td>Cheap reusable launch (SpaceX, Stoke) creates a market for inference compute in orbit — optimized for mass, thermal dissipation, and radiation tolerance. Solar power is free and cooling is the void. The most literally far-out bet in the corpus, and a pure strangeness signal.</td></tr>
+<tr><td><strong>"Yes, we are at risk of apocalypse — and that is good"</strong></td><td class="firmcell">Founders Fund<sup><a href="#s163" id="r163">163</a></sup></td><td>Founders Fund's accelerationist tail: catastrophic-risk technologies are inseparable from their inverse upside — climate doom implies weather control, pandemic risk implies nanobot immunity, AGI risk implies abundance. The rational posture is to accelerate <em>into</em> apocalyptic-grade technology. About as far from mainstream risk-management as a thesis gets.</td></tr>
+<tr><td><strong>P≠NP imposes a permanent ceiling on AI</strong></td><td class="firmcell">Pebblebed<sup><a href="#s164" id="r164">164</a></sup></td><td>A structural anti-doom argument from computational complexity: if P≠NP, there are hard limits no amount of scaling transcends, bounding what AI can ever do. A rare thesis that uses theoretical computer science to argue the superintelligence runaway is mathematically constrained.</td></tr>
+</tbody></table></div>
 
 <div class="section"><div class="section-title">Methodology</div>
 <div class="method">
