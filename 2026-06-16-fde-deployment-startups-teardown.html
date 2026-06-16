@@ -432,6 +432,76 @@
 
 <p><b>The pattern across peers:</b> almost everyone has adopted some combination of (a) outcome/KPI pricing, (b) forward-deployed delivery, and (c) "harvest the customer's proprietary context." The differentiators are <i>vertical depth vs. horizontal breadth</i> and <i>product-led vs. FDE-led</i>. Distyl/Northslope sit at the FDE-led, multi-vertical, embed-deep end — the most services-heavy, highest-touch corner of the field.</p>
 
+<h3>The smaller-player ladder — who's running this at each funding stage</h3>
+<p>Beyond the unicorns above, a fast-growing cohort of earlier-stage companies is running the same ex-Palantir embed-and-build playbook, and the most useful comp set for understanding the model's formation is tiered by stage. The recurring pattern is unmistakable: ex-Palantir / ex-FAANG founders &rarr; pick one messy vertical workflow as the wedge &rarr; embed an FDE to build directly on the customer's data &rarr; fold the bespoke builds back into reusable platform infrastructure. The earlier the stage, the more visible the seam between "services to land" and "platform to expand."</p>
+
+<table>
+<thead><tr><th>Company</th><th>What they do &amp; pedigree</th><th>Funding (latest)</th><th>Read vs. the FDE archetype</th></tr></thead>
+<tbody>
+<tr><td colspan="4" style="background:#f3f0ea;font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:.8em">Tier &mdash; Series A/B</td></tr>
+<tr>
+<td><b>Edra</b> &#11088;</td>
+<td>Turns a company's operational data (emails, logs, tickets, chat) into a continuously-updated "living knowledge base" and automates workflows (ITSM, CX). Founders are ex-Palantir &mdash; including <b>Palantir's first forward-deployed AI engineer</b> (Yannis Karamanlakis) and Eugen Alpeza (led the Palantir AIP launch).</td>
+<td><b>$30M Series A</b>, led by Sequoia (with 8VC, A*), Mar 2026.<sup><a href="#s31">31</a></sup> <span class="tag t-conf">CONFIRMED</span></td>
+<td><b>Closest pure comp</b> to the Distyl/Northslope archetype at early stage &mdash; embed-on-your-data plus a platform that absorbs the field-built workflows.</td>
+</tr>
+<tr>
+<td><b>Bretton AI</b><br>(formerly Greenlite)</td>
+<td>Agentic AI for financial-crime compliance (AML / KYC / KYB / sanctions / transaction monitoring); agents plug into a customer's existing compliance systems and SOPs.</td>
+<td><b>$75M Series B</b>, Sapphire Ventures lead, Feb 2026.<sup><a href="#s33">33</a></sup> <span class="tag t-rep">REPORTED</span></td>
+<td><b>Adjacent</b> &mdash; more productized (a vertical agent platform) than the pure FDE-bespoke embed.</td>
+</tr>
+<tr>
+<td><b>Eudia</b></td>
+<td>Corporate-legal AI agents for in-house legal teams.</td>
+<td><b>~$105M</b> (Series A, General Catalyst lead), 2025.<sup><a href="#s35">35</a></sup> <span class="tag t-rep">REPORTED</span></td>
+<td><b>Adjacent</b> &mdash; leans toward "become the service/product for legal" rather than embed-on-your-data.</td>
+</tr>
+<tr><td colspan="4" style="background:#f3f0ea;font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:.8em">Tier &mdash; Seed</td></tr>
+<tr>
+<td><b>Asteroid</b><br>(YC W25)</td>
+<td>"AI browser workforce": builds, deploys and maintains browser &amp; computer-use agents inside each customer's legacy / regulated workflows; explicitly hires FDEs who take a workflow "from scoping to production" in shared Slack channels.</td>
+<td><b>~$0.5&ndash;2M</b> pre-seed/seed.<sup><a href="#s32">32</a></sup> <span class="tag t-rep">REPORTED</span></td>
+<td><b>Earliest-stage true-FDE comp</b> &mdash; the embed motion is the explicit product.</td>
+</tr>
+<tr>
+<td><b>Fern Labs</b><br>(UK)</td>
+<td>Horizontal agent orchestration; <b>three ex-Palantir founders</b>.</td>
+<td><b>~$3M</b> pre-seed (Air Street Capital).<sup><a href="#s34">34</a></sup> <span class="tag t-rep">REPORTED</span></td>
+<td>Horizontal bet &mdash; the riskiest framing this early.</td>
+</tr>
+<tr>
+<td><b>Zeit AI</b><br>(Munich, YC S24)</td>
+<td>Lets enterprises query their tables / data in natural language; <b>~80% ex-Palantir team</b>.</td>
+<td><b>~$2.7M</b> seed; <b>~$1M ARR</b> in year one.<sup><a href="#s32">32</a></sup> <span class="tag t-rep">REPORTED</span></td>
+<td>Wedge = natural-language access to the customer's own data substrate.</td>
+</tr>
+<tr>
+<td><b>Overstand Labs</b><br>(YC W25)</td>
+<td>"On-demand data team" that embeds to build on customer data; <b>ex-Palantir + ex-Meta founders</b>.</td>
+<td><b>~$0.5&ndash;1M</b> seed.<sup><a href="#s32">32</a></sup> <span class="tag t-rep">REPORTED</span></td>
+<td>Embed-and-build framed as a service that hardens into product.</td>
+</tr>
+<tr>
+<td><b>Corvera</b><br>(YC W26)</td>
+<td>CPG back-office agents that operate directly on the customer's ERP.</td>
+<td><b>~$6.3M</b> seed.<sup><a href="#s32">32</a></sup> <span class="tag t-rep">REPORTED</span></td>
+<td>Vertical-deep wedge (CPG ops) on the system of record.</td>
+</tr>
+<tr>
+<td><b>FurtherAI</b><br>(YC)</td>
+<td>Insurance document / workflow automation for carriers and brokers.</td>
+<td><b>~$5M</b> seed.<sup><a href="#s32">32</a></sup> <span class="tag t-rep">REPORTED</span></td>
+<td>Vertical-deep wedge (insurance docs) &mdash; a clean, checkable verifier domain.</td>
+</tr>
+<tr>
+<td colspan="4"><span class="tag t-rep">REPORTED</span> <b>Early YC seed (no funding asserted):</b> <b>Comena</b> (YC S25, B2B order intake &rarr; ERP/EDI), <b>Hyperspell</b> (YC F25, context/memory layer on workspace data), <b>Karumi</b> (YC F25, live sales-demo agents).<sup><a href="#s32">32</a></sup></td>
+</tr>
+</tbody>
+</table>
+
+<p><b>The read at seed:</b> the wedge is everything &mdash; nobody wins horizontally this early, and the defensible ones go vertical-deep first (CPG ops, insurance docs, compliance, B2B order intake). For a would-be founder the competitive math is sobering: you'd be roughly the fifth-plus ex-operator running the identical move, so the edge has to come from a sharper wedge, proprietary data access, or raw deployment muscle &mdash; not from the motion itself, which is now common knowledge.</p>
+
 <!-- ============ 8 ============ -->
 <h2><span class="num">8.</span>Palantir lineage &amp; the competitive field</h2>
 
@@ -519,6 +589,11 @@
 <li id="s28">EY, "Ernst &amp; Young LLP and 8090 launch EY.ai PDLC" (8090 named founding partner; agentic "Software Factory"; ~Mar 2026; 80×-faster / ~70% claims are vendor projections). <a href="https://www.ey.com/en_us/newsroom/2026/03/ernst-young-llp-and-8090-launch-ey-ai-pdlc">link</a></li>
 <li id="s29">The New York Times (DealBook), "OpenAI and Thrive Holdings" (Thrive Capital–backed permanent-capital services roll-up rebuilt around AI, with OpenAI equity stake), Dec 1, 2025. <a href="https://www.nytimes.com/2025/12/01/business/dealbook/openai-thrive-holdings-ai.html">link</a></li>
 <li id="s30">Sacra, "Cresta AI — valuation, funding &amp; revenue" (~$270–276M total raised; ~$1.6B valuation, Dealroom/GetLatka concur; one source cites $750M — neither a primary filing). <a href="https://sacra.com/c/cresta-ai/">link</a></li>
+<li id="s31">TechCrunch, "Two Palantir veterans come out of stealth with Edra" (Mar 18 2026) &mdash; Edra $30M Series A led by Sequoia (with 8VC, A*); founders incl. Palantir's first forward-deployed AI engineer Yannis Karamanlakis and AIP-launch lead Eugen Alpeza. <a href="https://techcrunch.com/2026/03/18/">link</a> / edra.ai</li>
+<li id="s32">Y Combinator company directory &mdash; Asteroid (W25), Overstand Labs (W25), Zeit AI (S24), Corvera (W26), Comena (S25), Hyperspell (F25), Karumi (F25), FurtherAI; seed/pre-seed figures and team backgrounds per company profiles &amp; Work at a Startup. <a href="https://www.ycombinator.com/companies">link</a></li>
+<li id="s33">Sapphire Ventures &mdash; Bretton AI (formerly Greenlite) $75M Series B (Sapphire Ventures lead, Feb 2026); agentic financial-crime compliance (AML/KYC/KYB/sanctions/transaction monitoring). <a href="https://sapphireventures.com">link</a></li>
+<li id="s34">Air Street Capital &mdash; Fern Labs ~$3M pre-seed; horizontal agent orchestration, three ex-Palantir founders (UK). <a href="https://www.airstreet.com">link</a></li>
+<li id="s35">General Catalyst / press &mdash; Eudia ~$105M Series A (General Catalyst lead, 2025); corporate-legal AI agents for in-house legal teams. <a href="https://www.generalcatalyst.com">link</a></li>
 </ol>
 
 <div class="disc">
