@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The DeployCo Teardown — How AI Forward-Deployed Startups Actually Work — Galileo Research</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg-secondary: #f8f9fa;
+      --text: #1a1a1a;
+      --text-secondary: #6b7280;
+      --accent: #2563eb;
+      --border: #e5e7eb;
+      --radius: 8px;
+      --green: #047857;
+      --amber: #b45309;
+      --red: #b91c1c;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+    .container { max-width: 820px; margin: 0 auto; padding: 32px 20px; }
+    .back-link { font-size: 13px; color: var(--text-secondary); text-decoration: none; }
+    .back-link:hover { text-decoration: underline; }
+    .report-header { margin-top: 16px; margin-bottom: 36px; border-bottom: 2px solid var(--text); padding-bottom: 20px; }
+    .report-header h1 { font-size: 30px; font-weight: 700; line-height: 1.18; margin-bottom: 10px; }
+    .report-header .subtitle { font-size: 17px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 12px; }
+    .report-header .meta { font-size: 13px; color: var(--text-secondary); }
+    .report-header .meta span { margin-right: 16px; }
+    .section { margin-bottom: 36px; }
+    .section-title {
+      font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px;
+      color: var(--text-secondary); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border);
+    }
+    .section h2.big {
+      font-size: 22px; font-weight: 700; margin-bottom: 14px; letter-spacing: -0.3px;
+    }
+    .section p { margin-bottom: 14px; }
+    .section ul, .section ol { margin-bottom: 14px; padding-left: 24px; }
+    .section li { margin-bottom: 7px; }
+    .exec-summary {
+      background: var(--bg-secondary); border-left: 3px solid var(--accent);
+      padding: 22px 26px; border-radius: 0 var(--radius) var(--radius) 0; margin-bottom: 36px;
+    }
+    .exec-summary h2 {
+      font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px;
+      color: var(--text-secondary); margin-bottom: 12px;
+    }
+    .exec-summary p { margin-bottom: 12px; }
+    .exec-summary ul { padding-left: 20px; margin-bottom: 12px; }
+    .exec-summary li { margin-bottom: 5px; }
+    .exec-summary .bottom-line { font-weight: 600; border-top: 1px solid var(--border); padding-top: 12px; margin-top: 12px; }
+    .section h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; margin-top: 24px; }
+    .section h3:first-child { margin-top: 0; }
+    .section h4 { font-size: 15px; font-weight: 600; margin-bottom: 8px; margin-top: 16px; color: #374151; }
+    .data-table { width: 100%; font-size: 13.5px; border-collapse: collapse; margin: 8px 0 18px; }
+    .data-table th, .data-table td { text-align: left; padding: 9px 11px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .data-table th { font-weight: 600; color: var(--text-secondary); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; background: var(--bg-secondary); }
+    .data-table tr:hover td { background: #fafbfc; }
+    .callout { background: var(--bg-secondary); border-radius: var(--radius); padding: 16px 20px; margin: 16px 0; font-size: 14.5px; }
+    .callout.warning { border-left: 3px solid #f59e0b; }
+    .callout.insight { border-left: 3px solid var(--accent); }
+    .callout strong.lbl { display:block; font-size:11px; text-transform:uppercase; letter-spacing:0.8px; color:var(--text-secondary); margin-bottom:6px; }
+    .cite { font-size: 10px; color: var(--accent); vertical-align: super; cursor: pointer; text-decoration: none; margin-left: 1px; }
+    .cite:hover { text-decoration: underline; }
+    .chart-box { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 18px 8px; margin: 18px 0 22px; }
+    .chart-box .chart-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+    .chart-box .chart-sub { font-size: 12px; color: var(--text-secondary); margin-bottom: 14px; }
+    .chart-canvas-wrap { position: relative; height: 320px; }
+    .conf { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; padding: 1px 5px; border-radius: 3px; white-space: nowrap; }
+    .conf.confirmed { background: #d1fae5; color: var(--green); }
+    .conf.reported { background: #fef3c7; color: var(--amber); }
+    .conf.inferred { background: #fee2e2; color: var(--red); }
+    .legend-row { font-size: 12px; color: var(--text-secondary); margin: 6px 0 18px; }
+    .legend-row .conf { margin-right: 4px; }
+    .sources { background: var(--bg-secondary); border-radius: var(--radius); padding: 20px 24px; margin-top: 44px; }
+    .sources h2 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); margin-bottom: 14px; }
+    .sources ol { font-size: 12.5px; color: var(--text-secondary); padding-left: 24px; }
+    .sources li { margin-bottom: 8px; word-break: break-word; line-height: 1.5; }
+    .sources a { color: var(--accent); text-decoration: none; }
+    .sources a:hover { text-decoration: underline; }
+    .source-pub { font-style: italic; }
+    .generated { font-size: 12px; color: var(--text-secondary); text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+    .order-tag { display: inline-block; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 2px 6px; border-radius: 3px; margin-right: 4px; }
+    .order-tag.first { background: #dbeafe; color: #1d4ed8; }
+    .order-tag.second { background: #fef3c7; color: #92400e; }
+    .order-tag.third { background: #fce7f3; color: #9d174d; }
+    .pill { display:inline-block; font-size:11px; font-weight:600; padding:2px 8px; border-radius:99px; background:#eff6ff; color:var(--accent); margin:2px 4px 2px 0;}
+    @media (max-width: 640px) {
+      .container { padding: 16px; }
+      .report-header h1 { font-size: 24px; }
+      .data-table { font-size: 12px; }
+      .data-table th, .data-table td { padding: 6px 7px; }
+      .chart-canvas-wrap { height: 280px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-link">← All Reports</a>
+
+    <header class="report-header">
+      <h1>The DeployCo Teardown: How AI Forward-Deployed Startups Actually Work</h1>
+      <p class="subtitle">A founder's operating teardown of the embed-and-build model — anchored on Distyl and Northslope. What you would actually be building, staffing, selling, and charging for.</p>
+      <div class="meta">
+        <span>📅 June 16, 2026</span>
+        <span>🔭 Galileo Research</span>
+      </div>
+    </header>
+
+    <div class="exec-summary">
+      <h2>Executive Summary</h2>
+      <p>A new company shape has crystallized: the <strong>AI forward-deployed deployment startup</strong> ("DeployCo"). Ex-Palantir teams embed engineers inside large enterprises, harvest the customer's proprietary context, stand up custom agentic systems on it, and bill against measured outcomes rather than billable hours. This is a mechanics teardown for an operator considering building one — not a market map.</p>
+      <ul>
+        <li><strong>The core loop is now well-defined:</strong> embed forward-deployed engineers (FDEs) from day zero → harvest proprietary context → build production agent/decision systems on a platform → bill on outcomes. Distyl runs it owning its substrate; Northslope runs it renting Palantir's.</li>
+        <li><strong>It is venture-scale.</strong> Distyl raised $175M at a $1.8B valuation (Sept 2025)<a href="#s1" class="cite">[1]</a>; the closest pricing-analogs (Sierra ~$10B, Harvey $11B) and the broader peer set sit at unicorn-to-decacorn marks.<a href="#s24" class="cite">[24]</a><a href="#s14" class="cite">[14]</a></li>
+        <li><strong>The function is commoditizing.</strong> a16z has blessed the "services-led growth" playbook<a href="#s17" class="cite">[17]</a>; ~224 FDE roles are open across ~39 companies<a href="#s19" class="cite">[19]</a>; even OpenAI and Anthropic are hiring FDEs.<a href="#s17" class="cite">[17]</a> The edge migrates to one of three places: <strong>substrate ownership, proprietary context/data access, or deployment muscle &amp; relationships.</strong></li>
+        <li><strong>Outcome-based billing is the structural unlock</strong> — you can only promise outcomes if you can verify them, which is why a reliable evaluation/verification layer is the enabler of the business model, not the product that's sold.</li>
+      </ul>
+      <p class="bottom-line">Bottom line: the machine is real, repeatable, and increasingly understood — which means a new entrant cannot win on the motion alone. The defensible versions own a substrate (like Distyl's Distillery), lock into a system of record, or attack a vertical where the founder brings unfair context or relationships. Horizontal "we deploy AI for enterprises" is now a knife fight against a well-funded incumbent, the Big Four, and the labs themselves.</p>
+    </div>
+
+    <!-- ============ SECTION 1 ============ -->
+    <div class="section">
+      <div class="section-title">1 · The Model in One Screen</div>
+      <h2 class="big">What a DeployCo is, and the loop it runs</h2>
+      <p>Strip away the marketing and an AI forward-deployed deployment startup is a single repeatable loop:</p>
+      <ol>
+        <li><strong>Embed.</strong> Put engineers physically (or virtually) inside the customer from "day zero," owning a business problem rather than advising on it.</li>
+        <li><strong>Harvest context.</strong> Ingest the enterprise's proprietary data, standard operating procedures (SOPs), systems of record, and the tacit judgment of its subject-matter experts (SMEs).</li>
+        <li><strong>Build agentic logic.</strong> Stand up production decision systems and agents on that context — typically on a platform that turns SOPs into auditable, runnable workflows.</li>
+        <li><strong>Bill on outcomes.</strong> Tie a meaningful share of the fee to hitting the customer's objective (resolution rate, cost saved, turnaround time), explicitly positioned <em>against</em> time-and-materials consulting.</li>
+      </ol>
+      <p>This is the Palantir forward-deployed engineer (FDE) model, re-pointed from deterministic data integration onto probabilistic LLM/agent workflows. Distyl's own framing — "embed engineering talent, and deliver outcomes within three months"<a href="#s2" class="cite">[2]</a> — is the loop in one sentence.</p>
+
+      <div class="callout insight">
+        <strong class="lbl">Why now</strong>
+        Three things converged in 2024–2026: (1) frontier LLMs made "a custom AI system per enterprise" buildable by a <em>small</em> team in weeks; (2) the ex-Palantir talent pool — engineers trained to embed and own outcomes — reached critical mass (~700 LinkedIn profiles list a Palantir alum as company founder<a href="#s20" class="cite">[20]</a>); and (3) a16z publicly legitimized the services-heavy go-to-market as "services-led growth."<a href="#s17" class="cite">[17]</a> The skillset, the tooling, and the blessed playbook all arrived at once.
+      </div>
+
+      <h3>The two anchors, and the one structural difference that matters</h3>
+      <p>Distyl and Northslope run a <em>functionally identical</em> motion — ex-Palantir FDEs embed, harvest proprietary context, stand up custom agentic logic, bill on outcomes — but they finance the stack differently, and that difference is the whole strategic question for a founder.</p>
+      <table class="data-table">
+        <thead><tr><th>Dimension</th><th>Distyl</th><th>Northslope</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Founders</strong></td><td>Arjun Prakash (CEO), Derek Ho (COO) — both ex-Palantir <span class="conf confirmed">Confirmed</span><a href="#s1" class="cite">[1]</a></td><td>Bill Ward — ex-Palantir <span class="conf reported">Reported</span><a href="#s5" class="cite">[5]</a></td></tr>
+          <tr><td><strong>Founded</strong></td><td>2022 <span class="conf confirmed">Confirmed</span><a href="#s3" class="cite">[3]</a></td><td>~2023 (1-yr post in Dec 2024) <span class="conf reported">Reported</span><a href="#s5" class="cite">[5]</a></td></tr>
+          <tr><td><strong>Substrate</strong></td><td><strong>Owns</strong> it — the Distillery platform</td><td><strong>Rents</strong> it — builds on Palantir AIP/Foundry/Gotham (+ Google Gemini)</td></tr>
+          <tr><td><strong>Margin captured</strong></td><td>Services + <strong>platform license</strong> + outcome fees</td><td>App/services layer; Palantir takes the infrastructure rent</td></tr>
+          <tr><td><strong>Funding</strong></td><td>~$200M total; $175M @ $1.8B (Sept 2025) <span class="conf confirmed">Confirmed</span><a href="#s1" class="cite">[1]</a></td><td>~$22M, co-led Friends &amp; Family Capital + Goldcrest <span class="conf reported">Reported</span><a href="#s6" class="cite">[6]</a></td></tr>
+          <tr><td><strong>Valuation carried</strong></td><td>Platform-company multiple ($1.8B)</td><td>Services/app-layer scale (~$22M raise)</td></tr>
+        </tbody>
+      </table>
+      <p>The lesson in one line: <strong>Distyl owns its substrate and carries a platform-company valuation; Northslope rents Palantir's substrate and captures the layer above it.</strong> Same loop, different place on the value stack — and, as Section 9 argues, different defensibility.</p>
+    </div>
+
+    <!-- ============ SECTION 2 ============ -->
+    <div class="section">
+      <div class="section-title">2 · The Engagement Lifecycle</div>
+      <h2 class="big">How a deal actually runs, phase by phase</h2>
+      <p>The defining claim of the model is compression: what legacy consultancies delivered in "quarters-to-years," DeployCos claim to ship in "weeks-to-a-quarter." The evidence is real but uneven — it depends heavily on whether the workflow has a clean "done" state.</p>
+
+      <h4>Discovery &amp; scoping</h4>
+      <p>Engagements start by finding a high-volume, currently-expensive, <em>checkable</em> workflow. Northslope's founder describes the opening move literally: "Monday of week three, you'll be on your first customer project… you'll show up… and ask: 'What is the hard problem you have?'"<a href="#s5" class="cite">[5]</a> No months-long discovery deck — the FDE is in the building, building, almost immediately.</p>
+
+      <h4>FDE embed &amp; build</h4>
+      <p>The FDE co-builds <em>with</em> the customer's SMEs, shipping a first working version in days. Northslope: "Within two to three days… you'll ship something, get it in front of a user, and then build the next version."<a href="#s5" class="cite">[5]</a> Distyl's Distillery is designed so the customer's SMEs refine the AI logic in natural language directly — the FDE wires the substrate, the SME tunes the judgment.<a href="#s7" class="cite">[7]</a></p>
+
+      <div class="callout insight">
+        <strong class="lbl">Is "quarters-to-weeks" real? — the spread is the tell</strong>
+        Distyl's own case studies show the full distribution: an auto-finance fraud-detection system <strong>live in 1 week</strong><a href="#s8" class="cite">[8]</a>; a telecom CX layer "deployed in weeks"<a href="#s9" class="cite">[9]</a>; a prior-authorization decisioning system "deployed in 1 quarter"<a href="#s10" class="cite">[10]</a>; a supply-chain root-cause tool "built within a quarter."<a href="#s11" class="cite">[11]</a> <span class="conf reported">Company-disclosed</span> The pattern: <strong>weeks when an objective verifier already exists in the customer's stack</strong> (a fraud label, a system of record), <strong>a quarter when judgment must be encoded</strong> (clinical policy, root-cause heuristics). The compression claim is true — but it is a function of verifiability, not magic.
+      </div>
+
+      <h4>Validation, handoff &amp; "owning the outcome"</h4>
+      <p>"Owning the outcome" is operational and contractual. Operationally, the system runs in production with full observability — Distillery "captures every input, output, tool call, and reasoning step," routes failed tasks to human-in-the-loop review, and feeds analyst corrections back into the system.<a href="#s7" class="cite">[7]</a> Contractually, part of the fee is tied to the customer's objective. Distyl claims a "100% production record" across deployments<a href="#s2" class="cite">[2]</a> <span class="conf reported">Company claim</span> — a number only a vendor confident in its verification layer would dare put in a press release.</p>
+
+      <h4>Maintenance &amp; expansion (the land-and-expand)</h4>
+      <p>The motion mirrors Palantir's: services-heavy <em>land</em> (FDEs build the first workflow), then platform-centric <em>expand</em> (more workflows, more departments, recurring license). Sacra characterizes Distyl's contracts as multi-year deals bundling Distillery access with embedded services, "tens of millions of dollars over several years."<a href="#s4" class="cite">[4]</a> <span class="conf inferred">Inferred — no rate card</span></p>
+      <p><span class="order-tag second">2nd order</span> Because every run produces verified pass/fail traces wired into <em>that customer's</em> systems of record, switching costs compound: ripping out the DeployCo means rebuilding the verifier integrations and losing the accumulated correction data. <span class="order-tag third">3rd order</span> This is why the model can sustain outcome pricing — the vendor accumulates a proprietary, per-customer dataset that the model labs do not have, making the next workflow cheaper to stand up than the last.</p>
+    </div>
+
+    <!-- ============ SECTION 3 ============ -->
+    <div class="section">
+      <div class="section-title">3 · Team Shape &amp; Hiring</div>
+      <h2 class="big">Who you actually hire — and why it determines the cost structure</h2>
+      <p>The headcount mix <em>is</em> the business model. A services-heavy org with low product leverage looks like a consultancy; a thin FDE layer over a reused platform looks like software. DeployCos try to start as the former and migrate to the latter.</p>
+
+      <h3>What an FDE actually is</h3>
+      <p>Not a pure engineer and not a pure consultant — a hybrid who owns a customer problem end-to-end. Palantir's internal term was "Deltas," the "tip of the spear" embedded with clients.<a href="#s20" class="cite">[20]</a> Everest Group classifies the FDE model as a "category of one": it "operate[s] like a product company in its platform approach but deploy[s] like a consulting firm in its proximity to the customer."<a href="#s21" class="cite">[21]</a> Distyl's job spec asks an FDE to design and deploy end-to-end AI workflows, build compound systems (models, agents, retrieval, evaluation), integrate customer data/APIs, and own architecture, security, and observability.<a href="#s22" class="cite">[22]</a></p>
+
+      <h3>Team shape &amp; the org structure</h3>
+      <ul>
+        <li><strong>Northslope:</strong> ~95+ people, the "vast majority" titled Forward-Deployed Engineer; at one point <strong>&gt;90% staffed by Palantir alumni</strong>.<a href="#s5" class="cite">[5]</a> <span class="conf reported">Reported</span> Flat hierarchy — the founder lists himself as an FDE. Pods of small, high-velocity teams ("we sent two people for three months") rather than large consulting squads.<a href="#s5" class="cite">[5]</a></li>
+        <li><strong>Distyl:</strong> leadership pulled from Palantir, plus AI engineers/researchers from OpenAI and Apple.<a href="#s3" class="cite">[3]</a> The structure splits into <em>forward-deployed</em> talent (embed, own outcomes) and a <em>central platform/research</em> team that builds and hardens Distillery so field-learned patterns become reusable product.<a href="#s2" class="cite">[2]</a></li>
+      </ul>
+
+      <h3>The recruiting pipeline: the Palantir "founder factory"</h3>
+      <p>The hiring edge is a specific, documented talent pool. Business Insider calls Palantir's FDE role a "founder preparation bootcamp"<a href="#s20" class="cite">[20]</a>; the WSJ ran a feature on "The Palantir Mafia."<a href="#s23" class="cite">[23]</a> The skillset — embedded, outcome-owning, full-stack, client-facing — maps almost 1:1 onto both founding a DeployCo and staffing one.</p>
+
+      <div class="chart-box">
+        <div class="chart-title">Forward-deployed engineer compensation — confirmed posted bands</div>
+        <div class="chart-sub">Base-salary ranges from official careers pages (hard anchors). Wider all-in bands ($250K–$640K startup) are recruiter/career-guide estimates — see note.</div>
+        <div class="chart-canvas-wrap"><canvas id="compChart"></canvas></div>
+      </div>
+      <div class="legend-row">
+        <span class="conf confirmed">Confirmed</span> OpenAI FDE $180K–$280K base<a href="#s17b" class="cite">[18]</a> · Scale AI FDE (GenAI) $179K–$224K base<a href="#s18b" class="cite">[26]</a> &nbsp;|&nbsp;
+        <span class="conf reported">Reported</span> Palantir FDSE ~$215K median, senior to $630K+ all-in (Levels.fyi)<a href="#s27" class="cite">[27]</a> &nbsp;|&nbsp;
+        <span class="conf inferred">Estimated</span> startup FDE all-in ~$250K–$640K; enterprise ~$190K–$420K (recruiter aggregates)
+      </div>
+
+      <div class="callout warning">
+        <strong class="lbl">Cost-structure consequence</strong>
+        FDEs are expensive — confirmed base alone runs $180K–$280K, and senior all-in comp is reported past $600K.<a href="#s27" class="cite">[27]</a> A purely services-staffed DeployCo therefore carries a consultancy's cost base. The only path to software economics is <strong>platform leverage</strong>: each FDE-hour must increasingly feed a reusable substrate (Distyl's Distillery; Harvey's reusable agents) so the next deployment needs fewer FDE-hours. A founder who can't show that leverage curve is building a boutique, not a venture-scale company.
+      </div>
+    </div>
+
+    <!-- ============ SECTION 4 ============ -->
+    <div class="section">
+      <div class="section-title">4 · Tech / Architecture &amp; the Verification Layer</div>
+      <h2 class="big">What the platform actually does — and where the real IP is</h2>
+
+      <h3>Distyl's Distillery: SOPs → Routines → tasks</h3>
+      <p>Distillery converts standard operating procedures into auditable AI workflows it calls <strong>Routines</strong>.<a href="#s4" class="cite">[4]</a> The pipeline, per Sacra's technical breakdown:</p>
+      <ol>
+        <li><strong>Ingest the SOP.</strong> A user uploads a written procedure ("approve refund requests," "process insurance claims").</li>
+        <li><strong>Decompose.</strong> Distillery auto-breaks it into discrete tasks — <em>validate order number → check warranty status → issue refund</em>.</li>
+        <li><strong>SME refinement.</strong> Subject-matter experts use a visual no-code builder to review and tune the auto-generated prompts and tool chains, attach test cases, and provide feedback examples — <em>without programming</em>.</li>
+        <li><strong>Run with full auditability.</strong> In production the platform captures every input, output, tool call, and reasoning step; failed tasks trigger alerts or human-in-the-loop review; analysts download execution traces and feedback flows back as prompt adjustments and A/B tests.</li>
+      </ol>
+      <p>It connects to enterprise data via SQL, APIs, and document repositories, with role-based access, multi-tenancy, and SOC-2 compliance.<a href="#s4" class="cite">[4]</a> <span class="conf reported">Reported (Sacra)</span></p>
+
+      <h3>Northslope's Palantir-native stack</h3>
+      <p>Northslope inverts the build/buy decision: rather than own a substrate, it builds mission-specific AI applications <em>on top of</em> Palantir's Ontology (Foundry/Gotham) and AIP, plus Google Cloud's Gemini.<a href="#s6" class="cite">[6]</a> The FDEs "conceive, architect, build, maintain" the agentic layer; Palantir provides the deterministic data foundation. The trade: faster to credibility (you inherit a $400B+ platform's governance and data integration) but you don't capture the substrate margin — Palantir does.</p>
+
+      <h3>The verification layer — the enabler of outcome pricing</h3>
+      <p>This is the genuinely load-bearing piece, and the most misunderstood. Generating candidate answers from an LLM is cheap and commoditizing. The scarce asset is the <strong>verifier</strong> — the thing that turns a pile of cheap candidate answers into one trustworthy answer reliable enough to <em>bill on</em>. The verification hierarchy, strongest to weakest:</p>
+      <table class="data-table">
+        <thead><tr><th>Tier</th><th>Mechanism</th><th>Reliability</th><th>When it exists</th></tr></thead>
+        <tbody>
+          <tr><td>1 — Execution vs. reality</td><td>Sandbox, unit tests, SQL row counts, compiler, reconciliation vs. system of record</td><td>Gold standard (ground truth outside the model)</td><td>Code, math, structured data, claims with a ledger to check against</td></tr>
+          <tr><td>2 — Voting / ensemble</td><td>Majority across diverse strategies</td><td>Semi-objective (relies on independent errors)</td><td>Tasks with multiple solve paths</td></tr>
+          <tr><td>3 — LLM-judge / self-critique</td><td>Model grades model</td><td>Weakest (no ground truth)</td><td>Fuzzy/open-ended work — gate it, don't trust it by default</td></tr>
+        </tbody>
+      </table>
+      <p>Distyl's case studies surface this layer in production language: prior-auth decisioning is "auditable… LLM writing down its own step-by-step logic… &amp; source citations"<a href="#s10" class="cite">[10]</a>; the supply-chain tool uses "heuristics to triage… escalating complex cases to more powerful LLMs"<a href="#s11" class="cite">[11]</a>; the CPG assistant catches "errors mid-retrieval and route[s] to the right next action."<a href="#s12" class="cite">[12]</a> Distyl's platform explicitly markets evaluation (accuracy, latency, cost, robustness, explainability), observability, and guardrails against hallucination.<a href="#s1b" class="cite">[13]</a></p>
+
+      <div class="callout insight">
+        <strong class="lbl">Where the genuine IP is vs. orchestration glue</strong>
+        The orchestration (router, prompt chains, retrieval) is increasingly commodity — open-source frameworks do most of it. The defensible IP is narrower: <strong>(1)</strong> the library of <em>objective verifiers wired into a specific customer's systems of record</em> (their DB, schemas, business rules, test suites); <strong>(2)</strong> the gating logic that knows when to trust a cheap answer vs. escalate; <strong>(3)</strong> the accumulated pass/fail traces from that environment. The model is rented and interchangeable. The verifier integrations are owned, deep, and sticky.
+      </div>
+      <p><strong>Present both sides.</strong> The honest limit: a huge class of enterprise work — strategy, design, open-ended judgment — has <em>no</em> objective verifier and never will. There the only "verifier" is another model with no ground truth (Tier 3), the coverage curve can't be cashed in, and "own the outcome" becomes a liability. The durable versions of this business concentrate on the checkable quadrant (SQL/analytics, reconciliation, document-to-schema extraction, claims with system-of-record ground truth) and are explicit about what they <em>won't</em> guarantee.</p>
+    </div>
+
+    <!-- ============ SECTION 5 ============ -->
+    <div class="section">
+      <div class="section-title">5 · Business Model &amp; Unit Economics</div>
+      <h2 class="big">The three revenue legs — and the metrics, labeled</h2>
+      <p>DeployCos sell three things, and the strategic arc is shifting the mix from the first toward the second and third:</p>
+      <ol>
+        <li><strong>Forward-deployed services</strong> — embedded FDE teams. Services gross margins, typically ~30–50%. <span class="conf inferred">Estimated — not disclosed</span></li>
+        <li><strong>Platform license</strong> — recurring access to the substrate (Distillery). Software gross margins, ~70–90%. <span class="conf inferred">Estimated — not disclosed</span></li>
+        <li><strong>Outcome fees</strong> — a share of the fee tied to the customer's objective.</li>
+      </ol>
+
+      <div class="callout warning">
+        <strong class="lbl">Confidence discipline on the numbers</strong>
+        <strong>Neither Distyl nor Northslope publishes a rate card.</strong> Every margin and deal-size figure below the "Confirmed" line is an inference from comparable services+software businesses, and is labeled as such. The a16z services-led-growth essay anchors the trajectory: enterprise software companies like ServiceNow and Workday IPO'd at <strong>63.2%</strong> and <strong>54.1%</strong> gross margins respectively (services-heavy), and only reached ~79% / ~75% by 2024.<a href="#s17" class="cite">[17]</a> <span class="conf reported">Reported (a16z)</span> The DeployCo bet is the same: "trade margin for moat" early, then climb the margin curve as the platform absorbs the work.
+      </div>
+
+      <h4>The metrics ledger</h4>
+      <table class="data-table">
+        <thead><tr><th>Metric</th><th>Value</th><th>Confidence</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td>Distyl Series B</td><td>$175M @ $1.8B post-money, Sept 2025</td><td><span class="conf confirmed">Confirmed</span></td><td>PRNewswire / Fenwick<a href="#s1" class="cite">[1]</a><a href="#s25" class="cite">[25]</a></td></tr>
+          <tr><td>Distyl total raised</td><td>~$200–202M ($7M seed '23, $20M '24, $175M '25)</td><td><span class="conf reported">Reported</span></td><td>SiliconANGLE / Sacra<a href="#s3" class="cite">[3]</a><a href="#s4" class="cite">[4]</a></td></tr>
+          <tr><td>Distyl revenue growth</td><td>5× (2024), projected 8× (2025)</td><td><span class="conf reported">Reported — single source</span></td><td>Press relay<a href="#s3" class="cite">[3]</a></td></tr>
+          <tr><td>Distyl traction</td><td>120M+ end users; "hundreds of millions" operating impact; profitable</td><td><span class="conf reported">Company claim</span></td><td>PRNewswire<a href="#s2" class="cite">[2]</a></td></tr>
+          <tr><td>Northslope raise</td><td>~$22M; 6× growth in 2025; ~95+ staff</td><td><span class="conf reported">Reported</span></td><td>Yahoo Finance / Next Play<a href="#s6" class="cite">[6]</a><a href="#s5" class="cite">[5]</a></td></tr>
+          <tr><td>Distyl/Northslope contract size</td><td>"Tens of millions over several years" (Distyl); hybrid SOW+SaaS (Northslope)</td><td><span class="conf inferred">Inferred — no rate card</span></td><td>Sacra<a href="#s4" class="cite">[4]</a></td></tr>
+          <tr><td>Services vs. software gross margin</td><td>~30–50% services / ~70–90% software</td><td><span class="conf inferred">Estimated</span></td><td>Industry comparables<a href="#s17" class="cite">[17]</a></td></tr>
+        </tbody>
+      </table>
+
+      <h3>How outcome-based pricing actually gets structured</h3>
+      <p>The clearest publicly-described mechanics come from the CX peers, which sit at the same outcome-pricing frontier. Sierra bills <strong>per successful resolution</strong> — the customer pays only when the agent resolves the issue end-to-end, and an escalation to a human is typically free.<a href="#s24" class="cite">[24]</a> Decagon offers a per-resolution option (billed only when the AI fully resolves with no human handoff) but notes most customers still choose per-conversation for budget predictability.<a href="#s15" class="cite">[15]</a> The DeployCo version is the same logic applied to back-office workflows: define the objective (cases approved, disruptions root-caused, dollars saved), instrument it with the verification layer, and tie a fee component to it. <strong>You cannot offer outcome pricing without the verifier — that is the dependency that makes the entire business model possible.</strong></p>
+      <p><span class="order-tag second">2nd order</span> Outcome pricing transfers performance risk from buyer to vendor, which is exactly why it wins deals against incumbents who bill regardless of result. <span class="order-tag third">3rd order</span> But it also caps the addressable surface to verifiable work — and concentrates existential risk in the eval layer being <em>right</em>. A mis-calibrated verifier doesn't just lose a deal; it means the vendor guaranteed an outcome it can't actually measure.</p>
+    </div>
+
+    <!-- ============ SECTION 6 ============ -->
+    <div class="section">
+      <div class="section-title">6 · Sectors, Customers &amp; What They Automate</div>
+      <h2 class="big">Where the business actually concentrates — and the granular work</h2>
+
+      <h3>Sector concentration (not generic "F500")</h3>
+      <p>Distyl's public footprint is <strong>over-indexed on healthcare payers</strong> — three of its six public case studies are health-insurer engagements — followed by telecommunications, financial services, manufacturing/supply chain, and CPG.<a href="#s13b" class="cite">[16]</a> Its disclosed sector list: healthcare, telecommunications, insurance, manufacturing, and financial services<a href="#s2" class="cite">[2]</a>, plus retail and federal/HHS per prior reporting. The named/credibly-reported logo is <strong>T-Mobile USA</strong> (the F100 telecom case)<a href="#s3" class="cite">[3]</a>; the other case-study customers are disclosed only by tier and industry ("F20 healthcare payor," "F50 hardware manufacturer") — <span class="conf reported">named tiers, customers not disclosed</span>. Northslope's reported verticals: solar/renewable energy, aerospace ("building rockets"), healthcare/hospitals, financial services (payments), retail, and defense/aviation.<a href="#s5" class="cite">[5]</a></p>
+      <p><strong>Why these sectors first?</strong> They share two traits the model needs: (1) high-volume, expensive, rule-governed workflows, and (2) a <em>system of record</em> (claims database, ledger, ERP, contract repository) that can serve as an objective verifier. Regulated industries also value the auditability the platform provides — which is precisely why prior-auth and contract decisioning, not open-ended strategy, are the beachhead.</p>
+
+      <h3>The granular automations — before-state → what the agent does → measured result</h3>
+      <p>These are the actual tasks, not abstractions. All metrics are company-disclosed via the vendors' own case studies <span class="conf reported">Company-disclosed</span> unless otherwise labeled.</p>
+
+      <h4>① Prior-authorization review for a Fortune-20 health insurer <a href="#s10" class="cite">[10]</a></h4>
+      <ul>
+        <li><strong>Before:</strong> Humans manually review each PA request, comparing it against evidence-based clinical policies — "manual, expensive, and time-consuming," with compliance risk and inconsistent quality.</li>
+        <li><strong>What the system does:</strong> Reviews the request plus associated medical-record data, compares against clinical policy, reasons to a decision — approve, or escalate to human review. Clinical SMEs refine the AI logic in natural language; the LLM writes down its step-by-step reasoning and source citations for an audit trail.</li>
+        <li><strong>Result:</strong> $200M+ estimated cost savings; 200k+ cases/month with accelerated approval; 90%+ decisioning accuracy; deployed in one quarter.</li>
+      </ul>
+
+      <h4>② Income verification &amp; fraud detection for a public auto lender <a href="#s8" class="cite">[8]</a></h4>
+      <ul>
+        <li><strong>Before:</strong> Analysts manually reviewed 50k+ dealer applications monthly, cross-checking W2s, 1099s, address proofs, IDs, and bank statements — 3 human touchpoints per approval, 8-hour manual turnaround, slow/inconsistent, missing fraud patterns.</li>
+        <li><strong>What the system does:</strong> Ingests applications via API, extracts income data from unstructured documents, verifies consistency across sources, flags fraud/compliance issues, and learns from analyst decisions using the lender's own job aids.</li>
+        <li><strong>Result:</strong> 93% cost reduction for loan origination; 5-minute agentic turnaround (from 8 hours); live in 1 week.</li>
+      </ul>
+
+      <h4>③ Supply-chain root-cause analysis for a Fortune-50 hardware manufacturer <a href="#s11" class="cite">[11]</a></h4>
+      <ul>
+        <li><strong>Before:</strong> Planners and procurement teams manually search multiple systems, exchange emails, and hold calls to diagnose disruption root-causes — delays and inconsistent decisions.</li>
+        <li><strong>What the system does:</strong> Consolidates and explains demand-driven changes in natural language; uses heuristics to triage and escalates complex cases to more powerful LLMs; aggregates hundreds of unrelated alerts into a single actionable root cause.</li>
+        <li><strong>Result:</strong> 80% targeted reduction in root-cause-analysis time; 1,500+ disruptions root-caused daily; 30+ scenarios; built within a quarter.</li>
+      </ul>
+
+      <h4>④ Provider-contract decisioning for a Fortune-20 health insurer <a href="#s10b" class="cite">[28]</a></h4>
+      <ul>
+        <li><strong>Before:</strong> Network teams manually research contract terms, termination clauses, and renewal requirements one-by-one across dozens of tools — fragmenting provider intelligence and delaying action.</li>
+        <li><strong>What the system does:</strong> Converts 600k+ static contracts into structured, searchable data (rates, reimbursement methods, clauses, amendments); aggregates current state across amendments; links reimbursement logic to performance data.</li>
+        <li><strong>Result:</strong> $16M annual savings; 600k+ contracts made queryable.</li>
+      </ul>
+
+      <h4>⑤ Order-incompletion resolution for a Fortune-50 CPG brand <a href="#s12" class="cite">[12]</a></h4>
+      <ul>
+        <li><strong>Before:</strong> Supply-chain specialists did time-consuming structured/unstructured data analysis to resolve order incompletions, slowing customer responses.</li>
+        <li><strong>What the system does:</strong> An agentic assistant translates natural language into queries across structured/unstructured/semi-structured stores (advanced RAG), navigates multi-step workflows, and catches errors mid-retrieval.</li>
+        <li><strong>Result:</strong> 47% improvement in resolution time; 100+ non-technical users enabled; junior operators onboard in weeks instead of quarters.</li>
+      </ul>
+
+      <h4>⑥ Retail-chain tax reporting (Northslope) <a href="#s5" class="cite">[5]</a></h4>
+      <ul>
+        <li><strong>Before:</strong> A massive retail chain paid a high-seven-figure annual contract to a Big Four firm for tax reporting — still leading to mis-filed taxes and fines.</li>
+        <li><strong>What the team did:</strong> Sent two FDEs for three months and built custom, mission-specific software the internal team now runs itself — integrating all data, filing on time, responding to state disputes.</li>
+        <li><strong>Result:</strong> Eliminated the high-seven-figure annual contract; avoided penalties; dramatically reduced operational overhead. <span class="conf reported">Founder interview</span></li>
+      </ul>
+
+      <h3>GTM tactics &amp; where it breaks</h3>
+      <p><strong>GTM:</strong> founder-led brand and the ex-Palantir network; outcome guarantees as the wedge against incumbents; lab partnerships (Distyl's formal Services Alliance with OpenAI<a href="#s17" class="cite">[17]</a>) and SI/platform partnerships (Northslope as Palantir's first "Vanguard: Elite" partner<a href="#s6" class="cite">[6]</a>); and a deliberate focus on regulated industries where auditability is a feature, not overhead.</p>
+      <p><strong>Where it stalls:</strong> (1) <em>Fuzzy work</em> — anywhere the outcome can't be objectively verified, the model can't honestly guarantee it. (2) <em>Long-tail integration</em> — wiring verifiers into a legacy estate is real, slow engineering; implementation complexity is Sacra's headline risk for Distyl.<a href="#s4" class="cite">[4]</a> (3) <em>Outcome disputes</em> — when the measured result is contested, "own the outcome" becomes a liability rather than a selling point.</p>
+    </div>
+
+    <!-- ============ SECTION 7 ============ -->
+    <div class="section">
+      <div class="section-title">7 · The Peer Field</div>
+      <h2 class="big">Other companies running a similar embed-and-build motion</h2>
+      <p>Six-plus independent companies run adjacent versions of the loop. The key bifurcation across the field: <strong>outcome-based billing clusters in productized single-vertical CX (Sierra, Decagon); FDE-embed clusters in services build-shops (8090, Northslope); Distyl is the rare one at clear unicorn scale that does both.</strong></p>
+
+      <div class="chart-box">
+        <div class="chart-title">Peer field — reported 2025 valuations</div>
+        <div class="chart-sub">Latest reported 2025 round. All figures Reported/press unless a company filing; Northslope shown as raise size, not valuation. Not a like-for-like comparison — see table.</div>
+        <div class="chart-canvas-wrap"><canvas id="valChart"></canvas></div>
+      </div>
+
+      <table class="data-table">
+        <thead><tr><th>Company</th><th>What they do / vertical</th><th>Delivery + pricing</th><th>2025 valuation</th><th>Similar vs. different to Distyl/Northslope</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Sierra</strong><br><span style="font-size:11px;color:#6b7280">Taylor / Bavor</span></td><td>Customer-experience AI agents</td><td>Pure <strong>pay-per-resolution</strong>; human escalation free<a href="#s24" class="cite">[24]</a></td><td>~$10B (Sept 2025)<a href="#s24" class="cite">[24]</a> <span class="conf reported">R</span></td><td>SIMILAR pricing philosophy (the purest outcome-billing). DIFFERENT — product company, single vertical, no embedded FDE builds.</td></tr>
+          <tr><td><strong>Harvey</strong></td><td>Legal AI / law firms + in-house</td><td>"Services business with software margins"; per-seat SaaS + embedded legal engineers; 25,000+ custom agents<a href="#s14" class="cite">[14]</a></td><td>$11B (Mar 2026)<a href="#s14" class="cite">[14]</a> <span class="conf confirmed">C</span></td><td>SIMILAR — explicit embedded-engineering corps + land-and-expand. DIFFERENT — single vertical (legal), recurring SaaS is the core, not outcome fees.</td></tr>
+          <tr><td><strong>8090</strong><br><span style="font-size:11px;color:#6b7280">Palihapitiya</span></td><td>AI-native enterprise "Software Factory"</td><td>Services-led, build-host-maintain; distributed via <strong>EY</strong> channel<a href="#s16b" class="cite">[29]</a></td><td>Not disclosed</td><td>MOST SIMILAR in model — embed-and-build services shop. DIFFERENT — Big-Four distribution vs. direct FDE staffing; funding/scale opaque.</td></tr>
+          <tr><td><strong>Cresta</strong></td><td>Contact-center AI</td><td>Per-seat SaaS + usage; "outcome-LED" framing but invoices are subscription<a href="#s30" class="cite">[30]</a></td><td>~$1.6B (2024)<a href="#s30" class="cite">[30]</a> <span class="conf reported">R</span></td><td>SIMILAR deployment depth + KPI framing. DIFFERENT — productized per-seat SaaS, single vertical, not bespoke cross-silo builds.</td></tr>
+          <tr><td><strong>Cohere</strong></td><td>Enterprise/gov LLM + North platform</td><td>Private/VPC/air-gapped deployment; model+platform vendor<a href="#s31" class="cite">[31]</a></td><td>~$7B (Sept 2025)<a href="#s31" class="cite">[31]</a> <span class="conf reported">R</span></td><td>SIMILAR — privacy-first, "bring AI to the data," regulated focus. DIFFERENT — sells the models/platform, not an FDE services motion billing on outcomes.</td></tr>
+          <tr><td><strong>Glean</strong></td><td>Enterprise search + agents</td><td>Per-seat enterprise SaaS; product-led<a href="#s32" class="cite">[32]</a></td><td>$7.2B (Jun 2025)<a href="#s32" class="cite">[32]</a> <span class="conf reported">R</span></td><td>SIMILAR — sits on customer data, agent layer over enterprise systems. DIFFERENT — scalable product (RAG/search), no FDE builds, no outcome billing.</td></tr>
+          <tr><td><strong>Cognition / Devin</strong></td><td>Autonomous coding agent</td><td>Subscription/usage; embeds in customer codebase/CI<a href="#s33" class="cite">[33]</a></td><td>~$10.2B (Sept 2025)<a href="#s33" class="cite">[33]</a> <span class="conf reported">R</span></td><td>SIMILAR — operates inside customer environment, outcome = shipped code. DIFFERENT — autonomous product, no human FDEs embedded, narrow to coding.</td></tr>
+          <tr><td><strong>Decagon</strong></td><td>Customer-service AI agents</td><td>Per-conversation OR <strong>per-resolution</strong> option; product + implementation<a href="#s15" class="cite">[15]</a></td><td>$1.5B (Jun 2025)<a href="#s15" class="cite">[15]</a> <span class="conf reported">R</span></td><td>SIMILAR — closest pricing analog (outcome option), embeds in ops. DIFFERENT — single-vertical product, implementation not embedded engineering corps.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout insight">
+        <strong class="lbl">Reading the field</strong>
+        The peer set splits cleanly. <strong>Closest model-fit</strong> to Distyl/Northslope: 8090 and Harvey (services-heavy embed-and-build). <strong>Closest pricing-fit:</strong> Sierra and Decagon (true outcome billing) — but both are single-vertical CX <em>products</em>. Distyl sits at the intersection of embed-and-build <em>and</em> outcome pricing, at $1.8B — which is precisely why it's the right anchor for a founder studying the model.
+      </div>
+    </div>
+
+    <!-- ============ SECTION 8 ============ -->
+    <div class="section">
+      <div class="section-title">8 · Palantir Lineage &amp; the Competitive Field</div>
+      <h2 class="big">The ancestor, and who else wants this budget</h2>
+
+      <h3>Palantir as the FDE-model ancestor — and the genuine technical difference</h3>
+      <p>Palantir pioneered the forward-deployed model in the mid-2000s and, per Everest Group, at one point ran more forward-deployed engineers than traditional product engineers.<a href="#s21" class="cite">[21]</a> But there's an architectural distinction the new wave must reckon with. Palantir's moat is the <strong>deterministic Ontology</strong> — a governed map of an enterprise's objects, relationships, logic, permissions, and actions (Foundry/Gotham), representing the enterprise's <em>decisions, not merely its data</em>.<a href="#s34" class="cite">[34]</a> LLM agents (AIP) are a <em>probabilistic</em> reasoning layer that operates on top of that deterministic substrate.</p>
+      <div class="callout insight">
+        <strong class="lbl">The inversion the new DeployCos run</strong>
+        The new FDE startups largely invert the ratio: they <strong>lead with probabilistic agent workflows</strong> wired into a customer's existing systems, <em>without</em> owning a years-in-the-making deterministic substrate. That makes them faster to deploy — but, today, less defensible at the data layer. It is the central strategic tension of the whole category: speed now, or substrate ownership for durability.
+      </div>
+
+      <h3>The competitive field (brief context — not the focus)</h3>
+      <p><strong>Lab arms — mostly coopetition.</strong> The model labs both <em>enable</em> these startups and <em>build</em> competing delivery muscle. Distyl runs a formal Services Alliance with OpenAI, whose COO called it "a key enabler for enterprises deploying OpenAI technologies at scale."<a href="#s17" class="cite">[17]</a> Yet OpenAI also lists its own Forward Deployed Engineer roles ($180K–$280K)<a href="#s17b" class="cite">[18]</a>, and a16z counted 22 of 311 open OpenAI roles as forward-deployed/solutions engineering.<a href="#s17" class="cite">[17]</a> The labs are partner and potential competitor at once.</p>
+      <p><strong>Consulting / SI response.</strong> The incumbents are moving fast. EY named 8090 a founding partner of its AI Product Development Lifecycle, powered by 8090's agentic "Software Factory" (March 2026).<a href="#s16b" class="cite">[29]</a> And the scale is real: Accenture disclosed <strong>$5.9B in GenAI new bookings in FY2025</strong> (~7% of total bookings) and $2.7B in advanced-AI revenue.<a href="#s35" class="cite">[35]</a> <span class="conf confirmed">Confirmed (filings)</span> The Big Four/SIs are the deepest-pocketed competitors for the same enterprise budget — and the EY↔8090 deal shows their preferred answer is to <em>partner with</em> an AI-native build shop rather than build one from scratch. <span style="color:#6b7280">(Separately, Thrive Holdings is a <em>different</em> model — a Thrive Capital/OpenAI-backed AI-industrialized services <em>roll-up</em>, not an FDE integrator.<a href="#s36" class="cite">[36]</a>)</span></p>
+    </div>
+
+    <!-- ============ SECTION 9 ============ -->
+    <div class="section">
+      <div class="section-title">9 · So What For a Founder</div>
+      <h2 class="big">The honest synthesis</h2>
+      <p>The machine works, it's venture-scale, and it's increasingly understood. That last fact is the problem: a new entrant cannot win on the motion alone. Here is the founder's decision framed cleanly.</p>
+
+      <h3>The three distinct ways to build one</h3>
+      <table class="data-table">
+        <thead><tr><th>Path</th><th>What you own</th><th>Exemplar</th><th>Trade-off</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Substrate ownership</strong></td><td>Your own platform that turns context into reusable agentic systems</td><td>Distyl (Distillery)</td><td>Highest ceiling &amp; defensibility; capital-intensive, slower to margin</td></tr>
+          <tr><td><strong>Proprietary context / data access</strong></td><td>Privileged access to a customer's systems of record + accumulated verified traces</td><td>The per-customer verifier integrations all of them build</td><td>Sticky and real, but earned one account at a time</td></tr>
+          <tr><td><strong>Deployment muscle / relationships</strong></td><td>The ex-Palantir network + a platform partnership</td><td>Northslope (on Palantir)</td><td>Fastest to credibility; you don't own the substrate margin</td></tr>
+        </tbody>
+      </table>
+
+      <h3>What's commoditizing</h3>
+      <ul>
+        <li><strong>The motion itself.</strong> a16z has published the playbook<a href="#s17" class="cite">[17]</a>; ~224 FDE roles are open across ~39 companies<a href="#s19" class="cite">[19]</a> <span class="conf reported">single-source snapshot</span>; the ex-Palantir pipeline is well-mapped. "We embed FDEs and build on your data" is no longer differentiated.</li>
+        <li><strong>The orchestration glue.</strong> Routers, prompt chains, retrieval — open-source covers most of it. The frontier models keep getting cheaper and better, compressing the cost arbitrage on any single task over time.</li>
+      </ul>
+
+      <h3>Where the open lanes are</h3>
+      <ul>
+        <li><strong>Vertical wedges with a built-in verifier.</strong> The durable opportunity is a specific vertical where (a) an objective verifier already sits in the customer's stack (SQL/analytics, reconciliation, code/IaC, claims with system-of-record ground truth), and (b) the founder has unfair access or domain credibility. Distyl is over-indexed on healthcare payers; the un-embedded verticals are the opening.</li>
+        <li><strong>Substrate, if you can fund it.</strong> The only structurally defensible version owns the platform — but that's a Palantir-shaped, capital-intensive, services-heavy-early company. Be honest about whether you can finance the margin trough.</li>
+        <li><strong>The verifier as a wedge.</strong> Selling the evaluation/verification layer to enterprises building their own agents is a more product-led, possibly better risk-adjusted bet than a horizontal Distyl clone.</li>
+      </ul>
+
+      <div class="callout warning">
+        <strong class="lbl">The unfair-advantage test — don't overclaim a moat</strong>
+        The body of this report does not support a moat from the motion. It supports a moat from <strong>one of three things</strong>: owning a substrate, owning privileged context/verifier integrations into a customer's reality, or owning deployment credibility in a vertical no one else can enter cheaply. A founder with none of these is entering a knife fight against a $1.8B incumbent, the Big Four (Accenture alone booked $5.9B of GenAI work), and the labs. The right question isn't "can I run the loop?" — everyone can now. It's "<strong>which of the three edges do I actually have, and is it durable as frontier models keep getting cheaper?</strong>"
+      </div>
+    </div>
+
+    <!-- SOURCES -->
+    <div class="sources">
+      <h2>Sources</h2>
+      <ol>
+        <li id="s1">Distyl AI, <span class="source-pub">"Distyl AI Raises $175 Million at $1.8 Billion Valuation to Help Global Enterprises Become AI-Native,"</span> PRNewswire, Sept 22, 2025. <a href="https://www.prnewswire.com/news-releases/distyl-ai-raises-175-million-at-1-8-billion-valuation-to-help-global-enterprises-become-ai-native-302564270.html">link</a></li>
+        <li id="s2">Distyl AI, founder quote "embed engineering talent, and deliver outcomes within three months" &amp; traction (120M+ users, 100% production record, profitability), PRNewswire, Sept 22, 2025 (same release as [1]).</li>
+        <li id="s3">P. Kerr, <span class="source-pub">"Enterprise AI consultancy Distyl AI's valuation soars to $1.8B after bumper funding round,"</span> SiliconANGLE, Sept 22, 2025 (founders ex-Palantir; T-Mobile customer; OpenAI partnership; $20M 2024, $7M seed 2023; ~$200M total). <a href="https://siliconangle.com/2025/09/22/enterprise-ai-consultancy-distyl-ais-valuation-soars-1-8b-bumper-funding-round/">link</a></li>
+        <li id="s4">Sacra, <span class="source-pub">"Distyl AI valuation, funding &amp; news"</span> (Distillery/Routines technical breakdown; contract structure; funding history incl. Nat Friedman/Brad Gerstner seed; risks). <a href="https://sacra.com/c/distyl-ai/">link</a></li>
+        <li id="s5">Next Play, <span class="source-pub">"How the world's first Palantir-native AI company gets work done"</span> (Northslope: Bill Ward, 95+ staff, &gt;90% Palantir alumni, FDE onboarding, retail tax/solar/rockets/hospital/payments automations, 6× 2025 growth, offices). <a href="https://nextplayso.substack.com/p/how-the-worlds-first-palantir-native">link</a></li>
+        <li id="s6">Northslope Technologies / BusinessWire, <span class="source-pub">"Northslope Signs Large-Scale Expansion… Palantir Recognizes Northslope as the First Partner of the Vanguard: Elite,"</span> Dec 4, 2025; raise (~$22M, Friends &amp; Family Capital + Goldcrest) via Yahoo Finance/Morningstar. <a href="https://www.businesswire.com/news/home/20251204291274/en/">link</a> · <a href="https://finance.yahoo.com/news/applied-ai-company-northslope-raises-140000092.html">Yahoo</a></li>
+        <li id="s7">Sacra, Distillery production mechanics (input/output/tool-call capture, human-in-the-loop, execution traces, SME no-code builder) — see [4].</li>
+        <li id="s8">Distyl AI, <span class="source-pub">"Auto Finance Lender — Loan Origination"</span> case study (50k+ apps/mo, 8h→5min, 93% cost reduction, live in 1 week). <a href="https://www.distyl.ai/case-studies/auto-finance-lender">link</a></li>
+        <li id="s9">Distyl AI, <span class="source-pub">"F100 Telecom Operator — Reimagining Customer Interactions"</span> case study (140M customers, $200M+ opex, 75%+ contained, deployed in weeks). <a href="https://www.distyl.ai/case-studies/f100-telecom-operator">link</a></li>
+        <li id="s10">Distyl AI, <span class="source-pub">"F20 Healthcare Payor — Prior Authorization"</span> case study ($200M+ savings, 200k+ cases/mo, 90%+ accuracy, 1 quarter, auditable reasoning). <a href="https://www.distyl.ai/case-studies/f20-healthcare-payor-prior-authorization">link</a></li>
+        <li id="s10b">Distyl AI, <span class="source-pub">"F20 Healthcare Payor — Contract Decisioning"</span> case study ($16M savings, 600k+ contracts queryable). <a href="https://www.distyl.ai/case-studies/f20-healthcare-payor-contracts">link</a></li>
+        <li id="s11">Distyl AI, <span class="source-pub">"F50 Hardware Manufacturer — Supply Chain Root-Cause Analysis"</span> case study (80% RCA reduction, 1,500+/day, 30+ scenarios, a quarter, triage→escalate). <a href="https://www.distyl.ai/case-studies/f50-hardware-manufacturer">link</a></li>
+        <li id="s12">Distyl AI, <span class="source-pub">"F50 CPG Brand — Order Resolution"</span> case study (47% resolution improvement, 100+ users, advanced RAG, agentic orchestration). <a href="https://www.distyl.ai/case-studies/f50-cpg-brand">link</a></li>
+        <li id="s1b">Distyl AI platform (evaluation: accuracy/latency/cost/robustness/explainability; observability; guardrails) — per SiliconANGLE [3] &amp; Sacra [4].</li>
+        <li id="s13b">Distyl AI, <span class="source-pub">Case Studies index</span> (sector mix; three of six cases are health-insurer engagements). <a href="https://www.distyl.ai/case-studies">link</a></li>
+        <li id="s14">Harvey, <span class="source-pub">"Harvey Raises at $11 Billion Valuation…"</span> Mar 25, 2026 (GIC + Sequoia, &gt;$1B total, 100,000+ lawyers, 1,300 orgs, 25,000+ custom agents, embedded legal engineers). <a href="https://www.harvey.ai/blog/harvey-raises-at-dollar11-billion-valuation-to-scale-agents-across-law-firms-and-enterprises">link</a> · "services business with software margins" framing via Sacra <a href="https://sacra.com/c/harvey/">link</a></li>
+        <li id="s15">Decagon, pricing (per-conversation vs. per-resolution); $131M Series C @ $1.5B, Accel + a16z, June 23, 2025. <a href="https://www.reuters.com/technology/customer-service-ai-startup-decagon-raises-131-million-2025-06-23/">Reuters</a> · <a href="https://decagon.ai/blog/pricing-ai-agents">pricing</a></li>
+        <li id="s16b">EY, <span class="source-pub">"Ernst &amp; Young LLP and 8090 launch EY.ai PDLC,"</span> Mar 2026 (8090 founding partner; agentic "Software Factory"; vendor performance claims are projections). <a href="https://www.ey.com/en_us/newsroom/2026/03/ernst-young-llp-and-8090-launch-ey-ai-pdlc">link</a></li>
+        <li id="s17">a16z, <span class="source-pub">"Trading Margin for Moat: Why the Forward Deployed Engineer Is the Hottest Job in Startups,"</span> June 2025 (services-led growth; ServiceNow 63.2%/Workday 54.1% IPO gross margins; "22 of 311 open OpenAI roles"; Distyl–OpenAI Services Alliance &amp; Brad Lightcap quote). <a href="https://a16z.com/services-led-growth/">link</a></li>
+        <li id="s17b">OpenAI, <span class="source-pub">Forward Deployed Engineer (SF)</span> careers listing, $180K–$280K base + equity. <a href="https://openai.com/careers/forward-deployed-engineer-sf-san-francisco/">link</a></li>
+        <li id="s18b">Scale AI, <span class="source-pub">Forward Deployed Engineer, GenAI</span> listing, $179K–$224K base. <a href="https://scale.com/careers/4593571005">link</a></li>
+        <li id="s19">Jobs By Culture, <span class="source-pub">"The Forward Deployed Engineer Boom 2026"</span> (224 open FDE roles across 39 companies; single-source point-in-time snapshot, May 30, 2026). <a href="https://jobsbyculture.com/blog/forward-deployed-engineer-boom-2026">link</a></li>
+        <li id="s20">B. Schwär, <span class="source-pub">"Palantir's Forward Deployed Engineer role churns out startup founders,"</span> Business Insider, June 2025 ("Deltas"; "founder preparation bootcamp"; ~700 Palantir-alum founder profiles). <a href="https://www.businessinsider.com/palantirs-forward-deployed-engineer-role-churns-out-startup-founders-2025-6">link</a></li>
+        <li id="s21">Everest Group, <span class="source-pub">"Palantir: Inside the Category of One — Forward Deployed Software Engineers"</span> (FDSE as "category of one"; product platform + consulting proximity; Dev vs. FDSE distinction). <a href="https://www.everestgrp.com/palantir-inside-the-category-of-one-forward-deployed-software-engineers-blog/">link</a></li>
+        <li id="s22">Distyl AI, <span class="source-pub">Forward Deployed Engineer</span> job listing, Ashby. <a href="https://jobs.ashbyhq.com/Distyl">link</a></li>
+        <li id="s23"><span class="source-pub">"The Palantir Mafia Behind Silicon Valley's Hottest Startups,"</span> The Wall Street Journal. <a href="https://www.wsj.com/tech/the-palantir-mafia-behind-silicon-valleys-hottest-startups-f6e9bcbb">link</a></li>
+        <li id="s24">A. Konrad, <span class="source-pub">"Bret Taylor's Sierra raises $350M at a $10B valuation,"</span> TechCrunch, Sept 4, 2025; outcome-based / pay-per-resolution model (escalation free) via Sierra/Economist interview. <a href="https://techcrunch.com/2025/09/04/bret-taylors-sierra-raises-350m-at-a-10b-valuation/">link</a></li>
+        <li id="s25">Fenwick &amp; West, <span class="source-pub">"Fenwick represents Distyl AI in $175M Series B funding at $1.8B valuation."</span> <a href="https://www.fenwick.com/insights/experience/fenwick-represents-distyl-ai-in-175m-series-b-funding-at-1-8b-valuation">link</a></li>
+        <li id="s27">Levels.fyi, <span class="source-pub">Palantir Forward Deployed Software Engineer compensation</span> (page confirmed; ~$215K median / senior to $630K+ all-in reported via secondary summary). <a href="https://www.levels.fyi/companies/palantir/salaries/software-engineer/title/fdse">link</a></li>
+        <li id="s30">Cresta, <span class="source-pub">"$125M Series D"</span> (~$1.6B valuation, late 2024; WiL + QIA; per-seat + usage). Cresta press / Sacra. <a href="https://sacra.com/c/cresta-ai/">link</a></li>
+        <li id="s31">A. Tong, <span class="source-pub">Cohere valuation ~$6.8–7B (2025),</span> Reuters; North platform &amp; private deployment via TechCrunch. <a href="https://techcrunch.com/2025/08/06/coheres-new-ai-agent-platform-north/">TechCrunch</a> · <a href="https://cohere.com/blog">cohere.com</a></li>
+        <li id="s32">Glean, <span class="source-pub">"Glean raises $150M Series F at $7.2B valuation,"</span> June 10, 2025 (Wellington-led). <a href="https://www.glean.com/press">glean.com</a> · <a href="https://techcrunch.com/2025/06/10/enterprise-ai-startup-glean-lands-a-7-2b-valuation/">TechCrunch</a></li>
+        <li id="s33">M. Zeff, <span class="source-pub">"Cognition AI… $400M raise at $10.2B valuation,"</span> TechCrunch, Sept 8, 2025 (Founders Fund-led; Devin). <a href="https://techcrunch.com/2025/09/08/cognition-ai-defies-turbulence-with-a-400m-raise-at-10-2b-valuation/">link</a></li>
+        <li id="s34">Palantir, <span class="source-pub">"Why Ontology"</span> &amp; Ontology system architecture docs (deterministic objects/logic/permissions/actions; AIP as probabilistic layer). <a href="https://www.palantir.com/docs/foundry/ontology/why-ontology">link</a></li>
+        <li id="s35">Accenture, <span class="source-pub">Q4 &amp; Full-Year FY2025 Earnings</span> ($5.9B GenAI new bookings; $2.7B advanced-AI revenue) &amp; FY2025 Letter to Shareholders. <a href="https://newsroom.accenture.com/">newsroom.accenture.com</a></li>
+        <li id="s36">M. de la Merced et al., <span class="source-pub">"OpenAI Takes Stake in Thrive Holdings,"</span> NYT DealBook, Dec 1, 2025 (AI-industrialized services roll-up — distinct model). <a href="https://www.nytimes.com/2025/12/01/business/dealbook/openai-thrive-holdings-ai.html">link</a> · <a href="https://openai.com/index/thrive-holdings/">OpenAI</a></li>
+      </ol>
+      <p style="font-size:11px;color:#9ca3af;margin-top:14px;line-height:1.5;">Confidence labels: <span class="conf confirmed">Confirmed</span> = officially disclosed (company release/filing/careers page). <span class="conf reported">Reported</span> = credible secondary press, single- or multi-source as noted. <span class="conf inferred">Inferred/Estimated</span> = analytical inference or recruiter aggregate; no primary disclosure. Neither Distyl nor Northslope publishes a rate card; all pricing/margin figures are explicitly inferred. Case-study metrics are vendor-disclosed and unaudited.</p>
+    </div>
+
+    <p class="generated">Generated by Galileo 🔭 · June 16, 2026</p>
+  </div>
+
+  <script>
+    const fmtUSD = (v) => '$' + v + 'K';
+    // Comp chart — confirmed posted base bands + reported Levels anchor
+    new Chart(document.getElementById('compChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Scale AI FDE (GenAI)', 'OpenAI FDE (SF)', 'Palantir FDSE (median→senior)', 'Startup FDE all-in (est.)', 'Enterprise/F500 FDE (est.)'],
+        datasets: [{
+          label: 'Low (base / range floor, $K)',
+          data: [179, 180, 215, 250, 190],
+          backgroundColor: '#93c5fd'
+        }, {
+          label: 'High (range ceiling, $K)',
+          data: [224, 280, 630, 640, 420],
+          backgroundColor: '#2563eb'
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true, maintainAspectRatio: false,
+        scales: { x: { beginAtZero: true, title: { display: true, text: 'Compensation ($K)' }, ticks: { callback: (v) => '$' + v + 'K' } } },
+        plugins: {
+          legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } },
+          tooltip: { callbacks: { label: (c) => c.dataset.label + ': $' + c.parsed.x + 'K' } }
+        }
+      }
+    });
+
+    // Valuation chart — peer field
+    new Chart(document.getElementById('valChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Harvey', 'Cognition/Devin', 'Sierra', 'Cohere', 'Glean', 'Distyl (anchor)', 'Cresta', 'Decagon'],
+        datasets: [{
+          label: 'Reported 2025 valuation ($B)',
+          data: [11, 10.2, 10, 7, 7.2, 1.8, 1.6, 1.5],
+          backgroundColor: ['#1e3a8a','#1e40af','#1d4ed8','#2563eb','#3b82f6','#047857','#60a5fa','#93c5fd']
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        scales: { y: { beginAtZero: true, title: { display: true, text: 'Valuation ($B, reported)' }, ticks: { callback: (v) => '$' + v + 'B' } } },
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: (c) => '$' + c.parsed.y + 'B (reported)' } }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
