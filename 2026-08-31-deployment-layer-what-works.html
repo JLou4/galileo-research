@@ -343,6 +343,18 @@ table.data-table{width:100%;font-size:13px;border-collapse:collapse;margin:16px 
     These databases are enormous and genuinely useful for one question — <em>what does a shipped system look like?</em> — and useless for the question everyone actually asks — <em>what's the success rate?</em> They're built from published deployments, which means they're a list of survivors with no graveyard next to it: a big numerator and no denominator. And crucially, they're indexed by <em>model</em> (Copilot, Bedrock, Claude), almost never by <em>deployco</em> — so they tell you AI is being used, not whose deployment approach won. To get to “who actually moved the number,” you still have to do the filing-by-filing dig below. Which is where it gets bleak.
   </div>
 
+  <div class="chart-box">
+    <h4>Where AI actually ships — deployments cluster in a handful of jobs</h4>
+    <p class="chart-note">Pool the aggregator catalogs and one thing jumps out: production AI isn't spread evenly across the enterprise — it piles up in a few well-defined jobs (customer support, writing code, search/knowledge) and thins fast after that. This is the “narrow workflows win” thesis as a picture: the cleaner and more countable the task, the more real deployments exist. Bars show the <em>rough share of catalogued production deployments by function</em>, pooled and normalized across the ZenML and Evidently corpora.<a href="#s61" class="cite">[61]</a><a href="#s55" class="cite">[55]</a> <span class="chip estimated">Estimated-Illustrative</span> — aggregators use different taxonomies; treat as directional shape, not precise percentages.</p>
+    <div class="chart-container"><canvas id="functionChart"></canvas></div>
+  </div>
+
+  <div class="chart-box">
+    <h4>The enterprise-AI funnel: the money is huge, the throughput is not</h4>
+    <p class="chart-note">The single hardest fact about this category, in one chart. Enterprises are spending enormous money — <strong>~$37B</strong> on GenAI in 2025, roughly triple the prior year.<a href="#s48" class="cite">[48]</a> But that money narrows sharply as it moves toward results: the widely-quoted (and weak) MIT/NANDA line puts pilot success in the single digits<a href="#s31" class="cite">[31]</a>, ISG's survey work puts production conversion around <strong>~31%</strong> with roughly <strong>1-in-4</strong> reaching clear ROI.<a href="#s32" class="cite">[32]</a> Different studies, different denominators — so read the <em>shape</em>, not the exact widths: lots of spend in, not much proven value out. <span class="chip estimated">Estimated-Illustrative</span> — stages come from different sources and are not a single measured cohort.</p>
+    <div class="chart-container"><canvas id="funnelChart"></canvas></div>
+  </div>
+
   <h3>7.1 — Named contract outcomes: exactly one clean triangulation (AIG), and it took the customer choosing to disclose it</h3>
   <p>So the aggregators can't tell you who won. Can anyone? The gold standard would be a public company saying, in its <em>own</em> audited filing, “this specific vendor produced this specific result.” That beats any case study, because the customer has to answer to auditors. We took the deployco case studies that named public customers and went looking for the number in the customer's own annual reports, 10-Ks, investor days, and earnings calls. Nine worked examples. Here's how many survived:</p>
   <div class="legend-key" style="margin-bottom:10px;">
@@ -651,6 +663,51 @@ table.data-table{width:100%;font-size:13px;border-collapse:collapse;margin:16px 
           a.restore();
         }
       }]
+    });
+  }
+})();
+</script>
+
+<script>
+(function(){
+  if(typeof Chart==='undefined')return;
+  // ---- Chart A: where AI ships, by function (horizontal bar) ----
+  var fCtx=document.getElementById('functionChart');
+  if(fCtx){
+    var labels=['Customer support / service','Software engineering / coding','Search / knowledge / RAG','Data & analytics','Sales & marketing','Content & documents','Back-office / operations','Everything else (long tail)'];
+    var vals=[22,18,15,12,10,9,8,6];
+    new Chart(fCtx,{
+      type:'bar',
+      data:{labels:labels,datasets:[{data:vals,
+        backgroundColor:['#2563eb','#2563eb','#2563eb','#3b82f6','#60a5fa','#93c5fd','#bfdbfe','#e5e7eb'],
+        borderRadius:3,barPercentage:0.82}]},
+      options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+        layout:{padding:{right:12}},
+        scales:{x:{min:0,max:26,grid:{color:'#f0f0f0'},ticks:{callback:function(v){return v+'%';}},title:{display:true,text:'Share of catalogued production deployments (illustrative)',font:{size:11}}},
+          y:{grid:{display:false},ticks:{font:{size:11.5}}}},
+        plugins:{legend:{display:false},
+          tooltip:{callbacks:{label:function(c){return c.parsed.x+'% of catalogued deployments (illustrative)';}}}}
+      }
+    });
+  }
+  // ---- Chart B: enterprise-AI funnel (bar, descending) ----
+  var uCtx=document.getElementById('funnelChart');
+  if(uCtx){
+    var flabels=['Enterprises spending on GenAI','Pilots that clear the bar','Reach production (~31%, ISG)','Reach clear ROI (~1-in-4)'];
+    var fvals=[100,25,31,24];
+    // note: stage 2 (MIT single-digit pilot success) and stages 3-4 (ISG) are different denominators; heights are illustrative shape only
+    new Chart(uCtx,{
+      type:'bar',
+      data:{labels:flabels,datasets:[{data:fvals,
+        backgroundColor:['#0d9488','#f59e0b','#3b82f6','#7c3aed'],
+        borderRadius:3,barPercentage:0.7}]},
+      options:{responsive:true,maintainAspectRatio:false,
+        layout:{padding:{top:8}},
+        scales:{y:{min:0,max:100,grid:{color:'#f0f0f0'},ticks:{callback:function(v){return v+'%';}},title:{display:true,text:'Relative scale (illustrative — mixed denominators)',font:{size:11}}},
+          x:{grid:{display:false},ticks:{font:{size:10.5},maxRotation:0,minRotation:0,autoSkip:false,callback:function(v){var l=this.getLabelForValue(v);return l.length>22?l.match(/.{1,22}(\s|$)/g):l;}}}},
+        plugins:{legend:{display:false},
+          tooltip:{callbacks:{label:function(c){return c.label+': '+c.parsed.y+' (illustrative)';}}}}
+      }
     });
   }
 })();
