@@ -199,8 +199,14 @@ table.data-table{width:100%;font-size:13px;border-collapse:collapse;margin:16px 
   </div>
 
   <div class="chart-box">
-    <h4>The deployment layer, on two questions that actually matter</h4>
-    <p class="chart-note">One axis was never enough, so here are two. Left-to-right is the old question: do you model the <em>whole enterprise</em> first (ontology, right) or attack <em>one workflow</em> first (workflow, left)? Up-and-down is the one that turns out to matter just as much: <strong>whose data warehouse is it?</strong> At the top, the vendor acts on your data <em>where it already lives</em> and you keep custody — call it <strong>data sovereignty</strong>. At the bottom, the vendor pulls your data into <em>its own</em> index or platform to make the product work — <strong>data capture</strong>. That second axis is where the real business-model tell hides: a capture company owns a moat made of your data; a sovereignty company sells you a tool and leaves the data on your side of the fence. Placements are our analytical read <span class="chip estimated">Estimated-Inferred</span> from architecture evidence, not disclosed numbers. Note where <strong>Claritype</strong> lands — top, and left of center: its whole pitch is “auditable AI that reads your existing systems and leaves your data where it is,” which is a sovereignty-and-workflow play, not the far ontology-capture corner you might expect from an ex-Palantir team. And note where <strong>OpenAI and Anthropic</strong> land — bottom-left: workflow-first (they chase use cases, not enterprise ontologies) and capture-leaning (you send your data <em>to</em> their models), exactly the corner you'd expect a model vendor moving into deployment to occupy.</p>
+    <h4>The deployment layer, mapped on the two questions that decide the valuation</h4>
+    <p class="chart-note">Two axes and a color, each a distinct question.<br>
+    <strong>Left–right (X): what do you build first?</strong> Model the <em>whole enterprise</em> (ontology, right) or attack <em>one workflow</em> (workflow, left).<br>
+    <strong>Up–down (Y): do you own your substrate or rent it?</strong> “Substrate” = the model + semantic layer + platform your customers build on. Own it (top) and you get <em>platform</em> economics and a platform multiple; rent someone else's (bottom) and you get <em>app-layer</em> margins plus dependency risk. This is the report's single clearest value-capture fork — which is why it's the vertical axis of the flagship chart, not a footnote.<br>
+    <strong>Dot color: data gravity.</strong> <span style="color:#e11d48;font-weight:600;">● Rose = capture</span> (to work, your data moves into the vendor's platform — lock-in). <span style="color:#0d9488;font-weight:600;">● Teal = sovereignty</span> (it acts where your data already lives). <span style="color:#9ca3af;font-weight:600;">● Grey = mixed</span>.<br>
+    Placements are our analytical read <span class="chip estimated">Estimated-Inferred</span> from public architecture evidence, scored on those single questions — not disclosed numbers.</p>
+    <p class="chart-note">Three things to notice. <strong>Palantir sits top-right and rose:</strong> it <em>owns</em> its substrate (platform economics) but it's a <em>capture</em> business — Foundry pulls your data into Foundry. That capture/lock-in is the whole rub, and the color now says so out loud while the height still credits the platform ownership. <strong>Northslope sits bottom-right:</strong> same ontology ambition as Palantir, but it <em>rents</em> Palantir's substrate — app-layer economics and dependency risk in one dot. <strong>The labs (OpenAI, Anthropic) sit top-left and rose:</strong> they own the deepest substrate there is (the model itself) but are workflow-led and capture-heavy — you send your data to them. The map's punchline: <em>almost everything is rose.</em> Genuine data sovereignty (teal — Cohere, Claritype) is rare, and that scarcity is itself a differentiator.</p>
+    <p class="chart-note" style="font-style:italic;">Prior art: market maps of this category usually plot vendors by stack layer (infra / orchestration / apps) or by category logos — see the <a href="#s65" class="cite">[65]</a> market-map index. The closest published framings to ours are a16z's argument that <em>data/context gravity</em> outweighs raw model quality<a href="#s66" class="cite">[66]</a> and vendor analyses organized around <em>trust, flexibility, and lock-in</em>.<a href="#s67" class="cite">[67]</a> We didn't find an existing map that crosses <em>substrate ownership</em> against <em>ontology-vs-workflow</em> and overlays data gravity for this specific deployco cohort — so treat this as our own synthesis, informed by those, not a restatement of a standard chart.</p>
     <div class="chart-container"><canvas id="ontologyChart"></canvas></div>
   </div>
 </div>
@@ -558,6 +564,9 @@ table.data-table{width:100%;font-size:13px;border-collapse:collapse;margin:16px 
     <li id="s62">AIUseCaseHub, <span class="source-pub">Enterprise AI deployment tracker</span> (~3,814 public deployments across ~3,241 companies; filterable by maturity Production/Scaled Production and evidence strength; notes evidence signals ≠ operational audit). <a href="https://www.aiusecasehub.com/cases">aiusecasehub.com/cases</a></li>
     <li id="s63">OpenAI, <span class="source-pub">OpenAI launches the Deployment Company</span> (forward-deployed engineers + deployment specialists; Tomoro acquisition adds ~150 FDEs subject to close). <a href="https://openai.com/index/openai-launches-the-deployment-company/">openai.com</a>; <a href="https://www.wsj.com/cio-journal/openais-high-stakes-high-touch-push-to-make-ai-work-for-business-7f08b7d4">WSJ (org/scope)</a></li>
     <li id="s64">Anthropic, <span class="source-pub">Applied AI + Claude Partner Network</span> (embedded Applied AI engineers for enterprise Claude deployments; $100M partner-network commitment, dedicated engineers + technical architects). <a href="https://www.anthropic.com/news/claude-partner-network">anthropic.com/news/claude-partner-network</a>; <a href="https://www.anthropic.com/news/enterprise-ai-services-company">enterprise AI services</a></li>
+    <li id="s65">joylarkin, <span class="source-pub">Awesome-AI-Market-Maps</span> (curated index of published AI market maps; most plot by stack layer or category, not by substrate-ownership × ontology). <a href="https://github.com/joylarkin/Awesome-AI-Market-Maps">github.com/joylarkin/Awesome-AI-Market-Maps</a></li>
+    <li id="s66">a16z, <span class="source-pub">Your Data (Agents) Need Context</span> (argues enterprise value comes from data/context gravity — permissions, metadata, workflow history — more than raw model quality). <a href="https://a16z.com/your-data-agents-need-context/">a16z.com/your-data-agents-need-context</a></li>
+    <li id="s67">Kai Waehner, <span class="source-pub">Enterprise Agentic AI Landscape 2026: Trust, Flexibility, and Vendor Lock-In</span> (vendor analysis organized around lock-in / model-neutrality — the closest published lens to our data-gravity overlay). <a href="https://www.kai-waehner.de/blog/2026/04/06/enterprise-agentic-ai-landscape-2026-trust-flexibility-and-vendor-lock-in/">kai-waehner.de</a></li>
   </ol>
   <p style="font-size:11.5px;color:var(--text-secondary);margin-top:14px;">Note on arXiv ids [33–35]: several Valency-corpus ids are forward-dated (2026 preprints); ids returned live by the corpus and HTTP-verified, but confirm each resolves before external citation. No source or metric in this report was fabricated; single-source and vendor-asserted claims are labeled as such throughout.</p>
 </div>
@@ -573,32 +582,32 @@ table.data-table{width:100%;font-size:13px;border-collapse:collapse;margin:16px 
   Chart.defaults.color='#374151';
   // 2x2 map of the deployment layer.
   //  x: 0 = pure workflow-first (attack one workflow), 100 = pure ontology-first (model the whole enterprise).
-  //  y: 0 = data CAPTURE (pull the customer's data into the vendor's own substrate/index),
-  //     100 = data SOVEREIGNTY (act on the data where it already lives; customer keeps custody).
+  //  y: 0 = RENTS its substrate (orchestrates others' models/platform; app-layer economics),
+  //     100 = OWNS its substrate (own model and/or the platform customers build on; platform economics).
+  //  g = data gravity (dot color): 'capture' (your data moves into the vendor) / 'sovereignty' (acts where data lives) / 'neutral'.
   var pts=[
-    {c:'Palantir',x:95,y:42},
-    {c:'Distyl (2026)',x:62,y:72},
-    {c:'Northslope',x:80,y:34},
-    {c:'Claritype',x:54,y:82},
-    {c:'Glean',x:60,y:24},
-    {c:'Cohere',x:34,y:88},
-    {c:'Harvey',x:30,y:33},
-    {c:'8090',x:40,y:58},
-    {c:'Cresta',x:22,y:27},
-    {c:'Decagon',x:19,y:30},
-    {c:'Sierra',x:17,y:28},
-    {c:'Happy Robot',x:15,y:31},
-    {c:'Cognition',x:12,y:60},
-    {c:'Factory',x:9,y:58},
-    {c:'OpenAI',x:28,y:18},
-    {c:'Anthropic',x:32,y:21}
+    {c:'Palantir',x:95,y:92,g:'capture'},
+    {c:'Distyl (2026)',x:62,y:70,g:'capture'},
+    {c:'Northslope',x:80,y:18,g:'capture'},
+    {c:'Claritype',x:54,y:60,g:'sovereignty'},
+    {c:'Glean',x:58,y:63,g:'capture'},
+    {c:'Cohere',x:38,y:90,g:'sovereignty'},
+    {c:'Harvey',x:30,y:55,g:'capture'},
+    {c:'8090',x:40,y:30,g:'neutral'},
+    {c:'Cresta',x:22,y:45,g:'capture'},
+    {c:'Decagon',x:20,y:25,g:'capture'},
+    {c:'Sierra',x:15,y:34,g:'capture'},
+    {c:'Happy Robot',x:15,y:48,g:'capture'},
+    {c:'Cognition',x:11,y:38,g:'capture'},
+    {c:'Factory',x:9,y:25,g:'neutral'},
+    {c:'OpenAI',x:24,y:97,g:'capture'},
+    {c:'Anthropic',x:33,y:99,g:'capture'}
   ];
-  // color by quadrant
+  // color by DATA GRAVITY (the overlay dimension)
   function color(p){
-    if(p.x>=50 && p.y>=50) return '#2563eb';   // ontology + sovereignty (top-right)
-    if(p.x>=50 && p.y<50)  return '#7c3aed';    // ontology + capture (bottom-right)
-    if(p.x<50 && p.y>=50)  return '#0d9488';    // workflow + sovereignty (top-left)
-    return '#f59e0b';                            // workflow + capture (bottom-left)
+    if(p.g==='sovereignty') return '#0d9488';   // teal = data stays with customer
+    if(p.g==='neutral')     return '#9ca3af';   // grey = mixed / case-by-case
+    return '#e11d48';                            // rose = data captured into vendor
   }
   var ctx=document.getElementById('ontologyChart');
   if(ctx){
@@ -606,7 +615,7 @@ table.data-table{width:100%;font-size:13px;border-collapse:collapse;margin:16px 
       type:'scatter',
       data:{datasets:[{
         label:'Company placement',
-        data:pts.map(function(p){return {x:p.x,y:p.y,c:p.c};}),
+        data:pts.map(function(p){return {x:p.x,y:p.y,c:p.c,g:p.g};}),
         pointRadius:7,pointHoverRadius:10,
         backgroundColor:pts.map(function(p){return color(p);}),
         borderColor:'#fff',borderWidth:1.5
@@ -616,11 +625,11 @@ table.data-table{width:100%;font-size:13px;border-collapse:collapse;margin:16px 
         layout:{padding:{top:16,bottom:10,left:6,right:6}},
         scales:{
           x:{min:0,max:100,title:{display:true,text:'← Workflow-first (attack one workflow)      ·      Ontology-first (model the whole enterprise) →',font:{size:11.5,weight:'600'}},grid:{color:'#f0f0f0'},ticks:{callback:function(v){return v+'%';}}},
-          y:{min:0,max:100,title:{display:true,text:'← Data capture (pull data into vendor)      ·      Data sovereignty (act where data lives) →',font:{size:11.5,weight:'600'}},grid:{color:'#f0f0f0'},ticks:{callback:function(v){return v+'%';}}}
+          y:{min:0,max:100,title:{display:true,text:'← Rents its substrate (app-layer economics)      ·      Owns its substrate (platform economics) →',font:{size:11.5,weight:'600'}},grid:{color:'#f0f0f0'},ticks:{callback:function(v){return v+'%';}}}
         },
         plugins:{
           legend:{display:false},
-          tooltip:{callbacks:{label:function(c){var d=c.raw;return d.c+'  (workflow→ontology '+d.x+' / capture→sovereignty '+d.y+')';}}},
+          tooltip:{callbacks:{label:function(c){var d=c.raw;var g=d.g==='sovereignty'?'data stays with customer':(d.g==='neutral'?'mixed data gravity':'data captured into vendor');return d.c+'  — workflow→ontology '+d.x+' / rents→owns '+d.y+' — '+g;}}},
           annotation:false
         }
       },
@@ -642,13 +651,13 @@ table.data-table{width:100%;font-size:13px;border-collapse:collapse;margin:16px 
           a.setLineDash([]);
           // quadrant captions
           a.font='700 10px -apple-system,sans-serif';a.fillStyle='#9ca3af';a.textAlign='left';
-          a.fillText('WORKFLOW · SOVEREIGN', chart.chartArea.left+8, chart.chartArea.top+16);
+          a.fillText('WORKFLOW · OWNS SUBSTRATE', chart.chartArea.left+8, chart.chartArea.top+16);
           a.textAlign='right';
-          a.fillText('ONTOLOGY · SOVEREIGN', chart.chartArea.right-8, chart.chartArea.top+16);
+          a.fillText('ONTOLOGY · OWNS SUBSTRATE', chart.chartArea.right-8, chart.chartArea.top+16);
           a.textAlign='left';
-          a.fillText('WORKFLOW · CAPTURE', chart.chartArea.left+8, chart.chartArea.bottom-8);
+          a.fillText('WORKFLOW · RENTS', chart.chartArea.left+8, chart.chartArea.bottom-8);
           a.textAlign='right';
-          a.fillText('ONTOLOGY · CAPTURE', chart.chartArea.right-8, chart.chartArea.bottom-8);
+          a.fillText('ONTOLOGY · RENTS', chart.chartArea.right-8, chart.chartArea.bottom-8);
           a.restore();
         }
       },{
