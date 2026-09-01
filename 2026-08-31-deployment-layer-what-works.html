@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Deployment Layer: What Actually Works — Galileo Research</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#ffffff;--bg-secondary:#f8f9fa;--text:#1a1a1a;--text-secondary:#6b7280;
+  --accent:#2563eb;--border:#e5e7eb;--radius:8px;
+  --confirmed:#065f46;--confirmed-bg:#d1fae5;
+  --reported:#1e40af;--reported-bg:#dbeafe;
+  --estimated:#92400e;--estimated-bg:#fef3c7;
+  --consensus:#9d174d;--consensus-bg:#fce7f3;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;font-size:16px;}
+.container{max-width:860px;margin:0 auto;padding:32px 20px;}
+.back-link{font-size:13px;color:var(--text-secondary);text-decoration:none;}
+.back-link:hover{text-decoration:underline;}
+.report-header{margin-top:16px;margin-bottom:32px;border-bottom:2px solid var(--text);padding-bottom:20px;}
+.report-header h1{font-size:30px;font-weight:700;line-height:1.2;margin-bottom:10px;letter-spacing:-0.02em;}
+.report-header .subtitle{font-size:17px;color:var(--text-secondary);line-height:1.5;margin-bottom:12px;}
+.report-header .meta{font-size:13px;color:var(--text-secondary);}
+.report-header .meta span{margin-right:16px;}
+.section{margin-bottom:36px;}
+.section-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-secondary);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.section h2.big{font-size:22px;font-weight:700;letter-spacing:-0.01em;margin-bottom:14px;}
+.section p{margin-bottom:14px;}
+.section ul,.section ol{margin-bottom:14px;padding-left:24px;}
+.section li{margin-bottom:7px;}
+.section h3{font-size:17px;font-weight:600;margin-bottom:10px;margin-top:24px;}
+.section h3:first-child{margin-top:0;}
+.section h4{font-size:15px;font-weight:600;margin-bottom:8px;margin-top:18px;color:#111;}
+.lede{font-size:18px;line-height:1.6;color:#333;font-weight:400;}
+.exec-summary{background:var(--bg-secondary);border-left:3px solid var(--accent);padding:22px 26px;border-radius:0 var(--radius) var(--radius) 0;margin-bottom:36px;}
+.exec-summary h2{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-secondary);margin-bottom:12px;}
+.exec-summary ul{padding-left:20px;margin-bottom:12px;}
+.exec-summary li{margin-bottom:6px;}
+.exec-summary .bottom-line{font-weight:600;border-top:1px solid var(--border);padding-top:12px;margin-top:12px;}
+table.data-table{width:100%;font-size:13px;border-collapse:collapse;margin:16px 0 8px;}
+.data-table th,.data-table td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:top;}
+.data-table th{font-weight:600;color:var(--text-secondary);font-size:11px;text-transform:uppercase;letter-spacing:0.5px;background:var(--bg-secondary);position:sticky;top:0;}
+.data-table tr:hover td{background:#fafbfc;}
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius);margin:16px 0;}
+.table-wrap table{margin:0;}
+.matrix-table{font-size:12px;min-width:900px;}
+.matrix-table td:first-child{font-weight:600;white-space:nowrap;}
+.callout{background:var(--bg-secondary);border-radius:var(--radius);padding:16px 20px;margin:16px 0;font-size:14.5px;}
+.callout.warning{border-left:3px solid #f59e0b;}
+.callout.insight{border-left:3px solid var(--accent);}
+.callout.finding{border-left:3px solid #7c3aed;background:#faf5ff;}
+.callout .callout-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-secondary);display:block;margin-bottom:6px;}
+.cite{font-size:10px;color:var(--accent);vertical-align:super;cursor:pointer;text-decoration:none;margin-left:1px;}
+.cite:hover{text-decoration:underline;}
+.chip{display:inline-block;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;padding:1px 6px;border-radius:3px;margin:0 2px;vertical-align:middle;white-space:nowrap;}
+.chip.confirmed{background:var(--confirmed-bg);color:var(--confirmed);}
+.chip.reported{background:var(--reported-bg);color:var(--reported);}
+.chip.estimated{background:var(--estimated-bg);color:var(--estimated);}
+.chip.consensus{background:var(--consensus-bg);color:var(--consensus);}
+.chip.na{background:#f3f4f6;color:#6b7280;}
+.chart-box{margin:24px 0;padding:20px;border:1px solid var(--border);border-radius:var(--radius);background:#fff;}
+.chart-box h4{margin-top:0;margin-bottom:4px;font-size:14px;}
+.chart-box .chart-note{font-size:12px;color:var(--text-secondary);margin-bottom:14px;}
+.chart-container{position:relative;height:340px;}
+.legend-key{font-size:12.5px;color:var(--text-secondary);background:var(--bg-secondary);border-radius:var(--radius);padding:12px 16px;margin:14px 0;}
+.legend-key .chip{margin-right:4px;}
+.sources{background:var(--bg-secondary);border-radius:var(--radius);padding:20px 24px;margin-top:44px;}
+.sources h2{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-secondary);margin-bottom:14px;}
+.sources ol{font-size:12.5px;color:var(--text-secondary);padding-left:24px;}
+.sources li{margin-bottom:8px;word-break:break-word;line-height:1.5;}
+.sources a{color:var(--accent);text-decoration:none;}
+.sources a:hover{text-decoration:underline;}
+.source-pub{font-style:italic;}
+.generated{font-size:12px;color:var(--text-secondary);text-align:center;margin-top:40px;padding-top:20px;border-top:1px solid var(--border);}
+.tag{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;padding:2px 7px;border-radius:3px;margin-right:4px;}
+.tag.threat{background:#fee2e2;color:#991b1b;}
+.tag.channel{background:#dbeafe;color:#1e40af;}
+.tag.roadkill{background:#f3f4f6;color:#4b5563;}
+.pole{font-weight:600;}
+@media (max-width:600px){
+  .container{padding:16px;}
+  .report-header h1{font-size:24px;}
+  .data-table{font-size:12px;}
+  .chart-container{height:300px;}
+}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="index.html" class="back-link">← All Reports</a>
+
+<header class="report-header">
+  <h1>The Deployment Layer: What Actually Works</h1>
+  <p class="subtitle">A category-wide strategy &amp; architecture map of the companies that take frontier AI and make it work inside large enterprises — and an honest accounting of what the public evidence can and cannot prove.</p>
+  <div class="meta">
+    <span>📅 August 31, 2026</span>
+    <span>🔭 Galileo Research</span>
+    <span>Tomales Bay Capital</span>
+  </div>
+</header>
+
+<div class="exec-summary">
+  <h2>Executive Summary</h2>
+  <p>The "deployment layer" is the set of companies — AI-native startups, Palantir, the labs' own forward-deployed arms, and the incumbent system integrators — that convert frontier models into production systems inside large enterprises. This report maps that layer by <strong>strategic axis</strong> rather than company-by-company, scores 20 organizations on a master matrix, and stress-tests the category's central architectural fork. Its defining discipline is intellectual honesty about opacity: <strong>every significant claim carries a confidence label, and where the rigorous evidence is thin, we say so.</strong></p>
+  <ul>
+    <li><strong>The load-bearing fork is real but narrower than the market believes.</strong> "Ontology-first (Palantir) vs. workflow-first (Distyl)" has partly collapsed: Distyl now publicly ships a persistent semantic layer ("Context Mesh"), and Palantir sells 1–5-day workflow bootcamps. The two poles are converging on the same architecture from opposite build-orders.</li>
+    <li><strong>Across the whole category, exactly ONE outcome triangulates cleanly.</strong> Only <strong>AIG → Palantir + Anthropic</strong> is customer-disclosed with both the number <em>and</em> the vendor named (AIG's own annual report + investor day). Every other worked example either strips the vendor from the filing (GE/Palantir, T-Mobile/Distyl — magnitude confirmed, vendor absent) or is vendor-published only. That the count is <em>one</em> — and required the customer to volunteer it — is the finding.</li>
+    <li><strong>The "95% of pilots fail" stat is a low-rigor headline.</strong> The MIT/NANDA source is a preliminary deck (n=153 survey, self-reported, "success = an executive <em>remarked</em> on impact"). The defensible read comes from ISG (~31% of prioritized use cases reach production; ~1-in-4 meet ROI) and real card-transaction data (Ramp: ~4× spend growth YoY).</li>
+    <li><strong>The incumbents are a channel, not roadkill.</strong> Every one of the six SIs chose to partner with or acquire the deployment layer rather than build it. Accenture disclosed $5.9B GenAI bookings / $2.7B advanced-AI revenue; IBM a &gt;$12.5B cumulative GenAI book.</li>
+    <li><strong>The category is converging on one universal building block:</strong> the verification/eval layer. It is what turns probabilistic output into a billable outcome, and everyone has one.</li>
+  </ul>
+  <p class="bottom-line">Bottom line: the deployment layer is real, large, and growing — enterprise GenAI spend tripled to ~$37B in 2025 — but "what works" is far less <em>provable</em> than vendor marketing implies. The durable edges are the deterministic write-back substrate, the accumulated integration surface, and the verification layer. Outcome-based pricing and true forward-deployed engineering are narrower moats than the hype suggests. The honest verdict on compounding-vs-ceiling: <strong>not resolvable from public data — and that is the single most important diligence gap in the category.</strong></p>
+</div>
+
+<!-- ============ SECTION 1 ============ -->
+<div class="section">
+  <div class="section-title">1 · The Deployment Layer in One Screen</div>
+  <h2 class="big">What these companies are, and why the category is opaque</h2>
+  <p class="lede">Frontier models are not products. An enterprise cannot buy GPT-5 or Claude and get an outcome; it needs someone to integrate the model, map its own messy context, orchestrate agents against real systems, deliver a working result, and bill for it. The companies that do this — the "deployment layer" — are where the enterprise AI dollar actually converts into enterprise AI value.</p>
+  <p>Every player in this report, from a two-year-old startup to Accenture, runs the same core loop:</p>
+  <div class="callout insight">
+    <span class="callout-label">The core loop</span>
+    <strong>integrate model → map context → orchestrate agents → deliver → bill.</strong> The strategic differences are <em>where</em> each company invests along this loop: who owns a persistent semantic model of the enterprise, who decomposes single workflows, who embeds engineers, who prices on outcomes, and — critically — who builds the verification layer that makes a probabilistic output safe enough to charge for.
+  </div>
+  <p>The category is genuinely hard to analyze for three reasons, each of which shapes how this report is written:</p>
+  <ul>
+    <li><strong>Most "what works" claims are vendor marketing.</strong> Case studies are written by the seller; the crispest numbers attach to private customers who never have to corroborate them.</li>
+    <li><strong>No rate cards exist.</strong> Pricing, margin, and unit economics are almost always inferred, never disclosed. We flag every such inference.</li>
+    <li><strong>The best evidence is systematically laundered out.</strong> As Section 7 shows, even when a public enterprise confirms an AI-driven gain, its audited filing almost never names the vendor.</li>
+  </ul>
+  <h3>How to read the confidence labels</h3>
+  <p>This report's signature move is a per-claim confidence rating. Every significant metric carries one of four labels:</p>
+  <div class="legend-key">
+    <span class="chip confirmed">Confirmed</span> disclosed in a primary source (filing, official docs, company statement). &nbsp;
+    <span class="chip reported">Reported</span> credible secondary source, not independently verifiable. &nbsp;
+    <span class="chip estimated">Estimated / Inferred</span> our analytical inference; no disclosure exists. &nbsp;
+    <span class="chip consensus">Consensus-but-Unproven</span> widely repeated, weakly evidenced.
+  </div>
+  <p>Where a vendor's own material is the only source, we label the claim <span class="chip confirmed">Confirmed</span>-<em>as-claimed</em> — i.e., the company definitely said it, but no independent party verified it. That distinction runs through the entire report.</p>
+</div>
+
+<!-- ============ SECTION 2 ============ -->
+<div class="section">
+  <div class="section-title">2 · The Master Matrix</div>
+  <h2 class="big">Twenty companies, five strategic axes</h2>
+  <p>The reference artifact of this report. Every company is scored across the five axes that define a deployment strategy. Read this as the map; the sections that follow are the territory. Labs (OpenAI, Anthropic) are context — they build models and run their own forward-deployed arms but are not pure deploycos; they appear at matrix level only. Scale, Mercor, and Turing are deliberately excluded (data/eval adjacency, not deployment).</p>
+
+  <h3>The five axes</h3>
+  <table class="data-table">
+    <thead><tr><th>Axis</th><th>The strategic choice it captures</th></tr></thead>
+    <tbody>
+      <tr><td><strong>1 · Models &amp; weights</strong></td><td>Closed frontier vs. open-weight, by use case. Fine-tune vs. orchestrate as-is. Model-agnostic vs. locked. Who owns their own models.</td></tr>
+      <tr><td><strong>2 · Ontology ↔ Workflow</strong></td><td>Persistent enterprise ontology (durable shared state) vs. per-workflow decomposition. <strong>The load-bearing axis (Section 3).</strong></td></tr>
+      <tr><td><strong>3 · Orchestration</strong></td><td>Ingestion, semantic layer, planner/executor split, the verification/eval layer, human-in-the-loop, memory/state.</td></tr>
+      <tr><td><strong>4 · Delivery</strong></td><td>Forward-deployed engineers (FDEs) vs. product-led/self-serve. Services-land → platform-expand.</td></tr>
+      <tr><td><strong>5 · Commercial</strong></td><td>Outcome-based vs. seat/subscription vs. consumption. Who owns the outcome contractually.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="table-wrap">
+  <table class="data-table matrix-table">
+    <thead>
+      <tr><th>Company</th><th>1 · Models &amp; weights</th><th>2 · Ontology↔Workflow</th><th>3 · Orchestration</th><th>4 · Delivery</th><th>5 · Commercial</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Palantir</td><td>Agnostic router (closed+open); orchestrates</td><td class="pole">Ontology-first (pole)</td><td>Ontology semantic layer + AIP orchestrator + verifier + HITL</td><td>FDE → platform/partner</td><td>License + consumption (value-framed)</td></tr>
+      <tr><td>Distyl</td><td>Closed frontier (OpenAI + Anthropic / Azure)</td><td>Workflow-first → <em>converging</em></td><td>Routines task-graph + Context Mesh + verifier</td><td>FDE-embed (purest)</td><td>Outcome-framed services → platform</td></tr>
+      <tr><td>Northslope</td><td>Gemini Enterprise + AIP-brokered frontier</td><td>Ontology-first (<em>rented</em> from Palantir)</td><td>AIP substrate + client app layer + HITL</td><td>FDE-embed (purest)</td><td>Services/project + substrate passthrough</td></tr>
+      <tr><td>Claritype</td><td>Frontier-orchestrated (unspecified)</td><td>Ontology / semantic-first (ex-Palantir DNA)</td><td>Semantic model + NL→governed-query + inspectable reasoning</td><td>Product-led self-serve</td><td>Seat / SaaS (not disclosed)</td></tr>
+      <tr><td>Sierra</td><td>Multi-model frontier</td><td>Workflow-first</td><td>Self-supervising agent + verifier + HITL</td><td>Product-led + SE</td><td><strong>Pure pay-per-resolution</strong></td></tr>
+      <tr><td>Cognition (Devin)</td><td>Closed frontier (Anthropic-heavy)</td><td>Workflow-first</td><td>Planner/executor + self-test verifier + PR HITL</td><td>Product-led</td><td>Subscription + usage (ACU)</td></tr>
+      <tr><td>Happy Robot</td><td>6-model pipeline: swappable LLM + <em>proprietary voice models</em></td><td>Workflow-first (rule-guarded)</td><td>SIP/K8s voice stack + rule-verifier + human QA + HITL</td><td>Product-led + enterprise onboarding</td><td>Bundled platform + usage</td></tr>
+      <tr><td>Factory</td><td><strong>Model-agnostic per-task router</strong> (Claude/GPT/Gemini)</td><td>Workflow-first</td><td>Orchestrator + role-scoped Droids + Review/Test verifier + HITL</td><td>Product-led, no seat minimums</td><td>Subscription / consumption</td></tr>
+      <tr><td>Decagon</td><td>Multi-model frontier</td><td>Workflow-first (AOPs)</td><td>Runtime + knowledge grounding + QA verifier + HITL</td><td>Product-led + SE</td><td>Per-resolution <em>option</em> (most pick per-conversation)</td></tr>
+      <tr><td>Harvey</td><td>Frontier + legal fine-tunes; <strong>ships own open-weight model (“Tenet”)</strong></td><td>Workflow-first</td><td>Retrieval + task agents + citation verifier + heavy lawyer HITL</td><td><strong>FDE program</strong> (services → platform)</td><td>Seat / subscription</td></tr>
+      <tr><td>Cresta</td><td>Frontier + proprietary CC fine-tunes</td><td>Workflow-first</td><td>Real-time transcription + agent runtime + QA verifier + HITL</td><td>Product-led + SE</td><td>Per-seat + usage ("outcome-LED")</td></tr>
+      <tr><td>Glean</td><td>Multi-model (Bedrock/Vertex/Azure OpenAI)</td><td>Ontology-<em>leaning</em> (Enterprise Graph)</td><td>Connectors + graph semantic layer + RAG + Agents + citation verifier</td><td>Product-led SaaS</td><td>Per-seat subscription</td></tr>
+      <tr><td>Cohere</td><td><strong>Owns own models</strong> (Command/Embed/Rerank); <strong>open weights (Apache-2.0)</strong>; private/air-gapped</td><td>Workflow-first (platform)</td><td>North RAG + agent orchestration + verifier, in-VPC</td><td><strong>Model/platform vendor (no FDE)</strong></td><td>Consumption (tokens) + platform license</td></tr>
+      <tr><td>8090</td><td>Frontier-orchestrated (agnostic)</td><td>Workflow-first (PDLC)</td><td>Software Factory pipeline + engineer-verifier</td><td>Services-led via EY (SI channel)</td><td>Project/services (outcome-framed, undisclosed)</td></tr>
+      <tr><td>Accenture</td><td>Multi-model; Palantir + OpenAI aligned</td><td>Ontology-<em>via-partner</em> (Palantir group)</td><td>Accelerators + FDE model (absorbed via M&amp;A)</td><td>Bodyshop → asset/accelerator</td><td>Labor leverage + accelerators</td></tr>
+      <tr><td>McKinsey (QuantumBlack)</td><td>OpenAI + Anthropic (ecosystem)</td><td>Advisory (n/a)</td><td>Lilli / Horizon / Kedro internal assets</td><td>Advisory-led, high-touch</td><td>Fees (judgment + seats)</td></tr>
+      <tr><td>Deloitte</td><td>Anthropic (Claude to ~470K); Palantir EOS</td><td>Ontology-<em>via-partner</em> (Palantir EOS)</td><td>Zora AI agentic + Omnia + Global Agentic Network</td><td>Bodyshop → agentic product</td><td>Labor leverage + emerging product</td></tr>
+      <tr><td>EY</td><td>Frontier via 8090 + Microsoft</td><td>Workflow (via 8090 PDLC)</td><td>Rents 8090's Software Factory</td><td>Bodyshop renting a factory</td><td>Fees + rented delivery</td></tr>
+      <tr><td>BCG X</td><td>OpenAI Elite + Anthropic</td><td>Workflow (bespoke build)</td><td>Build-and-scale org + ARTKIT red-teaming</td><td>Consulting-led build org</td><td>Fees (AI ≈ 25% of rev)</td></tr>
+      <tr><td>IBM Consulting</td><td><strong>Owns watsonx</strong>; integrates OpenAI/Anthropic</td><td>Workflow (watsonx-anchored)</td><td>watsonx.ai/.governance/Orchestrate + consulting</td><td>Services welded to owned stack</td><td>Software + consulting signings</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p style="font-size:12.5px;color:var(--text-secondary);">All matrix placements are evidence-backed in Sections 3–8. Cell confidence ranges from <span class="chip confirmed">Confirmed</span> (Palantir/Distyl architecture, Cohere model ownership, Factory routing, disclosed revenues) to <span class="chip estimated">Estimated</span> (most pricing/delivery cells for private companies). Sources §.</p>
+
+  <div class="chart-box">
+    <h4>Where each company sits on the load-bearing axis</h4>
+    <p class="chart-note">Ontology-first (persistent enterprise semantic layer as durable shared state) ←→ Workflow-first (per-workflow decomposition). Position is analytical placement <span class="chip estimated">Estimated-Inferred</span> from architecture evidence, not a disclosed metric. The axis is bimodal: only five companies sit meaningfully ontology-side.</p>
+    <div class="chart-container"><canvas id="ontologyChart"></canvas></div>
+  </div>
+</div>
+
+<!-- ============ SECTION 3 — LOAD-BEARING ============ -->
+<div class="section">
+  <div class="section-title">3 · The Load-Bearing Section</div>
+  <h2 class="big">Ontology-first vs. workflow-first — and why the fork is quietly collapsing</h2>
+  <p class="lede">This is the central architectural fork of the category and the deepest section of the report. Two opposite bets, same go-to-market motion: model the <em>whole enterprise</em> first (Palantir), or attack <em>one workflow</em> first (Distyl). The investor's prior was that these two might not actually be that different. We were mandated to <strong>disprove the fork before asserting it</strong> — and the disprove-first hunt landed the report's most important finding.</p>
+
+  <div class="callout finding">
+    <span class="callout-label">The money finding</span>
+    The clean "ontology-first vs. workflow-first" fork is now <strong>substantially more build-order than architecture</strong>. Distyl — the archetypal workflow-first company — has quietly re-architected around a persistent, governed, write-back semantic layer it calls <strong>Context Mesh</strong>, describing it in language nearly identical to Palantir's Ontology moat.<a href="#s3" class="cite">[3]</a> Meanwhile Palantir sells <strong>1–5-day AIP Bootcamps</strong> that ship a production workflow fast<a href="#s7" class="cite">[7]</a> — the exact land motion that was supposedly Distyl's edge. Both poles are collapsing toward the middle. The residual daylight is real but narrow: the <em>depth of the deterministic write-back layer</em> into systems of record, and accumulated integration time.
+  </div>
+
+  <h3>Palantir (the ontology pole), mapped at architecture depth</h3>
+  <p>Palantir's differentiation is architectural, not merely go-to-market. Foundry's <strong>Ontology</strong> is a largely <em>deterministic, governed</em> model of an enterprise — Palantir frames it as representing the enterprise's <em>decisions, not merely its data</em>.<a href="#s1" class="cite">[1]</a> It has two first-class halves:</p>
+  <ul>
+    <li><strong>Semantic elements</strong> — object types, objects, properties, and typed link types (Palantir insists links be "semantically meaningful," not shared foreign keys). Interfaces provide polymorphism so "a single workflow covers all implementing types."<a href="#s1" class="cite">[1]</a> <span class="chip confirmed">Confirmed</span></li>
+    <li><strong>Kinetic elements</strong> — Action types (governed writes committed as a single transaction) and Functions (business logic, computation, model calls, ontology edits).<a href="#s2" class="cite">[2]</a> <span class="chip confirmed">Confirmed</span></li>
+  </ul>
+  <p>AIP agents interact with this through a five-layer loop: (1) deterministic <strong>Retrieval Context</strong> injected on every message — the full schema is never dumped into the prompt, only retrieval results enter context; (2) an <strong>Object Query Tool</strong> that does multi-hop link traversal (Order → Shipment → Carrier → TransitHub) that flat RAG cannot; (3) a <strong>Function/Logic Tool</strong>; (4) an <strong>Action Tool</strong> for governed writes, optionally human-confirmed; and (5) end-to-end <strong>governance</strong> — agents never touch raw tables, only the authorized ontology boundary.<a href="#s5" class="cite">[5]</a> The design philosophy: <em>"determinism where possible, autonomy where necessary, constraint everywhere."</em> The genuine IP is <strong>not the LLM</strong> (Palantir orchestrates frontier + open models) — it is the ontology-as-governed-operational-interface that turns "give the LLM database credentials" into "let the LLM act through a governed semantic boundary."<a href="#s5" class="cite">[5]</a> <span class="chip estimated">Estimated-Inferred</span></p>
+
+  <h3>Distyl (the workflow pole), and its 2026 convergence</h3>
+  <p>In June our verified map of Distyl was the pure workflow-first archetype: a Standard Operating Procedure auto-decomposed into "Routines" — discrete, auditable tasks with logged inputs/outputs/tool-calls — a thin, local semantic layer per workflow.<a href="#s16" class="cite">[16]</a> That is still true at the <em>execution</em> layer. But Distyl's own 2026 technology pages describe a <strong>four-layer platform</strong> whose foundation is now a persistent semantic layer <span class="chip confirmed">Confirmed</span>-as-claimed:</p>
+  <ul>
+    <li><strong>Context Mesh</strong> — "an AI-native data foundation. It reads from your existing data systems… and <em>writes back what every agent decides.</em> Your data stays where it is. No migration required." "When an agent makes a decision, that output flows back into the mesh, <em>semantically indexed</em>… <em>Each new use case inherits everything Context Mesh already knows.</em>" Agents are "first-class citizens" with "explicit, auditable permissions."<a href="#s3" class="cite">[3]</a></li>
+    <li><strong>Context Views</strong> — explicitly "the <em>semantic layer</em>… a foundation of human-understandable objects: business entities, relationships, and constraints… your agents can reason from." SME "Directed Review" edits become "a reusable update to the schema itself."<a href="#s4" class="cite">[4]</a></li>
+  </ul>
+  <p>Distyl's own NVIDIA-integration post describes moving "past the concept of the flat, static retrieval index" to build "a <em>living, traversable graph</em>… encompass[ing] episodic memory, tacit and explicit knowledge, policies, workflows, and domain logic," where agents "write back state that persists long after the session ends."<a href="#s6" class="cite">[6]</a> A third-party analysis states it plainly: <em>"Distyl is applying [Palantir's ontology] thesis natively to LLM agents."</em><a href="#s17" class="cite">[17]</a> <span class="chip reported">Reported</span></p>
+
+  <h3>Head-to-head: same destination, different construction method</h3>
+  <div class="table-wrap">
+  <table class="data-table">
+    <thead><tr><th>Dimension</th><th>Palantir Foundry/AIP (ontology-first)</th><th>Distyl Distillery 2026 (workflow-first → converging)</th></tr></thead>
+    <tbody>
+      <tr><td>Persistent semantic layer?</td><td>YES — Ontology (objects/props/links)</td><td>YES — Context Mesh + Context Views</td></tr>
+      <tr><td>Typed entities + relationships</td><td>Object types / link types (hard schema)</td><td>Nodes/edges: "typed relationships" <span class="chip reported">Rep</span></td></tr>
+      <tr><td>Governed write-back to the layer</td><td>Action types (transactional, audited)</td><td>"writes back what every agent decides" <span class="chip confirmed">as-claimed</span></td></tr>
+      <tr><td>Multi-hop traversal by agents</td><td>Object Query Tool link traversal</td><td>"living, traversable graph," multi-hop <span class="chip confirmed">as-claimed</span></td></tr>
+      <tr><td>Data stays in place</td><td>Virtual tables enable in-place</td><td>"No migration required" <span class="chip confirmed">as-claimed</span></td></tr>
+      <tr><td><strong>How the model is BUILT</strong></td><td>Engineers design schema up front (deterministic)</td><td>SMEs + agents <em>accrete</em> it; "Directed Review" edits schema</td></tr>
+      <tr><td>Compounding mechanism</td><td>Interfaces + canonical objects → workflows inherit</td><td>"Each use case inherits everything Context Mesh knows"</td></tr>
+      <tr><td>Maturity of the layer</td><td>~decade of production hardening</td><td>New (2026 re-architecture); unproven at Palantir depth</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Disprove-first: the null hypothesis is strongly supported</h3>
+  <p><strong>Evidence Distyl is moving toward Palantir:</strong> Context Mesh is a write-back knowledge graph; Context Views is an explicit "semantic layer"; the ex-Palantir founders (Arjun Prakash + Derek Ho) make the ontology DNA intentional.<a href="#s3" class="cite">[3]</a><a href="#s4" class="cite">[4]</a> <strong>Evidence Palantir is moving toward Distyl:</strong> the AIP Bootcamp promises "zero to use case in 5 days or less," with "at least one production-ready workflow by day five" — Palantir attacking the fast per-workflow motion.<a href="#s7" class="cite">[7]</a> <span class="chip confirmed">Confirmed</span>-as-claimed</p>
+  <div class="callout insight">
+    <span class="callout-label">Verdict on the fork</span>
+    <strong>The fork survives only as (1) a <em>sequencing</em> difference</strong> (build-model-first vs. ship-first-then-accrete) <strong>and (2) a <em>schema-determinism</em> difference</strong> (a designed, strongly-typed object model where agents cannot invent objects, vs. a mesh partly accreted from agent decisions). The genuine, surviving daylight is the <strong>depth of the deterministic action/write-back layer into systems of record</strong> — Palantir's atomic, staged, governed writes into ERP/WMS/edge over a decade of connectors are far deeper than anything Distyl publicly documents (Distyl writes back into its own mesh, not documented ERP-grade write-back). That is a head-start moat, not a categorically different architecture. As an <em>architectural</em> claim, "ontology-first vs. workflow-first" no longer describes two different architectures — it describes two on-ramps to the same highway. That itself is the headline.
+  </div>
+
+  <h3>The compounding-vs-ceiling stress-test</h3>
+  <p>The thesis under test: <em>workflow-first converts to production faster but ceilings into 40 disconnected point-solutions; ontology-first is slower-to-value but compounds because every new workflow inherits the object model.</em></p>
+  <ul>
+    <li><strong>For compounding:</strong> Palantir <em>documents</em> the mechanism (interfaces + canonical objects → workflow reuse).<a href="#s8" class="cite">[8]</a> And the strongest single data point in this leg: <strong>Distyl's own pivot is revealed-preference evidence the ceiling is real.</strong> A workflow-first company at a ~$1.8B valuation chose to spend engineering building Context Mesh — whose entire pitch is escaping "add a second agent, then a tenth, and each operates from its own blind spot… No compounding. Just isolated automation, multiplied." Distyl is describing the exact ceiling the thesis predicts, and building to escape it.<a href="#s3" class="cite">[3]</a></li>
+    <li><strong>Against / complicating:</strong> "Slower-to-value" for ontology-first is now weakly false — a <em>first</em> workflow ships fast on either pole (AIP Bootcamp, ≤5 days). And Palantir itself warns compounding only holds if teams converge on shared concepts; duplicated object types can accrete redundancy instead of value.<a href="#s8" class="cite">[8]</a> Ontology-first does not <em>automatically</em> compound — it compounds if governed well.</li>
+  </ul>
+  <div class="callout warning">
+    <span class="callout-label">The core diligence gap — stated plainly</span>
+    The "ceilings out into disconnected point-solutions" outcome is <strong>not observable in public data</strong> for Distyl or any workflow-first peer. No public deployment census shows point-solution sprawl vs. compounding; no audited before/after exists. The stress-test is <em>architecturally sound and corroborated by Distyl's revealed behavior</em>, but <strong>empirically unproven</strong>. Production-conversion rates are unknown for both poles. Any investment thesis that rests on "ontology-first compounds and workflow-first ceilings" is, today, resting on architecture and inference — not measured outcomes. <span class="chip consensus">Consensus-but-Unproven</span>
+  </div>
+</div>
+
+<!-- ============ SECTION 4 ============ -->
+<div class="section">
+  <div class="section-title">4 · Models &amp; Weights</div>
+  <h2 class="big">Open vs. closed, by use case — and the one company that owns its models</h2>
+  <p>The dominant pattern is unambiguous: <strong>13 of 14 independents orchestrate frontier models as-is; they do not train their own.</strong> The deployment layer is, overwhelmingly, a layer <em>above</em> the model. The strategic choices are which frontier models, how model-agnostic, and whether any domain fine-tuning happens.</p>
+  <ul>
+    <li><strong>Model-agnostic routing is becoming table stakes.</strong> Factory explicitly routes Claude/GPT/Gemini <em>per task</em> to avoid lock-in and control cost<a href="#s24" class="cite">[24]</a> <span class="chip confirmed">Confirmed</span>; Glean routes across Bedrock/Vertex/Azure OpenAI<a href="#s28" class="cite">[28]</a>; Palantir and Sierra broker multiple providers.</li>
+    <li><strong>Closed frontier dominates the reasoning core; open-weight appears where the environment demands it</strong> — regulated, on-prem, air-gapped, or cost-sensitive. Cohere's entire pitch is private deployment ("GPU in a closet")<a href="#s29" class="cite">[29]</a>; Distyl runs open Nemotron via NVIDIA NIM alongside closed frontier for its deterministic pipeline.<a href="#s6" class="cite">[6]</a></li>
+    <li><strong>Cohere is the lone model <em>owner</em> — and it ships open weights.</strong> It trains its own Command/Embed/Rerank family and releases open weights under <strong>Apache-2.0</strong> for self-host, selling private, in-VPC, “GPU-in-a-closet” deployment — a fundamentally different business (model vendor, not deployment layer) that happens to sit adjacent.<a href="#s29" class="cite">[29]</a> <span class="chip confirmed">Confirmed</span></li>
+    <li><strong>Domain fine-tuning is the exception, concentrated where accuracy is legally load-bearing:</strong> Harvey layers legal case-law fine-tunes and has shipped its own <strong>open-weight post-trained model (“Tenet”)</strong><a href="#s26" class="cite">[26]</a>, Cresta runs contact-center models fine-tuned on client conversation data<a href="#s27" class="cite">[27]</a>, and Happy Robot builds proprietary in-house voice/end-of-turn models for latency.<a href="#s22" class="cite">[22]</a> <span class="chip reported">Reported</span> The pattern is instructive: owned/open weights appear in exactly two places — <em>regulated/air-gapped</em> (Cohere) and <em>domain adaptation where accuracy is legally load-bearing</em> (Harvey’s Tenet, Cresta) — never in the generic orchestration core.</li>
+  </ul>
+  <p>The single most-cited enterprise-spend datapoint of 2026: <strong>Anthropic leads enterprise LLM spend at 40%</strong>, having "unseated OpenAI" (Menlo Ventures).<a href="#s30" class="cite">[30]</a> <span class="chip reported">Reported</span> — a market-model estimate from a VC with portfolio exposure, directionally strong but not audited. Distyl, Cognition, and Harvey all skew Anthropic-heavy in their orchestration, consistent with that leadership.</p>
+  <div class="callout insight">
+    <span class="callout-label">So what</span>
+    Because almost everyone orchestrates the same frontier models, <strong>the model is not the moat</strong> at the deployment layer. Model choice is a routing decision, increasingly automated. The defensibility lives in the layers <em>around</em> the model — context, orchestration, verification, and delivery — which is exactly why the ontology fork (Section 3) matters more than the model question.
+  </div>
+</div>
+
+<!-- ============ SECTION 5 ============ -->
+<div class="section">
+  <div class="section-title">5 · Orchestration Architecture</div>
+  <h2 class="big">Where designs converge — and the one component everyone builds</h2>
+  <p>Strip the marketing away and the orchestration stacks rhyme: ingestion/connectors → a semantic or context layer → a planner/executor split (an orchestrator model directing task models) → tool and action calls → a verification layer → human-in-the-loop checkpoints → memory/state. The interesting question is where they <em>converge</em> vs. <em>genuinely differ</em>.</p>
+  <h3>The universal building block: the verification layer</h3>
+  <div class="callout finding">
+    <span class="callout-label">Category-wide convergence</span>
+    <strong>Everyone has a verifier — and it is the mechanism that makes probabilistic output billable.</strong> Resolution-QA for CX (Sierra, Decagon), Review/Test Droids for coding (Factory), citation-grounding for legal (Harvey), deterministic rule-guards for freight voice (Happy Robot), inspectable step-by-step reasoning for analytics (Claritype), and the Action/governance transaction system for Palantir. The verifier is the load-bearing commercial primitive of the entire category: it is why a customer will pay for an agent's output at all.
+  </div>
+  <p>The academic literature corroborates <em>why</em> this layer is non-negotiable: single-run benchmark success does not predict production reliability, and agent failures are frequently <strong>silent</strong> — hallucination, misinterpreted instructions, and reasoning drift that propagate without throwing any runtime exception (MAS-FIRE; ReliabilityBench; IBM's CUGA deployment paper).<a href="#s34" class="cite">[34]</a><a href="#s33" class="cite">[33]</a><a href="#s35" class="cite">[35]</a> <span class="chip reported">Reported</span> A verifier is the only thing standing between "the demo worked" and "the deployment silently corrupted a workflow."</p>
+  <h3>Where designs genuinely differ</h3>
+  <ul>
+    <li><strong>The semantic layer</strong> — persistent enterprise ontology (Palantir, Distyl-2026, Claritype) vs. a knowledge-graph substrate that grounds retrieval (Glean's Enterprise Graph) vs. thin per-workflow context (CX/coding agents). This is the Section-3 fork.</li>
+    <li><strong>Determinism placement</strong> — Happy Robot puts deterministic rule-guards on high-stakes outputs (a freight rate, a booking number) so the LLM cannot bypass validation<a href="#s22" class="cite">[22]</a>; Palantir puts determinism in the Action transaction; Distyl runs a deterministic deep-research pipeline where "the code lays the tracks, the model reasons over results."<a href="#s6" class="cite">[6]</a></li>
+    <li><strong>Substrate ownership</strong> — own it (Palantir, Distyl), rent it (Northslope rents Palantir's AIP/Foundry), or skip it (pure per-workflow agents).</li>
+  </ul>
+  <p>The planner/executor pattern (an orchestrator model decomposing work and directing task models) is now near-universal in the agentic players — Factory's coordinator assigning role-scoped Droids<a href="#s25" class="cite">[25]</a>, Cognition's long-horizon task decomposition<a href="#s18" class="cite">[18]</a>, Palantir's AIP Logic. It is converging into a commodity pattern; the differentiation has moved to the context layer beneath it and the verification layer above it.</p>
+</div>
+
+<!-- ============ SECTION 6 ============ -->
+<div class="section">
+  <div class="section-title">6 · Delivery &amp; Commercial Models</div>
+  <h2 class="big">FDEs are dying at the edges; outcome pricing is rare and CX-shaped</h2>
+  <h3>Delivery: forward-deployed engineering survives only where the substrate is complex</h3>
+  <p>The forward-deployed engineer (FDE) — embed with the customer, build against their data, own the outcome — is the Palantir-descended playbook that launched this category. But across the 14 independents, <strong>true FDE-embed survives in only four</strong>: Distyl, Northslope, Harvey (a "services business with software margins" running a founding FDE program), and 8090 (delivered through EY).<a href="#s26" class="cite">[26]</a> <span class="chip reported">Reported</span> Everywhere the substrate is simpler and the workflow is legible — coding (Factory, Cognition), search (Glean), CX (Decagon, Sierra), voice (Happy Robot) — the model went <strong>product-led/self-serve</strong>. Factory ships GA with no seat minimums<a href="#s24" class="cite">[24]</a>; Glean lands via seats and expands via agents.<a href="#s28" class="cite">[28]</a></p>
+  <div class="callout insight">
+    <span class="callout-label">The pattern</span>
+    FDE is a function of <strong>substrate complexity</strong>, not company philosophy. Cross-silo enterprise transformation on messy data needs embedded engineers; a bounded, well-defined workflow (resolve a support ticket, ship a PR) can be productized. As frontier models make more workflows legible, the FDE frontier retreats toward the genuinely hard, cross-system builds. This is <em>also</em> why the incumbents (Section 8) are a channel: they own the relationships for exactly the complex, high-touch deployments where FDE still wins.
+  </div>
+  <h3>Commercial: outcome pricing is rarer than the narrative claims</h3>
+  <p>"Own the outcome" is the category's favorite phrase, but genuine outcome-based billing is <strong>rare and concentrated in customer experience</strong>. Only <strong>Sierra</strong> bills purely pay-per-resolution; <strong>Decagon</strong> offers per-resolution as an option but reports most customers still choose per-conversation for predictability; <strong>Cresta</strong> only <em>frames</em> "outcome-LED" while invoicing per-seat + usage (AWS Marketplace: 125K chats/yr at $150K).<a href="#s27" class="cite">[27]</a> <span class="chip confirmed">Confirmed</span> (rate card) Coding, legal, and search all stay on seats and consumption.</p>
+  <p>The reason is structural: <strong>outcome pricing requires a crisp, machine-countable unit</strong> — a "resolution." That exists cleanly in CX and almost nowhere else. You cannot bill per-resolution on "transform our supply chain." Where "own the outcome" is asserted outside CX (Distyl, 8090), it is a <em>framing</em> for a services engagement, not a metered per-outcome invoice. <span class="chip estimated">Estimated-Inferred</span> — no rate cards exist; all margin/pricing structure is inference.</p>
+  <div class="callout warning">
+    <span class="callout-label">Where "own the outcome" becomes a liability</span>
+    Contractually owning the outcome transfers risk to the vendor. In CX with a countable resolution and a verifier, that risk is priceable. Outside CX — where the "outcome" is a multi-quarter transformation with confounded attribution — owning it means owning blame for results the vendor only partly controls. The companies loudest about outcomes (Sierra, Decagon) are precisely those where the outcome is <em>measurable</em>; the ones doing complex builds quietly price on services. That asymmetry is a tell about where outcome pricing actually works.
+  </div>
+</div>
+
+<!-- ============ SECTION 7 — EVIDENCE ============ -->
+<div class="section">
+  <div class="section-title">7 · What Actually Works — The Evidence</div>
+  <h2 class="big">The hard data: mostly, it does not exist — and that is the finding</h2>
+  <p class="lede">The investor wanted hard evidence of what converts pilots to production and moves the bottom line — not vendor abstractions. We hunted three ways: customer-side filing triangulation, the pilot-to-production research base, and the academic corpus. The honest headline: <strong>the gold-standard evidence for this category essentially does not exist in public disclosure, and the most-cited statistic is the least rigorous.</strong></p>
+
+  <h3>7.1 — Named contract outcomes: exactly one clean triangulation (AIG), and it took the customer choosing to disclose it</h3>
+  <p>The gold standard would be a named public enterprise crediting a named deployco with a quantified P&amp;L result in a customer-authored <em>disclosure</em> — better than any vendor case study. We started from deployco case studies naming public customers, then cross-checked those customers' own annual reports, 10-Ks, 10-Qs, investor days, and earnings transcripts. The result across nine worked examples:</p>
+  <div class="legend-key" style="margin-bottom:10px;">
+    <strong>Grading vocabulary:</strong> &nbsp;<span class="chip confirmed">Confirmed-Triangulated</span> customer's own disclosure names the deployco AND a quantified outcome. &nbsp;<span class="chip estimated">Partial</span> customer corroborates the outcome magnitude but not the vendor name (or vice-versa). &nbsp;<span class="chip consensus">Vendor-Claimed</span> deployco-published only, no customer-side corroboration. &nbsp;A separate class, <span class="chip reported">Logo-Confirmed / Outcome-Unattributable</span>, is where a customer confirms the <em>relationship</em> (logo wall, press release) but no number attaches to it.
+  </div>
+  <div class="table-wrap">
+  <table class="data-table">
+    <thead><tr><th>Enterprise</th><th>Deployco</th><th>Claimed result</th><th>Grade</th><th>Customer-side check</th></tr></thead>
+    <tbody>
+      <tr><td><strong>AIG (NYSE:AIG)</strong></td><td><strong>Palantir + Anthropic</strong></td><td>Lexington 370K+ submissions (~+26% YoY); submit-to-bind ~+35–40%; underwriting cycle weeks→&lt;1 day; 100% of private/non-profit submissions reviewed without adding underwriters; target $4B+ new premium by 2030</td><td><span class="chip confirmed">Confirmed-Triangulated</span></td><td><strong>AIG's own</strong> 2025 annual report / investor day / earnings disclose the outcomes <em>and</em> name Palantir + Anthropic as the partners<a href="#s40" class="cite">[40]</a></td></tr>
+      <tr><td>GE Aerospace (NYSE:GE)</td><td>Palantir (AIP)</td><td>"AIP to help increase engine production by 26%"</td><td><span class="chip estimated">Partial</span></td><td>10-K corroborates deliveries +26%, LEAP +28%, names AI tools — but <strong>0 EDGAR hits for "Palantir"</strong><a href="#s37" class="cite">[37]</a></td></tr>
+      <tr><td>T-Mobile (NASDAQ:TMUS)</td><td>Distyl</td><td>~$3B AI savings by 2027; ~60% chatbot containment</td><td><span class="chip estimated">Partial</span></td><td>T-Mobile's own Q4-2025 CMD calls corroborate the magnitude but <strong>never name Distyl</strong> — credits a partner “with OpenAI”<a href="#s40" class="cite">[40]</a></td></tr>
+      <tr><td>Assoc. Materials (private)</td><td>Palantir</td><td>OTIF 40%→90% in 9 months</td><td><span class="chip consensus">Vendor-Claimed</span></td><td>Private — no filing to triangulate<a href="#s38" class="cite">[38]</a></td></tr>
+      <tr><td>Goldman Sachs (NYSE:GS)</td><td>Cognition (Devin)</td><td>"Hundreds of Devins, scaling to thousands"</td><td><span class="chip consensus">Vendor-Claimed</span></td><td>Exec press quote, no P&amp;L number; <strong>0 EDGAR hits for "Devin"</strong><a href="#s39" class="cite">[39]</a></td></tr>
+      <tr><td>Cigna (NYSE:CI)</td><td>Sierra</td><td>Auth time −80%, live in 8 weeks</td><td><span class="chip consensus">Vendor-Claimed</span></td><td>Cigna discloses $200M AI savings but <strong>never names Sierra</strong>; different metric<a href="#s41" class="cite">[41]</a></td></tr>
+      <tr><td>Rippling (private)</td><td>Decagon</td><td>Deflection 38%→&gt;50%</td><td><span class="chip consensus">Vendor-Claimed</span></td><td>Private — no filing<a href="#s42" class="cite">[42]</a></td></tr>
+      <tr><td>Cox (private)</td><td>Cresta</td><td>Revenue per chat +20–30%</td><td><span class="chip consensus">Vendor-Claimed</span></td><td>Private — EDGAR "Cresta" hits are pre-2020 false positives<a href="#s42" class="cite">[42]</a></td></tr>
+      <tr><td>PwC UK (private)</td><td>Harvey</td><td>Saves 1–2 hrs per liquidation</td><td><span class="chip consensus">Vendor-Claimed</span></td><td>Private partnership — no filing<a href="#s43" class="cite">[43]</a></td></tr>
+      <tr><td>Duolingo (NASDAQ:DUOL)</td><td>Decagon</td><td>80% chat deflection</td><td><span class="chip consensus">Vendor-Claimed</span></td><td>10-K books generic "AI costs," no vendor, no metric<a href="#s44" class="cite">[44]</a></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p><strong>Tally: 1 CONFIRMED-TRIANGULATED (AIG) · 2 PARTIAL (GE, T-Mobile) · 6 VENDOR-CLAIMED-UNCORROBORATED.</strong> The one clean case is <strong>AIG → Palantir + Anthropic</strong> — the most valuable page in this report. AIG's <em>own</em> 2025 annual report discloses the measured outcomes (Lexington 370,000+ submissions, up ~26% YoY; submit-to-bind up ~35–40%; claims cycle times from hours to minutes; figures REPORTED-from-primary — relayed from AIG-hosted primary docs, as the AIG PDF fetched as raw bytes rather than quoted verbatim), and AIG's <em>own</em> investor day and earnings call name Palantir and Anthropic as the partners and describe reviewing 100% of private/non-profit submissions without adding underwriters, targeting $4B+ new premium by 2030.<a href="#s40" class="cite">[40]</a> Two independent AIG-authored channels close the triangle.</p>
+  <div class="callout warning">
+    <span class="callout-label">The one honest nuance on AIG</span>
+    Even the category's single clean triangulation has a seam: <strong>the metrics live in the annual-report layer; the vendor attribution lives in the investor-day / earnings layer.</strong> They are both AIG-authored, but a maximally adversarial reader can argue the specific number is not audit-tied to the vendor <em>within one document</em>. That caveat is itself the point — this is as good as customer-side outcome evidence gets in the entire category, and it still isn't a single audited line crediting a vendor with a number. Numbers also drift across AIG's own reporting layers (e.g., +26%/+35% vs. +30%/+40% quoted/binding in different disclosures), so we cite the range, not a false-precision figure.
+  </div>
+  <p>The two partials show the more common failure. GE Aerospace's FY2025 10-K independently reports deliveries up 26% and discloses concrete AI-productivity tools (an AI blade-inspection tool halving inspection time; an AI material assistant cutting MRO turnaround) — but a full-text EDGAR search for "Palantir" across all GE filings returns <strong>zero hits</strong>.<a href="#s36" class="cite">[36]</a><a href="#s37" class="cite">[37]</a> T-Mobile's own Q4-2025 calls corroborate the ~$3B-savings magnitude of Distyl's claim but never name Distyl (crediting a partner “with OpenAI”).<a href="#s40" class="cite">[40]</a> Each confirms an AI-driven gain; each strips or mismatches the vendor.</p>
+  <div class="callout finding">
+    <span class="callout-label">Why the evidence is structurally missing — and why AIG is the exception</span>
+    <strong>The one clean triangulation exists only because AIG itself chose to disclose it.</strong> The category's outcome evidence is otherwise systematically non-triangulable, for three compounding reasons: <strong>(1) vendors are laundered out of audited filings</strong> — auditors and IR will not credit one software vendor for a headline operating metric, so even real gains lose the attribution (GE/Palantir). <strong>(2) The crispest vendor numbers cluster on private buyers</strong> (Associated Materials, Rippling, Cox, PwC) with no filing obligation — the loudest claims are the least checkable. <strong>(3) Public buyers disclose the benefit but not the vendor, and often a different number</strong> (Cigna quantifies $200M but never names Sierra; T-Mobile credits “OpenAI” not Distyl). The customer and the vendor each hold one edge of the triangle and almost never publish the third — AIG is the rare buyer that published all three.
+  </div>
+  <div class="callout insight">
+    <span class="callout-label">Method note — the logo wall vs. the outcome</span>
+    A deployco “logo wall” proves a <em>relationship</em>, not a <em>result</em>. We separate <span class="chip reported">Logo-Confirmed / Outcome-Unattributable</span> — the customer is real and confirmed (press release, named case study, marketplace listing) but <em>no quantified P&amp;L number is customer-attributed</em> — from genuine outcome triangulation. Most of the category's “proof” is logo-confirmed-but-outcome-unattributable; treating a logo as an outcome is the single most common diligence error in reading these decks.
+  </div>
+  <p><strong>Investment implication:</strong> any deployco pitch resting on "named enterprise + quantified outcome" is, evidentially, <em>vendor-attested marketing</em> — even when the enterprise is real and public. Diligence should treat these as leads, then (a) check EDGAR full-text for the deployco's name in the customer's filings (usually 0 hits) and (b) look for whether the customer independently quantifies any aligned metric. The GE-style partial is the <em>ceiling</em> of available evidence, not the floor. The base rate confirms it: ~90% of the S&amp;P 500 mention AI in 10-Ks<a href="#s45" class="cite">[45]</a>, yet only ~12% of CEOs cite both cost and revenue benefit, and 56% report no significant financial benefit.<a href="#s46" class="cite">[46]</a> <span class="chip reported">Reported</span></p>
+
+  <h3>7.2 — Pilot→production: grading the "95%," not parroting it</h3>
+  <p>The viral "95% of GenAI pilots fail" stat comes from MIT/NANDA's <em>The GenAI Divide: State of AI in Business 2025</em>. We read the 26-page PDF in full. The methodology, verbatim: a review of "over 300 publicly disclosed AI initiatives," 52 structured interviews, and a survey of "153 senior leaders collected across four major industry conferences."<a href="#s31" class="cite">[31]</a></p>
+  <div class="table-wrap">
+  <table class="data-table">
+    <thead><tr><th>Dimension</th><th>Finding</th><th>Grade</th></tr></thead>
+    <tbody>
+      <tr><td>Sample</td><td>n=153 survey (conference-recruited) + 52 interviews; 300 initiatives are <em>publicly disclosed</em> (selection-biased)</td><td>Thin</td></tr>
+      <tr><td>Self-reported vs. measured</td><td>Self-reported; the report's own note calls figures "directionally accurate based on individual interviews rather than official company reporting"</td><td>Weak</td></tr>
+      <tr><td>Definition of "success"</td><td>Verbatim: a tool "users or executives have <em>remarked</em> as causing a marked and sustained… P&amp;L impact." Success = a subjective remark, not an audited outcome</td><td>Soft</td></tr>
+      <tr><td>Window / review</td><td>6-month window; labeled "Preliminary Findings," v0.1; not peer-reviewed</td><td>Not peer-reviewed</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>Crucially, the 95% refers specifically to <em>custom/task-specific</em> enterprise GenAI tools; generic chatbots (ChatGPT/Copilot) are reported at ~83% adoption and explicitly excluded.<a href="#s31" class="cite">[31]</a> <strong>Autopsy verdict: a defensible qualitative signal that custom GenAI struggles to reach durable production — but it does NOT support precise quantitative claims. The number's virality outran its rigor.</strong> <span class="chip consensus">Consensus-but-Unproven</span> Cite the pattern; never the precision.</p>
+  <p>The defensible benchmarks come from higher-rigor sources, all verified against primary pages:</p>
+  <ul>
+    <li><strong>ISG State of Enterprise AI Adoption 2025</strong> (n=1,200 defined use cases): <strong>31% reached full production</strong> (double 2024); <strong>~$1.3M average spend to date</strong>; <strong>1 in 4 initiatives achieving expected ROI on growth</strong>; 50% hitting expected efficiency gains — all four figures confirmed verbatim.<a href="#s32" class="cite">[32]</a> <span class="chip confirmed">Confirmed</span> The most defensible public benchmark of pilot→production conversion.</li>
+    <li><strong>Ramp AI Index</strong> — corporate-card transaction data from 50,000+ businesses (measured spend, not survey): <strong>~4× monthly AI spend growth Feb 2025 → Feb 2026.</strong> Ramp <em>underestimates</em> adoption (misses free tools) — the honest direction of bias.<a href="#s48" class="cite">[48]</a> <span class="chip reported">Reported</span> The highest-rigor source on the <em>spend</em> question.</li>
+    <li><strong>Menlo Ventures</strong> — enterprise GenAI spend <strong>$37B in 2025, 3.2× YoY</strong>; 76% of use cases now purchased vs. built; buyers convert at <strong>47% to production vs. 25% for traditional SaaS.</strong><a href="#s30" class="cite">[30]</a> <span class="chip reported">Reported</span> (VC-modeled — flag the book.)</li>
+  </ul>
+  <div class="callout insight">
+    <span class="callout-label">Reconciling the numbers</span>
+    MIT (single-digit% for hard custom builds) and ISG (31% of prioritized use cases) are not contradictory — different denominators. The truth is bracketed: <strong>~single-digit% for hard custom builds, ~30% for the broader prioritized portfolio.</strong> And two independent sources agree on the one robust best-practice: <strong>buy-over-build converts faster</strong> (Menlo 47% vs. 25%; MIT ~2× for partnerships). Everything else labeled "best practice" — learning/memory systems, mid-market speed — is consensus, not measured.
+  </div>
+
+  <h3>7.3 — The academic corpus: the failure mechanism is real and named</h3>
+  <p>The Valency academic corpus returned 11 on-thesis, real arXiv papers. The consensus is consistent and useful: <strong>(1) single-run benchmark success ≠ production reliability</strong> (ReliabilityBench introduces consistency/robustness/fault-tolerance metrics)<a href="#s33" class="cite">[33]</a>; <strong>(2) agent/RAG failures are frequently silent</strong> (MAS-FIRE: semantic failures propagate without exceptions)<a href="#s34" class="cite">[34]</a>; <strong>(3) enterprise-specific gaps recur</strong> — domain process knowledge, evolving requirements, role-based data access. IBM's own deployment paper is the most on-thesis case study: "evidence of [generalist agents'] use in production enterprise settings remains limited" — benchmark strength does not equal deployed business value.<a href="#s35" class="cite">[35]</a> <span class="chip reported">Reported</span> (arXiv preprints — verify ids before external citation.)</p>
+  <div class="callout warning">
+    <span class="callout-label">The honest bottom line on evidence</span>
+    <strong>No rigorous, peer-reviewed, population-representative study of pilot→production failure exists publicly.</strong> The most-cited stat is the weakest source; the strongest sources measure spend (real and exploding) rather than success. The <em>money</em> is unambiguous — $37B, 3.2× YoY, ~4× in card data. Whether that money is <em>working</em> is genuinely opaque, bracketed between single-digit and ~30% production conversion depending on how you count. Anyone claiming precise certainty about "what works" in this category is selling something.
+  </div>
+</div>
+
+<!-- ============ SECTION 8 — INCUMBENTS ============ -->
+<div class="section">
+  <div class="section-title">8 · The Incumbents</div>
+  <h2 class="big">Threat, channel, or roadkill? Mostly channel.</h2>
+  <p class="lede">The June teardown gave the incumbents two sentences. That was wrong. Accenture, McKinsey (QuantumBlack), Deloitte, EY, BCG X, and IBM Consulting are the largest, best-capitalized distribution rails into the exact enterprise buyers deploycos cannot reach alone — and every one of them has chosen to partner with or acquire the deployment layer rather than build it.</p>
+  <div class="table-wrap">
+  <table class="data-table">
+    <thead><tr><th>Firm</th><th>Delivery model</th><th>Disclosed GenAI $ (labeled)</th><th>Key startup/platform bridge</th><th>Verdict</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Accenture</strong></td><td>Bodyshop → asset/accelerator; absorbing FDE model via M&amp;A</td><td>GenAI bookings <strong>$5.9B</strong> FY25; advanced-AI rev <strong>$2.7B</strong> <span class="chip confirmed">Confirmed</span></td><td>Palantir Business Group (&gt;2,000 certified); acquired RANGR, Decho</td><td><span class="tag channel">Channel</span><span class="tag threat">Threat-that-absorbs</span></td></tr>
+      <tr><td><strong>McKinsey (QuantumBlack)</strong></td><td>Advisory-led, high-touch; strong internal assets (Lilli, Kedro)</td><td>Not separately disclosed <span class="chip na">n/a</span></td><td>OpenAI Frontier Alliance; Anthropic</td><td><span class="tag channel">Channel (upstream)</span></td></tr>
+      <tr><td><strong>Deloitte</strong></td><td>Bodyshop → agentic product (Zora AI, Omnia)</td><td>Not disclosed (total $70.5B FY25) <span class="chip na">n/a</span></td><td><strong>Anthropic (Claude to ~470K staff — largest deployment)</strong>; Palantir EOS</td><td><span class="tag threat">Threat</span><span class="tag channel">Channel</span></td></tr>
+      <tr><td><strong>EY</strong></td><td>Bodyshop renting a startup's factory</td><td>Not disclosed <span class="chip na">n/a</span></td><td><strong>8090 (founding partner, EY.ai PDLC)</strong>; Microsoft &gt;$1B/5yr</td><td><span class="tag channel">Channel (dependent)</span></td></tr>
+      <tr><td><strong>BCG X</strong></td><td>Consulting-led build-and-scale; real product org</td><td>~25% of 2025 rev ≈ <strong>~$3.6B AI-related</strong> (not GenAI-specific) <span class="chip reported">Reported</span> <a href="#s54" class="cite">[54]</a></td><td>OpenAI Elite/Frontier; Anthropic (since 2023)</td><td><span class="tag channel">Channel</span><span class="tag threat">Threat</span></td></tr>
+      <tr><td><strong>IBM Consulting</strong></td><td>Services welded to owned stack (watsonx)</td><td>GenAI book <strong>&gt;$12.5B cumulative</strong> Q4'25; ~$1.5B GenAI consulting <span class="chip confirmed">Confirmed</span></td><td>Owns watsonx; integrates OpenAI/Anthropic</td><td><span class="tag channel">Channel (captive)</span><span class="tag roadkill">Roadkill in open GenAI</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p><strong>The tell.</strong> EY rents 8090's Software Factory<a href="#s52" class="cite">[52]</a>; Deloitte pipes Claude to ~470,000 people (Anthropic's largest enterprise deployment) and wraps Palantir's Enterprise Operating System<a href="#s51" class="cite">[51]</a>; McKinsey and BCG join OpenAI's Frontier Alliance<a href="#s50" class="cite">[50]</a>; Accenture builds a &gt;2,000-person Palantir Business Group and <em>buys</em> FDE shops (RANGR, Decho).<a href="#s49" class="cite">[49]</a> Incumbents are conceding they cannot out-build the deployment layer, so they resell it.</p>
+  <p><strong>The disclosed numbers frame the stakes.</strong> Accenture's $5.9B GenAI bookings and $2.7B advanced-AI revenue<a href="#s49" class="cite">[49]</a> <span class="chip confirmed">Confirmed</span> and IBM's &gt;$12.5B cumulative GenAI book<a href="#s53" class="cite">[53]</a> <span class="chip confirmed">Confirmed</span> prove demand is real and large — but both are single-digit shares of firm revenue and heavily bookings-weighted (i.e., early). EY, McKinsey, Deloitte, and BCG are private and do not disclose GenAI-specific revenue; BCG's ~$3.6B is <em>AI-related</em> (a broader bucket than GenAI-specific), so it is not comparable to Accenture's number.</p>
+  <div class="callout insight">
+    <span class="callout-label">Overall verdict</span>
+    <strong>To a deployco and an investor, the incumbents are overwhelmingly a CHANNEL — not roadkill, and only a conditional threat.</strong> They <strong>win</strong> on scale, procurement/legal trust, change-management, C-suite access, and (Accenture) the balance sheet to absorb threats via M&amp;A. They <strong>structurally lose</strong> on margin model (labor leverage vs. software gross margins), speed, product depth, and talent — the AI talent war is actively draining senior deployment talent toward labs and startups. Net: treat Accenture/Deloitte/BCG X as competitor-channels (they distribute you <em>and</em> compete for builds), EY/McKinsey as pure channels (dependent or upstream), IBM as captive to its own stack. The threat is real only for deploycos that stay sub-scale long enough to be absorbed; the channel opportunity is real <em>now</em>.
+  </div>
+</div>
+
+<!-- ============ SECTION 9 — DISTILLATION ============ -->
+<div class="section">
+  <div class="section-title">9 · Similarities vs. Differences — The Distillation</div>
+  <h2 class="big">Where the category converges, where the real forks are, and what remains unknown</h2>
+  <p>Having scored 20 companies across five axes and hunted hard for evidence, the payoff synthesis:</p>
+
+  <h3>Where the whole category genuinely converges</h3>
+  <ul>
+    <li><strong>The model is not the moat.</strong> 13 of 14 independents orchestrate the same frontier models; routing is increasingly automated. Differentiation lives above and below the model.</li>
+    <li><strong>Everyone has a verifier.</strong> The verification/eval layer is the universal building block — the mechanism that makes probabilistic output billable. It is the most convergent and most load-bearing component in the category.</li>
+    <li><strong>The planner/executor pattern is commoditizing.</strong> Orchestrator-directs-task-model is now table stakes in the agentic players.</li>
+    <li><strong>"Own the outcome" is mostly a framing, not a metered invoice</strong> — except in CX, where a resolution is countable.</li>
+  </ul>
+
+  <h3>Where the real strategic forks are</h3>
+  <ul>
+    <li><strong>Depth of the deterministic write-back substrate</strong> (the surviving core of the ontology fork). Owning a governed, transactional, systems-of-record write layer is the deepest and hardest-to-copy moat — and the accumulated integration surface behind it is a genuine head-start advantage. This is where Palantir's real daylight over Distyl remains.</li>
+    <li><strong>Substrate ownership vs. rental.</strong> Own it (Palantir, Distyl) → platform margins and platform valuation. Rent it (Northslope on Palantir) → app-layer margins and dependency risk. This is the single clearest value-capture fork.</li>
+    <li><strong>FDE where the substrate is complex; product-led where it is legible.</strong> A delivery-model choice dictated by problem structure, not preference — and the frontier of "complex enough to need FDEs" retreats as models improve.</li>
+    <li><strong>Outcome pricing where the unit is countable.</strong> A durable edge in CX; structurally unavailable for complex transformation.</li>
+  </ul>
+
+  <h3>What the evidence (weakly or strongly) suggests works vs. fails</h3>
+  <div class="table-wrap">
+  <table class="data-table">
+    <thead><tr><th>Claim</th><th>Verdict</th><th>Strength</th></tr></thead>
+    <tbody>
+      <tr><td>Buy-over-build converts to production faster</td><td>Works</td><td><span class="chip reported">Reported</span> — two independent sources (Menlo, MIT)</td></tr>
+      <tr><td>A verification layer is required for billable output</td><td>Works</td><td><span class="chip reported">Reported</span> — universal in practice + academic corpus</td></tr>
+      <tr><td>Deterministic substrate compounds; workflow-first ceilings</td><td>Plausible</td><td><span class="chip consensus">Consensus-Unproven</span> — architecture + Distyl's revealed pivot, no audited proof</td></tr>
+      <tr><td>FDE-embed drives production conversion</td><td>Conditional</td><td><span class="chip estimated">Inferred</span> — true where substrate is complex; unproven as a universal</td></tr>
+      <tr><td>Outcome pricing is a superior model</td><td>Only in CX</td><td><span class="chip reported">Reported</span> — requires a countable unit</td></tr>
+      <tr><td>"95% of pilots fail"</td><td>Directional only</td><td><span class="chip consensus">Consensus-Unproven</span> — low-rigor source; pattern real, precision false</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>What remains genuinely unknown — and worth stating plainly</h3>
+  <div class="callout warning">
+    <span class="callout-label">The honest limits of this analysis</span>
+    <ul style="margin-bottom:0;">
+      <li><strong>Whether ontology-first actually out-compounds workflow-first in production is not knowable from public data.</strong> Production-conversion and compounding rates are undisclosed for both poles. This is the single most important diligence gap in the category.</li>
+      <li><strong>Exactly one clean customer-triangulated outcome exists</strong> (AIG → Palantir + Anthropic), and even it has a seam — metrics and vendor-attribution sit in different AIG documents. Every <em>other</em> quantified claim is vendor-attested or attaches to a private buyer. Outside AIG, the category's outcome evidence is systematically non-triangulable.</li>
+      <li><strong>Unit economics are entirely inferred.</strong> No rate cards; all pricing/margin structure is analytical inference, flagged throughout.</li>
+      <li><strong>Distyl's Context Mesh depth is vendor-asserted only</strong> — no independent audit confirms it compounds in production at Palantir depth. Treat the convergence as "Distyl now claims Palantir-like architecture," not "Distyl has proven parity."</li>
+    </ul>
+  </div>
+  <p style="margin-top:18px;"><strong>The final distillation.</strong> The deployment layer is a real, large, fast-growing category converging on a shared architecture — orchestrate frontier models, ground them in a semantic/context layer, verify the output, deliver it, bill for it. The genuine, durable differentiation is narrower than the marketing: the <em>deterministic write-back substrate</em>, the <em>accumulated integration surface</em>, and the <em>verification layer</em>. The most-hyped differentiators — which frontier model, "own the outcome," forward-deployed engineering — are either commoditizing, CX-specific, or a function of problem structure rather than defensible strategy. And the category's dirty secret is that <strong>almost none of "what works" is provable from public data.</strong> In a field this opaque, the willingness to say "this is not knowable" is not a weakness of the analysis — it is the most valuable thing in it.</p>
+</div>
+
+<!-- ============ SOURCES ============ -->
+<div class="sources">
+  <h2>Sources</h2>
+  <ol>
+    <li id="s1">Palantir, <span class="source-pub">Foundry Ontology — Overview / Core Concepts</span> (digital-twin framing; semantic + kinetic elements; interfaces). <a href="https://www.palantir.com/docs/foundry/ontology/overview">palantir.com/docs/foundry/ontology/overview</a></li>
+    <li id="s2">Palantir, <span class="source-pub">Action Types &amp; Functions Overview</span> (governed writes as transactions). <a href="https://www.palantir.com/docs/foundry/action-types/overview/">palantir.com/docs/foundry/action-types/overview</a></li>
+    <li id="s3">Distyl AI, <span class="source-pub">Technology — Context Mesh</span> (persistent write-back knowledge graph; "each use case inherits everything"). <a href="https://www.distyl.ai/technology/context-mesh">distyl.ai/technology/context-mesh</a></li>
+    <li id="s4">Distyl AI, <span class="source-pub">Technology — Context Views</span> ("the semantic layer"; Directed Review edits schema). <a href="https://www.distyl.ai/technology/context-views">distyl.ai/technology/context-views</a></li>
+    <li id="s5">Zero Future Tech (primary-docs-derived), <span class="source-pub">Palantir AIP Agent–Ontology Interaction</span> (5-layer model). <a href="https://zerofuturetech.substack.com/p/palantir-aip-agent-ontology-interaction">zerofuturetech.substack.com</a>; corroborated by <a href="https://palantir.com/docs/foundry/aip/aip-features/">Palantir AIP features docs</a></li>
+    <li id="s6">Distyl AI, <span class="source-pub">NVIDIA Enterprise Agents</span> ("living, traversable graph"; ReAct + deterministic pipeline; open Nemotron via NIM). <a href="https://distylai.substack.com/p/nvidia-enterprise-agents">distylai.substack.com/p/nvidia-enterprise-agents</a></li>
+    <li id="s7">Palantir, <span class="source-pub">AIP Bootcamp</span> ("zero to use case in 5 days or less"). <a href="https://www.palantir.com/platforms/aip/bootcamp/">palantir.com/platforms/aip/bootcamp</a></li>
+    <li id="s8">Palantir, <span class="source-pub">Ontology Best Practices / Structural Guidance</span> (compounding mechanism + duplication risk). <a href="https://www.palantir.com/docs/foundry/ontology/ontology-best-practices">palantir.com/docs/foundry/ontology/ontology-best-practices</a></li>
+    <li id="s16">Sacra / Galileo prior verified fact sheet (June 2026), <span class="source-pub">Distyl Distillery / Routines</span> (SOP decomposition, auditable task chain).</li>
+    <li id="s17">AgentMarketCap, <span class="source-pub">Distyl AI $175M: Enterprise Knowledge Graphs &amp; Agent Memory Layer</span> ("applying Palantir's ontology thesis natively to LLM agents"). <a href="https://agentmarketcap.ai/blog/2026/04/06/distyl-ai-175m-enterprise-knowledge-graphs-agent-memory-layer">agentmarketcap.ai</a></li>
+    <li id="s18">Cognition, <span class="source-pub">Funding &amp; product</span> (Devin planner/executor; ~$400M @ $10.2B Sept 2025; &gt;$1B Series D ~$26B May 2026). <a href="https://cognition.ai/blog">cognition.ai/blog</a>; <a href="https://techcrunch.com/2025/09/08/cognition-ai-defies-turbulence-with-a-400m-raise-at-10-2b-valuation/">TechCrunch</a></li>
+    <li id="s22">Happy Robot, <span class="source-pub">Technical Overview / Voice AI</span> (6-model pipeline; proprietary voice models; deterministic rule-guards; SIP/K8s). <a href="https://www.happyrobot.ai/blog/technical-overview">happyrobot.ai/blog/technical-overview</a></li>
+    <li id="s24">Factory, <span class="source-pub">GA announcement / product</span> (model-agnostic per-task routing; no seat minimums). <a href="https://factory.ai/news/factory-is-ga">factory.ai/news/factory-is-ga</a></li>
+    <li id="s25">Factory, <span class="source-pub">Series C &amp; Droids / Missions docs</span> ($150M @ $1.5B, Apr 2026; role-scoped Droids; Review/Test verifier). <a href="https://factory.ai/news/series-c">factory.ai/news/series-c</a></li>
+    <li id="s26">Harvey, <span class="source-pub">Funding, FDE program &amp; open-weight model</span> ($200M @ $11B Mar 2026; "services business with software margins"; shipped an open-weight post-trained legal model, "Tenet"). <a href="https://www.harvey.ai/blog/harvey-raises-at-dollar11-billion-valuation">harvey.ai/blog</a>; <a href="https://www.harvey.ai/blog">harvey.ai/blog (Tenet)</a></li>
+    <li id="s27">Cresta, <span class="source-pub">AWS Marketplace listing &amp; Sacra profile</span> (per-seat + usage; 125K chats/yr at $150K; $125M Series D ~$1.6B). <a href="https://sacra.com/c/cresta-ai/">sacra.com/c/cresta-ai</a></li>
+    <li id="s28">Glean, <span class="source-pub">Series F &amp; Enterprise Graph</span> ($150M @ $7.2B Jun 2025; multi-model; per-seat). <a href="https://www.glean.com/press/glean-raises-150m-series-f-at-7-2b-valuation">glean.com/press</a></li>
+    <li id="s29">Cohere / Reuters, <span class="source-pub">North platform, open weights &amp; funding</span> (trains own Command/Embed/Rerank; ships open weights under <strong>Apache-2.0</strong> for self-host; private/air-gapped “GPU-in-a-closet” deploy; ~$6.8B val). <a href="https://www.reuters.com/business/ai-startup-cohere-valued-68-billion/">Reuters</a>; <a href="https://cohere.com/blog">cohere.com/blog</a></li>
+    <li id="s30">Menlo Ventures, <span class="source-pub">2025: The State of Generative AI in the Enterprise</span> ($37B spend, 3.2× YoY; Anthropic 40%; 76% buy; 47% vs 25% conversion). <a href="https://menlovc.com/perspective/2025-the-state-of-generative-ai-in-the-enterprise/">menlovc.com</a></li>
+    <li id="s31">MIT NANDA, <span class="source-pub">The GenAI Divide: State of AI in Business 2025</span> (Jul 2025, "Preliminary Findings" v0.1; n=153 survey + 52 interviews + 300 initiatives; success = "remarked" P&amp;L impact). <a href="https://mlq.ai/media/quarterly_decks/v0.1_State_of_AI_in_Business_2025_Report.pdf">Full PDF (mirror)</a></li>
+    <li id="s32">ISG, <span class="source-pub">State of Enterprise AI Adoption 2025</span> (n=1,200 use cases; 31% to production; $1.3M avg spend; 1-in-4 ROI; 50% efficiency). <a href="https://isg-one.com/state-of-enterprise-ai-adoption-report-2025">isg-one.com</a></li>
+    <li id="s33">Gupta, A., <span class="source-pub">ReliabilityBench: Evaluating LLM Agent Reliability Under Production-Like Stress</span>, arXiv 2601.06112. <a href="https://arxiv.org/abs/2601.06112">arxiv.org/abs/2601.06112</a></li>
+    <li id="s34">Jia, J. et al., <span class="source-pub">MAS-FIRE: Fault Injection &amp; Reliability Evaluation for LLM-Based Multi-Agent Systems</span> (silent semantic failures), arXiv 2602.19843. <a href="https://arxiv.org/abs/2602.19843">arxiv.org/abs/2602.19843</a></li>
+    <li id="s35">Shlomov, S. et al. (IBM), <span class="source-pub">From Benchmarks to Business Impact: Deploying IBM Generalist Agent in Enterprise Production</span> (CUGA), arXiv 2510.23856. <a href="https://arxiv.org/abs/2510.23856">arxiv.org/abs/2510.23856</a></li>
+    <li id="s36">Palantir, <span class="source-pub">Q1 2026 Letter to Shareholders</span> (GE "using AIP to help increase engine production by 26%"). <a href="https://www.palantir.com/q1-2026-letter/en/">palantir.com/q1-2026-letter</a></li>
+    <li id="s37">GE Aerospace, <span class="source-pub">FY2025 Form 10-K</span> (deliveries +26%, LEAP +28%, AI blade-inspection &amp; material-assistant tools); SEC EDGAR full-text "Palantir" in GE filings = 0 hits. <a href="https://www.sec.gov/Archives/edgar/data/40545/000004054526000008/ge-20251231.htm">SEC 10-K</a></li>
+    <li id="s38">Palantir, <span class="source-pub">Q1 2026 Business Update</span> (Associated Materials OTIF 40%→90%; private customer, no filing). <a href="https://investors.palantir.com/">investors.palantir.com</a></li>
+    <li id="s39">CNBC, <span class="source-pub">Goldman Sachs autonomous coder pilot (Devin)</span>; SEC EDGAR "Devin" in GS 10-K/10-Q = 0 hits. <a href="https://www.cnbc.com/2025/07/11/goldman-sachs-autonomous-coder-pilot-marks-major-ai-milestone.html">CNBC</a></li>
+    <li id="s40">AIG &amp; T-Mobile customer-side triangulation: <span class="source-pub">AIG 2025 Annual Report</span> (Lexington 370K+ submissions, ~+26% YoY, submit-to-bind ~+35–40%, claims hours→minutes) <a href="https://www.aig.com/investors">aig.com/investors</a>; <span class="source-pub">AIG Investor Day / earnings naming Palantir + Anthropic; 100% of private/non-profit submissions, $4B+ premium by 2030 target</span> (Carrier Management, Apr 2025) <a href="https://www.carriermanagement.com/features/2025/04/28/274588.htm">carriermanagement.com</a>; <span class="source-pub">T-Mobile Q4-2025 Capital Markets Day</span> (~$3B AI savings by 2027, ~60% chatbot containment; Distyl unnamed, credited “with OpenAI”) <a href="https://investor.t-mobile.com/">investor.t-mobile.com</a>. <span class="chip confirmed">Confirmed-Triangulated (AIG)</span> / <span class="chip estimated">Partial (T-Mobile)</span></li>
+    <li id="s41">Reuters, <span class="source-pub">Cigna says AI tools save customers $200M over three years</span> (2026-07-23; never names Sierra). <a href="https://www.reuters.com/legal/litigation/cigna-says-ai-tools-save-customers-200-million-medical-expenses-over-three-years-2026-07-23/">Reuters</a>; Sierra customers page: <a href="https://sierra.ai/customers">sierra.ai/customers</a></li>
+    <li id="s42">Decagon / Cresta, <span class="source-pub">Case studies</span> (Rippling 38%→&gt;50%; Cox +20%; private customers, no filings). <a href="https://decagon.ai/case-studies/rippling">decagon.ai</a>; <a href="https://cresta.com/customer-stories">cresta.com/customer-stories</a></li>
+    <li id="s43">Harvey, <span class="source-pub">PwC UK customer story</span> (saves 1–2 hrs per liquidation; private partnership). <a href="https://www.harvey.ai/blog/pwc-ai-driven-approach-legal-entity-transformation">harvey.ai/blog</a></li>
+    <li id="s44">Duolingo, <span class="source-pub">FY2025 Form 10-K</span> (generic "AI costs" in opex; no vendor, no deflection metric). <a href="https://www.sec.gov/Archives/edgar/data/1562088/000162828026012494/duol-20251231.htm">SEC 10-K</a></li>
+    <li id="s45">Center for Audit Quality, <span class="source-pub">S&amp;P 500 and AI Reporting</span> (~90% mention AI in 2024 10-Ks). <a href="https://www.thecaq.org/sp-500-and-ai-reporting">thecaq.org</a></li>
+    <li id="s46">CFO Dive, <span class="source-pub">Few 10-Ks tie AI to tangible revenue gains</span> (85% Fortune 500 mention AI; 12% CEOs cite cost+revenue; 56% no benefit). <a href="https://www.cfodive.com/news/few-10ks-tie-ai-tangible-revenue-gains-cybersecurity/812917/">cfodive.com</a></li>
+    <li id="s48">Ramp, <span class="source-pub">AI Index</span> (card-transaction data, 50k+ businesses; ~4× monthly spend growth Feb'25→Feb'26). <a href="https://ramp.com/data/ai-index">ramp.com/data/ai-index</a></li>
+    <li id="s49">Accenture, <span class="source-pub">Q4/FY2025 earnings + Palantir Business Group + M&amp;A</span> ($5.9B GenAI bookings; $2.7B advanced-AI revenue; RANGR, Decho acquisitions). <a href="https://newsroom.accenture.com/content/4q-full-fy25-earnings/accenture-reports-fourth-quarter-and-full-year-fiscal-2025-results.pdf">Accenture earnings</a>; <a href="https://newsroom.accenture.com/news/2025/accenture-and-palantir-expand-global-strategic-partnership-to-drive-ai-reinvention">Palantir group</a></li>
+    <li id="s50">OpenAI, <span class="source-pub">Frontier Alliance partners</span> (McKinsey, BCG, Accenture). <a href="https://openai.com/index/frontier-alliance-partners/">openai.com</a>; McKinsey: <a href="https://www.mckinsey.com/about-us/new-at-mckinsey-blog/mckinsey-and-openai-scale-ai-driven-transformations-with-new-frontier-alliance">mckinsey.com</a></li>
+    <li id="s51">Anthropic, <span class="source-pub">Deloitte–Anthropic partnership</span> (Claude to ~470K staff — largest enterprise deployment); Deloitte–Palantir EOS: <a href="https://www.deloitte.com/us/en/about/press-room/deloitte-palantir-strategic-alliance.html">deloitte.com</a>. <a href="https://www.anthropic.com/news/deloitte-anthropic-partnership">anthropic.com</a></li>
+    <li id="s52">EY, <span class="source-pub">EY &amp; 8090 launch EY.ai PDLC</span> (Mar 2026; powered by 8090's Software Factory; performance claims are vendor projections). <a href="https://www.ey.com/en_us/newsroom/2026/03/ernst-young-llp-and-8090-launch-ey-ai-pdlc">ey.com</a></li>
+    <li id="s53">IBM, <span class="source-pub">Q4 2025 results</span> (GenAI book &gt;$12.5B cumulative; ~$1.5B GenAI consulting Q3'25; consulting +3% YoY). <a href="https://newsroom.ibm.com/2026-01-28-IBM-RELEASES-FOURTH-QUARTER-RESULTS">newsroom.ibm.com</a></li>
+    <li id="s54">BCG / Bloomberg, <span class="source-pub">BCG says AI work brought 25% of 2025 revenue (~$3.6B AI-related)</span>; OpenAI Elite + Anthropic (2023). <a href="https://www.bloomberg.com/news/articles/2026-04-23/boston-consulting-group-says-ai-work-brought-25-of-2025-revenue">Bloomberg</a>; <a href="https://www.anthropic.com/news/anthropic-bcg">anthropic.com/news/anthropic-bcg</a></li>
+    <li id="s55">Evidently AI, <span class="source-pub">Generative AI applications: 805 production use cases from 185 companies</span> (production-only aggregator; measures claimed outcomes). <a href="https://www.evidentlyai.com/blog/gen-ai-applications">evidentlyai.com</a></li>
+    <li id="s56">Claritype, <span class="source-pub">Company &amp; product</span> (ex-Palantir founders Rob Giardina + Ilya Lipkind; ontology/semantic-first; ~$6.6M seed 2022). <a href="https://www.claritype.com/company">claritype.com/company</a></li>
+    <li id="s57">Sierra / TechCrunch, <span class="source-pub">Funding &amp; pay-per-resolution</span> ($350M @ $10B Sept 2025; ~$950M @ ~$15.8B May 2026). <a href="https://techcrunch.com/2025/09/04/bret-taylors-sierra-raises-350m-at-a-10b-valuation/">TechCrunch</a></li>
+    <li id="s58">Decagon / Reuters, <span class="source-pub">Funding &amp; per-resolution option</span> ($131M @ $1.5B Jun 2025; $250M @ $4.5B Jan 2026). <a href="https://www.reuters.com/technology/customer-service-ai-startup-decagon-raises-131-million-2025-06-23/">Reuters</a></li>
+    <li id="s59">Northslope / Yahoo Finance, <span class="source-pub">Funding &amp; Palantir-native model</span> (~$22M; Friends &amp; Family Capital / ex-Palantir CFO Colin Anderson; AI app layer on AIP + Gemini). <a href="https://finance.yahoo.com/news/applied-ai-company-northslope-raises-140000092.html">Yahoo Finance</a></li>
+    <li id="s60">Happy Robot / Reuters, <span class="source-pub">Funding</span> ($44M Series B Sept 2025; $150M Series C ~$1.2B Aug 2026, freight/logistics voice). <a href="https://www.reuters.com/technology/happyrobot-raises-44-million-expand-ai-agents-freight-operators-2025-09-03/">Reuters</a></li>
+  </ol>
+  <p style="font-size:11.5px;color:var(--text-secondary);margin-top:14px;">Note on arXiv ids [33–35]: several Valency-corpus ids are forward-dated (2026 preprints); ids returned live by the corpus and HTTP-verified, but confirm each resolves before external citation. No source or metric in this report was fabricated; single-source and vendor-asserted claims are labeled as such throughout.</p>
+</div>
+
+<p class="generated">Generated by Galileo 🔭 · August 31, 2026 · Tomales Bay Capital</p>
+</div>
+
+<script>
+(function(){
+  if(typeof Chart==='undefined')return;
+  Chart.defaults.font.family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif";
+  Chart.defaults.font.size=12;
+  Chart.defaults.color='#374151';
+  // Ontology <-> Workflow spectrum. x: 0 = pure workflow-first, 100 = pure ontology-first. y = jitter for label spacing.
+  var pts=[
+    {c:'Palantir',x:97,y:8},
+    {c:'Claritype',x:88,y:3},
+    {c:'Northslope',x:82,y:6},
+    {c:'Distyl (2026)',x:60,y:9},
+    {c:'Glean',x:64,y:2},
+    {c:'Cohere',x:34,y:7},
+    {c:'Harvey',x:30,y:2},
+    {c:'8090',x:28,y:5},
+    {c:'Cresta',x:24,y:9},
+    {c:'Decagon',x:20,y:3},
+    {c:'Sierra',x:18,y:6},
+    {c:'Happy Robot',x:15,y:1},
+    {c:'Cognition',x:11,y:8},
+    {c:'Factory',x:8,y:4}
+  ];
+  function color(x){ if(x>=75)return '#2563eb'; if(x>=45)return '#7c3aed'; return '#f59e0b'; }
+  var ctx=document.getElementById('ontologyChart');
+  if(ctx){
+    new Chart(ctx,{
+      type:'scatter',
+      data:{datasets:[{
+        label:'Company placement',
+        data:pts.map(function(p){return {x:p.x,y:p.y,c:p.c};}),
+        pointRadius:7,pointHoverRadius:10,
+        backgroundColor:pts.map(function(p){return color(p.x);}),
+        borderColor:'#fff',borderWidth:1.5
+      }]},
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        layout:{padding:{top:10,bottom:10,left:6,right:6}},
+        scales:{
+          x:{min:0,max:100,title:{display:true,text:'← Workflow-first (per-workflow decomposition)   ·   Ontology-first (persistent enterprise semantic layer) →',font:{size:11.5,weight:'600'}},grid:{color:'#f0f0f0'},ticks:{callback:function(v){return v+'%';}}},
+          y:{min:-2,max:12,display:false,grid:{display:false}}
+        },
+        plugins:{
+          legend:{display:false},
+          tooltip:{callbacks:{label:function(c){var d=c.raw;return d.c+'  (ontology score '+d.x+'/100)';}}},
+          annotation:false
+        }
+      },
+      plugins:[{
+        id:'labels',
+        afterDatasetsDraw:function(chart){
+          var a=chart.ctx;a.save();a.font='600 11px -apple-system,sans-serif';a.fillStyle='#1a1a1a';
+          var meta=chart.getDatasetMeta(0);
+          meta.data.forEach(function(el,i){
+            var d=pts[i];a.textAlign='center';
+            a.fillText(d.c, el.x, el.y-12);
+          });
+          a.restore();
+        }
+      }]
+    });
+  }
+})();
+</script>
+</body>
+</html>
