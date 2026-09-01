@@ -191,8 +191,8 @@ table.data-table{width:100%;font-size:13px;border-collapse:collapse;margin:16px 
   <p style="font-size:12.5px;color:var(--text-secondary);">All matrix placements are evidence-backed in Sections 3–8. Cell confidence ranges from <span class="chip confirmed">Confirmed</span> (Palantir/Distyl architecture, Cohere model ownership, Factory routing, disclosed revenues) to <span class="chip estimated">Estimated</span> (most pricing/delivery cells for private companies). Sources §.</p>
 
   <div class="chart-box">
-    <h4>Where each company sits on the load-bearing axis</h4>
-    <p class="chart-note">Ontology-first (persistent enterprise semantic layer as durable shared state) ←→ Workflow-first (per-workflow decomposition). Position is analytical placement <span class="chip estimated">Estimated-Inferred</span> from architecture evidence, not a disclosed metric. The axis is bimodal: only five companies sit meaningfully ontology-side.</p>
+    <h4>The deployment layer, on two questions that actually matter</h4>
+    <p class="chart-note">One axis was never enough, so here are two. Left-to-right is the old question: do you model the <em>whole enterprise</em> first (ontology, right) or attack <em>one workflow</em> first (workflow, left)? Up-and-down is the one that turns out to matter just as much: <strong>whose data warehouse is it?</strong> At the top, the vendor acts on your data <em>where it already lives</em> and you keep custody — call it <strong>data sovereignty</strong>. At the bottom, the vendor pulls your data into <em>its own</em> index or platform to make the product work — <strong>data capture</strong>. That second axis is where the real business-model tell hides: a capture company owns a moat made of your data; a sovereignty company sells you a tool and leaves the data on your side of the fence. Placements are our analytical read <span class="chip estimated">Estimated-Inferred</span> from architecture evidence, not disclosed numbers. Note where <strong>Claritype</strong> lands — top, and left of center: its whole pitch is “auditable AI that reads your existing systems and leaves your data where it is,” which is a sovereignty-and-workflow play, not the far ontology-capture corner you might expect from an ex-Palantir team.</p>
     <div class="chart-container"><canvas id="ontologyChart"></canvas></div>
   </div>
 </div>
@@ -535,24 +535,33 @@ table.data-table{width:100%;font-size:13px;border-collapse:collapse;margin:16px 
   Chart.defaults.font.family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif";
   Chart.defaults.font.size=12;
   Chart.defaults.color='#374151';
-  // Ontology <-> Workflow spectrum. x: 0 = pure workflow-first, 100 = pure ontology-first. y = jitter for label spacing.
+  // 2x2 map of the deployment layer.
+  //  x: 0 = pure workflow-first (attack one workflow), 100 = pure ontology-first (model the whole enterprise).
+  //  y: 0 = data CAPTURE (pull the customer's data into the vendor's own substrate/index),
+  //     100 = data SOVEREIGNTY (act on the data where it already lives; customer keeps custody).
   var pts=[
-    {c:'Palantir',x:97,y:8},
-    {c:'Claritype',x:88,y:3},
-    {c:'Northslope',x:82,y:6},
-    {c:'Distyl (2026)',x:60,y:9},
-    {c:'Glean',x:64,y:2},
-    {c:'Cohere',x:34,y:7},
-    {c:'Harvey',x:30,y:2},
-    {c:'8090',x:28,y:5},
-    {c:'Cresta',x:24,y:9},
-    {c:'Decagon',x:20,y:3},
-    {c:'Sierra',x:18,y:6},
-    {c:'Happy Robot',x:15,y:1},
-    {c:'Cognition',x:11,y:8},
-    {c:'Factory',x:8,y:4}
+    {c:'Palantir',x:95,y:42},
+    {c:'Distyl (2026)',x:62,y:72},
+    {c:'Northslope',x:80,y:34},
+    {c:'Claritype',x:54,y:82},
+    {c:'Glean',x:60,y:24},
+    {c:'Cohere',x:34,y:88},
+    {c:'Harvey',x:30,y:33},
+    {c:'8090',x:40,y:58},
+    {c:'Cresta',x:22,y:27},
+    {c:'Decagon',x:19,y:30},
+    {c:'Sierra',x:17,y:28},
+    {c:'Happy Robot',x:15,y:31},
+    {c:'Cognition',x:12,y:60},
+    {c:'Factory',x:9,y:58}
   ];
-  function color(x){ if(x>=75)return '#2563eb'; if(x>=45)return '#7c3aed'; return '#f59e0b'; }
+  // color by quadrant
+  function color(p){
+    if(p.x>=50 && p.y>=50) return '#2563eb';   // ontology + sovereignty (top-right)
+    if(p.x>=50 && p.y<50)  return '#7c3aed';    // ontology + capture (bottom-right)
+    if(p.x<50 && p.y>=50)  return '#0d9488';    // workflow + sovereignty (top-left)
+    return '#f59e0b';                            // workflow + capture (bottom-left)
+  }
   var ctx=document.getElementById('ontologyChart');
   if(ctx){
     new Chart(ctx,{
@@ -561,23 +570,50 @@ table.data-table{width:100%;font-size:13px;border-collapse:collapse;margin:16px 
         label:'Company placement',
         data:pts.map(function(p){return {x:p.x,y:p.y,c:p.c};}),
         pointRadius:7,pointHoverRadius:10,
-        backgroundColor:pts.map(function(p){return color(p.x);}),
+        backgroundColor:pts.map(function(p){return color(p);}),
         borderColor:'#fff',borderWidth:1.5
       }]},
       options:{
         responsive:true,maintainAspectRatio:false,
-        layout:{padding:{top:10,bottom:10,left:6,right:6}},
+        layout:{padding:{top:16,bottom:10,left:6,right:6}},
         scales:{
-          x:{min:0,max:100,title:{display:true,text:'← Workflow-first (per-workflow decomposition)   ·   Ontology-first (persistent enterprise semantic layer) →',font:{size:11.5,weight:'600'}},grid:{color:'#f0f0f0'},ticks:{callback:function(v){return v+'%';}}},
-          y:{min:-2,max:12,display:false,grid:{display:false}}
+          x:{min:0,max:100,title:{display:true,text:'← Workflow-first (attack one workflow)      ·      Ontology-first (model the whole enterprise) →',font:{size:11.5,weight:'600'}},grid:{color:'#f0f0f0'},ticks:{callback:function(v){return v+'%';}}},
+          y:{min:0,max:100,title:{display:true,text:'← Data capture (pull data into vendor)      ·      Data sovereignty (act where data lives) →',font:{size:11.5,weight:'600'}},grid:{color:'#f0f0f0'},ticks:{callback:function(v){return v+'%';}}}
         },
         plugins:{
           legend:{display:false},
-          tooltip:{callbacks:{label:function(c){var d=c.raw;return d.c+'  (ontology score '+d.x+'/100)';}}},
+          tooltip:{callbacks:{label:function(c){var d=c.raw;return d.c+'  (workflow→ontology '+d.x+' / capture→sovereignty '+d.y+')';}}},
           annotation:false
         }
       },
       plugins:[{
+        id:'quadrants',
+        beforeDraw:function(chart){
+          var a=chart.ctx, xs=chart.scales.x, ys=chart.scales.y;
+          var mx=xs.getPixelForValue(50), my=ys.getPixelForValue(50);
+          a.save();
+          // faint quadrant tints
+          a.fillStyle='rgba(37,99,235,0.04)';  a.fillRect(mx,chart.chartArea.top,chart.chartArea.right-mx,my-chart.chartArea.top); // TR
+          a.fillStyle='rgba(13,148,136,0.04)'; a.fillRect(chart.chartArea.left,chart.chartArea.top,mx-chart.chartArea.left,my-chart.chartArea.top); // TL
+          a.fillStyle='rgba(245,158,11,0.04)'; a.fillRect(chart.chartArea.left,my,mx-chart.chartArea.left,chart.chartArea.bottom-my); // BL
+          a.fillStyle='rgba(124,58,237,0.04)'; a.fillRect(mx,my,chart.chartArea.right-mx,chart.chartArea.bottom-my); // BR
+          // divider lines
+          a.strokeStyle='#d1d5db';a.lineWidth=1;a.setLineDash([4,4]);
+          a.beginPath();a.moveTo(mx,chart.chartArea.top);a.lineTo(mx,chart.chartArea.bottom);a.stroke();
+          a.beginPath();a.moveTo(chart.chartArea.left,my);a.lineTo(chart.chartArea.right,my);a.stroke();
+          a.setLineDash([]);
+          // quadrant captions
+          a.font='700 10px -apple-system,sans-serif';a.fillStyle='#9ca3af';a.textAlign='left';
+          a.fillText('WORKFLOW · SOVEREIGN', chart.chartArea.left+8, chart.chartArea.top+16);
+          a.textAlign='right';
+          a.fillText('ONTOLOGY · SOVEREIGN', chart.chartArea.right-8, chart.chartArea.top+16);
+          a.textAlign='left';
+          a.fillText('WORKFLOW · CAPTURE', chart.chartArea.left+8, chart.chartArea.bottom-8);
+          a.textAlign='right';
+          a.fillText('ONTOLOGY · CAPTURE', chart.chartArea.right-8, chart.chartArea.bottom-8);
+          a.restore();
+        }
+      },{
         id:'labels',
         afterDatasetsDraw:function(chart){
           var a=chart.ctx;a.save();a.font='600 11px -apple-system,sans-serif';a.fillStyle='#1a1a1a';
