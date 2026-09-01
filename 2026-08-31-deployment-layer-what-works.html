@@ -147,15 +147,16 @@ table.data-table{width:100%;font-size:13px;border-collapse:collapse;margin:16px 
   <h2 class="big">Twenty companies, five strategic axes</h2>
   <p>This is the map of the whole report — everything after it is just the walkthrough. Every company is scored on the five choices that define a deployment strategy. A note on who's here: OpenAI and Anthropic show up as context, not contestants — they make the models and run their own deployment teams, but selling models is a different business, so they sit at the edge of the map. Scale, Mercor, and Turing are left out on purpose; they're in the data-and-evaluation business next door, not the deployment business.</p>
 
-  <h3>The five axes</h3>
+  <h3>The five axes — and how to read the matrix</h3>
+  <p>The big table below packs a lot into each cell, so here's the key. Each company is scored on five choices; these are the terms you'll see in the cells and what they actually mean:</p>
   <table class="data-table">
     <thead><tr><th>Axis</th><th>The strategic choice it captures</th></tr></thead>
     <tbody>
-      <tr><td><strong>1 · Models &amp; weights</strong></td><td>Closed frontier vs. open-weight, by use case. Fine-tune vs. orchestrate as-is. Model-agnostic vs. locked. Who owns their own models.</td></tr>
-      <tr><td><strong>2 · Ontology ↔ Workflow</strong></td><td>Persistent enterprise ontology (durable shared state) vs. per-workflow decomposition. <strong>The load-bearing axis (Section 3).</strong></td></tr>
-      <tr><td><strong>3 · Orchestration</strong></td><td>Ingestion, semantic layer, planner/executor split, the verification/eval layer, human-in-the-loop, memory/state.</td></tr>
-      <tr><td><strong>4 · Delivery</strong></td><td>Forward-deployed engineers (FDEs) vs. product-led/self-serve. Services-land → platform-expand.</td></tr>
-      <tr><td><strong>5 · Commercial</strong></td><td>Outcome-based vs. seat/subscription vs. consumption. Who owns the outcome contractually.</td></tr>
+      <tr><td><strong>1 · Models &amp; weights</strong></td><td>Whose brains does it use? <em>Closed frontier</em> = renting GPT/Claude/Gemini; <em>open-weight</em> = a model you can host yourself; <em>agnostic router</em> = swaps between them per task; <em>owns models</em> = trained its own. And whether it <em>fine-tunes</em> (custom-trains on a domain) or just uses models as-is.</td></tr>
+      <tr><td><strong>2 · Ontology ↔ Workflow</strong></td><td>Does it model the <em>whole enterprise</em> once as shared, durable structure (<em>ontology-first</em>), or attack <em>one workflow at a time</em> (<em>workflow-first</em>)? <strong>The load-bearing axis (Section 3).</strong></td></tr>
+      <tr><td><strong>3 · Orchestration</strong></td><td>The machinery that runs the AI. <em>Ingestion/semantic layer</em> = getting the company's data in and organized; <em>planner/executor</em> = one model breaks the job into steps, others do them; <em>verifier</em> = the part that checks the AI's work before it counts; <em>HITL</em> (human-in-the-loop) = a person approves before anything ships; <em>memory/state</em> = what it remembers between runs.</td></tr>
+      <tr><td><strong>4 · Delivery</strong></td><td>How you buy it. <em>FDE</em> (forward-deployed engineers) = the vendor sends engineers to build inside your company; <em>product-led/self-serve</em> = you just sign up and use it. Many <em>land as services, expand into a platform</em>.</td></tr>
+      <tr><td><strong>5 · Commercial</strong></td><td>How you're billed. <em>Outcome-based</em> = pay per result (e.g. per resolved ticket); <em>seat/subscription</em> = per user; <em>consumption</em> = per usage (tokens/calls). And who's contractually on the hook for the result.</td></tr>
     </tbody>
   </table>
 
